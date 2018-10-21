@@ -78,4 +78,4 @@ theme: cactus
 deploy:
   type: git
   repo: git@github.com:coderemixer/legacy-blog.git
-  branch: published
+  branch: gh-pages
