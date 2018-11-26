@@ -22,3 +22,7 @@ date: 2018-10-21 20:04:56
 ## 名字的来源
 
 见 [关于学习编程的一箩筐问题](/2018/06/06/coding-tutorial/)。
+
+## PGP
+
+[0x0A951B747B8b11AC](https://pgp.mit.edu/pks/lookup?op=vindex&search=0x0A951B747B8B11AC)
