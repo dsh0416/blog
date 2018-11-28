@@ -25,4 +25,4 @@ date: 2018-10-21 20:04:56
 
 ## PGP
 
-[0x0A951B747B8b11AC](https://pgp.mit.edu/pks/lookup?op=vindex&search=0x0A951B747B8B11AC)
+[0x0A951B747B8b11AC](http://hkps.pool.sks-keyservers.net/pks/lookup?op=vindex&fingerprint=on&search=0x0A951B747B8B11AC)
