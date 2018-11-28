@@ -25,4 +25,4 @@ date: 2018-10-21 20:04:56
 
 ## PGP
 
-[0x0A951B747B8b11AC](http://hkps.pool.sks-keyservers.net/pks/lookup?op=vindex&fingerprint=on&search=0x0A951B747B8B11AC)
+[DC24 4B44 A31E 7B97 F804 9C4B 0A95 1B74 7B8B 11AC](http://hkps.pool.sks-keyservers.net/pks/lookup?op=vindex&fingerprint=on&search=0x0A951B747B8B11AC)
