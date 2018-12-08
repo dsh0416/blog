@@ -73,6 +73,21 @@ pagination_dir: page
 ## Themes: https://hexo.io/themes/
 theme: cactus
 
+# RSS订阅支持
+plugin:
+  - hexo-generator-feed
+  - hexo-generator-sitemap
+
+# Feed Atom
+feed:
+  type: atom
+  path: atom.xml
+  limit: 20
+
+sitemap:
+  path: sitemap.xml
+  # template: ./sitemap_template.xml
+
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
