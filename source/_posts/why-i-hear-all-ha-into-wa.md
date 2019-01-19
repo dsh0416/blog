@@ -27,7 +27,7 @@ tags: [日语, 语言学]
 ![genryaku-manyoushuu](/static/genryaku-manyoushuu.jpg)
 **Shot By ReijiYamashina. CC 3.0 BY-SA**
 
->  [原文]秋芽子之 戀裳不盡者 左<壮>鹿之 聲伊續伊継 戀許増益焉 
+> [原文]秋芽子之 戀裳不盡者 左<壮>鹿之 聲伊續伊継 戀許増益焉 
 >
 > [訓読]秋萩の恋も尽きねばさを鹿の声い継ぎい継ぎ恋こそまされ 
 >
