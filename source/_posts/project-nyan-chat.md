@@ -58,9 +58,9 @@ tags: [编程, 猫聊, 开源]
 
 - [nyan-core](https://github.com/nyan-chat/nyan-core) GPLv3 协议。加密的核心实现，Rust 开发，以库的形式加载给其它组件。
 - [nyan-api](https://github.com/nyan-chat/nyan-api) AGPLv3 协议。API 实现，Ruby 开发，基于 Sinatra、Sequel 和 Ohm，提供一下元信息的交互，以 Redis 作数据交换为主，Postgres 为辅，可水平扩展。
-- [nyan-node](https://github.com/nyan-chat/nyan-node) AGPL v3 协议。服务端通讯节点实现，Go 开发。提供与用户终端的 Socket 连接，与 Redis 通讯快速验证一些元信息。节点间自由通讯，可水平扩展。
+- [nyan-node](https://github.com/nyan-chat/nyan-node) AGPL v3 协议。服务端通讯节点实现，Elixir 开发。提供与用户终端的 Socket 连接，与 Redis 通讯快速验证一些元信息。节点间自由通讯，可水平扩展。
 - [nyan-desktop](https://github.com/nyan-chat/nyan-desktop) GPLv3 协议。目前优先开发的桌面客户端实现，使用 TypeScript 和 Electron。
-- [nyan-proxy](https://github.com/nyan-chat/nyan-proxy) AGPLv3 协议。开源的守护服务。
+- [nyan-daemon](https://github.com/nyan-chat/nyan-daemon) AGPLv3 协议。Go 语言开发的守护服务。
 
 开发时间表另定。欢迎有兴趣的人留言讨论具体细节。
 
