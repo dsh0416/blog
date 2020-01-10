@@ -46,5 +46,7 @@ tags: [语言学, 汉语, 官话]
 
 <iframe src="//player.bilibili.com/player.html?aid=62002848&cid=137623039&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
 
+[影片地址](https://www.bilibili.com/video/av62002848/)
+
 对于文字不能直接反映读音的语言来说，通常都会引入一个标注发音的方案，从美语的 KK 音标，现代标准汉语的注音、拼音、威妥玛，以及很多方言的像是闽拼、台罗、教罗、上海话钱乃荣方案、耶鲁粤拼、香港教育学院粤拼等一大堆拼音方案。很多方案直接的标注都是互相冲突的，有的时候看到这堆拉丁字母，真的不知道到底要怎么读。但每个方案都有自己设计的时空背景、设计的动机，通过了解这些不同方案设计的背景和动机，可以从不同的角度重新认识语言，让自己对于语音的理解提升更高的层次。
 
