@@ -1,5 +1,5 @@
 ---
-title: "元胞自动机 101 —— 13 Architypes: Humanist"
+title: "元胞自动机 101 —— 13 Archetypes: Humanist"
 date: 2020-01-14 14:22:47
 tags: [元胞自动机, 混沌, 游戏, 设计, Ingress]
 ---
