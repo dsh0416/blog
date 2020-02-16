@@ -40,6 +40,10 @@ Atmega32u4 首先不便宜，对于那个性能来说，非常划不来。相反
 
 ![电路图](/static/moe-core-feb.png)
 
+![正面](/static/pcb-moe-feb-a.jpg)
+
+![背面](/static/pcb-moe-feb-b.jpg)
+
 工程（MIT 协议）：[https://oshwhub.com/dsh0416/moe-core](https://oshwhub.com/dsh0416/moe-core)
 
 ## 挖坑
