@@ -292,6 +292,8 @@ void BluetoothService::stopAdvertising() {
 #endif // BLUETOOTH_SERVICE_CPP_
 ```
 
+写完发现一个奇怪的事情就是蓝牙一连接会把循环阻塞，于是直接用 FreeRTOS 来执行蓝牙代码。
+
 ```cpp
 // main.cpp
 #include <Arduino.h>
