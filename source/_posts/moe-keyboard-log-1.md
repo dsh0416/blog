@@ -1,5 +1,5 @@
 ---
-title: 「Keyboard Moe」从零开始自制键盘（一）
+title: 「Keyboard Moe」从零开始自制键盘（一）：硬件设计
 date: 2020-02-16 15:43:03
 tags: 键盘
 ---
