@@ -41,7 +41,7 @@ tags: [字幕, YouTube]
 
 ## 已知 bug
 
-发现 Firefox 的 CC 字幕 track 不能加载 blob url。这使得实时预览功能在 Firefox 上存在一定的问题，但 Chrome 和 Safari 都没有问题。准备这两天准备一下各种细节情况，向 Mozilla 回报一下。
+~~发现 Firefox 的 CC 字幕 track 不能加载 blob url。这使得实时预览功能在 Firefox 上存在一定的问题，但 Chrome 和 Safari 都没有问题。准备这两天准备一下各种细节情况，向 Mozilla 回报一下。~~ 发现加载后和 Chrome readystate 不一样，强制 show 了一下竟然就好了。
 
 其实也可以用 Electron 封装一下离线使用。
 
