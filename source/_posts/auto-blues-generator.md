@@ -156,7 +156,7 @@ live_loop :melody do
   rhythm.each_with_index do |t, i|
     offset = choose([-2, -1, 1, 2])
     
-    new_index = (i.to_f / rhythm.length).to_i + offset
+    new_index = (i.to_f / rhythm.length * scale_notes.length).to_i + offset
     new_index = 0 if new_index < 0
     new_index = scale_notes.length - 1 if new_index >= scale_notes.length
     
@@ -250,7 +250,7 @@ live_loop :melody do
   rhythm.each_with_index do |t, i|
     offset = choose([-2, -1, 1, 2])
     
-    new_index = (i.to_f / rhythm.length).to_i + offset
+    new_index = (i.to_f / rhythm.length * scale_notes.length).to_i + offset
     new_index = 0 if new_index < 0
     new_index = scale_notes.length - 1 if new_index >= scale_notes.length
     
