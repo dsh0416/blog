@@ -90,6 +90,26 @@ sitemap:
   path: sitemap.xml
   # template: ./sitemap_template.xml
 
+theme_config:
+  social_links:
+    github: https://github.com/coderemixer
+    twitter: https://twitter.com/DeltonDing
+  disqus:
+    enabled: true
+    shortname: coderemixer
+  google_analytics:
+    enabled: true
+    id: UA-127825283-1
+  posts_overview:
+    show_all_posts: true
+    post_count: 10
+    sort_updated: false
+  nav:
+    home: /
+    about: /about/
+    articles: /archives/
+    RSS: /atom.xml
+
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
