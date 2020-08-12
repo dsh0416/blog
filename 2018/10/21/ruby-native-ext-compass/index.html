@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="选题这个题目是我在 RubySummit China 2018 上的演讲题目。当时时间也比较紧，没有讲得特别深入；听众感觉大多数都还没有做过相关的开发，当场反馈也不是很好。回来后读了几篇新媒体稿件，把我读傻了。一路下来的感觉就是：  我不是，我没有，我没讲过，我不是这个意思。  既然如此，我也借此机会重新整理了一下。希望给听到或没有听到的各位重新梳理一下我对 Ruby 原生扩展开发的看法和建议。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ruby 原生扩展开发指北">
+<meta property="og:url" content="https://coderemixer.com/2018/10/21/ruby-native-ext-compass/index.html">
+<meta property="og:site_name" content="代码混音师">
+<meta property="og:description" content="选题这个题目是我在 RubySummit China 2018 上的演讲题目。当时时间也比较紧，没有讲得特别深入；听众感觉大多数都还没有做过相关的开发，当场反馈也不是很好。回来后读了几篇新媒体稿件，把我读傻了。一路下来的感觉就是：  我不是，我没有，我没讲过，我不是这个意思。  既然如此，我也借此机会重新整理了一下。希望给听到或没有听到的各位重新梳理一下我对 Ruby 原生扩展开发的看法和建议。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-10-21T13:44:43.000Z">
+<meta property="article:modified_time" content="2020-08-12T09:01:06.006Z">
+<meta property="article:author" content="CodeRemixer">
+<meta property="article:tag" content="Ruby">
+<meta property="article:tag" content="编程">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Ruby 原生扩展开发指北</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/true" title="代码混音师" type="application/atom+xml" />
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2018/10/22/waki-reiko/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2018/07/10/ruby-websocket-in-c-lang/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://coderemixer.com/2018/10/21/ruby-native-ext-compass/" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://coderemixer.com/2018/10/21/ruby-native-ext-compass/&text=Ruby 原生扩展开发指北" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://coderemixer.com/2018/10/21/ruby-native-ext-compass/&title=Ruby 原生扩展开发指北" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://coderemixer.com/2018/10/21/ruby-native-ext-compass/&is_video=false&description=Ruby 原生扩展开发指北" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Ruby 原生扩展开发指北&body=Check out this article: https://coderemixer.com/2018/10/21/ruby-native-ext-compass/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://coderemixer.com/2018/10/21/ruby-native-ext-compass/&title=Ruby 原生扩展开发指北" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://coderemixer.com/2018/10/21/ruby-native-ext-compass/&title=Ruby 原生扩展开发指北" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://coderemixer.com/2018/10/21/ruby-native-ext-compass/&title=Ruby 原生扩展开发指北" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://coderemixer.com/2018/10/21/ruby-native-ext-compass/&title=Ruby 原生扩展开发指北" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://coderemixer.com/2018/10/21/ruby-native-ext-compass/&name=Ruby 原生扩展开发指北&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://coderemixer.com/2018/10/21/ruby-native-ext-compass/&t=Ruby 原生扩展开发指北" target="_blank" rel="noopener"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#选题"><span class="toc-number">1.</span> <span class="toc-text">选题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#引"><span class="toc-number">2.</span> <span class="toc-text">引</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#性能"><span class="toc-number">3.</span> <span class="toc-text">性能</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Ruby 原生扩展开发指北
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">代码混音师</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2018-10-21T13:44:43.000Z" itemprop="datePublished">2018-10-21</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/Ruby/" rel="tag">Ruby</a>, <a class="tag-link" href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag">编程</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="选题"><a href="#选题" class="headerlink" title="选题"></a>选题</h2><p>这个题目是我在 <a href="https://rubysummit.cn/" target="_blank" rel="noopener">RubySummit China</a> 2018 上的演讲题目。当时时间也比较紧，没有讲得特别深入；听众感觉大多数都还没有做过相关的开发，当场反馈也不是很好。回来后读了几篇新媒体稿件，把我读傻了。一路下来的感觉就是：</p>
+<blockquote>
+<p>我不是，我没有，我没讲过，我不是这个意思。</p>
+</blockquote>
+<p>既然如此，我也借此机会重新整理了一下。希望给听到或没有听到的各位重新梳理一下我对 Ruby 原生扩展开发的看法和建议。</p>
+<h2 id="引"><a href="#引" class="headerlink" title="引"></a>引</h2><p>我从郑州东站出来后，打车去的会场。专车司机打电话给我用河南话一个劲地说：「在停车场 <strong>西南角</strong> <strong>西南角</strong>！」虽然河南话属于中原官话，听起来没困难，但关键是我根本分不清哪里是西南角，找了整整十五分钟才找到车。</p>
+<p>写 Ruby 的原生扩展也是如此。</p>
+<p>当你灵光乍现，感觉是不是应该写一个 Ruby 原生扩展的时候，脑海中可能会浮现如下的想法：</p>
+<ul>
+<li>写原生扩展能解决我的问题吗？</li>
+<li>怎么写原生扩展？</li>
+<li>我该选型哪一种原生扩展的开发方式？</li>
+</ul>
+<p>而我希望通过接下来的内容，在大家想到原生扩展时能打消掉上述的顾虑，清晰的知道自己要什么？怎么做。</p>
+<h2 id="性能"><a href="#性能" class="headerlink" title="性能"></a>性能</h2><p>说到用开发 Ruby 的原生扩展，第一个反应就是提升性能。我们能提升多少性能？</p>
+<p>（待续）</p>
+<!-- 如果我们是单纯来提高性能的，我们为什么不直接写那些语言本身呢？比如我们刚刚提到的堆排序问题。谁会在生产中使用 Ruby 单独解决一个堆排序问题呢？
+
+## 插曲 -->
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>加载评论需要在浏览器启用 JavaScript 脚本支持。</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#选题"><span class="toc-number">1.</span> <span class="toc-text">选题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#引"><span class="toc-number">2.</span> <span class="toc-text">引</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#性能"><span class="toc-number">3.</span> <span class="toc-text">性能</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://coderemixer.com/2018/10/21/ruby-native-ext-compass/" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://coderemixer.com/2018/10/21/ruby-native-ext-compass/&text=Ruby 原生扩展开发指北" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://coderemixer.com/2018/10/21/ruby-native-ext-compass/&title=Ruby 原生扩展开发指北" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://coderemixer.com/2018/10/21/ruby-native-ext-compass/&is_video=false&description=Ruby 原生扩展开发指北" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Ruby 原生扩展开发指北&body=Check out this article: https://coderemixer.com/2018/10/21/ruby-native-ext-compass/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://coderemixer.com/2018/10/21/ruby-native-ext-compass/&title=Ruby 原生扩展开发指北" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://coderemixer.com/2018/10/21/ruby-native-ext-compass/&title=Ruby 原生扩展开发指北" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://coderemixer.com/2018/10/21/ruby-native-ext-compass/&title=Ruby 原生扩展开发指北" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://coderemixer.com/2018/10/21/ruby-native-ext-compass/&title=Ruby 原生扩展开发指北" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://coderemixer.com/2018/10/21/ruby-native-ext-compass/&name=Ruby 原生扩展开发指北&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://coderemixer.com/2018/10/21/ruby-native-ext-compass/&t=Ruby 原生扩展开发指北" target="_blank" rel="noopener"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2020
+    CodeRemixer
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-127825283-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'coderemixer';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+
+</body>
+</html>

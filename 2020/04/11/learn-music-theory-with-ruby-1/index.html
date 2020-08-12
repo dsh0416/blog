@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="序音乐很有趣，理解音乐很难。但音乐背后的物理、数学原理并没有那么复杂，此所谓乐理。Ruby 是一门编程语言。编程编的是程序，所谓程序，是计算机执行的指令，是阐明计算过程的方式。我们在此使用 Ruby 语言描述乐理，以简单的例子提高自己对乐理的理解，也可以精进自己的 Ruby 编程技能。 从基本音高定义开始关于音高的基本定义如下：  标准音高 A4 &#x3D; 440Hz 一个八度有 12 个半音：C, C">
+<meta property="og:type" content="article">
+<meta property="og:title" content="用 Ruby 学习基本乐理（一）：音高">
+<meta property="og:url" content="https://coderemixer.com/2020/04/11/learn-music-theory-with-ruby-1/index.html">
+<meta property="og:site_name" content="代码混音师">
+<meta property="og:description" content="序音乐很有趣，理解音乐很难。但音乐背后的物理、数学原理并没有那么复杂，此所谓乐理。Ruby 是一门编程语言。编程编的是程序，所谓程序，是计算机执行的指令，是阐明计算过程的方式。我们在此使用 Ruby 语言描述乐理，以简单的例子提高自己对乐理的理解，也可以精进自己的 Ruby 编程技能。 从基本音高定义开始关于音高的基本定义如下：  标准音高 A4 &#x3D; 440Hz 一个八度有 12 个半音：C, C">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-04-11T05:36:38.000Z">
+<meta property="article:modified_time" content="2020-08-12T09:01:06.003Z">
+<meta property="article:author" content="CodeRemixer">
+<meta property="article:tag" content="音乐">
+<meta property="article:tag" content="Ruby">
+<meta property="article:tag" content="编程">
+<meta property="article:tag" content="乐理">
+<meta property="article:tag" content="教程">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>用 Ruby 学习基本乐理（一）：音高</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/true" title="代码混音师" type="application/atom+xml" />
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/04/11/learn-music-theory-with-ruby-2/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/04/05/ideas-about-music-game/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://coderemixer.com/2020/04/11/learn-music-theory-with-ruby-1/" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://coderemixer.com/2020/04/11/learn-music-theory-with-ruby-1/&text=用 Ruby 学习基本乐理（一）：音高" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://coderemixer.com/2020/04/11/learn-music-theory-with-ruby-1/&title=用 Ruby 学习基本乐理（一）：音高" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://coderemixer.com/2020/04/11/learn-music-theory-with-ruby-1/&is_video=false&description=用 Ruby 学习基本乐理（一）：音高" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=用 Ruby 学习基本乐理（一）：音高&body=Check out this article: https://coderemixer.com/2020/04/11/learn-music-theory-with-ruby-1/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://coderemixer.com/2020/04/11/learn-music-theory-with-ruby-1/&title=用 Ruby 学习基本乐理（一）：音高" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://coderemixer.com/2020/04/11/learn-music-theory-with-ruby-1/&title=用 Ruby 学习基本乐理（一）：音高" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://coderemixer.com/2020/04/11/learn-music-theory-with-ruby-1/&title=用 Ruby 学习基本乐理（一）：音高" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://coderemixer.com/2020/04/11/learn-music-theory-with-ruby-1/&title=用 Ruby 学习基本乐理（一）：音高" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://coderemixer.com/2020/04/11/learn-music-theory-with-ruby-1/&name=用 Ruby 学习基本乐理（一）：音高&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://coderemixer.com/2020/04/11/learn-music-theory-with-ruby-1/&t=用 Ruby 学习基本乐理（一）：音高" target="_blank" rel="noopener"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#序"><span class="toc-number">1.</span> <span class="toc-text">序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#从基本音高定义开始"><span class="toc-number">2.</span> <span class="toc-text">从基本音高定义开始</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#频率反查"><span class="toc-number">3.</span> <span class="toc-text">频率反查</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#泛音列"><span class="toc-number">4.</span> <span class="toc-text">泛音列</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#小结"><span class="toc-number">5.</span> <span class="toc-text">小结</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        用 Ruby 学习基本乐理（一）：音高
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">代码混音师</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-04-11T05:36:38.000Z" itemprop="datePublished">2020-04-11</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/Ruby/" rel="tag">Ruby</a>, <a class="tag-link" href="/tags/%E4%B9%90%E7%90%86/" rel="tag">乐理</a>, <a class="tag-link" href="/tags/%E6%95%99%E7%A8%8B/" rel="tag">教程</a>, <a class="tag-link" href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag">编程</a>, <a class="tag-link" href="/tags/%E9%9F%B3%E4%B9%90/" rel="tag">音乐</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="序"><a href="#序" class="headerlink" title="序"></a>序</h2><p>音乐很有趣，理解音乐很难。但音乐背后的物理、数学原理并没有那么复杂，此所谓乐理。Ruby 是一门编程语言。编程编的是程序，所谓程序，是计算机执行的指令，是阐明计算过程的方式。我们在此使用 Ruby 语言描述乐理，以简单的例子提高自己对乐理的理解，也可以精进自己的 Ruby 编程技能。</p>
+<h2 id="从基本音高定义开始"><a href="#从基本音高定义开始" class="headerlink" title="从基本音高定义开始"></a>从基本音高定义开始</h2><p>关于音高的基本定义如下：</p>
+<ol>
+<li>标准音高 A4 = 440Hz</li>
+<li>一个八度有 12 个半音：C, C#, D, D#, E, F, F#, G, G#, A, A#, B</li>
+<li>两个八度之间的频率关系差 2 倍</li>
+<li>以十二平均律调音，两个相邻音的频率关系差 $ 2^\frac{1}{12} $ 倍。</li>
+</ol>
+<p>我们先设计一个根据到 A4 半音数量计算音高频率的 Ruby 程序：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">STANDARD_TUNING = <span class="number">440.0</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">frequency_by_offset</span><span class="params">(offset)</span></span></span><br><span class="line">  STANDARD_TUNING * (<span class="number">2.0</span> ** (<span class="number">1.0</span> / <span class="number">12</span>)) ** offset</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+<p>然后我们要解析音名，从而处理到音高的关系。音乐中的音名主要有七个：C、D、E、F、G、A、B，之间关系是大调音阶关系，即全音、全音、半音、全音、全音、全音、半音。但一个八度内半音数量有 12，所以后面可以接升降记号 # 或 b，记号可以叠加。音高到音名的关系是一对多的，D、C## 可以表示同一个音高（取决于作曲家的具体需求）。最后加上一个八度的标记来表示超过一个八度的音，我们可以用一个正则表达式 <code>^[CDEFGAB][#,b]*\d$</code> 来匹配。</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Tone</span></span></span><br><span class="line">  STANDARD_TUNING = <span class="number">440.0</span></span><br><span class="line">  <span class="keyword">attr_reader</span> <span class="symbol">:frequency</span></span><br><span class="line">  <span class="keyword">attr_reader</span> <span class="symbol">:name</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">initialize</span><span class="params">(name)</span></span></span><br><span class="line">    @name = name</span><br><span class="line">    offset = parse_name(name)</span><br><span class="line">    @frequency = frequency_by_offset(offset)</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line">  </span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">parse_name</span><span class="params">(name)</span></span></span><br><span class="line">    raise AugumentError <span class="keyword">unless</span> name.match?(<span class="regexp">/^[CDEFGAB][#,b]*\d$/</span>)</span><br><span class="line">    tone = name[<span class="number">0</span>]</span><br><span class="line">    sharps = name[<span class="number">1</span>...-<span class="number">1</span>]</span><br><span class="line">    range = name[-<span class="number">1</span>].to_i</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># Calculate offset</span></span><br><span class="line">    major_scale = [-<span class="number">9</span>, -<span class="number">7</span>, -<span class="number">5</span>, -<span class="number">4</span>, -<span class="number">2</span>, <span class="number">0</span>, <span class="number">2</span>]</span><br><span class="line">    offset = major_scale[<span class="string">'CDEFGAB'</span>.index(tone)] + (range - <span class="number">4</span>) * <span class="number">12</span> <span class="comment"># Offset without sharps or flats</span></span><br><span class="line">    sharps.chars.each <span class="keyword">do</span> <span class="params">|c|</span></span><br><span class="line">      c == <span class="string">'#'</span> ? offset += <span class="number">1</span> : offset -= <span class="number">1</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    offset</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line">  </span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">frequency_by_offset</span><span class="params">(offset)</span></span></span><br><span class="line">    STANDARD_TUNING * (<span class="number">2.0</span> ** (<span class="number">1.0</span> / <span class="number">12</span>)) ** offset</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+<p>我们来验证一下这个程序：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">2.7.0 :070 &gt; Tone.new(&#39;A4&#39;)</span><br><span class="line"> &#x3D;&gt; #&lt;Tone:0x00007f828c865b58 @name&#x3D;&quot;A4&quot;, @frequency&#x3D;440.0&gt;</span><br><span class="line">2.7.0 :071 &gt; Tone.new(&#39;A#5&#39;)</span><br><span class="line"> &#x3D;&gt; #&lt;Tone:0x00007f828c8653b0 @name&#x3D;&quot;A#5&quot;, @frequency&#x3D;932.3275230361803&gt; </span><br><span class="line">2.7.0 :072 &gt; Tone.new(&#39;C3&#39;)</span><br><span class="line"> &#x3D;&gt; #&lt;Tone:0x00007f828c864d48 @name&#x3D;&quot;C3&quot;, @frequency&#x3D;130.8127826502992&gt;</span><br></pre></td></tr></table></figure>
+
+<p>我们和<a href="https://pages.mtu.edu/~suits/notefreqs.html" target="_blank" rel="noopener">调音网站</a>比对一下结果：</p>
+<table>
+<thead>
+<tr>
+<th>音名</th>
+<th>计算结果</th>
+<th>调音网站标准值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>A4</td>
+<td>440.00</td>
+<td>440.00</td>
+</tr>
+<tr>
+<td>A#5</td>
+<td>932.328</td>
+<td>932.33</td>
+</tr>
+<tr>
+<td>C3</td>
+<td>130.813</td>
+<td>130.81</td>
+</tr>
+</tbody></table>
+<p>结果基本准确。</p>
+<h2 id="频率反查"><a href="#频率反查" class="headerlink" title="频率反查"></a>频率反查</h2><p>我们根据音名计算除了频率，下一步是要根据频率计算出接近的音名。但是频率是一个浮点数，浮点数不适合直接用等于号比较。在许多计算中，我们会设置一个阈值 $\epsilon$，即计算两个值的差是否小于这个阈值来判断是否相等。但是这个在音乐中是不适合的，因为八度是一个在频率上呈指数增长的东西，于是当音越高，其对阈值越宽容；当音越低，其对阈值越严格。这在和弦上还发展出了「低音程限制」的问题，我们会在之后具体提到。</p>
+<p>在此我们采用一个粗暴搜索的算法来处理，即二分查找算法 (binary search algorithm)。在 Ruby 中，Array 有自带的二分查找实现，我们不妨使用它。</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">ALL_TONES = (<span class="number">0</span>..<span class="number">9</span>).map &#123;<span class="params">|range|</span> [<span class="string">'C'</span>, <span class="string">'C#'</span>, <span class="string">'D'</span>, <span class="string">'D#'</span>, <span class="string">'E'</span>, <span class="string">'F'</span>, <span class="string">'F#'</span>, <span class="string">'G'</span>, <span class="string">'G#'</span>, <span class="string">'A'</span>, <span class="string">'A#'</span>, <span class="string">'B'</span>].map &#123;<span class="params">|name|</span> <span class="string">"<span class="subst">#&#123;name&#125;</span><span class="subst">#&#123;range&#125;</span>"</span>&#125;&#125;.flatten.map &#123; <span class="params">|name|</span> Tone.new(name) &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">by_frequency</span><span class="params">(freq)</span></span></span><br><span class="line">  ALL_TONES.bsearch &#123; <span class="params">|x|</span> x.frequency &gt;= freq &#125;</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">p by_frequency(<span class="number">440</span>) <span class="comment"># =&gt; #&lt;Tone:0x00007f9b62815498 <span class="doctag">@name</span>="A4", <span class="doctag">@frequency</span>=440.0&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>我们把这套系统合并到我们的类中，我们可以得到：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Tone</span></span></span><br><span class="line">  STANDARD_TUNING = <span class="number">440.0</span></span><br><span class="line">  <span class="keyword">attr_reader</span> <span class="symbol">:frequency</span></span><br><span class="line">  <span class="keyword">attr_reader</span> <span class="symbol">:name</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">initialize</span><span class="params">(name)</span></span></span><br><span class="line">    @name = name</span><br><span class="line">    offset = parse_name(name)</span><br><span class="line">    @frequency = frequency_by_offset(offset)</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">parse_name</span><span class="params">(name)</span></span></span><br><span class="line">    raise AugumentError <span class="keyword">unless</span> name.match?(<span class="regexp">/^[CDEFGAB][#,b]*\d$/</span>)</span><br><span class="line">    tone = name[<span class="number">0</span>]</span><br><span class="line">    sharps = name[<span class="number">1</span>...-<span class="number">1</span>]</span><br><span class="line">    range = name[-<span class="number">1</span>].to_i</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># Calculate offset</span></span><br><span class="line">    major_scale = [-<span class="number">9</span>, -<span class="number">7</span>, -<span class="number">5</span>, -<span class="number">4</span>, -<span class="number">2</span>, <span class="number">0</span>, <span class="number">2</span>]</span><br><span class="line">    offset = major_scale[<span class="string">'CDEFGAB'</span>.index(tone)] + (range - <span class="number">4</span>) * <span class="number">12</span> <span class="comment"># Offset without sharps or flats</span></span><br><span class="line">    </span><br><span class="line">    sharps.chars.each <span class="keyword">do</span> <span class="params">|c|</span></span><br><span class="line">      c == <span class="string">'#'</span> ? offset += <span class="number">1</span> : offset -= <span class="number">1</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    offset</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line">  </span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">frequency_by_offset</span><span class="params">(offset)</span></span></span><br><span class="line">    STANDARD_TUNING * (<span class="number">2.0</span> ** (<span class="number">1.0</span> / <span class="number">12</span>)) ** offset</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  <span class="class"><span class="keyword">class</span> &lt;&lt; self</span></span><br><span class="line">    ALL_TONES = (<span class="number">0</span>..<span class="number">9</span>).map &#123;<span class="params">|range|</span> [<span class="string">'C'</span>, <span class="string">'C#'</span>, <span class="string">'D'</span>, <span class="string">'D#'</span>, <span class="string">'E'</span>, <span class="string">'F'</span>, <span class="string">'F#'</span>, <span class="string">'G'</span>, <span class="string">'G#'</span>, <span class="string">'A'</span>, <span class="string">'A#'</span>, <span class="string">'B'</span>].map &#123;<span class="params">|name|</span> <span class="string">"<span class="subst">#&#123;name&#125;</span><span class="subst">#&#123;range&#125;</span>"</span>&#125;&#125;.flatten.map &#123; <span class="params">|name|</span> Tone.new(name) &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">by_frequency</span><span class="params">(freq)</span></span></span><br><span class="line">      ALL_TONES.bsearch &#123; <span class="params">|x|</span> x.frequency &gt;= freq &#125;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">p Tone.by_frequency(<span class="number">440</span>) <span class="comment"># =&gt; #&lt;Tone:0x00007fb0cd8164a8 <span class="doctag">@name</span>="A4", <span class="doctag">@frequency</span>=440.0&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="泛音列"><a href="#泛音列" class="headerlink" title="泛音列"></a>泛音列</h2><p>发声体除了整体振动（基音）以外，还会分段振动。因此除了基础的频率，通常还会产生两倍、三倍、四倍…频率的泛音。站在频率上非常好理解，但是要想记住泛音列的组成音的音名还是挺难记忆的。我们来看看能不能利用我们的音高定义和频率反查系统来自动计算泛音列吧。</p>
+<p>由于理论上泛音列是无穷的，只要是整数倍都可以。所以我们可以利用 Ruby 2.6.0 开始引入的 endless range 特性让代码变得好看一些。由于我们反查的上限是 B9 所以当搜索超过 B9 我们就忽略之后的泛音列。另外在特高频率上，可能多个频率对应的是某同一个音名，所以在计算完，我们可以 <code>uniq</code> 一下。</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">harmonic_series</span><span class="params">(max=Tone.new(<span class="string">'B9'</span>)</span></span>.frequency)</span><br><span class="line">  tones = []</span><br><span class="line">  (<span class="number">2</span>..).each <span class="keyword">do</span> <span class="params">|n|</span></span><br><span class="line">    <span class="keyword">break</span> <span class="keyword">if</span> @frequency * n &gt; max</span><br><span class="line">    tones &lt;&lt; Tone.by_frequency(@frequency * n)</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line">  tones.uniq &#123; <span class="params">|t|</span> t.name &#125;</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">p Tone.new(<span class="string">'C7'</span>).harmonic_series <span class="comment"># =&gt; [#&lt;Tone:0x00007f859703d8c8 <span class="doctag">@name</span>="C8", <span class="doctag">@frequency</span>=4186.009044809585&gt;, #&lt;Tone:0x00007f859700ec80 <span class="doctag">@name</span>="G#8", <span class="doctag">@frequency</span>=6644.875161279136&gt;, #&lt;Tone:0x00007f859700c868 <span class="doctag">@name</span>="C9", <span class="doctag">@frequency</span>=8372.018089619174&gt;, #&lt;Tone:0x00007f85980424a8 <span class="doctag">@name</span>="E9", <span class="doctag">@frequency</span>=10548.081821211863&gt;, #&lt;Tone:0x00007f8598040130 <span class="doctag">@name</span>="G#9", <span class="doctag">@frequency</span>=13289.750322558277&gt;, #&lt;Tone:0x00007f8597063438 <span class="doctag">@name</span>="A#9", <span class="doctag">@frequency</span>=14917.240368578916&gt;]</span></span><br></pre></td></tr></table></figure>
+
+<p>根据 C 的泛音列表，其前 6 个泛音是 C G C1 E1 G1 Bb1。我们的计算器把其中两个 G 都计算成了 G#。这是因为我们的频率反查器可以接受一定程度的偏高，但不能接受偏低。考虑到我们的搜索范围只有 120 个音，我们其实没有必要将时间复杂度优化到 $O(logn)$，我们大可以使用 $O(n)$ 的复杂度。于是我把频率反查改成了下面的代码：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">by_frequency</span><span class="params">(freq)</span></span></span><br><span class="line">  errs = ALL_TONES.map &#123;<span class="params">|x|</span> (x.frequency - freq).abs &#125;</span><br><span class="line">  ALL_TONES[errs.rindex(errs.min)]</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+<p>于是我们的泛音列结果变成了：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">p Tone.new(<span class="string">'C7'</span>).harmonic_series <span class="comment"># =&gt; [#&lt;Tone:0x00007fc27787a2d0 <span class="doctag">@name</span>="C8", <span class="doctag">@frequency</span>=4186.009044809585&gt;, #&lt;Tone:0x00007fc277878c78 <span class="doctag">@name</span>="G8", <span class="doctag">@frequency</span>=6271.926975708001&gt;, #&lt;Tone:0x00007fc277877850 <span class="doctag">@name</span>="C9", <span class="doctag">@frequency</span>=8372.018089619174&gt;, #&lt;Tone:0x00007fc277876f40 <span class="doctag">@name</span>="E9", <span class="doctag">@frequency</span>=10548.081821211863&gt;, #&lt;Tone:0x00007fc277875960 <span class="doctag">@name</span>="G9", <span class="doctag">@frequency</span>=12543.853951416007&gt;, #&lt;Tone:0x00007fc277874330 <span class="doctag">@name</span>="A#9", <span class="doctag">@frequency</span>=14917.240368578916&gt;]</span></span><br></pre></td></tr></table></figure>
+
+<p>与泛音表完全一致。</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>至此，我们用 Ruby 处理了乐理中与音高有关的常见问题。让我们对 Ruby 和乐理的熟练程度都进一步提升了。接下来，我会介绍如何进一步用 Ruby 来处理音程与和弦。</p>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>加载评论需要在浏览器启用 JavaScript 脚本支持。</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#序"><span class="toc-number">1.</span> <span class="toc-text">序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#从基本音高定义开始"><span class="toc-number">2.</span> <span class="toc-text">从基本音高定义开始</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#频率反查"><span class="toc-number">3.</span> <span class="toc-text">频率反查</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#泛音列"><span class="toc-number">4.</span> <span class="toc-text">泛音列</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#小结"><span class="toc-number">5.</span> <span class="toc-text">小结</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://coderemixer.com/2020/04/11/learn-music-theory-with-ruby-1/" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://coderemixer.com/2020/04/11/learn-music-theory-with-ruby-1/&text=用 Ruby 学习基本乐理（一）：音高" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://coderemixer.com/2020/04/11/learn-music-theory-with-ruby-1/&title=用 Ruby 学习基本乐理（一）：音高" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://coderemixer.com/2020/04/11/learn-music-theory-with-ruby-1/&is_video=false&description=用 Ruby 学习基本乐理（一）：音高" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=用 Ruby 学习基本乐理（一）：音高&body=Check out this article: https://coderemixer.com/2020/04/11/learn-music-theory-with-ruby-1/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://coderemixer.com/2020/04/11/learn-music-theory-with-ruby-1/&title=用 Ruby 学习基本乐理（一）：音高" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://coderemixer.com/2020/04/11/learn-music-theory-with-ruby-1/&title=用 Ruby 学习基本乐理（一）：音高" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://coderemixer.com/2020/04/11/learn-music-theory-with-ruby-1/&title=用 Ruby 学习基本乐理（一）：音高" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://coderemixer.com/2020/04/11/learn-music-theory-with-ruby-1/&title=用 Ruby 学习基本乐理（一）：音高" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://coderemixer.com/2020/04/11/learn-music-theory-with-ruby-1/&name=用 Ruby 学习基本乐理（一）：音高&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://coderemixer.com/2020/04/11/learn-music-theory-with-ruby-1/&t=用 Ruby 学习基本乐理（一）：音高" target="_blank" rel="noopener"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2020
+    CodeRemixer
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-127825283-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'coderemixer';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+
+</body>
+</html>

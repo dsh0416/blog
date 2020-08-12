@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="引Ant Design 今天的圣诞门闹得沸沸扬扬，Ant Design 内建的圣诞彩蛋在各个使用 antd 的产品中被「强制」弹出，令许多人措手不及，造成了很大的社会影响。但事实上，Ant Design 使用的是 MIT LICENSE，完全是一个使用者「后果自负」的协议。然而，Issue 里哭天喊地要开发者「负责」的舆论却又一面倒。 在此，我要问一个问题：「Ant Design 错了吗？」 ​">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ant Design 错了吗？">
+<meta property="og:url" content="https://coderemixer.com/2018/12/25/is-antd-wrong/index.html">
+<meta property="og:site_name" content="代码混音师">
+<meta property="og:description" content="引Ant Design 今天的圣诞门闹得沸沸扬扬，Ant Design 内建的圣诞彩蛋在各个使用 antd 的产品中被「强制」弹出，令许多人措手不及，造成了很大的社会影响。但事实上，Ant Design 使用的是 MIT LICENSE，完全是一个使用者「后果自负」的协议。然而，Issue 里哭天喊地要开发者「负责」的舆论却又一面倒。 在此，我要问一个问题：「Ant Design 错了吗？」 ​">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://coderemixer.com/static/is-ali-wrong.jpg">
+<meta property="og:image" content="https://coderemixer.com/static/judge.png">
+<meta property="article:published_time" content="2018-12-25T13:43:54.000Z">
+<meta property="article:modified_time" content="2020-08-12T09:01:06.002Z">
+<meta property="article:author" content="CodeRemixer">
+<meta property="article:tag" content="阿里巴巴">
+<meta property="article:tag" content="前端">
+<meta property="article:tag" content="开源">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://coderemixer.com/static/is-ali-wrong.jpg">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Ant Design 错了吗？</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/true" title="代码混音师" type="application/atom+xml" />
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/01/10/heisei-last-unfinished-game/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2018/12/08/ruby-quiz-base32/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://coderemixer.com/2018/12/25/is-antd-wrong/" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://coderemixer.com/2018/12/25/is-antd-wrong/&text=Ant Design 错了吗？" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://coderemixer.com/2018/12/25/is-antd-wrong/&title=Ant Design 错了吗？" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://coderemixer.com/2018/12/25/is-antd-wrong/&is_video=false&description=Ant Design 错了吗？" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Ant Design 错了吗？&body=Check out this article: https://coderemixer.com/2018/12/25/is-antd-wrong/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://coderemixer.com/2018/12/25/is-antd-wrong/&title=Ant Design 错了吗？" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://coderemixer.com/2018/12/25/is-antd-wrong/&title=Ant Design 错了吗？" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://coderemixer.com/2018/12/25/is-antd-wrong/&title=Ant Design 错了吗？" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://coderemixer.com/2018/12/25/is-antd-wrong/&title=Ant Design 错了吗？" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://coderemixer.com/2018/12/25/is-antd-wrong/&name=Ant Design 错了吗？&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://coderemixer.com/2018/12/25/is-antd-wrong/&t=Ant Design 错了吗？" target="_blank" rel="noopener"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引"><span class="toc-number">1.</span> <span class="toc-text">引</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Ant-Design-犯了什么错？"><span class="toc-number">2.</span> <span class="toc-text">Ant Design 犯了什么错？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何运行一个开源项目？"><span class="toc-number">3.</span> <span class="toc-text">如何运行一个开源项目？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#教训"><span class="toc-number">4.</span> <span class="toc-text">教训</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Ant Design 错了吗？
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">代码混音师</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2018-12-25T13:43:54.000Z" itemprop="datePublished">2018-12-25</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a>, <a class="tag-link" href="/tags/%E5%BC%80%E6%BA%90/" rel="tag">开源</a>, <a class="tag-link" href="/tags/%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4/" rel="tag">阿里巴巴</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="引"><a href="#引" class="headerlink" title="引"></a>引</h2><p>Ant Design 今天的<a href="https://github.com/ant-design/ant-design/issues/13848" target="_blank" rel="noopener">圣诞门</a>闹得沸沸扬扬，Ant Design 内建的圣诞彩蛋在各个使用 antd 的产品中被「强制」弹出，令许多人措手不及，造成了很大的社会影响。但事实上，Ant Design 使用的是 MIT LICENSE，完全是一个使用者「后果自负」的协议。然而，Issue 里哭天喊地要开发者「负责」的舆论却又一面倒。</p>
+<p>在此，我要问一个问题：「Ant Design 错了吗？」</p>
+<p>​<img src="/static/is-ali-wrong.jpg" alt="is-ali-wront"></p>
+<p>就我来看，毋庸置疑，错了。</p>
+<p>但这篇文章讨论的是以下几点：</p>
+<ul>
+<li>Ant Design 犯了什么错？</li>
+<li>开源的权利与责任的界限在哪里？</li>
+<li>我们应当怎么从这个事件中获取教训？</li>
+</ul>
+<h2 id="Ant-Design-犯了什么错？"><a href="#Ant-Design-犯了什么错？" class="headerlink" title="Ant Design 犯了什么错？"></a>Ant Design 犯了什么错？</h2><p>从产品的角度来看，这个彩蛋，连彩蛋的定义都不符合。彩蛋（Easter Eggs）是一个隐藏在程序中的信息，而不是突然糊在你脸上的定时炸弹。所以从想出这个问题的那个人就已经不太对劲了。但我们抛开这个产品的问题，从实现上，这个 <code>Santa.jsx</code> 文件也同样是非常糟糕。作为一个组件级项目，很多人会对组件样式做二次开发，这一坨硬编码（Hardcoded）并没有起到它彩蛋的作用，相反还把很多网站弄得一团糟。如果你试图阅读过 Ruby 的代码，你往往会发现 Ruby 有那么多错误命名的 C API 为什么一直不把它改对呢？因为这种语言级别的东西，你无法确定用户是怎么使用的时候，就必须保持最低限度的兼容。Ant Design 也是如此。</p>
+<p>然而「人主之患在莫之应，故曰：一手独拍，虽疾无声。」导致 Ant Design 问题的，不单单是彩蛋本身的错，更大的是 Ant Design 开源社区开发流程的问题。或者换一句话说：是软件工程的问题。</p>
+<p>如果我们现在要往一个开源项目中加入一个不合适的东西，其实并不那么容易。Ant Design 有基于 GitHub Pull Request 系统的 Code Review 机制。一个并非紧急的代码，为什么可以直接跳过 Code Review 直接推上去？Ant Design 作为一个组件级的基础项目，到底应该怎么设计测试？</p>
+<p>这个 <a href="https://github.com/ant-design/ant-design/commit/f706e2554f706b4e47f0c0cb3bcada1fe24dc32d" target="_blank" rel="noopener">2017 年 12 月 25 日</a> 写下的代码，写入到发作的这一年中，暴露的并不是谁的错，而是这个项目本身就是一个错误。</p>
+<h2 id="如何运行一个开源项目？"><a href="#如何运行一个开源项目？" class="headerlink" title="如何运行一个开源项目？"></a>如何运行一个开源项目？</h2><p>Ant Design 错了，需要检讨，需要反省，需要道歉。但另一方面，在 Issue 下大骂「要阿里负责，要阿里赔偿」的则是走向了另一个极端。今天的开源项目，在使用常见的 Copyleft 许可证的情况下，大多数（包含且不止包含 MIT、BSD、GPLv2、GPLv3、AGPLv3、LGPLv3、MPL 2.0、Apache License 2.0、The Unlicensed）都在许可证中明确写了，不包括任何保修的条款，使用者自行负责。这让很多人听起来匪夷所思，觉得 Ant Design 一个阿里的产品，怎么也是阿里在背书。然而事实上，可能除了信誉，没有规定任何东西是实质的背书。前几天有人在 Ruby China 上开了个<a href="https://ruby-china.org/topics/37902" target="_blank" rel="noopener">帖子</a>问：</p>
+<blockquote>
+<p>到某某网站上浏览时，发现上面说，以上版本均需获取商业授权，方可做商业运营使用，既然是开源的，咋还涉及到商业授权啊，不理解，请指教。谢谢！</p>
+</blockquote>
+<p>然而版权的实际情况却恰恰相反。源代码放出来只是让你看，并不能让你用。就像别人放在那里的芒果，你不能寻思是别人不要了吧。代码是不是开源，需要取决于使用什么授权协议。哪怕是 GPL 的 RedHat 也有卖商业服务的。如果人家没有设定任何授权协议的话，那就只能默认是 Copyright 私有了。而只有签了具体包含保修责任的条款的协议后，对方才有保修的义务。不然，我自己写着玩开源出来，你用的时候也已经同意免责了。你用出问题了为什么要来找我呢？有问题你自己 fork 了改不就好了？</p>
+<p>这就牵扯到了另一个问题：开源的社会价值。当一个开源产品，比如 Ant Design，有大量的用户在使用的时候，对于这个开源社区的期待是完全不同的。这也是为什么世界上大多数的大型开源项目，都有一个庞大的组织在维护着。其目的很大程度上，就是要维护代码的可靠性，担负起其社会价值。<del>你觉得阿里价值观能担负起社会价值吗？</del></p>
+<p>有人在我微博下呛：</p>
+<blockquote>
+<p>照右边这个逻辑的话，广大 MIT 框架作者应该纷纷往自己代码加挖矿，这世界不需要开源，人与人也不需要信任。别人写好的高级语言也别用啊，一起汇编起来。</p>
+</blockquote>
+<p>然而事实上，如果你愿意找一下，GitHub 上许多 MIT 项目是有暗藏挖矿的，甚至还有暗藏后门的。至于「别人写好的高级语言也别用啊」也是如此，UNIX 创始人 Ken Thompson 在 30 年前获得图灵奖的获奖演说中，就有提到这种类似的暗藏在 C 语言编译器中的手段实现攻击。这也是为什么一方面 C 语言编译器也有一套复杂的自举发布流程，像 gcc 还会有严格的代码审查机制来避免这种问题的发生。然而甚至硬件本身，也不是 100% 可信的。这不是「人与人的信任」问题，相反，就算 100% 相信别人不去做坏事，但是由于人都会犯错，总会做出错误的东西，我们需要的是通过机制来避免它发生。</p>
+<p>在以前一个非常有名的 NVIDIA 开源驱动的维护项目 <a href="https://github.com/MrMEEE/bumblebee-Old-and-abbandoned/issues/123" target="_blank" rel="noopener">bumblebee</a> 中就有出现过开发者疏失，导致更新的用户直接把所有的 <code>/usr</code> 用户文件不小心删了个精光。甚至<a href="https://www.omgubuntu.co.uk/2013/11/nsa-ask-linus-torvalds-include-backdoors-linux-father-says-yes" target="_blank" rel="noopener">有人</a>曾试图通过给 Linux 项目提交 patch 的形式，将后门埋入操作系统中。并且这些看起来不经意的错误，甚至会使得一些人为的 Code Review 失效，所以 Linux 还有复杂的安全性和回归测试来保证其可靠性。</p>
+<p>如果这不是无意的行为，而是有意的。那么对于开源世界，我们有个更简单的方法：fork。我们只要分叉一个自己的版本，自己维护自己负责就可以了。MySQL 被 Oracle 收购后，虽然 Oracle 暂时还没有做什么坏事，大家为了谨防这种情况发生，就有一些开发者 fork 出了 MariaDB。</p>
+<p>但是，我也反过来问一句：你 fork 后的项目，你真的能维护得更好吗？</p>
+<p>软件工程是一个复杂而庞大的东西，把七个积木搭在一起，和把七千万块积木堆在一起是完全不同的系统工程问题。开源软件的管理看起来松散，于是更需要设计合理的制度防范于未然。在挑选开源项目的时候，并不只是挑一个能用的就行了，对于其质量、维护能力、开源协议都必须是评估的内容。我不是在说「用开源的东西不审查代码，出了问题活该」，但是什么都不看，不出问题才奇怪吧？</p>
+<h2 id="教训"><a href="#教训" class="headerlink" title="教训"></a>教训</h2><p>为什么包括谷歌微软在内的大公司，在使用别人的开源项目时，都要经过内部审查。虽然不至于精确到每行代码，但也要大致确认一下这个项目的状况。这也是为什么，Facebook 之前内部许可证事件沸沸扬扬，因为这真的很重要。就好像，警察在努力阻止盗窃案的发生，但我们自身平时就要做好防范，而不能大门敞开，出了事去骂警察吧。</p>
+<p>然而现实的情况却是，用 Ant Design 的本来就是一群想用个组件库草草了事的人，根本没有可能去参与到开源项目的审查中。而 Ant Design 目前草率的开发流程，确实也无法承担如此大的社会责任。如果今天不是「偏右」的圣诞节代码出了问题，明天后天一样会出别的问题。如果今天是「偏右」辞退就来平息风波，那么明天后天 Ant Design 还是会继续出问题（<del>毕竟是阿里嘛</del>）。</p>
+<p>​<img src="/static/judge.png" alt="judge"></p>
+<p>今天 Ant Design 的问题是一个典型的软件工程问题，让任何一个个人来负责，都只是息事宁人的策略，并不能从根本上解决问题。对于一个「开发公司 HR 工具的离职谈话功能推到开发者头上；匿名表达对老员工，特别是对彭姓员工不满，大老板可能含沙射影地让你滚；用脚本在公司网站抢月饼，可能违反价值观」的公司，你指望它在软件工程上有秩序吗？</p>
+<p>我觉得你在做梦。</p>
+<p>总结一下：</p>
+<ul>
+<li>开源项目本身并没有所谓的「责任」的概念，你要有自己评估其可靠性的能力，并承担风险。</li>
+<li>评估可靠性不在于其背后是多大的公司，更在于其是否有健全的开发流程，因为人为疏失不可避免。</li>
+<li>越是底层、组件级的项目对于可靠性的要求越高。</li>
+<li>只要不是主观上故意犯错误，我们更应该检讨我们的系统工程，而不单单是检讨个人。</li>
+</ul>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>加载评论需要在浏览器启用 JavaScript 脚本支持。</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引"><span class="toc-number">1.</span> <span class="toc-text">引</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Ant-Design-犯了什么错？"><span class="toc-number">2.</span> <span class="toc-text">Ant Design 犯了什么错？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何运行一个开源项目？"><span class="toc-number">3.</span> <span class="toc-text">如何运行一个开源项目？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#教训"><span class="toc-number">4.</span> <span class="toc-text">教训</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://coderemixer.com/2018/12/25/is-antd-wrong/" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://coderemixer.com/2018/12/25/is-antd-wrong/&text=Ant Design 错了吗？" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://coderemixer.com/2018/12/25/is-antd-wrong/&title=Ant Design 错了吗？" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://coderemixer.com/2018/12/25/is-antd-wrong/&is_video=false&description=Ant Design 错了吗？" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Ant Design 错了吗？&body=Check out this article: https://coderemixer.com/2018/12/25/is-antd-wrong/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://coderemixer.com/2018/12/25/is-antd-wrong/&title=Ant Design 错了吗？" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://coderemixer.com/2018/12/25/is-antd-wrong/&title=Ant Design 错了吗？" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://coderemixer.com/2018/12/25/is-antd-wrong/&title=Ant Design 错了吗？" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://coderemixer.com/2018/12/25/is-antd-wrong/&title=Ant Design 错了吗？" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://coderemixer.com/2018/12/25/is-antd-wrong/&name=Ant Design 错了吗？&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://coderemixer.com/2018/12/25/is-antd-wrong/&t=Ant Design 错了吗？" target="_blank" rel="noopener"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2020
+    CodeRemixer
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-127825283-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'coderemixer';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+
+</body>
+</html>

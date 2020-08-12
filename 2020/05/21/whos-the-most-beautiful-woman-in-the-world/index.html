@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="如果你女朋友问你「我是不是世界上最好看的女人？」  错误回答：  是的。（除非你见过世界上所有女人）  不是。（会没命）  我不知道。（太虚伪，你女朋友真的比电视上的明星都好看吗？）  正确回答：  我觉得美貌不是一个全序关系 (total order) 或偏序关系 (partially ordered)。 不小于三个标准差吧。  「好看」背后的抽象代数什么是全序集？关于什么是「最好看」，我们需要">
+<meta property="og:type" content="article">
+<meta property="og:title" content="女朋友问你「我是不是世界上最好看的女人？」怎么办">
+<meta property="og:url" content="https://coderemixer.com/2020/05/21/whos-the-most-beautiful-woman-in-the-world/index.html">
+<meta property="og:site_name" content="代码混音师">
+<meta property="og:description" content="如果你女朋友问你「我是不是世界上最好看的女人？」  错误回答：  是的。（除非你见过世界上所有女人）  不是。（会没命）  我不知道。（太虚伪，你女朋友真的比电视上的明星都好看吗？）  正确回答：  我觉得美貌不是一个全序关系 (total order) 或偏序关系 (partially ordered)。 不小于三个标准差吧。  「好看」背后的抽象代数什么是全序集？关于什么是「最好看」，我们需要">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://coderemixer.com/static/429px-Hasse_diagram_of_powerset_of_3.svg.png">
+<meta property="og:image" content="https://coderemixer.com/static/720px-Normal_Distribution_PDF.svg.png">
+<meta property="og:image" content="https://coderemixer.com/static/Empirical_Rule.PNG">
+<meta property="article:published_time" content="2020-05-20T17:07:43.000Z">
+<meta property="article:modified_time" content="2020-08-12T09:01:06.007Z">
+<meta property="article:author" content="CodeRemixer">
+<meta property="article:tag" content="数学">
+<meta property="article:tag" content="情感">
+<meta property="article:tag" content="抽象代数">
+<meta property="article:tag" content="集合论">
+<meta property="article:tag" content="统计学">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://coderemixer.com/static/429px-Hasse_diagram_of_powerset_of_3.svg.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>女朋友问你「我是不是世界上最好看的女人？」怎么办</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/true" title="代码混音师" type="application/atom+xml" />
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/05/22/how-floating-number-caused-strange-earthquake/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/04/23/auto-blues-generator/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://coderemixer.com/2020/05/21/whos-the-most-beautiful-woman-in-the-world/" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://coderemixer.com/2020/05/21/whos-the-most-beautiful-woman-in-the-world/&text=女朋友问你「我是不是世界上最好看的女人？」怎么办" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://coderemixer.com/2020/05/21/whos-the-most-beautiful-woman-in-the-world/&title=女朋友问你「我是不是世界上最好看的女人？」怎么办" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://coderemixer.com/2020/05/21/whos-the-most-beautiful-woman-in-the-world/&is_video=false&description=女朋友问你「我是不是世界上最好看的女人？」怎么办" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=女朋友问你「我是不是世界上最好看的女人？」怎么办&body=Check out this article: https://coderemixer.com/2020/05/21/whos-the-most-beautiful-woman-in-the-world/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://coderemixer.com/2020/05/21/whos-the-most-beautiful-woman-in-the-world/&title=女朋友问你「我是不是世界上最好看的女人？」怎么办" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://coderemixer.com/2020/05/21/whos-the-most-beautiful-woman-in-the-world/&title=女朋友问你「我是不是世界上最好看的女人？」怎么办" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://coderemixer.com/2020/05/21/whos-the-most-beautiful-woman-in-the-world/&title=女朋友问你「我是不是世界上最好看的女人？」怎么办" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://coderemixer.com/2020/05/21/whos-the-most-beautiful-woman-in-the-world/&title=女朋友问你「我是不是世界上最好看的女人？」怎么办" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://coderemixer.com/2020/05/21/whos-the-most-beautiful-woman-in-the-world/&name=女朋友问你「我是不是世界上最好看的女人？」怎么办&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://coderemixer.com/2020/05/21/whos-the-most-beautiful-woman-in-the-world/&t=女朋友问你「我是不是世界上最好看的女人？」怎么办" target="_blank" rel="noopener"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#「好看」背后的抽象代数"><span class="toc-number">1.</span> <span class="toc-text">「好看」背后的抽象代数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是全序集？"><span class="toc-number">1.1.</span> <span class="toc-text">什么是全序集？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#为什么美貌不太可能是个全序关系？"><span class="toc-number">1.2.</span> <span class="toc-text">为什么美貌不太可能是个全序关系？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#不是全序一定没有最好看吗？"><span class="toc-number">1.3.</span> <span class="toc-text">不是全序一定没有最好看吗？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如果我们假设美貌是全序关系"><span class="toc-number">2.</span> <span class="toc-text">如果我们假设美貌是全序关系</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#如何假设美貌的分布"><span class="toc-number">2.1.</span> <span class="toc-text">如何假设美貌的分布</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#三个标准差的美貌有多好看？"><span class="toc-number">2.2.</span> <span class="toc-text">三个标准差的美貌有多好看？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#「我和迪丽热巴谁好看？」"><span class="toc-number">2.3.</span> <span class="toc-text">「我和迪丽热巴谁好看？」</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#不是数学没有用，是你不会用"><span class="toc-number">3.</span> <span class="toc-text">不是数学没有用，是你不会用</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        女朋友问你「我是不是世界上最好看的女人？」怎么办
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">代码混音师</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-05-20T17:07:43.000Z" itemprop="datePublished">2020-05-21</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/%E6%83%85%E6%84%9F/" rel="tag">情感</a>, <a class="tag-link" href="/tags/%E6%8A%BD%E8%B1%A1%E4%BB%A3%E6%95%B0/" rel="tag">抽象代数</a>, <a class="tag-link" href="/tags/%E6%95%B0%E5%AD%A6/" rel="tag">数学</a>, <a class="tag-link" href="/tags/%E7%BB%9F%E8%AE%A1%E5%AD%A6/" rel="tag">统计学</a>, <a class="tag-link" href="/tags/%E9%9B%86%E5%90%88%E8%AE%BA/" rel="tag">集合论</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>如果你女朋友问你「我是不是世界上最好看的女人？」 </p>
+<p>错误回答：</p>
+<ol>
+<li>是的。（除非你见过世界上所有女人） </li>
+<li>不是。（会没命） </li>
+<li>我不知道。（太虚伪，你女朋友真的比电视上的明星都好看吗？）</li>
+</ol>
+<p>正确回答：</p>
+<ol>
+<li>我觉得美貌不是一个全序关系 (total order) 或偏序关系 (partially ordered)。</li>
+<li>不小于三个标准差吧。</li>
+</ol>
+<h2 id="「好看」背后的抽象代数"><a href="#「好看」背后的抽象代数" class="headerlink" title="「好看」背后的抽象代数"></a>「好看」背后的抽象代数</h2><h3 id="什么是全序集？"><a href="#什么是全序集？" class="headerlink" title="什么是全序集？"></a>什么是全序集？</h3><p>关于什么是「最好看」，我们需要理解一下序。也就是先定义一下什么是「好看」。如果让我们把好看直接量化成一个数字可能太难了。但是我们通常是可以比较两个人之间谁比较好看的问题的。于是我们可以假设一个二元关系（Binary relation），比如 $\geq$，使得对于一个所有女人的集合 $S$ 中存在某两个元素 $a$ 和 $b$，如果 $a$ 比 $b$ 好看，我们就记作 $a \geq b$。</p>
+<p>全序集有三个性质：</p>
+<ol>
+<li>传递性。即如果 $a \geq b$，且 $b \geq c$，那么蕴含 $a \geq c$。</li>
+<li>反对称性。即如果 $a \geq b$ 且 $b \geq a$，那么 $a = b$。</li>
+<li>完全性。即 $a \geq b$ 与 $b \geq a$ 必有一个成立。</li>
+</ol>
+<p>比如我们的整数就是一个全序集，如果整数的个数是有限个的，那么就会存在一个「最大」的数。好在地球上人类的数量是有限的，那么如果「好看」是一个全序集，那么会存在「最好看」的人（可能不唯一）。</p>
+<h3 id="为什么美貌不太可能是个全序关系？"><a href="#为什么美貌不太可能是个全序关系？" class="headerlink" title="为什么美貌不太可能是个全序关系？"></a>为什么美貌不太可能是个全序关系？</h3><p>如果我们遇到 $a \geq b, b \geq c, c \geq a $ 同时成立。如果根据反对称性和传递性，我们易证三者是一样好看的。但在自然语言中，好看的关系通常是严格的，即 $a \gt b, b \gt c, c \gt a $ 。这样三者的序形成了一个环，而不是链，所以美貌不太可能是个全序关系。</p>
+<h3 id="不是全序一定没有最好看吗？"><a href="#不是全序一定没有最好看吗？" class="headerlink" title="不是全序一定没有最好看吗？"></a>不是全序一定没有最好看吗？</h3><p>在非全序关系中，「最好看」虽然不一定会存在，但也可能会存在。一种常见的可能存在的序是偏序。即不需要满足「完成性」，只需要完成自反性，即 $\forall a \in S, a \geq a$。一个典型的例子就是子集集合包含排序。</p>
+<p> <img src="/static/429px-Hasse_diagram_of_powerset_of_3.svg.png" alt="Hasse diagram of powerset of 3"></p>
+<p>偏序集的特点是可能存在某两者无法比较，也就是可能存在数个无法比较的「最好看」，于是我们无法判断出这些「最好看」里谁是真正的「最」。</p>
+<p>不过美貌的序关系可能也不是偏序，因为我们刚刚遇到了「环」的问题。偏序集同样是无法成环的，其应该是一个有向无环图。一旦成环的位置在「最好看」里，我们也会遇到类似于偏序集无法选出「最好看」的问题。</p>
+<p>于是你可以把这个问题抛回给你女朋友，「怎么证明这个世界上『最好看』是存在的」？</p>
+<h2 id="如果我们假设美貌是全序关系"><a href="#如果我们假设美貌是全序关系" class="headerlink" title="如果我们假设美貌是全序关系"></a>如果我们假设美貌是全序关系</h2><h3 id="如何假设美貌的分布"><a href="#如何假设美貌的分布" class="headerlink" title="如何假设美貌的分布"></a>如何假设美貌的分布</h3><p>即使我们抛开对于「好看」序关系的讨论，假设「好看」是可以被量化的。但是由于我们无法接触到世界上所有的女性，我们只能给出一个估计。而这个估计必须先假设一个统计学分布。考虑到大部分人的长相是平凡的，我觉得我们可以假设是「高斯分布 (Gaussian distribution, 常态分布, 正态分布)」的。所以我们可以给出一个对标准差下限的估计来描述女友的好看程度。</p>
+<p><img src="/static/720px-Normal_Distribution_PDF.svg.png" alt="Normal Distribution"></p>
+<h3 id="三个标准差的美貌有多好看？"><a href="#三个标准差的美貌有多好看？" class="headerlink" title="三个标准差的美貌有多好看？"></a>三个标准差的美貌有多好看？</h3><p>我们在样例答案中描述的「不小于三个标准差吧」即估计女友的好看程度能大于 99.73% 的女性，这应该是一个很高的称赞了，毕竟我们会接触过的女性可能也很难超过 $10^4$ 这个数量级。</p>
+<p><img src="/static/Empirical_Rule.PNG" alt="Empirical Rule"></p>
+<h3 id="「我和迪丽热巴谁好看？」"><a href="#「我和迪丽热巴谁好看？」" class="headerlink" title="「我和迪丽热巴谁好看？」"></a>「我和迪丽热巴谁好看？」</h3><p>使用这一基于正态分布的理论，可以有效扩展到另一个送命题上，即「我和迪丽热巴谁好看？」。</p>
+<p>你可以反问「你觉得迪丽热巴有 4 个 σ 吗？」。</p>
+<p>这个问题不最大的难点在于，很难精确实质上估计 4 个 σ 的可信度。就算是 IQ 测试通常也无法估计到这个级别以上。这个分布基本上是本科线上被清华录取的概率，可能和一大堆明星中出一个超大爆款的概率差不多在一个数量级上。</p>
+<p>我倾向认为迪丽热巴是有的，不过你女朋友如果不是一线艺人且觉得自己也有的话，恐怕是要相当有自信了。</p>
+<h2 id="不是数学没有用，是你不会用"><a href="#不是数学没有用，是你不会用" class="headerlink" title="不是数学没有用，是你不会用"></a>不是数学没有用，是你不会用</h2><p>虽然很多人都认为学数学是没有用的，会一点加减乘除就行。但是在这个例子中，我们通过学习抽象代数和统计学巧妙化解了女友问出的「送命题」。</p>
+<p>虽然我没有女朋友，但是数学理论只要自洽应该就可以。这套自洽的体系对于「真空中的球形女朋友」应该适用。不过我也不做保证，要是你用标准答案失败了，建议你去换个数学更好的女友比较好。</p>
+<p>大家都学会了吗？</p>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>加载评论需要在浏览器启用 JavaScript 脚本支持。</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#「好看」背后的抽象代数"><span class="toc-number">1.</span> <span class="toc-text">「好看」背后的抽象代数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是全序集？"><span class="toc-number">1.1.</span> <span class="toc-text">什么是全序集？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#为什么美貌不太可能是个全序关系？"><span class="toc-number">1.2.</span> <span class="toc-text">为什么美貌不太可能是个全序关系？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#不是全序一定没有最好看吗？"><span class="toc-number">1.3.</span> <span class="toc-text">不是全序一定没有最好看吗？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如果我们假设美貌是全序关系"><span class="toc-number">2.</span> <span class="toc-text">如果我们假设美貌是全序关系</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#如何假设美貌的分布"><span class="toc-number">2.1.</span> <span class="toc-text">如何假设美貌的分布</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#三个标准差的美貌有多好看？"><span class="toc-number">2.2.</span> <span class="toc-text">三个标准差的美貌有多好看？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#「我和迪丽热巴谁好看？」"><span class="toc-number">2.3.</span> <span class="toc-text">「我和迪丽热巴谁好看？」</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#不是数学没有用，是你不会用"><span class="toc-number">3.</span> <span class="toc-text">不是数学没有用，是你不会用</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://coderemixer.com/2020/05/21/whos-the-most-beautiful-woman-in-the-world/" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://coderemixer.com/2020/05/21/whos-the-most-beautiful-woman-in-the-world/&text=女朋友问你「我是不是世界上最好看的女人？」怎么办" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://coderemixer.com/2020/05/21/whos-the-most-beautiful-woman-in-the-world/&title=女朋友问你「我是不是世界上最好看的女人？」怎么办" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://coderemixer.com/2020/05/21/whos-the-most-beautiful-woman-in-the-world/&is_video=false&description=女朋友问你「我是不是世界上最好看的女人？」怎么办" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=女朋友问你「我是不是世界上最好看的女人？」怎么办&body=Check out this article: https://coderemixer.com/2020/05/21/whos-the-most-beautiful-woman-in-the-world/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://coderemixer.com/2020/05/21/whos-the-most-beautiful-woman-in-the-world/&title=女朋友问你「我是不是世界上最好看的女人？」怎么办" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://coderemixer.com/2020/05/21/whos-the-most-beautiful-woman-in-the-world/&title=女朋友问你「我是不是世界上最好看的女人？」怎么办" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://coderemixer.com/2020/05/21/whos-the-most-beautiful-woman-in-the-world/&title=女朋友问你「我是不是世界上最好看的女人？」怎么办" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://coderemixer.com/2020/05/21/whos-the-most-beautiful-woman-in-the-world/&title=女朋友问你「我是不是世界上最好看的女人？」怎么办" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://coderemixer.com/2020/05/21/whos-the-most-beautiful-woman-in-the-world/&name=女朋友问你「我是不是世界上最好看的女人？」怎么办&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://coderemixer.com/2020/05/21/whos-the-most-beautiful-woman-in-the-world/&t=女朋友问你「我是不是世界上最好看的女人？」怎么办" target="_blank" rel="noopener"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2020
+    CodeRemixer
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-127825283-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'coderemixer';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+
+</body>
+</html>

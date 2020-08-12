@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="序上篇文章 里我们讲到了定点数和浮点数的区别，我们认识到这两个数字在精度对待上的差异。但是这两个类型的数字都是二进制数，而有些数字本身就是很难用二进制表达的。 比如我们有一个十进制数 $0.1234$，要将其转换成二进制。如果我们采用 32 位 IEEE 754，其结果是 $00111101111111001011100100100100$，转换回十进制是 $0.12340000271797180">
+<meta property="og:type" content="article">
+<meta property="og:title" content="BCD、COBOL、千年虫和昭和 100 年问题">
+<meta property="og:url" content="https://coderemixer.com/2020/05/24/bcd-cobol-showa-100-years-problem/index.html">
+<meta property="og:site_name" content="代码混音师">
+<meta property="og:description" content="序上篇文章 里我们讲到了定点数和浮点数的区别，我们认识到这两个数字在精度对待上的差异。但是这两个类型的数字都是二进制数，而有些数字本身就是很难用二进制表达的。 比如我们有一个十进制数 $0.1234$，要将其转换成二进制。如果我们采用 32 位 IEEE 754，其结果是 $00111101111111001011100100100100$，转换回十进制是 $0.12340000271797180">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://coderemixer.com/static/convert-binary.png">
+<meta property="og:image" content="https://coderemixer.com/static/220px-Logo_AMD64.svg.png">
+<meta property="og:image" content="https://coderemixer.com/static/reiwa.jpg">
+<meta property="article:published_time" content="2020-05-24T04:23:23.000Z">
+<meta property="article:modified_time" content="2020-08-12T09:01:05.999Z">
+<meta property="article:author" content="CodeRemixer">
+<meta property="article:tag" content="日本">
+<meta property="article:tag" content="算法">
+<meta property="article:tag" content="COBOL">
+<meta property="article:tag" content="昭和">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://coderemixer.com/static/convert-binary.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>BCD、COBOL、千年虫和昭和 100 年问题</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/true" title="代码混音师" type="application/atom+xml" />
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/07/26/whats-new-in-ruby-3-fiber/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/05/22/how-floating-number-caused-strange-earthquake/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://coderemixer.com/2020/05/24/bcd-cobol-showa-100-years-problem/" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://coderemixer.com/2020/05/24/bcd-cobol-showa-100-years-problem/&text=BCD、COBOL、千年虫和昭和 100 年问题" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://coderemixer.com/2020/05/24/bcd-cobol-showa-100-years-problem/&title=BCD、COBOL、千年虫和昭和 100 年问题" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://coderemixer.com/2020/05/24/bcd-cobol-showa-100-years-problem/&is_video=false&description=BCD、COBOL、千年虫和昭和 100 年问题" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=BCD、COBOL、千年虫和昭和 100 年问题&body=Check out this article: https://coderemixer.com/2020/05/24/bcd-cobol-showa-100-years-problem/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://coderemixer.com/2020/05/24/bcd-cobol-showa-100-years-problem/&title=BCD、COBOL、千年虫和昭和 100 年问题" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://coderemixer.com/2020/05/24/bcd-cobol-showa-100-years-problem/&title=BCD、COBOL、千年虫和昭和 100 年问题" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://coderemixer.com/2020/05/24/bcd-cobol-showa-100-years-problem/&title=BCD、COBOL、千年虫和昭和 100 年问题" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://coderemixer.com/2020/05/24/bcd-cobol-showa-100-years-problem/&title=BCD、COBOL、千年虫和昭和 100 年问题" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://coderemixer.com/2020/05/24/bcd-cobol-showa-100-years-problem/&name=BCD、COBOL、千年虫和昭和 100 年问题&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://coderemixer.com/2020/05/24/bcd-cobol-showa-100-years-problem/&t=BCD、COBOL、千年虫和昭和 100 年问题" target="_blank" rel="noopener"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#序"><span class="toc-number">1.</span> <span class="toc-text">序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#BCD-二进码十进数"><span class="toc-number">2.</span> <span class="toc-text">BCD (二进码十进数)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#COBOL"><span class="toc-number">3.</span> <span class="toc-text">COBOL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#x86-64"><span class="toc-number">4.</span> <span class="toc-text">x86_64</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#千年虫和昭和-100-年问题"><span class="toc-number">5.</span> <span class="toc-text">千年虫和昭和 100 年问题</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        BCD、COBOL、千年虫和昭和 100 年问题
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">代码混音师</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-05-24T04:23:23.000Z" itemprop="datePublished">2020-05-24</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/COBOL/" rel="tag">COBOL</a>, <a class="tag-link" href="/tags/%E6%97%A5%E6%9C%AC/" rel="tag">日本</a>, <a class="tag-link" href="/tags/%E6%98%AD%E5%92%8C/" rel="tag">昭和</a>, <a class="tag-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="序"><a href="#序" class="headerlink" title="序"></a>序</h2><p><a href="https://coderemixer.com/2020/05/22/how-floating-number-caused-strange-earthquake/">上篇文章</a> 里我们讲到了定点数和浮点数的区别，我们认识到这两个数字在精度对待上的差异。但是这两个类型的数字都是二进制数，而有些数字本身就是很难用二进制表达的。</p>
+<p>比如我们有一个十进制数 $0.1234$，要将其转换成二进制。如果我们采用 32 位 IEEE 754，其结果是 $00111101111111001011100100100100$，转换回十进制是 $0.1234000027179718017578125$ 造成了一个 $2.717 \times 10^{-9}$ 的误差。而如果我们定点数，我们先尝试直接转换：</p>
+<p><img src="/static/convert-binary.png" alt="二进制转换"></p>
+<p>我们至少需要一个 503 位的二进制数才能表达到其开始循环的位数。而且这个在十进制中非常容易表达的数字，在二进制中却变成了非常复杂的循环小数。在一些情况下，我们对于数字在十进制下的精度非常敏感（比如银行），在这种情况下我们应该如何处理数字呢？</p>
+<h2 id="BCD-二进码十进数"><a href="#BCD-二进码十进数" class="headerlink" title="BCD (二进码十进数)"></a>BCD (二进码十进数)</h2><p>对于一个 N 位二进制数，我们很容易知道，其能表达的最大数字量是 $2^N$ 个。十进制数的每一位需要能表达 10 个不同的数字。于是我们有方程 $log_{10}2^N = 1, \lceil N \rceil = 4$，我们可以用 4 个二进制数表达 1 个十进制数（忽略多出来的 6 个数字）。也就是如下表的对应关系：</p>
+<table>
+<thead>
+<tr>
+<th>十进制数</th>
+<th>8</th>
+<th>4</th>
+<th>2</th>
+<th>1</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>2</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr>
+<td>3</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>4</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>5</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>6</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr>
+<td>7</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>8</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>9</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>忽略</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr>
+<td>忽略</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>忽略</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>忽略</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>忽略</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr>
+<td>忽略</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+</tbody></table>
+<p>这就是 BCD (二进码十进数) 的核心设计理念。</p>
+<p>BCD 在计算机中的实现历史悠久。在 Intel 1971 年制造的第一块 CPU Intel 4004 中，其计算系统就是围绕 BCD 设计的（用于驱动计算器）。在之后的 Intel 8008 甚至 x86 架构中都被保留了下来。</p>
+<h2 id="COBOL"><a href="#COBOL" class="headerlink" title="COBOL"></a>COBOL</h2><p>如果我们想在高级语言中使用这一特性，COBOL 是一个很常用的选择。COBOL 出现于 1959 年，是世界上最早实施标准化的计算机语言之一。这门语言在当年是大型商业软件的热门语言。COBOL 支持一种数据类型称为 Comp-3 (Computational-3, Packed Decimal, Packed)，即是我们上面所说的 BCD 数字。</p>
+<p>我们来看下面的 COBOL 程序</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">IDENTIFICATION DIVISION.</span><br><span class="line">PROGRAM-ID. bcd-check.</span><br><span class="line">DATA DIVISION.</span><br><span class="line">WORKING-STORAGE SECTION.</span><br><span class="line">01 A1 PIC 9(1)V9(17) VALUE 0.1.</span><br><span class="line">01 A2 PIC 9(1)V9(17) VALUE 0.2.</span><br><span class="line">01 WR PIC 9(1)V9(30).</span><br><span class="line">PROCEDURE DIVISION.</span><br><span class="line">COMPUTE WR &#x3D; A1 + A2.</span><br><span class="line">IF 0.3 &#x3D; WR THEN</span><br><span class="line">DISPLAY &quot;TRUE&quot;</span><br><span class="line">ELSE</span><br><span class="line">DISPLAY &quot;FALSE&quot;</span><br><span class="line">END-IF.</span><br><span class="line">STOP RUN.</span><br></pre></td></tr></table></figure>
+
+<p>这个程序会打印 <code>TRUE</code>，也就是 0.1 + 0.2 精确地等于 0.3，采用 BCD 定点数不会像浮点数一样多出一些二进制误差。高级语言有这样的特性支持，底层的 CPU 有对应的 BCD 指令集直接进行计算，这对于开发来说不能说是不完美。</p>
+<p>这使得在开发银行的转账业务之类的时候，可以放心大胆地进行加减了，COBOL 在商业领域大放异彩。</p>
+<h2 id="x86-64"><a href="#x86-64" class="headerlink" title="x86_64"></a>x86_64</h2><p>然而，事情不是一成不变的。</p>
+<p><img src="/static/220px-Logo_AMD64.svg.png" alt="AMD64"></p>
+<p>1999 年 AMD 扩展了 x86 指令集，提出了新的 amd64 指令集。此后的 Intel 也采用了兼容的指令集。家用计算机从此迈入 64 位时代。并且随着 Intel 在服务器市场的发力，x86_64 也大量取代了原先的小型机、中型机市场。</p>
+<p>然而 amd64 真的是 x86 兼容的指令集吗？并不是。比如 BCD 相关的指令就被移除了。BCD 对于现代计算机架构来说过于复杂。而且随着计算机架构的进一步发展，特别是今天的 CPU 大量依靠 SIMD 指令来提高性能，而 BCD 这种无法很好对齐二进制的数据处理方式给 SIMD 带来极大的困难，要想让 BCD 在 CPU 指令级别借尸还魂几乎不可能。</p>
+<p>不过这问题不大，毕竟 COBOL 编译器也有在升级，虽然性能上有一定影响但问题不算太大。</p>
+<h2 id="千年虫和昭和-100-年问题"><a href="#千年虫和昭和-100-年问题" class="headerlink" title="千年虫和昭和 100 年问题"></a>千年虫和昭和 100 年问题</h2><p><img src="/static/reiwa.jpg" alt="令和"></p>
+<p>昭和虽然在 1989 年就结束了，但是昭和魂却仍大量活在日本的银行系统中。计算机内部需要一套稳定的纪年方法。在 8/16 位机年代，内存寸土寸金。一般纪年都是通过两位数字来表示，为了方便输出通常用的也是 BCD 整数。比如 1919 年就记成 19。然而随着 2000 年的到来，99 变成 00，直接一夜回到 100 年以前，会造成大量系统故障。这就是所谓「千年虫问题」。日本工程师在设计系统时考虑到千年虫问题会在 2000 年到来，如果使用昭和纪年法，要到昭和 100 年才会遇到类似问题，将千年虫问题延后了 25 年，到 2025 年才会被触发。</p>
+<p>2025 年就是 5 年后，然而 COBOL 在今天已经是几乎被淘汰的语言了，BCD 在常用 CPU 的指令集中再也找不到了。也就是说当年编译的程序如果没有源码将无法二进制兼容地移到新机器上，更不要说通过二进制修改替换成 32 位或者 64 位 BCD 数来直接避开问题。就算有源码，懂怎么写 COBOL 的人也快变成了珍惜资源。当年决定要用昭和来避开千年虫的人恐怕也早就退休了。</p>
+<p>于是五年后的日本将如何应对昭和 100 年问题，让我们继续看下去。</p>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>加载评论需要在浏览器启用 JavaScript 脚本支持。</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#序"><span class="toc-number">1.</span> <span class="toc-text">序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#BCD-二进码十进数"><span class="toc-number">2.</span> <span class="toc-text">BCD (二进码十进数)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#COBOL"><span class="toc-number">3.</span> <span class="toc-text">COBOL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#x86-64"><span class="toc-number">4.</span> <span class="toc-text">x86_64</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#千年虫和昭和-100-年问题"><span class="toc-number">5.</span> <span class="toc-text">千年虫和昭和 100 年问题</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://coderemixer.com/2020/05/24/bcd-cobol-showa-100-years-problem/" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://coderemixer.com/2020/05/24/bcd-cobol-showa-100-years-problem/&text=BCD、COBOL、千年虫和昭和 100 年问题" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://coderemixer.com/2020/05/24/bcd-cobol-showa-100-years-problem/&title=BCD、COBOL、千年虫和昭和 100 年问题" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://coderemixer.com/2020/05/24/bcd-cobol-showa-100-years-problem/&is_video=false&description=BCD、COBOL、千年虫和昭和 100 年问题" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=BCD、COBOL、千年虫和昭和 100 年问题&body=Check out this article: https://coderemixer.com/2020/05/24/bcd-cobol-showa-100-years-problem/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://coderemixer.com/2020/05/24/bcd-cobol-showa-100-years-problem/&title=BCD、COBOL、千年虫和昭和 100 年问题" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://coderemixer.com/2020/05/24/bcd-cobol-showa-100-years-problem/&title=BCD、COBOL、千年虫和昭和 100 年问题" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://coderemixer.com/2020/05/24/bcd-cobol-showa-100-years-problem/&title=BCD、COBOL、千年虫和昭和 100 年问题" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://coderemixer.com/2020/05/24/bcd-cobol-showa-100-years-problem/&title=BCD、COBOL、千年虫和昭和 100 年问题" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://coderemixer.com/2020/05/24/bcd-cobol-showa-100-years-problem/&name=BCD、COBOL、千年虫和昭和 100 年问题&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://coderemixer.com/2020/05/24/bcd-cobol-showa-100-years-problem/&t=BCD、COBOL、千年虫和昭和 100 年问题" target="_blank" rel="noopener"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2020
+    CodeRemixer
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-127825283-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'coderemixer';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+
+</body>
+</html>

@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="引这半个月开源项目拖更，啥事没干成，主要要感谢我的 MacBook Pro。大年二十五，风扇异响；大年二十六，更换风扇；大年二十七，更换风扇后无法通过屏幕自检；大年二十九，更换主板；正月十二，主板短路，浓郁的线路烧焦的气味从风扇口传出；正月十三，机器第五次返厂维修，问题分类「安全性第一问题」，维修后需要返售前检测，预计需要到周四才能修好。这一下子家里一台能用的机器都没有。除了安装着 Windows">
+<meta property="og:type" content="article">
+<meta property="og:title" content="花了半个月捡垃圾">
+<meta property="og:url" content="https://coderemixer.com/2017/02/14/build-up-x79-workstation/index.html">
+<meta property="og:site_name" content="代码混音师">
+<meta property="og:description" content="引这半个月开源项目拖更，啥事没干成，主要要感谢我的 MacBook Pro。大年二十五，风扇异响；大年二十六，更换风扇；大年二十七，更换风扇后无法通过屏幕自检；大年二十九，更换主板；正月十二，主板短路，浓郁的线路烧焦的气味从风扇口传出；正月十三，机器第五次返厂维修，问题分类「安全性第一问题」，维修后需要返售前检测，预计需要到周四才能修好。这一下子家里一台能用的机器都没有。除了安装着 Windows">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://l.ruby-china.org/photo/2017/34bb70e4258c71e71908eae46e31a583.png!large">
+<meta property="og:image" content="https://l.ruby-china.org/photo/2017/f4e39f04b995c095e0458c403734a1ab.jpg!large">
+<meta property="og:image" content="https://l.ruby-china.org/photo/2017/41a2d8cfd20d780d8d805a5ce4d74c9a.jpg!large">
+<meta property="og:image" content="https://l.ruby-china.org/photo/2017/7a4ee77fb37a26ff65b5535f2acf1ce6.png!large">
+<meta property="og:image" content="https://l.ruby-china.org/photo/2017/60c5130673116193e45d080b40cf621f.jpg!large">
+<meta property="og:image" content="https://l.ruby-china.org/photo/2017/68b6c0790b8eef45a93d262d42a88ef2.jpg!large">
+<meta property="article:published_time" content="2017-02-14T12:51:58.000Z">
+<meta property="article:modified_time" content="2020-08-12T09:01:05.999Z">
+<meta property="article:author" content="CodeRemixer">
+<meta property="article:tag" content="生活">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://l.ruby-china.org/photo/2017/34bb70e4258c71e71908eae46e31a583.png!large">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>花了半个月捡垃圾</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/true" title="代码混音师" type="application/atom+xml" />
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2017/05/17/spit-bugs/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2016/10/29/is-eval-evil/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://coderemixer.com/2017/02/14/build-up-x79-workstation/" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://coderemixer.com/2017/02/14/build-up-x79-workstation/&text=花了半个月捡垃圾" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://coderemixer.com/2017/02/14/build-up-x79-workstation/&title=花了半个月捡垃圾" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://coderemixer.com/2017/02/14/build-up-x79-workstation/&is_video=false&description=花了半个月捡垃圾" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=花了半个月捡垃圾&body=Check out this article: https://coderemixer.com/2017/02/14/build-up-x79-workstation/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://coderemixer.com/2017/02/14/build-up-x79-workstation/&title=花了半个月捡垃圾" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://coderemixer.com/2017/02/14/build-up-x79-workstation/&title=花了半个月捡垃圾" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://coderemixer.com/2017/02/14/build-up-x79-workstation/&title=花了半个月捡垃圾" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://coderemixer.com/2017/02/14/build-up-x79-workstation/&title=花了半个月捡垃圾" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://coderemixer.com/2017/02/14/build-up-x79-workstation/&name=花了半个月捡垃圾&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://coderemixer.com/2017/02/14/build-up-x79-workstation/&t=花了半个月捡垃圾" target="_blank" rel="noopener"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引"><span class="toc-number">1.</span> <span class="toc-text">引</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#捡垃圾思路"><span class="toc-number">2.</span> <span class="toc-text">捡垃圾思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#改装机箱"><span class="toc-number">3.</span> <span class="toc-text">改装机箱</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#改装散热"><span class="toc-number">4.</span> <span class="toc-text">改装散热</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装系统"><span class="toc-number">5.</span> <span class="toc-text">安装系统</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#成品和效果"><span class="toc-number">6.</span> <span class="toc-text">成品和效果</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#细节"><span class="toc-number">7.</span> <span class="toc-text">细节</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#为什么散热器厂家都喜欢弄灯，弄得这服务器一整个光污染！"><span class="toc-number">8.</span> <span class="toc-text">为什么散热器厂家都喜欢弄灯，弄得这服务器一整个光污染！</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        花了半个月捡垃圾
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">代码混音师</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2017-02-14T12:51:58.000Z" itemprop="datePublished">2017-02-14</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/%E7%94%9F%E6%B4%BB/" rel="tag">生活</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="引"><a href="#引" class="headerlink" title="引"></a>引</h2><p>这半个月开源项目拖更，啥事没干成，主要要感谢我的 MacBook Pro。大年二十五，风扇异响；大年二十六，更换风扇；大年二十七，更换风扇后无法通过屏幕自检；大年二十九，更换主板；正月十二，主板短路，浓郁的线路烧焦的气味从风扇口传出；正月十三，机器第五次返厂维修，问题分类「安全性第一问题」，维修后需要返售前检测，预计需要到周四才能修好。这一下子家里一台能用的机器都没有。除了安装着 Windows 的一台机器，还有一台是 NAS，唯一装着 Linux 的是一台软路由。于是决定捡垃圾捡台新机器来写代码。</p>
+<h2 id="捡垃圾思路"><a href="#捡垃圾思路" class="headerlink" title="捡垃圾思路"></a>捡垃圾思路</h2><ul>
+<li>Q: 为什么是捡垃圾？</li>
+<li>A: 因为是备机，不想花太多钱。穷。</li>
+<li>Q: 从哪里捡？</li>
+<li>A: 本来打算从闲鱼捡，后来想想闲鱼二手可靠性太差，最后还是打算主要零件从淘宝捡，一些配件从京东捡。</li>
+<li>Q: 需要满足的需求？</li>
+<li>A: 完美的日常编码和跑机器学习。</li>
+</ul>
+<p>主要是最近写了点卷积神经网络，放 CPU 上跑实在太慢。一开始试图接了个 GTX970，然后我这个数据预处理又太慢，最好能搞个核心数足够多的机器，这样才能爽。</p>
+<p>一说到核心数多，第一反应就是二手服务器。1800 元收了个 IBM 的二手服务器，一代志强 E5645 双路，64GB 内存，2 块 SATA 的 1TB 机械硬盘。本来想把机器拆了，改装到家用主机上。因为服务器风墙实在太吵，实测 70db 噪音，受不了。</p>
+<ul>
+<li>Q: 为什么服务器二手那么便宜？</li>
+<li>A: 很多服务器都是过了保修期就白菜价卖出来的，比如我手上的机器是百度卖出来的，开机自检还有百度 Logo。服务器的内存由于是 ecc 的，和 PC 内存不通用，更是便宜，这半个月翻遍淘宝，ddr3 reg ecc 内存的底价大约是 28 元 4GB，90 元 8GB。</li>
+</ul>
+<h2 id="改装机箱"><a href="#改装机箱" class="headerlink" title="改装机箱"></a>改装机箱</h2><p>结果 IBM 机器一拆，定制的主板规格，没有机箱能塞得下，只能另寻它路，最后买了块泰安 S7012 主板，这板子比英特尔的公版还好用，内存插槽 18 个，5 条 pci-e x8。英特尔的公版为了能让你差显卡，弄了个 x16 孔位的 x8，而这块主板更暴力，直接 x8 尾部不封死，想插几块 x16 随便你。说着也有意思，德州仪器不是山东的是美国的；泰安电脑是台湾的也不是山东的。这个山东地名真是风水好，建议硬件创业者可以观望注册。</p>
+<p>京东上买了个先马坦克机箱打算装机，因为听说这机器拆掉了硬盘位正好能塞下 EEB-ATX 规格的主板。谁知道拿到货发现上当了，EEB-ATX 铜柱的孔位确实留了出来，但是孔位没有攻丝，据说早先批次的机箱是有攻丝的，新批次的机箱取消了。而我没有丝锥，这下就麻烦了。于是去楼下五金店要了个自攻螺丝，拧进去拔出来，然后把铜柱再拧进去，解决。</p>
+<h2 id="改装散热"><a href="#改装散热" class="headerlink" title="改装散热"></a>改装散热</h2><p>泰安 S7012 虽然使用 1366 针，但散热器规格和标准的 1366 颇有区别，主要在于背后上了个不锈钢的富士康背板，正面留出的是四个 M3 螺丝槽位，而不是四个大洞，这大大方便了服务器风墙的安装，但 PC 散热器就装不上了。如果你使用的是有背板的散热器，很遗憾的是，怎么都是装不上的；再三尝试下，发现，扣具式的散热器，可以改装上去。具体方法是：</p>
+<ol>
+<li>准备一个 1366 扣具式的散热器</li>
+<li>将提供的膨胀螺丝的下半部分剪掉，用以作为正常螺丝的垫片固定</li>
+<li>使用 M3 螺丝拧入固定</li>
+</ol>
+<p><img src="https://l.ruby-china.org/photo/2017/34bb70e4258c71e71908eae46e31a583.png!large" alt=""></p>
+<p>遇到的比较坑爹的问题是，楼下的五金店根本不懂 M3 是什么，经询问，发现这个不能去建材的五金店买，要去标准件店购买。不过后来在百安居的五金区域里找到了这个螺丝，拧入。</p>
+<h2 id="安装系统"><a href="#安装系统" class="headerlink" title="安装系统"></a>安装系统</h2><p>由于主板过于古老，无法识别 USB-HDD 作为启动项。烧录 Windows 镜像到 USB 后，需要用 Force FDD 的模式，把 USB-HDD 转换成 USB-FDD 作为软盘读取，安装，成功。不过安装 Ubuntu 时就没那么幸运了，主要是，FDD 模式的 Ubuntu ISO 根本没法运行。最后在 Windows 下安装了 GRUB4DOS 作为引导，引导硬盘中的 ISO 安装。坑很多，特别是 GTX-970 驱动不识别，安装一点直接黑屏。需要加入启动参数 nomodeset，安装完毕后进入恢复模式选择安装专有驱动，开机，解决。</p>
+<h2 id="成品和效果"><a href="#成品和效果" class="headerlink" title="成品和效果"></a>成品和效果</h2><p>机器弄完是这样的。噪音 12db，比起 70db 完全是可以睡觉的音量了。</p>
+<p><img src="https://l.ruby-china.org/photo/2017/f4e39f04b995c095e0458c403734a1ab.jpg!large" alt=""></p>
+<p><img src="https://l.ruby-china.org/photo/2017/41a2d8cfd20d780d8d805a5ce4d74c9a.jpg!large" alt=""></p>
+<p>不服跑个分？</p>
+<p><img src="https://l.ruby-china.org/photo/2017/7a4ee77fb37a26ff65b5535f2acf1ce6.png!large" alt=""></p>
+<p>7zip 压缩和解压缩是 i7-5930K 的 1.2 倍性能，跑纯 CPU 的机器学习速度是 i7-4770K 的四倍。多核的优势被完全体现出来了，给一代志强又续了一秒。</p>
+<p>不过这玩意游戏性能就捉急了，毕竟主频不高。不过由于显卡用了 GTX970，画质上还是不会有什么问题的。守望先锋 1080P 最高画质，60fps+ 流畅运行，但只能占用 14% 的 CPU，大约是完整吃掉 3 个逻辑核心的样子；</p>
+<p><img src="https://l.ruby-china.org/photo/2017/60c5130673116193e45d080b40cf621f.jpg!large" alt=""></p>
+<p>文明 6 2560x1080 最高画质，30 fps 到 60 fps 之间波动。不过文明 6 对多核有较好的优化，能占用 25% 左右的 CPU。</p>
+<p><img src="https://l.ruby-china.org/photo/2017/68b6c0790b8eef45a93d262d42a88ef2.jpg!large" alt=""></p>
+<p>在一些多核优化很差的游戏上就完全不忍直视了。可见这机器虽然物美价廉，但是你得熟悉你用在那里才能发挥它最大的价值。</p>
+<h2 id="细节"><a href="#细节" class="headerlink" title="细节"></a>细节</h2><p>IBM 服务器使用的硬盘位螺丝极其复杂，标准件编号是 T6H，和传统梅花六角螺丝不同，中间还有个凸起，所以需要梅花六角中空心螺丝刀。这种螺丝刀一般出现在 T10 以上的大螺丝上，而 IBM 的硬盘位用的是 T6 规格的小螺丝。。。除了淘宝暂时没找到能买到这螺丝刀的地方。</p>
+<p>服务器主板 I/O 口很少，没有板载声卡和板载 USB 3.0，我是通过 PCI-e 扩展获得的。</p>
+<p>电源要求很复杂，因为双路需要 24+8+8 两个 CPU 电源供电，如果是全模组电源，应该是能搞的，支持这个的非模组电源很难找。</p>
+<p>耗电略高，发热略高。至强一代有个特点就是待机功耗高，满负载其实还好。</p>
+<p>仔细算了下，如果你没有走我很多弯路，大概能在 4000 左右搞下整台机器，而我花了 5000。（此价格包括一块 240GB 的 SSD 和一块 GTX970 的显卡，在家里翻出来的。。。如果买二手的话价格还能进一步压下去）</p>
+<p>最后我有个问题：</p>
+<h2 id="为什么散热器厂家都喜欢弄灯，弄得这服务器一整个光污染！"><a href="#为什么散热器厂家都喜欢弄灯，弄得这服务器一整个光污染！" class="headerlink" title="为什么散热器厂家都喜欢弄灯，弄得这服务器一整个光污染！"></a>为什么散热器厂家都喜欢弄灯，弄得这服务器一整个光污染！</h2>
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>加载评论需要在浏览器启用 JavaScript 脚本支持。</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引"><span class="toc-number">1.</span> <span class="toc-text">引</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#捡垃圾思路"><span class="toc-number">2.</span> <span class="toc-text">捡垃圾思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#改装机箱"><span class="toc-number">3.</span> <span class="toc-text">改装机箱</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#改装散热"><span class="toc-number">4.</span> <span class="toc-text">改装散热</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装系统"><span class="toc-number">5.</span> <span class="toc-text">安装系统</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#成品和效果"><span class="toc-number">6.</span> <span class="toc-text">成品和效果</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#细节"><span class="toc-number">7.</span> <span class="toc-text">细节</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#为什么散热器厂家都喜欢弄灯，弄得这服务器一整个光污染！"><span class="toc-number">8.</span> <span class="toc-text">为什么散热器厂家都喜欢弄灯，弄得这服务器一整个光污染！</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://coderemixer.com/2017/02/14/build-up-x79-workstation/" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://coderemixer.com/2017/02/14/build-up-x79-workstation/&text=花了半个月捡垃圾" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://coderemixer.com/2017/02/14/build-up-x79-workstation/&title=花了半个月捡垃圾" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://coderemixer.com/2017/02/14/build-up-x79-workstation/&is_video=false&description=花了半个月捡垃圾" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=花了半个月捡垃圾&body=Check out this article: https://coderemixer.com/2017/02/14/build-up-x79-workstation/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://coderemixer.com/2017/02/14/build-up-x79-workstation/&title=花了半个月捡垃圾" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://coderemixer.com/2017/02/14/build-up-x79-workstation/&title=花了半个月捡垃圾" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://coderemixer.com/2017/02/14/build-up-x79-workstation/&title=花了半个月捡垃圾" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://coderemixer.com/2017/02/14/build-up-x79-workstation/&title=花了半个月捡垃圾" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://coderemixer.com/2017/02/14/build-up-x79-workstation/&name=花了半个月捡垃圾&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://coderemixer.com/2017/02/14/build-up-x79-workstation/&t=花了半个月捡垃圾" target="_blank" rel="noopener"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2020
+    CodeRemixer
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-127825283-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'coderemixer';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+
+</body>
+</html>

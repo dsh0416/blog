@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="一些理由众所周知，我从小接受的用于标记现代标准汉语的系统是「汉语拼音」。两年前，我决定学习一下「注音符号」。注音符号是以章太炎编创的「纽文」、「韵文」为蓝本，设计的一套汉语拼音方案。其实最早决定去学的原因还是好奇好玩，用一套完全不熟悉的拼读系统来学习自己已经掌握的汉语发音，可以很好从另一个方面来认识汉语的发音系统。最后也证明这样的形式确实帮助我从某种角度重新认识了汉语发音，特别是当这套系统和汉语拼">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从 bopomofo 说起 —— 学习注音符号后对拼音系统的一些新体悟">
+<meta property="og:url" content="https://coderemixer.com/2020/01/10/from-bopomofo/index.html">
+<meta property="og:site_name" content="代码混音师">
+<meta property="og:description" content="一些理由众所周知，我从小接受的用于标记现代标准汉语的系统是「汉语拼音」。两年前，我决定学习一下「注音符号」。注音符号是以章太炎编创的「纽文」、「韵文」为蓝本，设计的一套汉语拼音方案。其实最早决定去学的原因还是好奇好玩，用一套完全不熟悉的拼读系统来学习自己已经掌握的汉语发音，可以很好从另一个方面来认识汉语的发音系统。最后也证明这样的形式确实帮助我从某种角度重新认识了汉语发音，特别是当这套系统和汉语拼">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-01-10T13:06:49.000Z">
+<meta property="article:modified_time" content="2020-08-12T09:01:06.001Z">
+<meta property="article:author" content="CodeRemixer">
+<meta property="article:tag" content="语言学">
+<meta property="article:tag" content="汉语">
+<meta property="article:tag" content="官话">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>从 bopomofo 说起 —— 学习注音符号后对拼音系统的一些新体悟</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/true" title="代码混音师" type="application/atom+xml" />
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/01/14/archetypes-humanity/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/01/07/archetypes-listener/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://coderemixer.com/2020/01/10/from-bopomofo/" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://coderemixer.com/2020/01/10/from-bopomofo/&text=从 bopomofo 说起 —— 学习注音符号后对拼音系统的一些新体悟" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://coderemixer.com/2020/01/10/from-bopomofo/&title=从 bopomofo 说起 —— 学习注音符号后对拼音系统的一些新体悟" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://coderemixer.com/2020/01/10/from-bopomofo/&is_video=false&description=从 bopomofo 说起 —— 学习注音符号后对拼音系统的一些新体悟" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=从 bopomofo 说起 —— 学习注音符号后对拼音系统的一些新体悟&body=Check out this article: https://coderemixer.com/2020/01/10/from-bopomofo/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://coderemixer.com/2020/01/10/from-bopomofo/&title=从 bopomofo 说起 —— 学习注音符号后对拼音系统的一些新体悟" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://coderemixer.com/2020/01/10/from-bopomofo/&title=从 bopomofo 说起 —— 学习注音符号后对拼音系统的一些新体悟" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://coderemixer.com/2020/01/10/from-bopomofo/&title=从 bopomofo 说起 —— 学习注音符号后对拼音系统的一些新体悟" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://coderemixer.com/2020/01/10/from-bopomofo/&title=从 bopomofo 说起 —— 学习注音符号后对拼音系统的一些新体悟" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://coderemixer.com/2020/01/10/from-bopomofo/&name=从 bopomofo 说起 —— 学习注音符号后对拼音系统的一些新体悟&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://coderemixer.com/2020/01/10/from-bopomofo/&t=从 bopomofo 说起 —— 学习注音符号后对拼音系统的一些新体悟" target="_blank" rel="noopener"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一些理由"><span class="toc-number">1.</span> <span class="toc-text">一些理由</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#前四个声母"><span class="toc-number">2.</span> <span class="toc-text">前四个声母</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#e-的奇妙之旅"><span class="toc-number">3.</span> <span class="toc-text">e 的奇妙之旅</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#尾声"><span class="toc-number">4.</span> <span class="toc-text">尾声</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        从 bopomofo 说起 —— 学习注音符号后对拼音系统的一些新体悟
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">代码混音师</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-01-10T13:06:49.000Z" itemprop="datePublished">2020-01-10</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/%E5%AE%98%E8%AF%9D/" rel="tag">官话</a>, <a class="tag-link" href="/tags/%E6%B1%89%E8%AF%AD/" rel="tag">汉语</a>, <a class="tag-link" href="/tags/%E8%AF%AD%E8%A8%80%E5%AD%A6/" rel="tag">语言学</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="一些理由"><a href="#一些理由" class="headerlink" title="一些理由"></a>一些理由</h2><p>众所周知，我从小接受的用于标记现代标准汉语的系统是「汉语拼音」。两年前，我决定学习一下「注音符号」。注音符号是以章太炎编创的「纽文」、「韵文」为蓝本，设计的一套汉语拼音方案。其实最早决定去学的原因还是好奇好玩，用一套完全不熟悉的拼读系统来学习自己已经掌握的汉语发音，可以很好从另一个方面来认识汉语的发音系统。最后也证明这样的形式确实帮助我从某种角度重新认识了汉语发音，特别是当这套系统和汉语拼音符号本身产生差异的时候，通过深究差异产生的原因，极大提高了我对汉语发音的理解，可以说是受益良多。下面就来分享一些，我学习过程中遇到的一些有意思的事情。</p>
+<p>先放一个我在 YouTube 上看到的「注音符号歌」，让没有听说过这个系统的人有个大概的印象。</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/n0G-cKUkt3c" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+<p>（比较可怕的是这个影片播放完后的推荐影片里都是一些真的不明所以非常奇怪的儿童影片）</p>
+<h2 id="前四个声母"><a href="#前四个声母" class="headerlink" title="前四个声母"></a>前四个声母</h2><p>一个有意思的现象是，虽然「注音符号」的英文叫「Bopomofo Symbols」。但显然，背诵注音符号表的时候，这四个音用的都不是 /o/ 的韵母，而是使用 /ɤ/。「ㄅㄆㄇㄈ」念成 /pɤ/ /pʰɤ/ /mɤ/ /fɤ/。相反，我们在背诵汉语拼音表的时候，倒是真的拼成了 /o/，bo po mo fo /po/ /pʰo/ /mo/ /fo/ 。</p>
+<p>不过突然发现，bo po mo fo 小时候老师教的都是发成闭口呼，也就是 ㄅㄨㄛ buo ㄆㄨㄛ puo ㄇㄨㄛ muo ㄈㄨㄛ fuo。但是无论是查大陆的使用拼音的字典，还是台湾的教育部国语辞典，都不会拼入ㄨ，坚持使用开口呼。而且看一些比较权威的汉语拼音或者注音的教学录音，都是录的开口呼，和学得并不一样。</p>
+<p>查了一下发现，北京音的「波（ㄅㄛ）坡（ㄆㄛ）摸（ㄇㄛ）佛（ㄈㄛ）」一直到新国音还一直开口呼。拼成 bo po mo fo 很好保留了当时的语音。一直到近几十年，才有人开始不区分开口呼和闭口呼，把「菠菜」念成ㄅㄨㄛ ㄘㄞˋ，这不是什么省略 ㄨ (u) 的结果。</p>
+<p>而北京音在晚清到民国早年「多（ㄉㄛ）拖（ㄊㄛ）挪（ㄋㄛ）罗（ㄌㄛ）」虽然也是开口呼，到新国音的时候就已经逐渐转换成闭口呼，也就是 ㄉㄨㄛ ㄊㄨㄛ ㄋㄨㄛ ㄌㄨㄛ，所以汉语拼音也是按 duo tuo nuo luo 拼写。</p>
+<h2 id="e-的奇妙之旅"><a href="#e-的奇妙之旅" class="headerlink" title="e 的奇妙之旅"></a>e 的奇妙之旅</h2><p>另外一个发现就是，汉语拼音里的 e，实际上发的音可太多了，因为注音把所有复合韵母单独设计了符号，所以一下子显得特别明显。整理了一下，至少可以发 /ɤ/ /e/ /ə/ 这三个音，还可能在一些情况下发成 /ɑ/ 或者 /ɐ/ 这种听起来更像 a 的音。在注音符号中，复音韵母使用完全独立的符号，但是在汉语拼音中使用一些单音韵母的符号再进行一些组合，但是复音韵母可能和单音韵母的发音有很大的差异。</p>
+<p>下面给一些例子：</p>
+<p>得 (ㄉㄜˊ, dé) 里的韵母是 /ɤ/</p>
+<p>谁 (ㄕㄟˊ, shéi) 里的韵母是 /ei̯/</p>
+<p>申 (ㄕㄣ, shēn) 里的韵母是 /ən/</p>
+<p>生 (ㄕㄥ, shēng) 里的韵母是 /ɤŋ/</p>
+<p>另外还有个最奇怪的「二」（ㄦˋ, èr），包括我在内的很多人都会念成 /ɐɻ/。我查了下，很多教程上的 IPA 拼音标成了 /ɑɻ/。如果是这么发的话，汉语拼音是不是标成 àr 更好？查了一下，一说是对于是 /ɐɚ/ /ɑɻ/ /ɤɻ/ 还是 /ɚ/ 存在很大争议。20 年代的很多北京话录音中，发得比较接近 /ɚ/ 到 /əɻ/ 中间的感觉，所以这一标记也可能是历史原因产生的。</p>
+<h2 id="尾声"><a href="#尾声" class="headerlink" title="尾声"></a>尾声</h2><p>现代标准汉语是基于北京音设计的，而这里的北京音和现在的北京音还是有很大差异的。要想理解注音符号和汉语拼音的很多特点，确实需要了解那个时空北京下的北京音。我在写这个文章的时候，发现了一个非常有意思的系列视频，最后推荐大家看一看。里面对很多细节的描述也非常清晰，我甚至是看了这个影片后才发现，现代标准汉语里的「你」「娘」「牛」韵母是 /n/ 而不是硬腭化的 /ɲ/ 或者 /ȵ/，给我念错几十年的人生带来了极大的震撼。</p>
+<iframe src="//player.bilibili.com/player.html?aid=62002848&cid=137623039&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
+
+<p><a href="https://www.bilibili.com/video/av62002848/" target="_blank" rel="noopener">影片地址</a></p>
+<p>对于文字不能直接反映读音的语言来说，通常都会引入一个标注发音的方案，从美语的 KK 音标，现代标准汉语的注音、拼音、威妥玛，以及很多方言的像是闽拼、台罗、教罗、上海话钱乃荣方案、耶鲁粤拼、香港教育学院粤拼等一大堆拼音方案。很多方案直接的标注都是互相冲突的，有的时候看到这堆拉丁字母，真的不知道到底要怎么读。但每个方案都有自己设计的时空背景、设计的动机，通过了解这些不同方案设计的背景和动机，可以从不同的角度重新认识语言，让自己对于语音的理解提升更高的层次。</p>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>加载评论需要在浏览器启用 JavaScript 脚本支持。</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一些理由"><span class="toc-number">1.</span> <span class="toc-text">一些理由</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#前四个声母"><span class="toc-number">2.</span> <span class="toc-text">前四个声母</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#e-的奇妙之旅"><span class="toc-number">3.</span> <span class="toc-text">e 的奇妙之旅</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#尾声"><span class="toc-number">4.</span> <span class="toc-text">尾声</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://coderemixer.com/2020/01/10/from-bopomofo/" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://coderemixer.com/2020/01/10/from-bopomofo/&text=从 bopomofo 说起 —— 学习注音符号后对拼音系统的一些新体悟" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://coderemixer.com/2020/01/10/from-bopomofo/&title=从 bopomofo 说起 —— 学习注音符号后对拼音系统的一些新体悟" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://coderemixer.com/2020/01/10/from-bopomofo/&is_video=false&description=从 bopomofo 说起 —— 学习注音符号后对拼音系统的一些新体悟" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=从 bopomofo 说起 —— 学习注音符号后对拼音系统的一些新体悟&body=Check out this article: https://coderemixer.com/2020/01/10/from-bopomofo/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://coderemixer.com/2020/01/10/from-bopomofo/&title=从 bopomofo 说起 —— 学习注音符号后对拼音系统的一些新体悟" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://coderemixer.com/2020/01/10/from-bopomofo/&title=从 bopomofo 说起 —— 学习注音符号后对拼音系统的一些新体悟" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://coderemixer.com/2020/01/10/from-bopomofo/&title=从 bopomofo 说起 —— 学习注音符号后对拼音系统的一些新体悟" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://coderemixer.com/2020/01/10/from-bopomofo/&title=从 bopomofo 说起 —— 学习注音符号后对拼音系统的一些新体悟" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://coderemixer.com/2020/01/10/from-bopomofo/&name=从 bopomofo 说起 —— 学习注音符号后对拼音系统的一些新体悟&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://coderemixer.com/2020/01/10/from-bopomofo/&t=从 bopomofo 说起 —— 学习注音符号后对拼音系统的一些新体悟" target="_blank" rel="noopener"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2020
+    CodeRemixer
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-127825283-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'coderemixer';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+
+</body>
+</html>

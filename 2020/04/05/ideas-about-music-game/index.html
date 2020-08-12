@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="Stanley Parable 中通过对 Stanley 工作的描写，讽刺了一些电子游戏的本质。「屏幕上让 Stanley 按一个键，Stanley 就按下那个键」许多电子游戏事实上就是如此，本质上就是一些充满了 QTE 的播片。如果延伸到音乐游戏上，事实上就延展出了对于音乐游戏「音乐性 (musicality)」的探讨。 如果让我找个音乐游戏中最没有音乐性的，应该就是劲舞团（Audition,">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一些关于音乐游戏的想法">
+<meta property="og:url" content="https://coderemixer.com/2020/04/05/ideas-about-music-game/index.html">
+<meta property="og:site_name" content="代码混音师">
+<meta property="og:description" content="Stanley Parable 中通过对 Stanley 工作的描写，讽刺了一些电子游戏的本质。「屏幕上让 Stanley 按一个键，Stanley 就按下那个键」许多电子游戏事实上就是如此，本质上就是一些充满了 QTE 的播片。如果延伸到音乐游戏上，事实上就延展出了对于音乐游戏「音乐性 (musicality)」的探讨。 如果让我找个音乐游戏中最没有音乐性的，应该就是劲舞团（Audition,">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-04-05T02:14:42.000Z">
+<meta property="article:modified_time" content="2020-08-12T09:01:06.002Z">
+<meta property="article:author" content="CodeRemixer">
+<meta property="article:tag" content="游戏">
+<meta property="article:tag" content="音乐">
+<meta property="article:tag" content="随笔">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>一些关于音乐游戏的想法</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/true" title="代码混音师" type="application/atom+xml" />
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/04/11/learn-music-theory-with-ruby-1/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/03/15/fast-srt-subtitle/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://coderemixer.com/2020/04/05/ideas-about-music-game/" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://coderemixer.com/2020/04/05/ideas-about-music-game/&text=一些关于音乐游戏的想法" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://coderemixer.com/2020/04/05/ideas-about-music-game/&title=一些关于音乐游戏的想法" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://coderemixer.com/2020/04/05/ideas-about-music-game/&is_video=false&description=一些关于音乐游戏的想法" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=一些关于音乐游戏的想法&body=Check out this article: https://coderemixer.com/2020/04/05/ideas-about-music-game/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://coderemixer.com/2020/04/05/ideas-about-music-game/&title=一些关于音乐游戏的想法" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://coderemixer.com/2020/04/05/ideas-about-music-game/&title=一些关于音乐游戏的想法" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://coderemixer.com/2020/04/05/ideas-about-music-game/&title=一些关于音乐游戏的想法" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://coderemixer.com/2020/04/05/ideas-about-music-game/&title=一些关于音乐游戏的想法" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://coderemixer.com/2020/04/05/ideas-about-music-game/&name=一些关于音乐游戏的想法&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://coderemixer.com/2020/04/05/ideas-about-music-game/&t=一些关于音乐游戏的想法" target="_blank" rel="noopener"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        一些关于音乐游戏的想法
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">代码混音师</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-04-05T02:14:42.000Z" itemprop="datePublished">2020-04-05</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/%E6%B8%B8%E6%88%8F/" rel="tag">游戏</a>, <a class="tag-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a>, <a class="tag-link" href="/tags/%E9%9F%B3%E4%B9%90/" rel="tag">音乐</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>Stanley Parable 中通过对 Stanley 工作的描写，讽刺了一些电子游戏的本质。「屏幕上让 Stanley 按一个键，Stanley 就按下那个键」许多电子游戏事实上就是如此，本质上就是一些充满了 QTE 的播片。如果延伸到音乐游戏上，事实上就延展出了对于音乐游戏「音乐性 (musicality)」的探讨。</p>
+<p>如果让我找个音乐游戏中最没有音乐性的，应该就是劲舞团（Audition, X-BEAT）。这东西背后放什么音乐和你敲下去什么东西基本没有任何关系，除了你需要在合拍 (multiple-levels) 上敲空格以外。如果我们追溯音乐游戏的早期，其实音乐游戏制作人对于音乐游戏本身的思考其实是很多样的，像是 1996 年发售的 パラッパラッパー 基本上是一个对节奏的 call and response，从最基本的正拍节奏开始，慢慢引入各种复杂的节奏型。同样类型的其实还有 1999 年的 Space Channel 5，这款游戏甚至没有视觉上即将到来音符的任何提示，完全需要依靠听力和对节奏的记忆来完成游戏。不过这些依赖说唱发展的节奏游戏必然逃不开对唱和模仿的形式。设计得更加精妙的类型是节奏天国（リズム天国），通过把各种节奏型转换成一系列小游戏，视觉反馈是滞后的，用户需要在一些简单练习后通过掌握音乐本身的节奏来自行完成对游戏内按键的判断。</p>
+<p>现在比较流行的音乐游戏，主要还是受启发于 1997 年发售的 beatmania 比较大。这类游戏本质上模拟乐器发出声音的节奏，有提前的视觉提示，几乎不会在没有声音的地方按键，相对来说对于节奏感的要求是很低的，上手的难度低。但这类游戏好模仿的一个原因是，简单调整演出和按键方式就可以相对容易做出新游戏，也很容易将现有的歌曲做成游戏内的关卡便于长期运营。增加难度的方法也比较容易，只需要增加音符出现的密度。像是 Space Channel 5 Part 2 最后大决战的演出里搞过一些密集的 16 分音符以外，通常都没有快到按不出来的按键，但是这样的现象在现在的音乐游戏中极其常见。同时，这样游戏也还可以通过提高判定严格程度来提高难度。在节奏天国这样的游戏里，把判定难度放到 10 个 frame 左右大多数人就会很难算准节奏了，而在视觉和听觉实际演奏音符的双重刺激下，经过练习，现代音游里动不动就可以把判定放到 6 个 frame 甚至更低。这也让玩家在通关后的成就感大幅提升。但这样的难度提升其实不是「音乐性」上难度的提升，其实就是单纯「恶心」人而已。当然这里「恶心」不是什么贬义词，我也很吃恶心这套。</p>
+<p>但这类游戏有个问题是，这样的游戏对于音乐的理解是很有问题的。因为音乐中不是这里大声就一定是重拍，这种对于节奏的理解实在太过肤浅，基本就是把人当成背谱机器。这就像我们不能通过科幻小说来学习科学知识。你不能看完大刘的《球形闪电》就真的认为「盯着东西看，波函数会塌缩」。但是音乐本身不是一个艰涩的科学知识，它本来就是充满了人天生的对节奏的内在感受，是一个每个人都能享受的东西。所以我们才已经有一些游戏做到了真正把音乐游戏做成围绕「音乐」本身设计的游戏，而不是一个换了皮的 QTE 游戏。</p>
+<p>但我也很难说这种克服恶心下得到的成就感比较高，还是在游戏后自己感觉到自己对于音乐的理解有提升的这种好奇心带来的成就高。对于我来说，还是后者比较开心，而且后者也更可以做成一个共乐的游戏，而不是在一个音游的小圈子里大家天天在那里埋头背谱练习。只不过我们已经有很多年再也没有类似设计目的的游戏了。虽然这类游戏销量其实也都不低，有好几款都是大卖的爆款。但和那些能提供长期营收的流水音游来说，还是差了点。不知道有没有什么方法可以同时兼顾游戏性和商业性。</p>
+<p>不知道各位游戏制作人有没有什么想法，也算是能了我一个心愿了。</p>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>加载评论需要在浏览器启用 JavaScript 脚本支持。</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://coderemixer.com/2020/04/05/ideas-about-music-game/" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://coderemixer.com/2020/04/05/ideas-about-music-game/&text=一些关于音乐游戏的想法" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://coderemixer.com/2020/04/05/ideas-about-music-game/&title=一些关于音乐游戏的想法" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://coderemixer.com/2020/04/05/ideas-about-music-game/&is_video=false&description=一些关于音乐游戏的想法" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=一些关于音乐游戏的想法&body=Check out this article: https://coderemixer.com/2020/04/05/ideas-about-music-game/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://coderemixer.com/2020/04/05/ideas-about-music-game/&title=一些关于音乐游戏的想法" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://coderemixer.com/2020/04/05/ideas-about-music-game/&title=一些关于音乐游戏的想法" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://coderemixer.com/2020/04/05/ideas-about-music-game/&title=一些关于音乐游戏的想法" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://coderemixer.com/2020/04/05/ideas-about-music-game/&title=一些关于音乐游戏的想法" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://coderemixer.com/2020/04/05/ideas-about-music-game/&name=一些关于音乐游戏的想法&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://coderemixer.com/2020/04/05/ideas-about-music-game/&t=一些关于音乐游戏的想法" target="_blank" rel="noopener"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2020
+    CodeRemixer
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-127825283-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'coderemixer';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+
+</body>
+</html>

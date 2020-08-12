@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="背景自古以来算命离不开随机现象。古代人使用龟壳的裂纹来进行占卜，但出于动物保护主义，现代社会使用裂纹之类的自然混沌来预测变得不人道。现代算命会使用洗牌等手段产生随机数，但这样的随机很多时候可以得到人为控制，无法真正体现神明的意思。 作者在此提出一个方法，利用量子力学现象进行随机数的发生。我们对于一个量子位（qubit），使其通过一个阿达马门（Hadamard gate）。这个门可以将 $$|0\r">
+<meta property="og:type" content="article">
+<meta property="og:title" content="量子算命，在线掷筊 —— IBM 量子云计算机使用入门">
+<meta property="og:url" content="https://coderemixer.com/2019/11/13/quantum-poe/index.html">
+<meta property="og:site_name" content="代码混音师">
+<meta property="og:description" content="背景自古以来算命离不开随机现象。古代人使用龟壳的裂纹来进行占卜，但出于动物保护主义，现代社会使用裂纹之类的自然混沌来预测变得不人道。现代算命会使用洗牌等手段产生随机数，但这样的随机很多时候可以得到人为控制，无法真正体现神明的意思。 作者在此提出一个方法，利用量子力学现象进行随机数的发生。我们对于一个量子位（qubit），使其通过一个阿达马门（Hadamard gate）。这个门可以将 $$|0\r">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://coderemixer.com/static/poe-circuit.png">
+<meta property="article:published_time" content="2019-11-12T17:54:20.000Z">
+<meta property="article:modified_time" content="2020-08-12T09:01:06.005Z">
+<meta property="article:author" content="CodeRemixer">
+<meta property="article:tag" content="量子计算">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://coderemixer.com/static/poe-circuit.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>量子算命，在线掷筊 —— IBM 量子云计算机使用入门</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/true" title="代码混音师" type="application/atom+xml" />
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/12/08/chiba-new-town-mission-day/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/08/15/japansese-kanji-5173-research/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://coderemixer.com/2019/11/13/quantum-poe/" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://coderemixer.com/2019/11/13/quantum-poe/&text=量子算命，在线掷筊 —— IBM 量子云计算机使用入门" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://coderemixer.com/2019/11/13/quantum-poe/&title=量子算命，在线掷筊 —— IBM 量子云计算机使用入门" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://coderemixer.com/2019/11/13/quantum-poe/&is_video=false&description=量子算命，在线掷筊 —— IBM 量子云计算机使用入门" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=量子算命，在线掷筊 —— IBM 量子云计算机使用入门&body=Check out this article: https://coderemixer.com/2019/11/13/quantum-poe/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://coderemixer.com/2019/11/13/quantum-poe/&title=量子算命，在线掷筊 —— IBM 量子云计算机使用入门" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://coderemixer.com/2019/11/13/quantum-poe/&title=量子算命，在线掷筊 —— IBM 量子云计算机使用入门" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://coderemixer.com/2019/11/13/quantum-poe/&title=量子算命，在线掷筊 —— IBM 量子云计算机使用入门" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://coderemixer.com/2019/11/13/quantum-poe/&title=量子算命，在线掷筊 —— IBM 量子云计算机使用入门" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://coderemixer.com/2019/11/13/quantum-poe/&name=量子算命，在线掷筊 —— IBM 量子云计算机使用入门&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://coderemixer.com/2019/11/13/quantum-poe/&t=量子算命，在线掷筊 —— IBM 量子云计算机使用入门" target="_blank" rel="noopener"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#背景"><span class="toc-number">1.</span> <span class="toc-text">背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实现"><span class="toc-number">2.</span> <span class="toc-text">实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#未来工作"><span class="toc-number">3.</span> <span class="toc-text">未来工作</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        量子算命，在线掷筊 —— IBM 量子云计算机使用入门
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">代码混音师</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-11-12T17:54:20.000Z" itemprop="datePublished">2019-11-13</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/%E9%87%8F%E5%AD%90%E8%AE%A1%E7%AE%97/" rel="tag">量子计算</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>自古以来算命离不开随机现象。古代人使用龟壳的裂纹来进行占卜，但出于动物保护主义，现代社会使用裂纹之类的自然混沌来预测变得不人道。现代算命会使用洗牌等手段产生随机数，但这样的随机很多时候可以得到人为控制，无法真正体现神明的意思。</p>
+<p>作者在此提出一个方法，利用量子力学现象进行随机数的发生。我们对于一个量子位（qubit），使其通过一个阿达马门（Hadamard gate）。这个门可以将 $$|0\rangle $$ 转换成 $$\frac{ |0\rangle + |1\rangle } {\sqrt{2}} $$，即进行状态叠加。当我们此时测量这一量子的状态，那么其波函数会发生突变，变为其中一个本征态。且在我们所设计的量子电路中，观察到 0 和 1 的概率应该都是 50%。如果我们今天对量子力学的认识是正确的，那么随机性应该是量子物理的内禀性质，所以我们在邀请真正的上帝来为我们掷骰子，能真正表达量子神明的意愿。</p>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>我们采用 IBM 的量子云计算机 IBM Q 进行实现。IBM 提供了丰富好用的量子程序开发的 SDK，并且可以在设计调试完成后，交给线上真正的云量子计算机进行运算，让你足不出户，不需要亲自前往土地庙，也可以听到神明的解答。</p>
+<p>我们以「掷筊」为例，</p>
+<blockquote>
+<p><a href="https://zh.wikipedia.org/zh-hans/%E6%93%B2%E7%AD%8A" target="_blank" rel="noopener">掷筊</a>是一种道教与民间信仰中问卜的仪式；又称掷筶、掷杯、博杯，普遍流传于华人民间传统社会。「筊杯」是一种占卜工具，是世俗之人所用以与神明指示的工具。</p>
+</blockquote>
+<p>我们同时观测两个处于叠加态的量子。若它们都是 0，那么就是「阴筊」；如果都是 1，那么就是「笑筊」；如果两个状态相反，那么则是「圣筊」。具体的量子电路如下：</p>
+<p><img src="/static/poe-circuit.png" alt="Poe Circuit"></p>
+<p>使用 Qiskit 实现起来非常便利：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Setup Dependencies</span></span><br><span class="line"><span class="keyword">from</span> qiskit <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line"><span class="comment"># Setup Poe Dictionaty</span></span><br><span class="line">POES = [<span class="string">'陰筊'</span>, <span class="string">'聖筊'</span>, <span class="string">'聖筊'</span>, <span class="string">'笑筊'</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># Setup Quantum Circuit</span></span><br><span class="line">circ = QuantumCircuit(<span class="number">2</span>)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">2</span>):</span><br><span class="line">    circ.h(i)</span><br><span class="line">circ.measure_all()</span><br><span class="line"></span><br><span class="line"><span class="comment"># Use Simulator for Testing</span></span><br><span class="line">backend = Aer.get_backend(<span class="string">'qasm_simulator'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Execute the Result</span></span><br><span class="line">job = execute(circ, backend, shots=<span class="number">1</span>)</span><br><span class="line">result = job.result().get_counts(circ)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Convert results</span></span><br><span class="line">converted = int(list(result.keys())[<span class="number">0</span>], <span class="number">2</span>)</span><br><span class="line">print(POES[converted])</span><br></pre></td></tr></table></figure>
+
+<p>我们只需要每进行一次这个量子电路的执行，就可以得到一次上天的掷筊结果。在模拟器测试成功后，我们就可以将后端换成真正的 IBM 云量子计算机进行掷筊。（完整样例程序<a href="https://github.com/dsh0416/quantum-i-ching/blob/master/poe.ipynb" target="_blank" rel="noopener">参考这里</a>）</p>
+<h2 id="未来工作"><a href="#未来工作" class="headerlink" title="未来工作"></a>未来工作</h2><p>我们使用了这一技术更有效的让神明为我们解答问题，对于人类社会具有重大意义。再也不需要等妈祖来托梦，人类可以主动去探寻神明的秘密。但是这一方案目前仍存在不足。</p>
+<p>例如如果我们基于易经进行六爻占卜（<a href="https://github.com/dsh0416/quantum-i-ching/blob/master/notebook.ipynb" target="_blank" rel="noopener">程序</a>），一共需要 64 个经典态，即需要 6 个量子。但 6 个量子的量子芯片目前仍十分稀有。但由于我们的占卜过程不需要产生任何纠缠态，只需要 H 门这一种量子门，在此我们提出可以针对这一市场需求设计并行的单量子芯片，从而让量子计算走入千家万户。</p>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>加载评论需要在浏览器启用 JavaScript 脚本支持。</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#背景"><span class="toc-number">1.</span> <span class="toc-text">背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实现"><span class="toc-number">2.</span> <span class="toc-text">实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#未来工作"><span class="toc-number">3.</span> <span class="toc-text">未来工作</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://coderemixer.com/2019/11/13/quantum-poe/" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://coderemixer.com/2019/11/13/quantum-poe/&text=量子算命，在线掷筊 —— IBM 量子云计算机使用入门" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://coderemixer.com/2019/11/13/quantum-poe/&title=量子算命，在线掷筊 —— IBM 量子云计算机使用入门" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://coderemixer.com/2019/11/13/quantum-poe/&is_video=false&description=量子算命，在线掷筊 —— IBM 量子云计算机使用入门" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=量子算命，在线掷筊 —— IBM 量子云计算机使用入门&body=Check out this article: https://coderemixer.com/2019/11/13/quantum-poe/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://coderemixer.com/2019/11/13/quantum-poe/&title=量子算命，在线掷筊 —— IBM 量子云计算机使用入门" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://coderemixer.com/2019/11/13/quantum-poe/&title=量子算命，在线掷筊 —— IBM 量子云计算机使用入门" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://coderemixer.com/2019/11/13/quantum-poe/&title=量子算命，在线掷筊 —— IBM 量子云计算机使用入门" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://coderemixer.com/2019/11/13/quantum-poe/&title=量子算命，在线掷筊 —— IBM 量子云计算机使用入门" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://coderemixer.com/2019/11/13/quantum-poe/&name=量子算命，在线掷筊 —— IBM 量子云计算机使用入门&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://coderemixer.com/2019/11/13/quantum-poe/&t=量子算命，在线掷筊 —— IBM 量子云计算机使用入门" target="_blank" rel="noopener"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2020
+    CodeRemixer
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-127825283-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'coderemixer';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+
+</body>
+</html>

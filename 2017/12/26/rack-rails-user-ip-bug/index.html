@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="引由于最近论坛发生了某些讨论，出现了一个恶意攻击的账号。然而去查用户 IP 时，却发现没有拿到用户的 IP。这个问题非常诡异，几经排查，终于发现了问题，问题同时发生在 Rack 和 Rails 的实现上，这意味着这个问题可能影响几乎所有 Ruby Web 服务器。故有必要写下此文，分享这一问题。 代理我们先做一个假设问题，如果你是 Rack 的作者，你会如何获取客户端的 IP 地址？ 最容易想到的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Rack&#x2F;Rails 服务器获取用户 IP 问题分享">
+<meta property="og:url" content="https://coderemixer.com/2017/12/26/rack-rails-user-ip-bug/index.html">
+<meta property="og:site_name" content="代码混音师">
+<meta property="og:description" content="引由于最近论坛发生了某些讨论，出现了一个恶意攻击的账号。然而去查用户 IP 时，却发现没有拿到用户的 IP。这个问题非常诡异，几经排查，终于发现了问题，问题同时发生在 Rack 和 Rails 的实现上，这意味着这个问题可能影响几乎所有 Ruby Web 服务器。故有必要写下此文，分享这一问题。 代理我们先做一个假设问题，如果你是 Rack 的作者，你会如何获取客户端的 IP 地址？ 最容易想到的">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2017-12-26T12:58:59.000Z">
+<meta property="article:modified_time" content="2020-08-12T09:01:06.006Z">
+<meta property="article:author" content="CodeRemixer">
+<meta property="article:tag" content="Ruby">
+<meta property="article:tag" content="编程">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Rack/Rails 服务器获取用户 IP 问题分享</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/true" title="代码混音师" type="application/atom+xml" />
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2018/01/05/mysql-recover-from-general/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2017/08/31/mid-autumn-2017/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://coderemixer.com/2017/12/26/rack-rails-user-ip-bug/" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://coderemixer.com/2017/12/26/rack-rails-user-ip-bug/&text=Rack/Rails 服务器获取用户 IP 问题分享" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://coderemixer.com/2017/12/26/rack-rails-user-ip-bug/&title=Rack/Rails 服务器获取用户 IP 问题分享" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://coderemixer.com/2017/12/26/rack-rails-user-ip-bug/&is_video=false&description=Rack/Rails 服务器获取用户 IP 问题分享" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Rack/Rails 服务器获取用户 IP 问题分享&body=Check out this article: https://coderemixer.com/2017/12/26/rack-rails-user-ip-bug/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://coderemixer.com/2017/12/26/rack-rails-user-ip-bug/&title=Rack/Rails 服务器获取用户 IP 问题分享" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://coderemixer.com/2017/12/26/rack-rails-user-ip-bug/&title=Rack/Rails 服务器获取用户 IP 问题分享" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://coderemixer.com/2017/12/26/rack-rails-user-ip-bug/&title=Rack/Rails 服务器获取用户 IP 问题分享" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://coderemixer.com/2017/12/26/rack-rails-user-ip-bug/&title=Rack/Rails 服务器获取用户 IP 问题分享" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://coderemixer.com/2017/12/26/rack-rails-user-ip-bug/&name=Rack/Rails 服务器获取用户 IP 问题分享&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://coderemixer.com/2017/12/26/rack-rails-user-ip-bug/&t=Rack/Rails 服务器获取用户 IP 问题分享" target="_blank" rel="noopener"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引"><span class="toc-number">1.</span> <span class="toc-text">引</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#代理"><span class="toc-number">2.</span> <span class="toc-text">代理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#大于配置的约定"><span class="toc-number">3.</span> <span class="toc-text">大于配置的约定</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#可信任-内网？"><span class="toc-number">3.1.</span> <span class="toc-text">可信任 &#x3D; 内网？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#可信任-内网-可信任外网"><span class="toc-number">3.2.</span> <span class="toc-text">可信任 &#x3D; { 内网, 可信任外网 }</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#影响"><span class="toc-number">3.3.</span> <span class="toc-text">影响</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何配置-Rack"><span class="toc-number">4.</span> <span class="toc-text">如何配置 Rack</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Rails-用户的坑"><span class="toc-number">5.</span> <span class="toc-text">Rails 用户的坑</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#结"><span class="toc-number">6.</span> <span class="toc-text">结</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Rack/Rails 服务器获取用户 IP 问题分享
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">代码混音师</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2017-12-26T12:58:59.000Z" itemprop="datePublished">2017-12-26</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/Ruby/" rel="tag">Ruby</a>, <a class="tag-link" href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag">编程</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="引"><a href="#引" class="headerlink" title="引"></a>引</h2><p>由于最近论坛发生了某些讨论，出现了一个恶意攻击的账号。然而去查用户 IP 时，却发现没有拿到用户的 IP。这个问题非常诡异，几经排查，终于发现了问题，问题同时发生在 Rack 和 Rails 的实现上，这意味着这个问题可能影响几乎所有 Ruby Web 服务器。故有必要写下此文，分享这一问题。</p>
+<h2 id="代理"><a href="#代理" class="headerlink" title="代理"></a>代理</h2><p>我们先做一个假设问题，如果你是 Rack 的作者，你会如何获取客户端的 IP 地址？</p>
+<p>最容易想到的就是直接获取 TCP 连接的 IP。这个在 Rack 中已经被 parse 成  <code>env[&#39;REMOTE_ADDR&#39;]</code> 了，于是直接获取这个值就可以了。这个做法基本上是对的，但是很快就遇到了问题。如果我的服务器躲在 HTTP 反向代理或者负载均衡之后，那么我获取到的岂不是都是代理的 IP 而不是真正的用户 IP 了吗？</p>
+<p>早年有一些公司会自己设置 HTTP header 来解决这一问题。2004 年 IETF 通过了 <a href="https://tools.ietf.org/html/rfc7239" target="_blank" rel="noopener">RFC 7239 标准</a>，为这样的问题制定了通用的标准。简单来说，就是用 <code>X-Real-IP</code> header 标记用户的真实 IP，用 <code>X-Forwarded-For</code> header 标记途径路由。</p>
+<p>这时候你可能会想 <code>X-Real-IP</code> 不是已经表示了用户的真实 IP 了吗？为什么还需要 <code>X-Forwarded-For</code> 呢？因为 <code>X-Real-IP</code> 可能是用户伪造的。当然这也取决于你的反向代理是怎么配置的，如果你在 nginx 中强写 <code>X-Real-IP</code> 其实没有这一问题。</p>
+<p>但 Rack 作为一个通用的 Web 服务器框架，并不能相信用户会正确处理这个 header。Rack 的判断逻辑初衷是这样的：请求经过了一系列的节点，写了 <code>X-Forwarded-For</code> header，去掉可信任的路由，经过的最后一个路由，是用户 IP。如果用户伪造这个头，那也会是最后一个被最后一个内网路由加上其真实的 IP，从而避开攻击。</p>
+<p>听起来很合理，但是这留下了一个问题：</p>
+<ul>
+<li><strong>哪些路由 IP 是可信任的？</strong></li>
+</ul>
+<h2 id="大于配置的约定"><a href="#大于配置的约定" class="headerlink" title="大于配置的约定"></a>大于配置的约定</h2><h3 id="可信任-内网？"><a href="#可信任-内网？" class="headerlink" title="可信任 = 内网？"></a>可信任 = 内网？</h3><p>Rack 没有强制要求用户自己配置，其判断哪些是可信任的路由 IP 是通过判断 IP 是不是在内网下来的，这在大多数情况下，确实工作，所以我们可能根本不会注意到它。下面是代码：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># https://github.com/rack/rack/blob/b0818268fd9f4026a1b0fb205cc1060ee38a23cc/lib/rack/request.rb#L419</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">trusted_proxy?</span><span class="params">(ip)</span></span></span><br><span class="line">  ip =~ <span class="regexp">/\A127\.0\.0\.1\Z|\A(10|172\.(1[6-9]|2[0-9]|30|31)|192\.168)\.|\A::1\Z|\Afd[0-9a-f]&#123;2&#125;:.+|\Alocalhost\Z|\Aunix\Z|\Aunix:/i</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+<p>这一串正则可以说是相当的刺激，抛开后面的 unix 文件描述符、localhost 和 IPv6 不讲。前面一部分的正则非常取巧。因为在 IP 地址 3 种主要类型（A 类地址、B 类地址、C 类地址）里各有一部分可以作为私有地址。</p>
+<p>A类地址：10.0.0.0～10.255.255.255 </p>
+<p>B类地址：172.16.0.0～172.31.255.255 </p>
+<p>C类地址：192.168.0.0～192.168.255.255</p>
+<p>而 Rack 就是把它们过滤掉了，这些确实描述了可能的内网地址。无论你架在云服务商那里，还是自建机房，能分配的内网确实就是这些。这在大多数情况下工作，除非：</p>
+<h3 id="可信任-内网-可信任外网"><a href="#可信任-内网-可信任外网" class="headerlink" title="可信任 = { 内网, 可信任外网 }"></a>可信任 = { 内网, 可信任外网 }</h3><p>如果你的代理跨内网，比如在多个可用区之间代理，又或者把服务器架在高防后，而高防和你的 IP 不在同一个内网，那你就悲剧了。</p>
+<p>因为中间跨越了公网 IP，Rack 的正则没有 match 上，所以自然就视其为不可信任的 IP，直接取了这个 IP 作为客户端的 IP。</p>
+<p>特别是后者，因为你切换高防是一个很仓促的事件，可能根本想不清这些事，而一旦在高防期间出了问题，就真的查不到 IP 了。</p>
+<h3 id="影响"><a href="#影响" class="headerlink" title="影响"></a>影响</h3><p>由于这个问题出在 Ruby Web 最常用的框架 Rack 上。无论是 Sinatra、Cuba 还是 Rails 都是直接建在上面，Rails 的各种 gem 例如 Devise 也是基于这个假设是正确的。所以几乎所有的 Ruby Web 应用都会受影响。<del>当然你裸写 TCP 本来就是要自己处理的，自然不受影响。</del></p>
+<h2 id="如何配置-Rack"><a href="#如何配置-Rack" class="headerlink" title="如何配置 Rack"></a>如何配置 Rack</h2><p>于是，如果我们要配置，怎么配置呢？Rack 本身并没有直接暴露配置的接口，所以答案就只剩下一种：</p>
+<p><strong>元编程</strong></p>
+<p>例如我需要加入特殊可信任 IP 1.2.3.4，在你应用监听前，Rack 被 require 后（例如 Rails 的 initializer 里）加入形如以下的代码：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">module</span> <span class="title">Rack</span></span></span><br><span class="line">  <span class="class"><span class="keyword">class</span> <span class="title">Request</span></span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">trusted_proxy?</span><span class="params">(ip)</span></span></span><br><span class="line">      ip =~ <span class="regexp">/\A127\.0\.0\.1\Z|\A(10|172\.(1[6-9]|2[0-9]|30|31)|192\.168)\.|\A::1\Z|\Afd[0-9a-f]&#123;2&#125;:.+|\Alocalhost\Z|\Aunix\Z|\Aunix:|\A1\.2\.3\.4Z/i</span></span><br><span class="line">      <span class="comment"># 自定义的判断函数，可信任的返回任意值，不可信任的返回 nil 即可。</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+<p>另外需要注意的时，这里不适合从文件或网络 I/O 中获取判断的条件，因为这个部分会被非常频繁地调用，除非你自己实现缓存。</p>
+<h2 id="Rails-用户的坑"><a href="#Rails-用户的坑" class="headerlink" title="Rails 用户的坑"></a>Rails 用户的坑</h2><p>如果你是 Rails 应用，以为做到上面就够了吗？你有没有注意到 Rails 的默认中间件中有一个 <code>ActionDispatch::RemoteIp</code>，你知道这是啥玩意吗？</p>
+<p>Rails 也认识到了 Rack 有这个问题，为了方便配置，把获取 IP 的部分自己单独实现了一遍，默认也是信任内网，然后新建了一个参数： <code>request.remote_ip</code> 用来记录这个值。Rails 看似好意其实带来了不便，因为仍然有许多 gem 是基于 Rack 的  <code>request.ip</code> 写的，比如黑名单工具 Rack Attack，所以并不能帮我们节省配置。</p>
+<p>所以你还要再配置一遍 Rails 才行。</p>
+<p>在  <code>config/application.rb</code>  下执行如下代码：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">proxies = [] <span class="comment"># proxies 这个参数接受多种形式的参数，详见 http://api.rubyonrails.org/classes/ActionDispatch/RemoteIp.html</span></span><br><span class="line"></span><br><span class="line">config.middleware.swap ActionDispatch::RemoteIp, ActionDispatch::RemoteIp, <span class="literal">true</span>, proxies</span><br></pre></td></tr></table></figure>
+
+<p>解决！</p>
+<p><strong>注：示例使用的是 Rails 5 的代码，Rails 3 和 4 的配置代码甚至还不一样🤦‍♀️</strong></p>
+<p>旧版本详见 <a href="https://github.com/rails/rails/issues/5223" target="_blank" rel="noopener">Issue#5223</a> 这个被反复打开的 Issue。</p>
+<h2 id="结"><a href="#结" class="headerlink" title="结"></a>结</h2><p>这是一个很不容易遇到的场景，但一旦遇到又很容易被忽视，忽视后有可能产生很大的麻烦。而且说实话，平时哪怕读 Rack 和 Rails 的源代码也想不到会有这种场景。了解后各位 Ruby 开发者在平时开发中多注意一下吧！</p>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>加载评论需要在浏览器启用 JavaScript 脚本支持。</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引"><span class="toc-number">1.</span> <span class="toc-text">引</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#代理"><span class="toc-number">2.</span> <span class="toc-text">代理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#大于配置的约定"><span class="toc-number">3.</span> <span class="toc-text">大于配置的约定</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#可信任-内网？"><span class="toc-number">3.1.</span> <span class="toc-text">可信任 &#x3D; 内网？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#可信任-内网-可信任外网"><span class="toc-number">3.2.</span> <span class="toc-text">可信任 &#x3D; { 内网, 可信任外网 }</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#影响"><span class="toc-number">3.3.</span> <span class="toc-text">影响</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何配置-Rack"><span class="toc-number">4.</span> <span class="toc-text">如何配置 Rack</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Rails-用户的坑"><span class="toc-number">5.</span> <span class="toc-text">Rails 用户的坑</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#结"><span class="toc-number">6.</span> <span class="toc-text">结</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://coderemixer.com/2017/12/26/rack-rails-user-ip-bug/" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://coderemixer.com/2017/12/26/rack-rails-user-ip-bug/&text=Rack/Rails 服务器获取用户 IP 问题分享" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://coderemixer.com/2017/12/26/rack-rails-user-ip-bug/&title=Rack/Rails 服务器获取用户 IP 问题分享" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://coderemixer.com/2017/12/26/rack-rails-user-ip-bug/&is_video=false&description=Rack/Rails 服务器获取用户 IP 问题分享" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Rack/Rails 服务器获取用户 IP 问题分享&body=Check out this article: https://coderemixer.com/2017/12/26/rack-rails-user-ip-bug/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://coderemixer.com/2017/12/26/rack-rails-user-ip-bug/&title=Rack/Rails 服务器获取用户 IP 问题分享" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://coderemixer.com/2017/12/26/rack-rails-user-ip-bug/&title=Rack/Rails 服务器获取用户 IP 问题分享" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://coderemixer.com/2017/12/26/rack-rails-user-ip-bug/&title=Rack/Rails 服务器获取用户 IP 问题分享" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://coderemixer.com/2017/12/26/rack-rails-user-ip-bug/&title=Rack/Rails 服务器获取用户 IP 问题分享" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://coderemixer.com/2017/12/26/rack-rails-user-ip-bug/&name=Rack/Rails 服务器获取用户 IP 问题分享&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://coderemixer.com/2017/12/26/rack-rails-user-ip-bug/&t=Rack/Rails 服务器获取用户 IP 问题分享" target="_blank" rel="noopener"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2020
+    CodeRemixer
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-127825283-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'coderemixer';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+
+</body>
+</html>

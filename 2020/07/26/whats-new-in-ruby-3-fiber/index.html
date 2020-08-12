@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="引随着 GitHub #3032 的合并，从 Feature #13618 开始的，关于 Ruby Fiber 调度器的讨论取得了实质性的进展。但相关的变化还没有结束。目前正在被讨论与还没有合并的 Issue 还包括 Feature #16786、Feature #16792。这些 Issue 正在围绕 Ruby Fiber 调度器剩余的一些实现进行讨论，这些围绕着 Fiber 技术展开的对并发的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ruby 3 Fiber 变化前瞻">
+<meta property="og:url" content="https://coderemixer.com/2020/07/26/whats-new-in-ruby-3-fiber/index.html">
+<meta property="og:site_name" content="代码混音师">
+<meta property="og:description" content="引随着 GitHub #3032 的合并，从 Feature #13618 开始的，关于 Ruby Fiber 调度器的讨论取得了实质性的进展。但相关的变化还没有结束。目前正在被讨论与还没有合并的 Issue 还包括 Feature #16786、Feature #16792。这些 Issue 正在围绕 Ruby Fiber 调度器剩余的一些实现进行讨论，这些围绕着 Fiber 技术展开的对并发的">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-07-26T09:16:43.000Z">
+<meta property="article:modified_time" content="2020-08-12T09:18:24.781Z">
+<meta property="article:author" content="CodeRemixer">
+<meta property="article:tag" content="Ruby">
+<meta property="article:tag" content="Fiber">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Ruby 3 Fiber 变化前瞻</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/true" title="代码混音师" type="application/atom+xml" />
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/08/12/save-my-macbook-pro-2016/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/05/24/bcd-cobol-showa-100-years-problem/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://coderemixer.com/2020/07/26/whats-new-in-ruby-3-fiber/" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://coderemixer.com/2020/07/26/whats-new-in-ruby-3-fiber/&text=Ruby 3 Fiber 变化前瞻" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://coderemixer.com/2020/07/26/whats-new-in-ruby-3-fiber/&title=Ruby 3 Fiber 变化前瞻" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://coderemixer.com/2020/07/26/whats-new-in-ruby-3-fiber/&is_video=false&description=Ruby 3 Fiber 变化前瞻" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Ruby 3 Fiber 变化前瞻&body=Check out this article: https://coderemixer.com/2020/07/26/whats-new-in-ruby-3-fiber/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://coderemixer.com/2020/07/26/whats-new-in-ruby-3-fiber/&title=Ruby 3 Fiber 变化前瞻" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://coderemixer.com/2020/07/26/whats-new-in-ruby-3-fiber/&title=Ruby 3 Fiber 变化前瞻" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://coderemixer.com/2020/07/26/whats-new-in-ruby-3-fiber/&title=Ruby 3 Fiber 变化前瞻" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://coderemixer.com/2020/07/26/whats-new-in-ruby-3-fiber/&title=Ruby 3 Fiber 变化前瞻" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://coderemixer.com/2020/07/26/whats-new-in-ruby-3-fiber/&name=Ruby 3 Fiber 变化前瞻&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://coderemixer.com/2020/07/26/whats-new-in-ruby-3-fiber/&t=Ruby 3 Fiber 变化前瞻" target="_blank" rel="noopener"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引"><span class="toc-number">1.</span> <span class="toc-text">引</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#为什么要有-Fiber？"><span class="toc-number">2.</span> <span class="toc-text">为什么要有 Fiber？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Fiber-与-I-O"><span class="toc-number">3.</span> <span class="toc-text">Fiber 与 I&#x2F;O</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#目前-Fiber-调度器剩余的问题"><span class="toc-number">4.</span> <span class="toc-text">目前 Fiber 调度器剩余的问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何迎接-Ruby-3-Fiber-的新变化？"><span class="toc-number">5.</span> <span class="toc-text">如何迎接 Ruby 3 Fiber 的新变化？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#结"><span class="toc-number">6.</span> <span class="toc-text">结</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Ruby 3 Fiber 变化前瞻
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">代码混音师</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-07-26T09:16:43.000Z" itemprop="datePublished">2020-07-26</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/Fiber/" rel="tag">Fiber</a>, <a class="tag-link" href="/tags/Ruby/" rel="tag">Ruby</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="引"><a href="#引" class="headerlink" title="引"></a>引</h2><p>随着 <a href="https://github.com/ruby/ruby/pull/3032" target="_blank" rel="noopener">GitHub #3032</a> 的合并，从 <a href="https://bugs.ruby-lang.org/issues/13618" target="_blank" rel="noopener">Feature #13618</a> 开始的，关于 Ruby Fiber 调度器的讨论取得了实质性的进展。但相关的变化还没有结束。目前正在被讨论与还没有合并的 Issue 还包括 <a href="https://bugs.ruby-lang.org/issues/16786" target="_blank" rel="noopener">Feature #16786</a>、<a href="https://bugs.ruby-lang.org/issues/16792" target="_blank" rel="noopener">Feature #16792</a>。这些 Issue 正在围绕 Ruby Fiber 调度器剩余的一些实现进行讨论，这些围绕着 Fiber 技术展开的对并发的实现，将作为 Ruby 3 并发提升的重要来源之一。</p>
+<p>Ruby 3 Fiber 调度器会给我们带来什么？如何理解 Ruby 3 Fiber 调度器的引入？如何面对 Ruby 3 Fiber 的新变化？本文就此些问题进行一些讨论。</p>
+<h2 id="为什么要有-Fiber？"><a href="#为什么要有-Fiber？" class="headerlink" title="为什么要有 Fiber？"></a>为什么要有 Fiber？</h2><p>现代操作系统一个基本的特性就是允许多任务的执行。这个「多任务」可能是多线程或者多进程系统。对于一个 CPU，一个典型的情况是拥有 8 个左右的核心数，所以理论上只能同时执行 8 个任务。但操作系统同时执行的进程数往往有数千个，并不能「真正」同时运行。而操作系统需要在不同进程中快速切换从而实现多任务的同时运行。</p>
+<p>现代操作系统使用的调度系统称为抢占式调度系统。简单理解，就是任务运行过程中，如果其它任务急需运行，操作系统会强制停止当前任务来执行其它任务。更传统的操作系统会使用协作式多任务（cooperative multitasking）系统来实现。也就是一个正在执行的任务必须主动宣布自己可以暂停运行，系统才会把执行权交给其它任务。Windows 3.1x、Mac OS 9 就是使用该方法进行的任务调度。</p>
+<p>协作式多任务有着显著的优点和缺点。优点是切换的频率减少，执行效率提高了。而缺点是如果有程序发生了死循环或者长时间占用，系统就会陷入卡死，用户体验极差。</p>
+<p>然而不同于操作系统，对于单一程序内，协作式多任务有时会带来更大的好处。由于线程是由操作系统实现和管理的，调度必须依赖操作系统，而一次操作系统的切换会带来很大的耗时。相比操作系统无法确定程序会不会发生<a href="https://zh.wikipedia.org/wiki/%E5%81%9C%E6%9C%BA%E9%97%AE%E9%A2%98" target="_blank" rel="noopener">死循环</a>，自己的程序内部代码完全是自己控制的，如果发生死循环那必然是自己的代码问题。在自己的程序内实现一个简单的协作式多任务系统来提高并发显然是个好办法。</p>
+<p>而 Ruby 标准库就实现了一个简单的协作式多任务系统，其中的最小的执行单元称为 <code>Fiber</code> 纤程。提供了 <code>resume</code> <code>yield</code> 和 <code>transfer</code> 方法，实现了纤程之间的切换。</p>
+<p>Fiber 的实现很简单，早年 Ruby Fiber 是基于 <code>caller</code>、 <code>callee</code> 来实现的。熟悉 Lisp 语言的，对这两个函数可能是再熟悉不过了。但是对于现在的 Ruby Fiber 实现，主要可以参考 <a href="https://bugs.ruby-lang.org/issues/14739" target="_blank" rel="noopener">Feature #14739</a> 的实现。由于这个代码是多个机器平台的汇编实现（出于性能上的考虑），我们这里以 <code>amd64</code> 平台为例。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">##</span><br><span class="line">##  This file is part of the &quot;Coroutine&quot; project and released under the MIT License.</span><br><span class="line">##</span><br><span class="line">##  Created by Samuel Williams on 10&#x2F;5&#x2F;2018.</span><br><span class="line">##  Copyright, 2018, by Samuel Williams. All rights reserved.</span><br><span class="line">##</span><br><span class="line"></span><br><span class="line">.text</span><br><span class="line"></span><br><span class="line"># For older linkers</span><br><span class="line">.globl _coroutine_transfer</span><br><span class="line">_coroutine_transfer:</span><br><span class="line"></span><br><span class="line">.globl coroutine_transfer</span><br><span class="line">coroutine_transfer:</span><br><span class="line">	# Save caller state</span><br><span class="line">	pushq %rbp</span><br><span class="line">	pushq %rbx</span><br><span class="line">	pushq %r12</span><br><span class="line">	pushq %r13</span><br><span class="line">	pushq %r14</span><br><span class="line">	pushq %r15</span><br><span class="line"></span><br><span class="line">	# Save caller stack pointer</span><br><span class="line">	movq %rsp, (%rdi)</span><br><span class="line"></span><br><span class="line">	# Restore callee stack pointer</span><br><span class="line">	movq (%rsi), %rsp</span><br><span class="line"></span><br><span class="line">	# Restore callee stack</span><br><span class="line">	popq %r15</span><br><span class="line">	popq %r14</span><br><span class="line">	popq %r13</span><br><span class="line">	popq %r12</span><br><span class="line">	popq %rbx</span><br><span class="line">	popq %rbp</span><br><span class="line"></span><br><span class="line">	# Put the first argument into the return value</span><br><span class="line">	movq %rdi, %rax</span><br><span class="line"></span><br><span class="line">	# We pop the return address and jump to it</span><br><span class="line">	ret</span><br></pre></td></tr></table></figure>
+
+<p>简简单单，非常好理解。<code>amd64</code> 的 callee-saved register 是 <code>%rbx</code> (base pointer), <code>%rbp</code> (frame prointer) 以及 <code>%r12</code> <code>%r13</code> <code>%r14</code> <code>%r15</code>。把这 6 个指针塞入栈，然后把栈指针 <code>%rsp</code> 返回。而还原一个上下文则是把这个栈顶指针找出来，然后依次取出这 6 个指针，就还原了上下文。 </p>
+<h2 id="Fiber-与-I-O"><a href="#Fiber-与-I-O" class="headerlink" title="Fiber 与 I/O"></a>Fiber 与 I/O</h2><p>但是要想让 Fiber 来提升 Web 系统的并发问题，还需要解决一个问题，那就是基于 I/O 的调度。我们清楚地知道，如果我们收到一个连接，在 Web 请求传输完之前，我们的 Ruby 程序什么都不能做，只能干等。而当我们处理完返回结果后，我们还是要干等到数据传输完后才能关闭连接。虽然现代的 <a href="https://github.com/rack/rack" target="_blank" rel="noopener">rack</a> 服务器例如 <a href="https://github.com/puma/puma" target="_blank" rel="noopener">puma</a> 能够异步解决这一问题。但是一旦涉及到 Redis、数据库和文件读写，我们依然逃不开这个问题。这是包括 Rails 在内的 Ruby 几乎所有 Web 框架性能问题的主要原因。</p>
+<p>如果我们能围绕 I/O 设计一个 Fiber 调度器，那么我们就能极大提高 Ruby Web 框架的性能，但是这个问题并不是没有人做过。从早年的 <a href="https://github.com/eventmachine/eventmachine" target="_blank" rel="noopener">EventMachine</a> 到基于 <a href="https://github.com/socketry/nio4r" target="_blank" rel="noopener">nio4r</a> 的 <a href="https://github.com/socketry/async" target="_blank" rel="noopener">async</a>，包括我自己写的 <a href="https://github.com/midori-rb/midori.rb" target="_blank" rel="noopener">midori</a> 内单独实现的调度器 <a href="https://github.com/midori-rb/murasaki" target="_blank" rel="noopener">murasaki</a>，都是相同的原理。虽然这些框架的细节、性能和功能略有不同。</p>
+<p>Ruby 今天 Fiber 自动异步调度仍然没有称为主流的核心原因是社区的分裂。</p>
+<p>这几个开源的调度器都有一些小问题，然而大家的解决方法就是「一言不合，再写一个」。这使得像是 ActiveRecord 之类的常用框架都很难跟进这些快速迭代的调度器。根本方法就是大家合力来维护同一个调度器，让这个调度器进入标准库。这就是 <a href="https://github.com/ruby/ruby/pull/3032" target="_blank" rel="noopener">GitHub #3032</a> 的核心思路。</p>
+<p>Scheduler 主要实现了三个核心的调度形式 <code>scheduler.wait_writable</code> <code>scheduler.wait_readable</code> 和 <code>scheduler.wait_sleep</code>。也就是当 Fiber 需要等待 I/O 完成写入、读取或者需要休眠时，就会主动将工作权让渡出来，交给其它 Fiber。从而实现基于多个 Fiber 的单线程内的并发性能提升。</p>
+<h2 id="目前-Fiber-调度器剩余的问题"><a href="#目前-Fiber-调度器剩余的问题" class="headerlink" title="目前 Fiber 调度器剩余的问题"></a>目前 Fiber 调度器剩余的问题</h2><p>目前 Scheduler 使用 <code>poll</code> 和 <code>select</code> 方法实现 I/O 的多路复用，而未来显然会支持 Linux 上的 <code>epoll</code> 、BSD 上的 <code>kqueue</code>、Windows 上的 <code>iocp</code> 来实现更好的多路复用性能，而无需调整 API。因为以目前 Ruby Scheduler 的 API 定义，是可以兼容这些多路复用方法的。而至于会不会去支持 macOS 的 <code>kqueue</code> 可能就要打个问号了，毕竟 macOS 的多路复用实现太 buggy 了。</p>
+<p>另一个 Ruby 3 Fiber 亟待解决的问题是目前的 <code>Mutex</code> 锁是基于线程的。而对于同一个 Thread 下多个 Fiber 出现的锁竞争，<code>Mutex</code> 会遇到不小的问题。而目前各个已有的框架都是通过元编程在业务上解决的，比如我 <code>midori-contrib</code> 中对 MySQL 的<a href="https://github.com/midori-rb/midori-contrib/blob/master/lib/midori-contrib/sequel/mysql2.rb#L74" target="_blank" rel="noopener">封装</a>就使用了一系列奇技淫巧来避免问题。不过好在 <a href="https://bugs.ruby-lang.org/issues/16792" target="_blank" rel="noopener">Feature #16792</a> 正在针对这一问题提出方案，希望在 Ruby 3 之前能够有比较好的解决。</p>
+<h2 id="如何迎接-Ruby-3-Fiber-的新变化？"><a href="#如何迎接-Ruby-3-Fiber-的新变化？" class="headerlink" title="如何迎接 Ruby 3 Fiber 的新变化？"></a>如何迎接 Ruby 3 Fiber 的新变化？</h2><p>如何你是单纯的 Ruby 高级框架的使用者，那么你几乎什么都不用做。你只需要等着你常用的框架例如 Rails、Sinatra、ActiveRecord、Sequel 更新来支持这一特性，你的 Web 性能就理应会得到质的飞跃。根据我个人的实测，Ruby 的 Web 服务受到 I/O 调度问题而损失的性能高达 80% 到 90%，这意味着随着你使用的库全面支持 Fiber 的自动调度后，性能有望提升 5-10 倍。</p>
+<p>如果你是 Ruby 框架的维护者和贡献者，那么你要做的事情就相对比较多。本来我想在这篇文章中进一步讨论 Fiber 调度器的使用，不过由于 API 还有很大的变化的可能，并且你需要使用 <code>ruby-head</code> 版本才能进行体验，我决定把该内容放在之后的文章里讲。核心的就是要尽快让你的 gem 中涉及底层 I/O 调用、锁实现和计时实现兼容新 Fiber。因为对于一个任务的 I/O 阻塞来说，一处阻塞处处阻塞，良好的性能必须要由完全不阻塞的 I/O 实现才能做到，否则都会受到显著的影响。</p>
+<p>如果你是 Ruby 的贡献者，并且于 Ruby 不需要额外引入类似 <code>async</code> <code>await</code> 的原语而实现 I/O 无痛的性能提升很感兴趣的话，Ruby 3 Fiber 调度器需要做的事情还很多。比如对 <code>epoll</code> <code>kqueue</code> <code>iocp</code> 的支持；比如对 Ruby 2.x 的 backports。请不要害羞，请尽情贡献你的代码吧。</p>
+<h2 id="结"><a href="#结" class="headerlink" title="结"></a>结</h2><p>Ruby 今天 27 岁了，慢慢步入中年。但是我们依然能看到这门步入中年的语言里闪烁着令人激动的新特性的光辉。也许中年危机不单单是中年危机，更是中年转机。而这份转机靠的是我们每一个 Ruby 的使用者、贡献者和宣传者，让更多的程序员开心起来。</p>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>加载评论需要在浏览器启用 JavaScript 脚本支持。</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引"><span class="toc-number">1.</span> <span class="toc-text">引</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#为什么要有-Fiber？"><span class="toc-number">2.</span> <span class="toc-text">为什么要有 Fiber？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Fiber-与-I-O"><span class="toc-number">3.</span> <span class="toc-text">Fiber 与 I&#x2F;O</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#目前-Fiber-调度器剩余的问题"><span class="toc-number">4.</span> <span class="toc-text">目前 Fiber 调度器剩余的问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何迎接-Ruby-3-Fiber-的新变化？"><span class="toc-number">5.</span> <span class="toc-text">如何迎接 Ruby 3 Fiber 的新变化？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#结"><span class="toc-number">6.</span> <span class="toc-text">结</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://coderemixer.com/2020/07/26/whats-new-in-ruby-3-fiber/" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://coderemixer.com/2020/07/26/whats-new-in-ruby-3-fiber/&text=Ruby 3 Fiber 变化前瞻" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://coderemixer.com/2020/07/26/whats-new-in-ruby-3-fiber/&title=Ruby 3 Fiber 变化前瞻" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://coderemixer.com/2020/07/26/whats-new-in-ruby-3-fiber/&is_video=false&description=Ruby 3 Fiber 变化前瞻" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Ruby 3 Fiber 变化前瞻&body=Check out this article: https://coderemixer.com/2020/07/26/whats-new-in-ruby-3-fiber/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://coderemixer.com/2020/07/26/whats-new-in-ruby-3-fiber/&title=Ruby 3 Fiber 变化前瞻" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://coderemixer.com/2020/07/26/whats-new-in-ruby-3-fiber/&title=Ruby 3 Fiber 变化前瞻" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://coderemixer.com/2020/07/26/whats-new-in-ruby-3-fiber/&title=Ruby 3 Fiber 变化前瞻" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://coderemixer.com/2020/07/26/whats-new-in-ruby-3-fiber/&title=Ruby 3 Fiber 变化前瞻" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://coderemixer.com/2020/07/26/whats-new-in-ruby-3-fiber/&name=Ruby 3 Fiber 变化前瞻&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://coderemixer.com/2020/07/26/whats-new-in-ruby-3-fiber/&t=Ruby 3 Fiber 变化前瞻" target="_blank" rel="noopener"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2020
+    CodeRemixer
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-127825283-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'coderemixer';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+
+</body>
+</html>

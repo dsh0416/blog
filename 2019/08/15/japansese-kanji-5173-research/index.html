@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="我的手機使用的是英文系統，Android 在漢字 fallback 的時候會優先 fallback 到日文字形上，這使得一些簡體漢字的顯示非常奇怪。其中一個特別突出的就是「关」U+5173 字。「关」在我的理解中一般作「関」U+95A2、「關」U+95DC 或「闗」U+95D7 的簡化字。但是在日文字形中，U+5173 是一個只有一半字寬的奇怪字形，甚至不符合一般漢字的原理、放在文章裏非常奇怪。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="日本語字形「关」字攷">
+<meta property="og:url" content="https://coderemixer.com/2019/08/15/japansese-kanji-5173-research/index.html">
+<meta property="og:site_name" content="代码混音师">
+<meta property="og:description" content="我的手機使用的是英文系統，Android 在漢字 fallback 的時候會優先 fallback 到日文字形上，這使得一些簡體漢字的顯示非常奇怪。其中一個特別突出的就是「关」U+5173 字。「关」在我的理解中一般作「関」U+95A2、「關」U+95DC 或「闗」U+95D7 的簡化字。但是在日文字形中，U+5173 是一個只有一半字寬的奇怪字形，甚至不符合一般漢字的原理、放在文章裏非常奇怪。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://coderemixer.com/static/kanjidic-5173.png">
+<meta property="og:image" content="https://coderemixer.com/static/jigen-5173.png">
+<meta property="og:image" content="https://coderemixer.com/static/jiyun-5173.png">
+<meta property="og:image" content="https://coderemixer.com/static/jiandu-5173.png">
+<meta property="article:published_time" content="2019-08-15T10:22:16.000Z">
+<meta property="article:modified_time" content="2020-08-12T09:01:06.003Z">
+<meta property="article:author" content="CodeRemixer">
+<meta property="article:tag" content="语言学">
+<meta property="article:tag" content="日语">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://coderemixer.com/static/kanjidic-5173.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>日本語字形「关」字攷</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/true" title="代码混音师" type="application/atom+xml" />
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/11/13/quantum-poe/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/08/12/ingress-resistance-shonan-homogeneous-field/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://coderemixer.com/2019/08/15/japansese-kanji-5173-research/" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://coderemixer.com/2019/08/15/japansese-kanji-5173-research/&text=日本語字形「关」字攷" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://coderemixer.com/2019/08/15/japansese-kanji-5173-research/&title=日本語字形「关」字攷" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://coderemixer.com/2019/08/15/japansese-kanji-5173-research/&is_video=false&description=日本語字形「关」字攷" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=日本語字形「关」字攷&body=Check out this article: https://coderemixer.com/2019/08/15/japansese-kanji-5173-research/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://coderemixer.com/2019/08/15/japansese-kanji-5173-research/&title=日本語字形「关」字攷" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://coderemixer.com/2019/08/15/japansese-kanji-5173-research/&title=日本語字形「关」字攷" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://coderemixer.com/2019/08/15/japansese-kanji-5173-research/&title=日本語字形「关」字攷" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://coderemixer.com/2019/08/15/japansese-kanji-5173-research/&title=日本語字形「关」字攷" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://coderemixer.com/2019/08/15/japansese-kanji-5173-research/&name=日本語字形「关」字攷&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://coderemixer.com/2019/08/15/japansese-kanji-5173-research/&t=日本語字形「关」字攷" target="_blank" rel="noopener"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#字源探究"><span class="toc-number">1.</span> <span class="toc-text">字源探究</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#總結"><span class="toc-number">2.</span> <span class="toc-text">總結</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        日本語字形「关」字攷
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">代码混音师</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-08-15T10:22:16.000Z" itemprop="datePublished">2019-08-15</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/%E6%97%A5%E8%AF%AD/" rel="tag">日语</a>, <a class="tag-link" href="/tags/%E8%AF%AD%E8%A8%80%E5%AD%A6/" rel="tag">语言学</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>我的手機使用的是英文系統，Android 在漢字 fallback 的時候會優先 fallback 到日文字形上，這使得一些簡體漢字的顯示非常奇怪。其中一個特別突出的就是「关」<code>U+5173</code> 字。「关」在我的理解中一般作「関」<code>U+95A2</code>、「關」<code>U+95DC</code> 或「闗」<code>U+95D7</code> 的簡化字。但是在日文字形中，<code>U+5173</code> 是一個只有一半字寬的奇怪字形，甚至不符合一般漢字的原理、放在文章裏非常奇怪。</p>
+<p><img src="/static/kanjidic-5173.png" alt="kanjidic-5173"></p>
+<p>Weblio 上的 KANJIDIC2 漢字辭典說這是「日本語ではあまり使用されない漢字です。」這顯然不能解答我們的問題。</p>
+<h2 id="字源探究"><a href="#字源探究" class="headerlink" title="字源探究"></a>字源探究</h2><p>正在我一籌莫展的時候，日本的漢字字源網站 <a href="http://jigen.net" target="_blank" rel="noopener">jigen.net</a> 提供了靈感。這個字源字典收錄了<a href="https://jigen.net/kanji/20851" target="_blank" rel="noopener">「关」</a>字，給出的解釋非常有意思「笑の初文」，也就是說「笑」字最早的寫法，但是網站沒有給出任何參攷資料。如果是這樣的話，我們顯然能在漢語的字源資料中找到相應的蛛絲馬跡。</p>
+<p><img src="/static/jigen-5173.png" alt="jigen-5173"></p>
+<p>說起「笑」的異體字，我們第一反應，可能是「咲」字。於是我們以此入手，可以在《康熙字典》中找到：「《集韻》笑古作咲。註詳竹部四畫。或省作𠇄 <code>U+201C4</code>。」這個字今天還是日語的常用字。</p>
+<p>於是我直接去找了《集韻》（四庫全書本）的影印資料，內容比《康熙字典》裏的要詳細很多：</p>
+<p><img src="/static/jiyun-5173.png" alt="jiyun-5173"></p>
+<blockquote>
+<p>笑咲关仙妙切喜也古作笑或省俗作㗛非是文十一</p>
+</blockquote>
+<p>從這裏我們確認，「关」確實在歷史上可以作爲「笑」的意思。</p>
+<p>但是把「关」稱爲「笑」的初文的證據卻不好找。1999 年復旦大學中文系張虹倩、劉斐在《中國文字研究》雜誌上發表了一篇論文。認爲：</p>
+<blockquote>
+<p>“笑”字字形流变中”从艸从犬”早于”从竹从犬”,”从竹从犬”又早于”从竹从夭”。然而”从艸从犬”也非”笑”的最早字形,”艸”是”八”的篆形讹变。</p>
+</blockquote>
+<p>這篇文章的立論建立在《說文》中對於「笑」字的原始記載已經遺失。但是這一說法和之後的出土文物不符。隨着更早的楚系簡牘和帛書的<a href="https://www.zdic.net/zd/zx/cx/%E5%92%B2" target="_blank" rel="noopener">出土</a>，我們可以看到在《說文》以前，「笑」字是「从艸从犬」的𦬦 <code>U+26B25</code> 字，「关」作「笑」字初文並沒有有效的證據。</p>
+<p><img src="/static/jiandu-5173.png" alt="jiandu-5173"></p>
+<p>除了這一解釋，還有一個解釋，認爲「关」是「芖」讹變而來。「芖」在 1920 年代出土東漢《熹平石经》周易殘碑顯示是「笑」的省文。而「咲」是「关」加上「口」字旁的俗字。這一說法在邏輯上講得通，而且也可以解釋爲什麼日本語的「关」字形使用了一半的字寬，因爲把這個字視作「咲」的一部分。但這一說法沒有實際的證據證實，所以也只能作爲一個推測來看。</p>
+<h2 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h2><p>其實深入研究到後半段就發現，無論原因是什麼，日文字形裏的「关」和簡化字的「关」完全就是兩個字。</p>
+<p>根本不知道爲什麼 Unicode 分配到了同一個編碼上。</p>
+<p>雖然 Unicode 的實作很髒，但是它確實構成了我們每天生活的必需。</p>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>加载评论需要在浏览器启用 JavaScript 脚本支持。</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#字源探究"><span class="toc-number">1.</span> <span class="toc-text">字源探究</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#總結"><span class="toc-number">2.</span> <span class="toc-text">總結</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://coderemixer.com/2019/08/15/japansese-kanji-5173-research/" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://coderemixer.com/2019/08/15/japansese-kanji-5173-research/&text=日本語字形「关」字攷" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://coderemixer.com/2019/08/15/japansese-kanji-5173-research/&title=日本語字形「关」字攷" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://coderemixer.com/2019/08/15/japansese-kanji-5173-research/&is_video=false&description=日本語字形「关」字攷" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=日本語字形「关」字攷&body=Check out this article: https://coderemixer.com/2019/08/15/japansese-kanji-5173-research/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://coderemixer.com/2019/08/15/japansese-kanji-5173-research/&title=日本語字形「关」字攷" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://coderemixer.com/2019/08/15/japansese-kanji-5173-research/&title=日本語字形「关」字攷" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://coderemixer.com/2019/08/15/japansese-kanji-5173-research/&title=日本語字形「关」字攷" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://coderemixer.com/2019/08/15/japansese-kanji-5173-research/&title=日本語字形「关」字攷" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://coderemixer.com/2019/08/15/japansese-kanji-5173-research/&name=日本語字形「关」字攷&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://coderemixer.com/2019/08/15/japansese-kanji-5173-research/&t=日本語字形「关」字攷" target="_blank" rel="noopener"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2020
+    CodeRemixer
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-127825283-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'coderemixer';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+
+</body>
+</html>

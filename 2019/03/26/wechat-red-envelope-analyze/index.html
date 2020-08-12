@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="序今天坐车的时候，看到司机的微信在玩一个叫「红包接龙」的游戏，让我提起了兴趣。游戏的规则很简单：群里有 100 个人，首先群主发一个 100 元的红包，然后大家去抢。抢到最多钱的那个人（手气最佳）必须再发一个 100 元的红包，依次类推。乍一听，如果每个人都遵守规矩，那么这就是一个零和游戏。但仔细品品感觉并不那么简单。在这个情况下，是不是资产很容易两极分化，然后其中一些人破产呢？又或者，存不存在一">
+<meta property="og:type" content="article">
+<meta property="og:title" content="微信红包背后的赌博游戏">
+<meta property="og:url" content="https://coderemixer.com/2019/03/26/wechat-red-envelope-analyze/index.html">
+<meta property="og:site_name" content="代码混音师">
+<meta property="og:description" content="序今天坐车的时候，看到司机的微信在玩一个叫「红包接龙」的游戏，让我提起了兴趣。游戏的规则很简单：群里有 100 个人，首先群主发一个 100 元的红包，然后大家去抢。抢到最多钱的那个人（手气最佳）必须再发一个 100 元的红包，依次类推。乍一听，如果每个人都遵守规矩，那么这就是一个零和游戏。但仔细品品感觉并不那么简单。在这个情况下，是不是资产很容易两极分化，然后其中一些人破产呢？又或者，存不存在一">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://coderemixer.com/static/std-env.jpg">
+<meta property="article:published_time" content="2019-03-26T14:15:09.000Z">
+<meta property="article:modified_time" content="2020-08-12T09:01:06.007Z">
+<meta property="article:author" content="CodeRemixer">
+<meta property="article:tag" content="Ruby">
+<meta property="article:tag" content="微信">
+<meta property="article:tag" content="数学">
+<meta property="article:tag" content="赌博">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://coderemixer.com/static/std-env.jpg">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>微信红包背后的赌博游戏</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/true" title="代码混音师" type="application/atom+xml" />
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/05/06/programming-jokes-that-hard-to-be-understood/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/03/05/project-nyan-chat/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://coderemixer.com/2019/03/26/wechat-red-envelope-analyze/" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://coderemixer.com/2019/03/26/wechat-red-envelope-analyze/&text=微信红包背后的赌博游戏" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://coderemixer.com/2019/03/26/wechat-red-envelope-analyze/&title=微信红包背后的赌博游戏" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://coderemixer.com/2019/03/26/wechat-red-envelope-analyze/&is_video=false&description=微信红包背后的赌博游戏" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=微信红包背后的赌博游戏&body=Check out this article: https://coderemixer.com/2019/03/26/wechat-red-envelope-analyze/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://coderemixer.com/2019/03/26/wechat-red-envelope-analyze/&title=微信红包背后的赌博游戏" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://coderemixer.com/2019/03/26/wechat-red-envelope-analyze/&title=微信红包背后的赌博游戏" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://coderemixer.com/2019/03/26/wechat-red-envelope-analyze/&title=微信红包背后的赌博游戏" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://coderemixer.com/2019/03/26/wechat-red-envelope-analyze/&title=微信红包背后的赌博游戏" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://coderemixer.com/2019/03/26/wechat-red-envelope-analyze/&name=微信红包背后的赌博游戏&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://coderemixer.com/2019/03/26/wechat-red-envelope-analyze/&t=微信红包背后的赌博游戏" target="_blank" rel="noopener"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#序"><span class="toc-number">1.</span> <span class="toc-text">序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#随机算法"><span class="toc-number">2.</span> <span class="toc-text">随机算法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#标准差与破产探索"><span class="toc-number">3.</span> <span class="toc-text">标准差与破产探索</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#随机算法的不随机之处"><span class="toc-number">4.</span> <span class="toc-text">随机算法的不随机之处</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#结论"><span class="toc-number">5.</span> <span class="toc-text">结论</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        微信红包背后的赌博游戏
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">代码混音师</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-03-26T14:15:09.000Z" itemprop="datePublished">2019-03-26</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/Ruby/" rel="tag">Ruby</a>, <a class="tag-link" href="/tags/%E5%BE%AE%E4%BF%A1/" rel="tag">微信</a>, <a class="tag-link" href="/tags/%E6%95%B0%E5%AD%A6/" rel="tag">数学</a>, <a class="tag-link" href="/tags/%E8%B5%8C%E5%8D%9A/" rel="tag">赌博</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="序"><a href="#序" class="headerlink" title="序"></a>序</h2><p>今天坐车的时候，看到司机的微信在玩一个叫「红包接龙」的游戏，让我提起了兴趣。游戏的规则很简单：群里有 100 个人，首先群主发一个 100 元的红包，然后大家去抢。抢到最多钱的那个人（手气最佳）必须再发一个 100 元的红包，依次类推。乍一听，如果每个人都遵守规矩，那么这就是一个零和游戏。但仔细品品感觉并不那么简单。在这个情况下，是不是资产很容易两极分化，然后其中一些人破产呢？又或者，存不存在一种玩法，使得可以必胜呢？于是我想来好好讨论一下这个问题。</p>
+<h2 id="随机算法"><a href="#随机算法" class="headerlink" title="随机算法"></a>随机算法</h2><p>要想探讨这个游戏，首先我们需要知道微信红包是怎么进行随机算法的。根据这个<a href="https://www.zhihu.com/question/22625187/answer/85530416" target="_blank" rel="noopener">知乎回答</a>，答主给出了一个微信红包的算法。由于具体的算法是一个黑盒，那么我们就先建立在这个算法下进行好了，也就是：</p>
+<blockquote>
+<p>每个人随机从 0.01 和剩余平均值两倍之间取一个值，最后一个人拿走剩余全部。</p>
+</blockquote>
+<p>我写了一个小 Ruby 脚本来实现这个功能：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">require</span> <span class="string">'descriptive_statistics'</span></span><br><span class="line"><span class="keyword">require</span> <span class="string">'securerandom'</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RedEnvelope</span></span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">initialize</span><span class="params">(money, size)</span></span></span><br><span class="line">    @size = size</span><br><span class="line">    @money = money</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">draw</span></span></span><br><span class="line">    raise <span class="string">'Empty Envelope'</span> <span class="keyword">if</span> @size &lt; <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> @size == <span class="number">1</span></span><br><span class="line">      @size -= <span class="number">1</span></span><br><span class="line">      <span class="keyword">return</span> @money</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    max = @money / @size * <span class="number">2</span></span><br><span class="line">    aquired = SecureRandom.random_number(max - <span class="number">1</span>) + <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    @size -= <span class="number">1</span></span><br><span class="line">    @money -= aquired</span><br><span class="line">    aquired</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">empty?</span></span></span><br><span class="line">    @size == <span class="number">0</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span></span></span><br><span class="line">  <span class="keyword">attr_reader</span> <span class="symbol">:name</span>, <span class="symbol">:money</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">initialize</span><span class="params">(name, money)</span></span></span><br><span class="line">    @name = name</span><br><span class="line">    @money = money</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">generate</span><span class="params">(money, size)</span></span></span><br><span class="line">    raise <span class="string">"<span class="subst">#&#123;@name&#125;</span> Go Bankrupt"</span> <span class="keyword">if</span> money &gt; @money</span><br><span class="line">    @money -= money</span><br><span class="line">    RedEnvelope.new(money, size)</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">fetch</span><span class="params">(envelope)</span></span></span><br><span class="line">    fetched = envelope.draw</span><br><span class="line">    @money += fetched</span><br><span class="line">    fetched</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Game</span></span></span><br><span class="line">  <span class="keyword">attr_accessor</span> <span class="symbol">:users</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">initialize</span><span class="params">(bet, users)</span></span></span><br><span class="line">    @bet = bet</span><br><span class="line">    @users = users</span><br><span class="line">    @round = <span class="number">0</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">play</span><span class="params">(user)</span></span></span><br><span class="line">    @round += <span class="number">1</span></span><br><span class="line">    order = @users.shuffle</span><br><span class="line">    largest_amount = <span class="number">0</span></span><br><span class="line">    largest_user = <span class="literal">nil</span></span><br><span class="line">    envelope = user.generate(@bet, @users.size)</span><br><span class="line">    order.each <span class="keyword">do</span> <span class="params">|user|</span></span><br><span class="line">      amount = user.fetch(envelope)</span><br><span class="line">      <span class="keyword">if</span> amount &gt; largest_amount</span><br><span class="line">        largest_amount = amount</span><br><span class="line">        largest_user = user</span><br><span class="line">      <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    print <span class="string">"Round <span class="subst">#&#123;@round&#125;</span>: "</span></span><br><span class="line">    puts @users.map &#123; <span class="params">|u|</span> u.money / <span class="number">100.0</span> &#125;.standard_deviation</span><br><span class="line">    largest_user</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="标准差与破产探索"><a href="#标准差与破产探索" class="headerlink" title="标准差与破产探索"></a>标准差与破产探索</h2><p>我们先假设有 10 个玩家，每个人有 5000 元开局，每一把玩 200 元好了。</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">users = []</span><br><span class="line"><span class="number">10</span>.times <span class="keyword">do</span> <span class="params">|i|</span></span><br><span class="line">  users &lt;&lt; User.new(<span class="string">"User <span class="subst">#&#123;i&#125;</span>"</span>, <span class="number">5_000_00</span>)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">game = Game.new(<span class="number">200_00</span>, users)</span><br><span class="line"></span><br><span class="line">user = users.first</span><br><span class="line">loop <span class="keyword">do</span></span><br><span class="line">  user = game.play(user)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+<p>进行了一次模拟，在游戏进行到第 2399 轮时，2 号玩家破产。玩家间余额的标准差随游戏轮数的关系如下：</p>
+<p><img src="/static/std-env.jpg" alt="std-env"></p>
+<p>多进行几次模拟，修改初始金额或每次的赌资，情况几乎不变。也就是随着游戏轮数的进行，玩家间余额的标准差（贫富差距）在变得越来越大，直到某一玩家破产，游戏结束。</p>
+<p>这一结论是显然的，因为实际上这个游戏是一个典型的「无偏随机游走」问题，标准差与时间成正比。随着游戏进行，必然一些人变得极度有钱，而越来越多人会破产。</p>
+<h2 id="随机算法的不随机之处"><a href="#随机算法的不随机之处" class="headerlink" title="随机算法的不随机之处"></a>随机算法的不随机之处</h2><p>但财富不单单是聚集的问题，如果我们仔细回头看这个随机算法，就会发现它是有规律的。</p>
+<p>虽然均值一样，但是越早抽到红包，方差越小，越不可能遇到需要发红包的情况。越后抽越容易出现手气最佳，从而产生负收益的情况。在均值一致的情况下，只要减少发红包的次数就行了。于是，庄家如果有机器辅助的话，就可以把自己的期望变为正数。</p>
+<p>但是，这时我就产生了一个疑问：「如果同时也有其它机器人一起参与抢单呢？」</p>
+<p>我于是问了问司机，这群有人用抢红包工具吗？司机非常自信地告诉我：「不可能。群主会先收取押金，如果你被发现作弊，会直接把你踢出群。」</p>
+<p>原来如此，原来只要把连着几把第一个抽的直接踢出群没收押金即可。</p>
+<p>完美。</p>
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>十赌九输，</p>
+<p>赌博前请先学数学。</p>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>加载评论需要在浏览器启用 JavaScript 脚本支持。</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#序"><span class="toc-number">1.</span> <span class="toc-text">序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#随机算法"><span class="toc-number">2.</span> <span class="toc-text">随机算法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#标准差与破产探索"><span class="toc-number">3.</span> <span class="toc-text">标准差与破产探索</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#随机算法的不随机之处"><span class="toc-number">4.</span> <span class="toc-text">随机算法的不随机之处</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#结论"><span class="toc-number">5.</span> <span class="toc-text">结论</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://coderemixer.com/2019/03/26/wechat-red-envelope-analyze/" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://coderemixer.com/2019/03/26/wechat-red-envelope-analyze/&text=微信红包背后的赌博游戏" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://coderemixer.com/2019/03/26/wechat-red-envelope-analyze/&title=微信红包背后的赌博游戏" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://coderemixer.com/2019/03/26/wechat-red-envelope-analyze/&is_video=false&description=微信红包背后的赌博游戏" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=微信红包背后的赌博游戏&body=Check out this article: https://coderemixer.com/2019/03/26/wechat-red-envelope-analyze/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://coderemixer.com/2019/03/26/wechat-red-envelope-analyze/&title=微信红包背后的赌博游戏" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://coderemixer.com/2019/03/26/wechat-red-envelope-analyze/&title=微信红包背后的赌博游戏" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://coderemixer.com/2019/03/26/wechat-red-envelope-analyze/&title=微信红包背后的赌博游戏" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://coderemixer.com/2019/03/26/wechat-red-envelope-analyze/&title=微信红包背后的赌博游戏" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://coderemixer.com/2019/03/26/wechat-red-envelope-analyze/&name=微信红包背后的赌博游戏&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://coderemixer.com/2019/03/26/wechat-red-envelope-analyze/&t=微信红包背后的赌博游戏" target="_blank" rel="noopener"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2020
+    CodeRemixer
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-127825283-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'coderemixer';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+
+</body>
+</html>

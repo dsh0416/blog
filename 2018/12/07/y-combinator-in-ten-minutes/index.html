@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="引这学期在学校选了一门讲可计算性（Computability）的计算机科学基础课程。过程中也把很多概念给自己重新复习了一下，不过从这课课堂的反馈来看，可以说同学都听得非常吃力。我想到几年前我有尝试写过一篇通过 Y 组合子来讨论 Lambda 演算的文章，考虑到当时写得很不完善，我打算拿出来重新炒一下冷饭。顺便改使用傻子都能看懂的 JavaScript 来描述这个问题。顺便调试一下我博客系统 Mar">
+<meta property="og:type" content="article">
+<meta property="og:title" content="十分钟速通 Y Combinator">
+<meta property="og:url" content="https://coderemixer.com/2018/12/07/y-combinator-in-ten-minutes/index.html">
+<meta property="og:site_name" content="代码混音师">
+<meta property="og:description" content="引这学期在学校选了一门讲可计算性（Computability）的计算机科学基础课程。过程中也把很多概念给自己重新复习了一下，不过从这课课堂的反馈来看，可以说同学都听得非常吃力。我想到几年前我有尝试写过一篇通过 Y 组合子来讨论 Lambda 演算的文章，考虑到当时写得很不完善，我打算拿出来重新炒一下冷饭。顺便改使用傻子都能看懂的 JavaScript 来描述这个问题。顺便调试一下我博客系统 Mar">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-12-07T07:44:33.000Z">
+<meta property="article:modified_time" content="2020-08-12T09:01:06.008Z">
+<meta property="article:author" content="CodeRemixer">
+<meta property="article:tag" content="JavaScript">
+<meta property="article:tag" content="Lambda 演算">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>十分钟速通 Y Combinator</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/true" title="代码混音师" type="application/atom+xml" />
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2018/12/08/ruby-quiz-base32/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2018/11/26/home-network-fujisawa/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://coderemixer.com/2018/12/07/y-combinator-in-ten-minutes/" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://coderemixer.com/2018/12/07/y-combinator-in-ten-minutes/&text=十分钟速通 Y Combinator" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://coderemixer.com/2018/12/07/y-combinator-in-ten-minutes/&title=十分钟速通 Y Combinator" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://coderemixer.com/2018/12/07/y-combinator-in-ten-minutes/&is_video=false&description=十分钟速通 Y Combinator" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=十分钟速通 Y Combinator&body=Check out this article: https://coderemixer.com/2018/12/07/y-combinator-in-ten-minutes/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://coderemixer.com/2018/12/07/y-combinator-in-ten-minutes/&title=十分钟速通 Y Combinator" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://coderemixer.com/2018/12/07/y-combinator-in-ten-minutes/&title=十分钟速通 Y Combinator" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://coderemixer.com/2018/12/07/y-combinator-in-ten-minutes/&title=十分钟速通 Y Combinator" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://coderemixer.com/2018/12/07/y-combinator-in-ten-minutes/&title=十分钟速通 Y Combinator" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://coderemixer.com/2018/12/07/y-combinator-in-ten-minutes/&name=十分钟速通 Y Combinator&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://coderemixer.com/2018/12/07/y-combinator-in-ten-minutes/&t=十分钟速通 Y Combinator" target="_blank" rel="noopener"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引"><span class="toc-number">1.</span> <span class="toc-text">引</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#循环-gt-递归"><span class="toc-number">2.</span> <span class="toc-text">循环 -&gt; 递归</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#匿名函数化"><span class="toc-number">3.</span> <span class="toc-text">匿名函数化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#为什么？"><span class="toc-number">4.</span> <span class="toc-text">为什么？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#尝试"><span class="toc-number">4.1.</span> <span class="toc-text">尝试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Y-组合子"><span class="toc-number">4.2.</span> <span class="toc-text">Y 组合子</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#不动点组合子"><span class="toc-number">4.3.</span> <span class="toc-text">不动点组合子</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#结论"><span class="toc-number">5.</span> <span class="toc-text">结论</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        十分钟速通 Y Combinator
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">代码混音师</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2018-12-07T07:44:33.000Z" itemprop="datePublished">2018-12-07</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/JavaScript/" rel="tag">JavaScript</a>, <a class="tag-link" href="/tags/Lambda-%E6%BC%94%E7%AE%97/" rel="tag">Lambda 演算</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="引"><a href="#引" class="headerlink" title="引"></a>引</h2><p>这学期在学校选了一门讲可计算性（Computability）的计算机科学基础课程。过程中也把很多概念给自己重新复习了一下，不过从这课课堂的反馈来看，可以说同学都听得非常吃力。我想到几年前我有尝试写过一篇通过 Y 组合子来讨论 Lambda 演算的文章，考虑到当时写得很不完善，我打算拿出来重新炒一下冷饭。顺便改使用傻子都能看懂的 JavaScript 来描述这个问题。顺便调试一下我博客系统 Markdown 引入 $\LaTeX$ 后会遇到的坑。</p>
+<h2 id="循环-gt-递归"><a href="#循环-gt-递归" class="headerlink" title="循环 -&gt; 递归"></a>循环 -&gt; 递归</h2><p>我们还是从下面这个简单的循环问题开始探讨。通过写一个循环（不使用等差数列的情况下），求自然数列 1 到 n 的和（即 $1+2+3+…+n$）。一个最容易想到的实现可能如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sum</span>(<span class="params">n</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> result = <span class="number">0</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">1</span>; i &lt;= n; i++) &#123;</span><br><span class="line">    result += i</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> result</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">sum(<span class="number">10</span>) <span class="comment">// =&gt; 55</span></span><br></pre></td></tr></table></figure>
+
+<p>我们现在对这个问题稍作变形，如果在这个程序中不得使用 <code>for</code> 循环，我们还能实现这个程序吗？显然这也是非常简单的，因为我们还可以用 <code>while</code> 循环。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sum</span>(<span class="params">n</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> result = <span class="number">0</span></span><br><span class="line">  <span class="keyword">let</span> counter = <span class="number">1</span></span><br><span class="line">  <span class="keyword">while</span> (counter &lt;= n) &#123;</span><br><span class="line">    result += counter</span><br><span class="line">    counter++</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> result</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">sum(<span class="number">10</span>) <span class="comment">// =&gt; 55</span></span><br></pre></td></tr></table></figure>
+
+<p>或者进一步地，我们可以写成：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sum</span>(<span class="params">n</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> result = <span class="number">0</span></span><br><span class="line">  <span class="keyword">let</span> counter = <span class="number">1</span></span><br><span class="line">  <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (counter &gt; n) <span class="keyword">break</span></span><br><span class="line">    result += counter</span><br><span class="line">    counter++</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> result</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">sum(<span class="number">10</span>) <span class="comment">// =&gt; 55</span></span><br></pre></td></tr></table></figure>
+
+<p>抽象地来看，我们这里使用到的 <code>counter</code> 变量，既可以看成是循环变量，更可以看成是一个程序计数器。也就是从一个状态转移到下一个状态的过程，而 <code>break</code> 则是指出了终止状态发生的位置。我们现在对这个题目进行进一步地变形，如果我们不允许在这里使用包括 <code>while</code> 在内的任何循环，我们还能实现这个程序吗？</p>
+<p>我们不但能，而且程序写起来更简单了。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sum</span>(<span class="params">n</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (n === <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">  <span class="keyword">return</span> sum(n - <span class="number">1</span>) + n</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">sum(<span class="number">10</span>) <span class="comment">// =&gt; 55</span></span><br></pre></td></tr></table></figure>
+
+<p>这个写法可以优雅地由数学形式表示：</p>
+<p>$$<br>sum(x)=<br>\begin{cases}<br>  0 &amp;x = 0 \cr<br>  sum(x-1) + x &amp;otherwise<br>\end{cases}<br>$$</p>
+<p>也就是我们只需要定义 $sum(0) = 0$，然后无论求什么的和，都是其之前所有数的和加上当前这个数。计算机会一次一次向下找，直到找到 0 为止，最后把找到的数全部加起来。解决！当然你可能会觉得这么做的效率很低，计算机不停递归会影响性能，我们会在之后讨论这个问题，我们目前暂时先只讨论「可计算性」上的等价。</p>
+<h2 id="匿名函数化"><a href="#匿名函数化" class="headerlink" title="匿名函数化"></a>匿名函数化</h2><p>「$\lambda$ 演算」和我们刚刚那个例子很接近，但是又稍有不同。我们先抛开「$\lambda$ 演算」本身复杂的定义，从其性质入手，就可以简单对「$\lambda$ 演算」有直观的认识。</p>
+<ul>
+<li>如果有这么一个式子 $\lambda x.x$，那么 <code>x</code> 就是一个变量。对于一个变量，我们可以任意更换其名字，比如可以从 <code>x</code> 改成 <code>y</code>，得到 $\lambda y.y$，这一步称作「$\alpha$ 等价」。</li>
+<li>如果有形如一个式子 $(\lambda x.x+1)(1)$，我们可以把后面的 <code>1</code> 替代掉前面的 <code>x</code>，即 $(\lambda x.x+1)(1) = 1+1 = 2$，这一步称作「$\beta$ 规约」。</li>
+</ul>
+<p>如果你对符号不敏感，可能看到这里有点晕。但如果你敏感一点的话，就会发现这里其实只不过是换了一个说法的「匿名函数」而已。像我们之前的例子里，我们定义函数都要起一个函数名。但如果我们一次性使用这个函数，我们完全可以不命名，定义完接受的参数和运算方法直接执行即可，这就是所谓的「匿名函数」。用 JavaScript 的语言来描述的话如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// alpha 等价</span></span><br><span class="line">(x) =&gt; x</span><br><span class="line">(y) =&gt; y</span><br><span class="line"><span class="comment">// 这两个东西是等价的</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// beta 规约</span></span><br><span class="line">(<span class="function">(<span class="params">x</span>) =&gt;</span> x + <span class="number">1</span>)(<span class="number">1</span>) <span class="comment">// =&gt; 1 + 1 =&gt; 2</span></span><br></pre></td></tr></table></figure>
+
+<p>如果你不熟悉 ES6 的箭头函数，用 ES5 写的话如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// alpha 等价</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> (<span class="params">x</span>) </span>&#123; <span class="keyword">return</span> x &#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> (<span class="params">y</span>) </span>&#123; <span class="keyword">return</span> y &#125;</span><br><span class="line"><span class="comment">// 这两个东西是等价的</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// beta 规约</span></span><br><span class="line">(<span class="function"><span class="keyword">function</span> (<span class="params">x</span>) </span>&#123; <span class="keyword">return</span> x + <span class="number">1</span> &#125;)(<span class="number">1</span>) <span class="comment">// =&gt; 1 + 1 =&gt; 2</span></span><br></pre></td></tr></table></figure>
+
+<p>换句话说，也就是说「$\alpha$ 等价」说明了匿名函数中的变量名不会影响运算结果，而「$\beta$ 规约」就是去执行这个匿名函数而已。</p>
+<h2 id="为什么？"><a href="#为什么？" class="headerlink" title="为什么？"></a>为什么？</h2><p>我们之前讨论了一个递归和循环的例子，这和「匿名函数」有什么关系呢？我们可以看到，我们现在的匿名函数看起来很方便，但是实际上用来实现递归和循环听起来就很奇怪。首先，纯「$\lambda$ 演算」并没有像是 <code>while</code> 或 <code>for</code> 这样的循环命令。不过好在我们刚刚发现，所有的循环都可以被我们转换成递归</p>
+<p>递归听起来就和函数更相关一些，不过我们又产生了一个新问题：递归时，我们需要具名地指定我们递归调用那个函数。而我们现在的函数，没有名字。我们还能实现递归吗？</p>
+<h3 id="尝试"><a href="#尝试" class="headerlink" title="尝试"></a>尝试</h3><p>我们先大致写一个类似递归的匿名函数：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function">(<span class="params">n</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (n === <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">  <span class="keyword">return</span> n + <span class="comment">// 我不知道这里要加什么东西</span></span><br><span class="line">&#125;)(<span class="number">10</span>) <span class="comment">// 应该要输出 55</span></span><br></pre></td></tr></table></figure>
+
+<p>不过既然递归要调用一个函数，我们先假设我们存在这个函数，将其命名为 <code>f</code>：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function">(<span class="params">n</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (n === <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">  <span class="keyword">return</span> n + f(n - <span class="number">1</span>)</span><br><span class="line">&#125;)(<span class="number">10</span>) <span class="comment">// 应该要输出 55</span></span><br></pre></td></tr></table></figure>
+
+<p>我们可以想象，对于匿名函数，如果没有全局变量，那么其获取数据的来源是唯一的，那就是参数。那我们为什么不把我们想要的函数 <code>f</code> 作为参数呢？</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function">(<span class="params">f, n</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (n === <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">  <span class="keyword">return</span> n + f(n - <span class="number">1</span>)</span><br><span class="line">&#125;)(<span class="number">10</span>) <span class="comment">// 应该要输出 55</span></span><br></pre></td></tr></table></figure>
+
+<p>这样似乎已经快到我们想要的结果了，既然我们加了一个参数 <code>f</code>，那么在执行的时候，这个 <code>f</code> 又是多少呢？答案很简单，就是这个匿名函数自己。匿名函数不能起名字，但其本身还是可以作为参数传递啊，于是我们得到了：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function">(<span class="params">f, n</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (n === <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">  <span class="keyword">return</span> n + f(f, n - <span class="number">1</span>)</span><br><span class="line">&#125;)(<span class="function">(<span class="params">(f, n</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (n === <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">  <span class="keyword">return</span> n + f(f, n - <span class="number">1</span>)</span><br><span class="line">&#125;), <span class="number">10</span>) <span class="comment">// # =&gt; 55</span></span><br></pre></td></tr></table></figure>
+
+<p>解决！我们使用了纯匿名函数解决了这个问题。</p>
+<h3 id="Y-组合子"><a href="#Y-组合子" class="headerlink" title="Y 组合子"></a>Y 组合子</h3><p>那什么是 Y 组合子（Y Combinator）呢？Y 组合子不过是解决这一类问题的通用方案而已。Y 组合子的定义是</p>
+<p>$$<br>Y := \lambda f.(\lambda x.(f (x\ x)) \lambda x.(f (x\ x)))<br>$$</p>
+<p>听起来挺搞脑子的，不过如果我们代入任何一个东西算一下的话，就会发现其实很简单。如果我们存在一个函数 <code>g</code>，那么：</p>
+<p>$$<br>\begin{align}<br>  Y\ g &amp; = \lambda f.(\lambda x.(f (x\ x)) \lambda x.(f (x\ x))) g \\<br>  &amp; = \lambda x.(g (x\ x)) \lambda x.(g (x\ x)) \\<br>  &amp; = \lambda y.(g (y\ y)) \lambda x.(g (x\ x)) \\<br>  &amp; = (g (\lambda x.(g (x\ x)) \lambda x.(g (x\ x)))) \\<br>\end{align}<br>$$</p>
+<p>而同时：</p>
+<p>$$<br>\begin{align}<br>  g (Y\ g) &amp; = g (\lambda f.(\lambda x.(f (x\ x)) \lambda x.(f (x\ x))) g) \\<br>  &amp; = (g (\lambda x.(g (x\ x)) \lambda x.(g (x\ x)))) \\<br>\end{align}<br>$$</p>
+<p>故 $Y g = g (Y\ g) = g (g (Y\ g)) = g (g (g (Y\ g))) $，也就是对于任意函数都能实现递归。</p>
+<p>这里我们再使用 JavaScript 来实现一下 Y 组合子版的自然数列 1 到 n 的和：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// \lambda f.(\lambda x.(f (x x)) \lambda x.(f (x x)))</span></span><br><span class="line"><span class="keyword">const</span> Y = <span class="function"><span class="params">fn</span> =&gt;</span> (<span class="function"><span class="params">f</span> =&gt;</span> fn(<span class="function"><span class="params">x</span> =&gt;</span> f(f)(x)))(<span class="function"><span class="params">f</span> =&gt;</span> fn(<span class="function"><span class="params">x</span> =&gt;</span> f(f)(x)))</span><br><span class="line"></span><br><span class="line">g = <span class="function"><span class="params">f</span> =&gt;</span> n =&gt; &#123;</span><br><span class="line">  <span class="keyword">if</span> (n === <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">  <span class="keyword">return</span> n + f(n - <span class="number">1</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Y(g)(<span class="number">10</span>) <span class="comment">// =&gt; 55</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="不动点组合子"><a href="#不动点组合子" class="headerlink" title="不动点组合子"></a>不动点组合子</h3><p>你也许听过 Y 组合子是一类不动点组合子。不动点组合子究竟是什么意思呢？组合子是一种消除变量的函数。在 Y 组合子中你可以看到并没有用任何 <code>let</code> <code>var</code> <code>const</code> 之类的变量定义，而是通过一系列参数传递消除了这一过程。而至于不动点，你可能在初中的代数课本上学习过「不动点」的概念，这在这里几乎是一样的。通常我们眼中的不动点，即在函数 $f(x) = y$ 上找到一个值 <code>x</code> 使得 $x = f(x)$。比如对于函数 $f(x) = x^2 - 1$，不动点是 1 和 -1。</p>
+<p>但是初中的代数中的这个不动点的定义其实是一个简化版本。事实上所谓找到一个「值」<code>x</code>，也可以被表述成「找到一个『函数』」<code>g(x)</code>，使得 $g(x) = f(g(x))$。而值 <code>x</code> 是这个 <code>g(x)</code> 的一个特例，即常值函数 <code>g(x) = c</code>（c 是一个常数）。</p>
+<p>这样我们就不难理解不动点组合子的意义了。我们找到一个函数 <code>Y</code>，使得 $Y\ g = g(Y\ g)$。这就是所谓的不动点组合子。</p>
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>费了那么大劲到底干什么？因为图灵机、递归和 $\lambda$ 演算被证明在可计算性上是等价的，如果存在一个问题（比如递归或者循环）在其中一种可计算，在另一种不可计算。这是有悖于数学原理的。而更重要的是，我们基于 Y 组合子这个例子，可以一次性将图灵机、递归和 $\lambda$ 演算的知识一次性串联起来，建立一个对可计算性的直观系统的理解。</p>
+<p>岂不是很好吗？</p>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>加载评论需要在浏览器启用 JavaScript 脚本支持。</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引"><span class="toc-number">1.</span> <span class="toc-text">引</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#循环-gt-递归"><span class="toc-number">2.</span> <span class="toc-text">循环 -&gt; 递归</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#匿名函数化"><span class="toc-number">3.</span> <span class="toc-text">匿名函数化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#为什么？"><span class="toc-number">4.</span> <span class="toc-text">为什么？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#尝试"><span class="toc-number">4.1.</span> <span class="toc-text">尝试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Y-组合子"><span class="toc-number">4.2.</span> <span class="toc-text">Y 组合子</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#不动点组合子"><span class="toc-number">4.3.</span> <span class="toc-text">不动点组合子</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#结论"><span class="toc-number">5.</span> <span class="toc-text">结论</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://coderemixer.com/2018/12/07/y-combinator-in-ten-minutes/" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://coderemixer.com/2018/12/07/y-combinator-in-ten-minutes/&text=十分钟速通 Y Combinator" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://coderemixer.com/2018/12/07/y-combinator-in-ten-minutes/&title=十分钟速通 Y Combinator" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://coderemixer.com/2018/12/07/y-combinator-in-ten-minutes/&is_video=false&description=十分钟速通 Y Combinator" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=十分钟速通 Y Combinator&body=Check out this article: https://coderemixer.com/2018/12/07/y-combinator-in-ten-minutes/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://coderemixer.com/2018/12/07/y-combinator-in-ten-minutes/&title=十分钟速通 Y Combinator" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://coderemixer.com/2018/12/07/y-combinator-in-ten-minutes/&title=十分钟速通 Y Combinator" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://coderemixer.com/2018/12/07/y-combinator-in-ten-minutes/&title=十分钟速通 Y Combinator" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://coderemixer.com/2018/12/07/y-combinator-in-ten-minutes/&title=十分钟速通 Y Combinator" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://coderemixer.com/2018/12/07/y-combinator-in-ten-minutes/&name=十分钟速通 Y Combinator&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://coderemixer.com/2018/12/07/y-combinator-in-ten-minutes/&t=十分钟速通 Y Combinator" target="_blank" rel="noopener"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2020
+    CodeRemixer
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-127825283-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'coderemixer';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+
+</body>
+</html>
