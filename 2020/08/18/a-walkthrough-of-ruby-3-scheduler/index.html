@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="A Walkthrough of Ruby 3 SchedulerA Failed ProposalWhen preparing for RubyConf China 2020, I checked the recent patch for Fiber Scheduler in Ruby. When inspecting the example Scheduler, I found it’s us">
+<meta property="og:type" content="article">
+<meta property="og:title" content="A Walkthrough of Ruby 3 Scheduler">
+<meta property="og:url" content="https://coderemixer.com/2020/08/18/a-walkthrough-of-ruby-3-scheduler/index.html">
+<meta property="og:site_name" content="代码混音师">
+<meta property="og:description" content="A Walkthrough of Ruby 3 SchedulerA Failed ProposalWhen preparing for RubyConf China 2020, I checked the recent patch for Fiber Scheduler in Ruby. When inspecting the example Scheduler, I found it’s us">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://coderemixer.com/static/ruby-scheduler-benchmark.pbg">
+<meta property="article:published_time" content="2020-08-18T12:40:14.000Z">
+<meta property="article:modified_time" content="2020-08-18T12:44:06.200Z">
+<meta property="article:author" content="CodeRemixer">
+<meta property="article:tag" content="Ruby">
+<meta property="article:tag" content="编程">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://coderemixer.com/static/ruby-scheduler-benchmark.pbg">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>A Walkthrough of Ruby 3 Scheduler</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/true" title="代码混音师" type="application/atom+xml" />
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/2020/08/12/save-my-macbook-pro-2016/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://coderemixer.com/2020/08/18/a-walkthrough-of-ruby-3-scheduler/" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://coderemixer.com/2020/08/18/a-walkthrough-of-ruby-3-scheduler/&text=A Walkthrough of Ruby 3 Scheduler" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://coderemixer.com/2020/08/18/a-walkthrough-of-ruby-3-scheduler/&title=A Walkthrough of Ruby 3 Scheduler" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://coderemixer.com/2020/08/18/a-walkthrough-of-ruby-3-scheduler/&is_video=false&description=A Walkthrough of Ruby 3 Scheduler" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=A Walkthrough of Ruby 3 Scheduler&body=Check out this article: https://coderemixer.com/2020/08/18/a-walkthrough-of-ruby-3-scheduler/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://coderemixer.com/2020/08/18/a-walkthrough-of-ruby-3-scheduler/&title=A Walkthrough of Ruby 3 Scheduler" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://coderemixer.com/2020/08/18/a-walkthrough-of-ruby-3-scheduler/&title=A Walkthrough of Ruby 3 Scheduler" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://coderemixer.com/2020/08/18/a-walkthrough-of-ruby-3-scheduler/&title=A Walkthrough of Ruby 3 Scheduler" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://coderemixer.com/2020/08/18/a-walkthrough-of-ruby-3-scheduler/&title=A Walkthrough of Ruby 3 Scheduler" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://coderemixer.com/2020/08/18/a-walkthrough-of-ruby-3-scheduler/&name=A Walkthrough of Ruby 3 Scheduler&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://coderemixer.com/2020/08/18/a-walkthrough-of-ruby-3-scheduler/&t=A Walkthrough of Ruby 3 Scheduler" target="_blank" rel="noopener"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#A-Walkthrough-of-Ruby-3-Scheduler"><span class="toc-number">1.</span> <span class="toc-text">A Walkthrough of Ruby 3 Scheduler</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#A-Failed-Proposal"><span class="toc-number">1.1.</span> <span class="toc-text">A Failed Proposal</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Implement-a-Scheduler"><span class="toc-number">1.2.</span> <span class="toc-text">Implement a Scheduler</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Fallback-to-Ruby-IO-select"><span class="toc-number">1.2.1.</span> <span class="toc-text">Fallback to Ruby IO.select</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Using-epoll-and-kqueue"><span class="toc-number">1.2.2.</span> <span class="toc-text">Using epoll and kqueue</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#An-HTTP-server-example-of-using-Scheduler"><span class="toc-number">1.3.</span> <span class="toc-text">An HTTP server example of using Scheduler</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Further-Works"><span class="toc-number">1.4.</span> <span class="toc-text">Further Works</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Source-Code"><span class="toc-number">1.5.</span> <span class="toc-text">Source Code</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        A Walkthrough of Ruby 3 Scheduler
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">代码混音师</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-08-18T12:40:14.000Z" itemprop="datePublished">2020-08-18</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/Ruby/" rel="tag">Ruby</a>, <a class="tag-link" href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag">编程</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="A-Walkthrough-of-Ruby-3-Scheduler"><a href="#A-Walkthrough-of-Ruby-3-Scheduler" class="headerlink" title="A Walkthrough of Ruby 3 Scheduler"></a>A Walkthrough of Ruby 3 Scheduler</h1><h2 id="A-Failed-Proposal"><a href="#A-Failed-Proposal" class="headerlink" title="A Failed Proposal"></a>A Failed Proposal</h2><p>When preparing for RubyConf China 2020, I checked the recent patch for <a href="https://github.com/ruby/ruby/pull/1870" target="_blank" rel="noopener">Fiber Scheduler</a> in Ruby. When inspecting the example Scheduler, I found it’s using <code>IO.select</code> API in Ruby. <code>IO.select</code> API has multiple different implementations in Ruby. It may probably call <code>poll</code>, large-size <code>select</code>, or the POSIX <code>select</code> in the operating system. So I try to implement the I/O scheduler with faster syscalls like <code>epoll</code>, <code>kqueue</code>, and <code>IOCP</code>.</p>
+<p>I proposed an <a href="https://bugs.ruby-lang.org/issues/17059" target="_blank" rel="noopener">issue</a> to Ruby, but it was rejected. The major problem is that, the <code>IO.select</code> API is stateless. Without stateful registration, the performance is even getting lower when using <code>epoll</code>. It’s proved by the benchmark written by <a href="https://bugs.ruby-lang.org/issues/17059#note-14" target="_blank" rel="noopener">Koichi Sasada</a>. After discussing with William Samuel on Twitter, he recommended me to directly hook the implementation of <code>Scheduler</code>, which the registration process is stateful. So I start a PoC <a href="https://github.com/dsh0416/evt" target="_blank" rel="noopener">gem</a> development for Ruby 3 Scheduler interface.</p>
+<h2 id="Implement-a-Scheduler"><a href="#Implement-a-Scheduler" class="headerlink" title="Implement a Scheduler"></a>Implement a Scheduler</h2><p>The Ruby version mentioned in this article is:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ruby 2.8.0dev (2020-08-18T10:10:09Z master 172d44e809) [x86_64-linux]</span><br></pre></td></tr></table></figure>
+
+<p>The basic scheduler example is from the <a href="https://github.com/ruby/ruby/blob/b2976a4fcab70bf9323180fd5ba6c29a5bca0747/test/fiber/test_scheduler.rb" target="_blank" rel="noopener">unit test</a> used in Ruby. In general, this is a Proof of Concept of Ruby 3 Scheduler instead of a production-ready one. Mainly, it’s using IO.select for I/O multiplexing. So from this backbone, we are going to implement a better-performed Ruby Scheduler.</p>
+<p>We have to do some C programming to support other system calls. But the first thing is to implement a C method that could be compatible with the original implementation.</p>
+<h3 id="Fallback-to-Ruby-IO-select"><a href="#Fallback-to-Ruby-IO-select" class="headerlink" title="Fallback to Ruby IO.select"></a>Fallback to Ruby <code>IO.select</code></h3><p>For select/poll API, you don’t have to initialize a file descriptor first or register and deregister the interest during runtime. All you need to do is to run the select with the proper number of IOs when triggered.</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">VALUE <span class="title">method_scheduler_wait</span><span class="params">(VALUE self)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// return IO.select(@readable.keys, @writable.keys, [], next_timeout)</span></span><br><span class="line">    VALUE readable, writable, readable_keys, writable_keys, next_timeout;</span><br><span class="line">    ID id_select = rb_intern(<span class="string">"select"</span>);</span><br><span class="line">    ID id_keys = rb_intern(<span class="string">"keys"</span>);</span><br><span class="line">    ID id_next_timeout = rb_intern(<span class="string">"next_timeout"</span>);</span><br><span class="line"></span><br><span class="line">    readable = rb_iv_get(self, <span class="string">"@readable"</span>);</span><br><span class="line">    writable = rb_iv_get(self, <span class="string">"@writable"</span>);</span><br><span class="line"></span><br><span class="line">    readable_keys = rb_funcall(readable, id_keys, <span class="number">0</span>);</span><br><span class="line">    writable_keys = rb_funcall(writable, id_keys, <span class="number">0</span>);</span><br><span class="line">    next_timeout = rb_funcall(self, id_next_timeout, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> rb_funcall(rb_cIO, id_select, <span class="number">4</span>, readable_keys, writable_keys, rb_ary_new(), next_timeout);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>We spent ten lines of C code for a single line of Ruby code. It makes no sense, but it gives the possibility for us to call other I/O multiplexing syscalls including epoll and kqueue.</p>
+<p>We spent ten lines of C code for a single line of Ruby code. It makes no sense, but it gives the possibility for us to call other I/O multiplexing syscalls including <code>epoll</code> and <code>kqueue</code>, we add 4 C methods to the Scheduler API as following:</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Scheduler.backend</span><br><span class="line">scheduler = Scheduler.new</span><br><span class="line"></span><br><span class="line">scheduler.register(io, interest)</span><br><span class="line">scheduler.deregister(io)</span><br><span class="line">scheduler.wait</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;ruby.h&gt;</span></span></span><br><span class="line"></span><br><span class="line">VALUE Evt = Qnil;</span><br><span class="line">VALUE Scheduler = Qnil;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Init_evt_ext</span><span class="params">()</span></span>;</span><br><span class="line"><span class="function">VALUE <span class="title">method_scheduler_init</span><span class="params">(VALUE self)</span></span>;</span><br><span class="line"><span class="function">VALUE <span class="title">method_scheduler_register</span><span class="params">(VALUE self, VALUE io, VALUE interest)</span></span>;</span><br><span class="line"><span class="function">VALUE <span class="title">method_scheduler_deregister</span><span class="params">(VALUE self, VALUE io)</span></span>;</span><br><span class="line"><span class="function">VALUE <span class="title">method_scheduler_wait</span><span class="params">(VALUE self)</span></span>;</span><br><span class="line"><span class="function">VALUE <span class="title">method_scheduler_backend</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Init_evt_ext</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Evt = rb_define_module(<span class="string">"Evt"</span>);</span><br><span class="line">    Scheduler = rb_define_class_under(Evt, <span class="string">"Scheduler"</span>, rb_cObject);</span><br><span class="line">    rb_define_singleton_method(Scheduler, <span class="string">"backend"</span>, method_scheduler_backend, <span class="number">0</span>);</span><br><span class="line">    rb_define_method(Scheduler, <span class="string">"init_selector"</span>, method_scheduler_init, <span class="number">0</span>);</span><br><span class="line">    rb_define_method(Scheduler, <span class="string">"register"</span>, method_scheduler_register, <span class="number">2</span>);</span><br><span class="line">    rb_define_method(Scheduler, <span class="string">"deregister"</span>, method_scheduler_deregister, <span class="number">1</span>);</span><br><span class="line">    rb_define_method(Scheduler, <span class="string">"wait"</span>, method_scheduler_wait, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>Scheduler.backend</code> is for debugging only, and the other 4 APIs would be injected into <code>Scheduelr#run</code>, <code>Scheduelr#wait_readable</code>, <code>Scheduelr#wait_writable</code>, <code>Scheduelr#wait_any</code>.</p>
+<h3 id="Using-epoll-and-kqueue"><a href="#Using-epoll-and-kqueue" class="headerlink" title="Using epoll and kqueue"></a>Using <code>epoll</code> and <code>kqueue</code></h3><p>There are three major APIs for <code>epoll</code>, <code>epoll_create</code>, <code>epoll_ctl</code>, and <code>epoll_wait</code>, which is quite easy to be understood. We just need to create the <code>epoll</code> fd when Scheduler initialization, and call <code>epoll_ctl</code> during registration and deregistration, then replace the original <code>IO.select</code> with <code>epoll_wait</code>.</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">if</span> defined(__linux__) <span class="comment">// <span class="doctag">TODO:</span> Do more checks for using epoll</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/epoll.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> EPOLL_MAX_EVENTS 64</span></span><br><span class="line"></span><br><span class="line"><span class="function">VALUE <span class="title">method_scheduler_init</span><span class="params">(VALUE self)</span> </span>&#123;</span><br><span class="line">    rb_iv_set(self, <span class="string">"@epfd"</span>, INT2NUM(epoll_create(<span class="number">1</span>))); <span class="comment">// Size of epoll is ignored after Linux 2.6.8.</span></span><br><span class="line">    <span class="keyword">return</span> Qnil;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">VALUE <span class="title">method_scheduler_register</span><span class="params">(VALUE self, VALUE io, VALUE interest)</span> </span>&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">epoll_event</span> <span class="title">event</span>;</span></span><br><span class="line">    ID id_fileno = rb_intern(<span class="string">"fileno"</span>);</span><br><span class="line">    <span class="keyword">int</span> epfd = NUM2INT(rb_iv_get(self, <span class="string">"@epfd"</span>));</span><br><span class="line">    <span class="keyword">int</span> fd = NUM2INT(rb_funcall(io, id_fileno, <span class="number">0</span>));</span><br><span class="line">    <span class="keyword">int</span> ruby_interest = NUM2INT(interest);</span><br><span class="line">    <span class="keyword">int</span> readable = NUM2INT(rb_const_get(rb_cIO, rb_intern(<span class="string">"WAIT_READABLE"</span>)));</span><br><span class="line">    <span class="keyword">int</span> writable = NUM2INT(rb_const_get(rb_cIO, rb_intern(<span class="string">"WAIT_WRITABLE"</span>)));</span><br><span class="line">  </span><br><span class="line">    <span class="keyword">if</span> (ruby_interest &amp; readable) &#123;</span><br><span class="line">        event.events |= EPOLLIN;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (ruby_interest &amp; writable) &#123;</span><br><span class="line">        event.events |= EPOLLOUT;</span><br><span class="line">    &#125;</span><br><span class="line">    event.data.ptr = (<span class="keyword">void</span>*) io;</span><br><span class="line"></span><br><span class="line">    epoll_ctl(epfd, EPOLL_CTL_ADD, fd, &amp;event);</span><br><span class="line">    <span class="keyword">return</span> Qnil;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">VALUE <span class="title">method_scheduler_deregister</span><span class="params">(VALUE self, VALUE io)</span> </span>&#123;</span><br><span class="line">    ID id_fileno = rb_intern(<span class="string">"fileno"</span>);</span><br><span class="line">    <span class="keyword">int</span> epfd = NUM2INT(rb_iv_get(self, <span class="string">"@epfd"</span>));</span><br><span class="line">    <span class="keyword">int</span> fd = NUM2INT(rb_funcall(io, id_fileno, <span class="number">0</span>));</span><br><span class="line">    epoll_ctl(epfd, EPOLL_CTL_DEL, fd, <span class="literal">NULL</span>); <span class="comment">// Require Linux 2.6.9 for NULL event.</span></span><br><span class="line">    <span class="keyword">return</span> Qnil;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">VALUE <span class="title">method_scheduler_wait</span><span class="params">(VALUE self)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> n, epfd, i, event_flag, timeout;</span><br><span class="line">    VALUE next_timeout, obj_io, readables, writables, result;</span><br><span class="line">    ID id_next_timeout = rb_intern(<span class="string">"next_timeout"</span>);</span><br><span class="line">    ID id_push = rb_intern(<span class="string">"push"</span>);</span><br><span class="line">    </span><br><span class="line">    epfd = NUM2INT(rb_iv_get(self, <span class="string">"@epfd"</span>));</span><br><span class="line">    next_timeout = rb_funcall(self, id_next_timeout, <span class="number">0</span>);</span><br><span class="line">    readables = rb_ary_new();</span><br><span class="line">    writables = rb_ary_new();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (next_timeout == Qnil) &#123;</span><br><span class="line">        timeout = <span class="number">-1</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        timeout = NUM2INT(next_timeout);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">epoll_event</span>* <span class="title">events</span> = (<span class="title">struct</span> <span class="title">epoll_event</span>*) <span class="title">xmalloc</span>(<span class="title">sizeof</span>(<span class="title">struct</span> <span class="title">epoll_event</span>) * <span class="title">EPOLL_MAX_EVENTS</span>);</span></span><br><span class="line">    </span><br><span class="line">    n = epoll_wait(epfd, events, EPOLL_MAX_EVENTS, timeout);</span><br><span class="line">    <span class="comment">// <span class="doctag">TODO:</span> Check if n &gt;= 0</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">        event_flag = events[i].events;</span><br><span class="line">        <span class="keyword">if</span> (event_flag &amp; EPOLLIN) &#123;</span><br><span class="line">            obj_io = (VALUE) events[i].data.ptr;</span><br><span class="line">            rb_funcall(readables, id_push, <span class="number">1</span>, obj_io);</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (event_flag &amp; EPOLLOUT) &#123;</span><br><span class="line">            obj_io = (VALUE) events[i].data.ptr;</span><br><span class="line">            rb_funcall(writables, id_push, <span class="number">1</span>, obj_io);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    result = rb_ary_new2(<span class="number">2</span>);</span><br><span class="line">    rb_ary_store(result, <span class="number">0</span>, readables);</span><br><span class="line">    rb_ary_store(result, <span class="number">1</span>, writables);</span><br><span class="line"></span><br><span class="line">    xfree(events);</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">VALUE <span class="title">method_scheduler_backend</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> rb_str_new_cstr(<span class="string">"epoll"</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+
+<p><code>kqueue</code> is similar. The only difference is the registration and waiting parts are the same API in BSD. It’s controlled by the parameter of <code>kevent()</code>, which is a little bit hard to understand.</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">if</span> defined(__FreeBSD__) || defined(__NetBSD__) || defined(__APPLE__)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/event.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> KQUEUE_MAX_EVENTS 64</span></span><br><span class="line"></span><br><span class="line"><span class="function">VALUE <span class="title">method_scheduler_init</span><span class="params">(VALUE self)</span> </span>&#123;</span><br><span class="line">    rb_iv_set(self, <span class="string">"@kq"</span>, INT2NUM(kqueue()));</span><br><span class="line">    <span class="keyword">return</span> Qnil;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">VALUE <span class="title">method_scheduler_register</span><span class="params">(VALUE self, VALUE io, VALUE interest)</span> </span>&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">kevent</span> <span class="title">event</span>;</span></span><br><span class="line">    u_short event_flags = <span class="number">0</span>;</span><br><span class="line">    ID id_fileno = rb_intern(<span class="string">"fileno"</span>);</span><br><span class="line">    <span class="keyword">int</span> kq = NUM2INT(rb_iv_get(self, <span class="string">"@kq"</span>));</span><br><span class="line">    <span class="keyword">int</span> fd = NUM2INT(rb_funcall(io, id_fileno, <span class="number">0</span>));</span><br><span class="line">    <span class="keyword">int</span> ruby_interest = NUM2INT(interest);</span><br><span class="line">    <span class="keyword">int</span> readable = NUM2INT(rb_const_get(rb_cIO, rb_intern(<span class="string">"WAIT_READABLE"</span>)));</span><br><span class="line">    <span class="keyword">int</span> writable = NUM2INT(rb_const_get(rb_cIO, rb_intern(<span class="string">"WAIT_WRITABLE"</span>)));</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (ruby_interest &amp; readable) &#123;</span><br><span class="line">        event_flags |= EVFILT_READ;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (ruby_interest &amp; writable) &#123;</span><br><span class="line">        event_flags |= EVFILT_WRITE;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    EV_SET(&amp;event, fd, event_flags, EV_ADD|EV_ENABLE, <span class="number">0</span>, <span class="number">0</span>, (<span class="keyword">void</span>*) io);</span><br><span class="line">    kevent(kq, &amp;event, <span class="number">1</span>, <span class="literal">NULL</span>, <span class="number">0</span>, <span class="literal">NULL</span>); <span class="comment">// <span class="doctag">TODO:</span> Check the return value</span></span><br><span class="line">    <span class="keyword">return</span> Qnil;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">VALUE <span class="title">method_scheduler_deregister</span><span class="params">(VALUE self, VALUE io)</span> </span>&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">kevent</span> <span class="title">event</span>;</span></span><br><span class="line">    ID id_fileno = rb_intern(<span class="string">"fileno"</span>);</span><br><span class="line">    <span class="keyword">int</span> kq = NUM2INT(rb_iv_get(self, <span class="string">"@kq"</span>));</span><br><span class="line">    <span class="keyword">int</span> fd = NUM2INT(rb_funcall(io, id_fileno, <span class="number">0</span>));</span><br><span class="line">    EV_SET(&amp;event, fd, <span class="number">0</span>, EV_DELETE, <span class="number">0</span>, <span class="number">0</span>, <span class="literal">NULL</span>);</span><br><span class="line">    kevent(kq, &amp;event, <span class="number">1</span>, <span class="literal">NULL</span>, <span class="number">0</span>, <span class="literal">NULL</span>); <span class="comment">// <span class="doctag">TODO:</span> Check the return value</span></span><br><span class="line">    <span class="keyword">return</span> Qnil;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">VALUE <span class="title">method_scheduler_wait</span><span class="params">(VALUE self)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> n, kq, i;</span><br><span class="line">    u_short event_flags = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">kevent</span>* <span class="title">events</span>;</span> <span class="comment">// Event Triggered</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">timespec</span> <span class="title">timeout</span>;</span></span><br><span class="line">    VALUE next_timeout, obj_io, readables, writables, result;</span><br><span class="line">    ID id_next_timeout = rb_intern(<span class="string">"next_timeout"</span>);</span><br><span class="line">    ID id_push = rb_intern(<span class="string">"push"</span>);</span><br><span class="line"></span><br><span class="line">    kq = NUM2INT(rb_iv_get(self, <span class="string">"@kq"</span>));</span><br><span class="line">    next_timeout = rb_funcall(self, id_next_timeout, <span class="number">0</span>);</span><br><span class="line">    readables = rb_ary_new();</span><br><span class="line">    writables = rb_ary_new();</span><br><span class="line"></span><br><span class="line">   events = (struct kevent*) xmalloc(<span class="keyword">sizeof</span>(struct kevent) * KQUEUE_MAX_EVENTS);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (next_timeout == Qnil || NUM2INT(next_timeout) == <span class="number">-1</span>) &#123;</span><br><span class="line">        n = kevent(kq, <span class="literal">NULL</span>, <span class="number">0</span>, events, KQUEUE_MAX_EVENTS, <span class="literal">NULL</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        timeout.tv_sec = next_timeout / <span class="number">1000</span>;</span><br><span class="line">        timeout.tv_nsec = next_timeout % <span class="number">1000</span> * <span class="number">1000</span> * <span class="number">1000</span>;</span><br><span class="line">        n = kevent(kq, <span class="literal">NULL</span>, <span class="number">0</span>, events, KQUEUE_MAX_EVENTS, &amp;timeout);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// <span class="doctag">TODO:</span> Check if n &gt;= 0</span></span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">        event_flags = events[i].filter;</span><br><span class="line">        <span class="keyword">if</span> (event_flags &amp; EVFILT_READ) &#123;</span><br><span class="line">            obj_io = (VALUE) events[i].udata;</span><br><span class="line">            rb_funcall(readables, id_push, <span class="number">1</span>, obj_io);</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (event_flags &amp; EVFILT_WRITE) &#123;</span><br><span class="line">            obj_io = (VALUE) events[i].udata;</span><br><span class="line">            rb_funcall(writables, id_push, <span class="number">1</span>, obj_io);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    result = rb_ary_new2(<span class="number">2</span>);</span><br><span class="line">    rb_ary_store(result, <span class="number">0</span>, readables);</span><br><span class="line">    rb_ary_store(result, <span class="number">1</span>, writables);</span><br><span class="line"></span><br><span class="line">    xfree(events);</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">VALUE <span class="title">method_scheduler_backend</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> rb_str_new_cstr(<span class="string">"kqueue"</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+
+<h2 id="An-HTTP-server-example-of-using-Scheduler"><a href="#An-HTTP-server-example-of-using-Scheduler" class="headerlink" title="An HTTP server example of using Scheduler"></a>An HTTP server example of using Scheduler</h2><p>After implementing the <code>Scheduler</code>, we could now test the performance of the <code>Scheduler</code>, I wrote a very simple HTTP server as a <a href="https://github.com/dsh0416/evt-server-benchmark" target="_blank" rel="noopener">benchmark</a>.</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">require</span> <span class="string">'evt'</span></span><br><span class="line"></span><br><span class="line">puts <span class="string">"Using Backend: <span class="subst">#&#123;Evt::Scheduler.backend&#125;</span>"</span></span><br><span class="line">Thread.current.scheduler = Evt::Scheduler.new</span><br><span class="line"></span><br><span class="line">@server = Socket.new Socket::AF_INET, Socket::SOCK_STREAM</span><br><span class="line">@server.bind Addrinfo.tcp <span class="string">'127.0.0.1'</span>, <span class="number">3002</span></span><br><span class="line">@server.listen Socket::SOMAXCONN</span><br><span class="line">@scheduler = Thread.current.scheduler</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">handle_socket</span><span class="params">(socket)</span></span></span><br><span class="line">  line = socket.gets</span><br><span class="line">  <span class="keyword">until</span> line == <span class="string">"\r\n"</span> <span class="params">||</span> line.<span class="literal">nil</span>?</span><br><span class="line">    line = socket.gets</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line">  socket.write(<span class="string">"HTTP/1.1 200 OK\r\nContent-Length: 0\r\n\r\n"</span>)</span><br><span class="line">  socket.close</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">Fiber.new(<span class="symbol">blocking:</span> <span class="literal">false</span>) <span class="keyword">do</span></span><br><span class="line">  <span class="keyword">while</span> <span class="literal">true</span></span><br><span class="line">    socket, addr = @server.accept</span><br><span class="line">    Fiber.new(<span class="symbol">blocking:</span> <span class="literal">false</span>) <span class="keyword">do</span></span><br><span class="line">      handle_socket(socket)</span><br><span class="line">    <span class="keyword">end</span>.resume</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span>.resume</span><br><span class="line"></span><br><span class="line">@scheduler.run</span><br></pre></td></tr></table></figure>
+
+<p>The benchmark shows the original <code>IO.select</code> in Ruby would improve the performance by 3.33x when using non-blocking I/O, and using <code>epoll</code> would improve the performance by 4.21x. The server example is very short, when JIT-enabled, it’s not going to hit problems like ICache missing, so that the performance is 4.54x improved comparing to the original blocking I/O.</p>
+<p><img src="/static/ruby-scheduler-benchmark.pbg" alt="Benchmark Result"></p>
+<p>The benchmark is run under Intel(R) Xeon(R) CPU E3-1220L V2 @ 2.30GHz, and the program is single-threaded. With better CPUs, the difference between <code>epoll</code> and <code>poll</code> would be larger. Feel free to try the gem if you want.</p>
+<h2 id="Further-Works"><a href="#Further-Works" class="headerlink" title="Further Works"></a>Further Works</h2><p>Further works include two parts. To improve the stability of the current API, and to support more syscalls including <code>io_uring</code> and <code>IOCP</code>. But to be honest, <code>io_uring</code> is still fine, but I have zero knowledge on Windows development. So feel free to give some advice or to provide some contribution.</p>
+<h2 id="Source-Code"><a href="#Source-Code" class="headerlink" title="Source Code"></a>Source Code</h2><p><a href="https://github.com/dsh0416/evt" target="_blank" rel="noopener">dsh0416/evt</a></p>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>加载评论需要在浏览器启用 JavaScript 脚本支持。</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#A-Walkthrough-of-Ruby-3-Scheduler"><span class="toc-number">1.</span> <span class="toc-text">A Walkthrough of Ruby 3 Scheduler</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#A-Failed-Proposal"><span class="toc-number">1.1.</span> <span class="toc-text">A Failed Proposal</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Implement-a-Scheduler"><span class="toc-number">1.2.</span> <span class="toc-text">Implement a Scheduler</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Fallback-to-Ruby-IO-select"><span class="toc-number">1.2.1.</span> <span class="toc-text">Fallback to Ruby IO.select</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Using-epoll-and-kqueue"><span class="toc-number">1.2.2.</span> <span class="toc-text">Using epoll and kqueue</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#An-HTTP-server-example-of-using-Scheduler"><span class="toc-number">1.3.</span> <span class="toc-text">An HTTP server example of using Scheduler</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Further-Works"><span class="toc-number">1.4.</span> <span class="toc-text">Further Works</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Source-Code"><span class="toc-number">1.5.</span> <span class="toc-text">Source Code</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://coderemixer.com/2020/08/18/a-walkthrough-of-ruby-3-scheduler/" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://coderemixer.com/2020/08/18/a-walkthrough-of-ruby-3-scheduler/&text=A Walkthrough of Ruby 3 Scheduler" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://coderemixer.com/2020/08/18/a-walkthrough-of-ruby-3-scheduler/&title=A Walkthrough of Ruby 3 Scheduler" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://coderemixer.com/2020/08/18/a-walkthrough-of-ruby-3-scheduler/&is_video=false&description=A Walkthrough of Ruby 3 Scheduler" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=A Walkthrough of Ruby 3 Scheduler&body=Check out this article: https://coderemixer.com/2020/08/18/a-walkthrough-of-ruby-3-scheduler/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://coderemixer.com/2020/08/18/a-walkthrough-of-ruby-3-scheduler/&title=A Walkthrough of Ruby 3 Scheduler" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://coderemixer.com/2020/08/18/a-walkthrough-of-ruby-3-scheduler/&title=A Walkthrough of Ruby 3 Scheduler" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://coderemixer.com/2020/08/18/a-walkthrough-of-ruby-3-scheduler/&title=A Walkthrough of Ruby 3 Scheduler" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://coderemixer.com/2020/08/18/a-walkthrough-of-ruby-3-scheduler/&title=A Walkthrough of Ruby 3 Scheduler" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://coderemixer.com/2020/08/18/a-walkthrough-of-ruby-3-scheduler/&name=A Walkthrough of Ruby 3 Scheduler&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://coderemixer.com/2020/08/18/a-walkthrough-of-ruby-3-scheduler/&t=A Walkthrough of Ruby 3 Scheduler" target="_blank" rel="noopener"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2020
+    CodeRemixer
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-127825283-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'coderemixer';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+
+</body>
+</html>
