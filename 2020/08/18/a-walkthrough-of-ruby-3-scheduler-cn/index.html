@@ -6,16 +6,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="一次失败的提案在准备 RubyConf China 2020 的时候，我仔细检查了 Fiber 调度器 提出的补丁。当我看调度器的样例代码的时候，我发现其调用的是 Ruby 中的 IO.select API。IO.select API 在 Ruby 内部有多种实现，它可能调用 poll、大尺寸 select、POSIX 兼容的 select 取决于不同的操作系统。于是我想用一些更快的 syscal">
+    <meta name="description" content="For English version 一次失败的提案在准备 RubyConf China 2020 的时候，我仔细检查了 Fiber 调度器 提出的补丁。当我看调度器的样例代码的时候，我发现其调用的是 Ruby 中的 IO.select API。IO.select API 在 Ruby 内部有多种实现，它可能调用 poll、大尺寸 select、POSIX 兼容的 select 取决于不同的操作">
 <meta property="og:type" content="article">
 <meta property="og:title" content="尝试使用 Ruby 3 调度器">
 <meta property="og:url" content="https://coderemixer.com/2020/08/18/a-walkthrough-of-ruby-3-scheduler-cn/index.html">
 <meta property="og:site_name" content="代码混音师">
-<meta property="og:description" content="一次失败的提案在准备 RubyConf China 2020 的时候，我仔细检查了 Fiber 调度器 提出的补丁。当我看调度器的样例代码的时候，我发现其调用的是 Ruby 中的 IO.select API。IO.select API 在 Ruby 内部有多种实现，它可能调用 poll、大尺寸 select、POSIX 兼容的 select 取决于不同的操作系统。于是我想用一些更快的 syscal">
+<meta property="og:description" content="For English version 一次失败的提案在准备 RubyConf China 2020 的时候，我仔细检查了 Fiber 调度器 提出的补丁。当我看调度器的样例代码的时候，我发现其调用的是 Ruby 中的 IO.select API。IO.select API 在 Ruby 内部有多种实现，它可能调用 poll、大尺寸 select、POSIX 兼容的 select 取决于不同的操作">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://coderemixer.com/static/ruby-scheduler-benchmark.pbg">
 <meta property="article:published_time" content="2020-08-18T12:46:47.000Z">
-<meta property="article:modified_time" content="2020-08-18T13:06:57.652Z">
+<meta property="article:modified_time" content="2020-08-18T13:07:38.839Z">
 <meta property="article:author" content="CodeRemixer">
 <meta property="article:tag" content="Ruby">
 <meta property="article:tag" content="编程">
@@ -155,7 +155,8 @@
   
 
   <div class="content" itemprop="articleBody">
-    <h2 id="一次失败的提案"><a href="#一次失败的提案" class="headerlink" title="一次失败的提案"></a>一次失败的提案</h2><p>在准备 RubyConf China 2020 的时候，我仔细检查了 <a href="https://github.com/ruby/ruby/pull/1870" target="_blank" rel="noopener">Fiber 调度器</a> 提出的补丁。当我看调度器的样例代码的时候，我发现其调用的是 Ruby 中的 <code>IO.select</code> API。<code>IO.select</code> API 在 Ruby 内部有多种实现，它可能调用 <code>poll</code>、大尺寸 <code>select</code>、POSIX 兼容的 <code>select</code> 取决于不同的操作系统。于是我想用一些更快的 syscall 来实现，比如 <code>epoll</code> <code>kqueue</code> 和 <code>IOCP</code>。</p>
+    <p><a href="/2020/08/18/a-walkthrough-of-ruby-3-scheduler/">For English version</a></p>
+<h2 id="一次失败的提案"><a href="#一次失败的提案" class="headerlink" title="一次失败的提案"></a>一次失败的提案</h2><p>在准备 RubyConf China 2020 的时候，我仔细检查了 <a href="https://github.com/ruby/ruby/pull/1870" target="_blank" rel="noopener">Fiber 调度器</a> 提出的补丁。当我看调度器的样例代码的时候，我发现其调用的是 Ruby 中的 <code>IO.select</code> API。<code>IO.select</code> API 在 Ruby 内部有多种实现，它可能调用 <code>poll</code>、大尺寸 <code>select</code>、POSIX 兼容的 <code>select</code> 取决于不同的操作系统。于是我想用一些更快的 syscall 来实现，比如 <code>epoll</code> <code>kqueue</code> 和 <code>IOCP</code>。</p>
 <p>我做了一个相关的<a href="https://bugs.ruby-lang.org/issues/17059" target="_blank" rel="noopener">提案</a>但是被拒绝了。主要问题是 Ruby 的 <code>IO.select</code> API 是无状态的。如果没有含状态的注册，这些新 API 的性能甚至会不如 <code>poll</code>。在 <a href="https://bugs.ruby-lang.org/issues/17059#note-14" target="_blank" rel="noopener">Koichi Sasada</a> 跑了 banchmark 证明了这一点后，提案被正式拒绝。在和 Samuel Williams 在 Twitter 上讨论后，它建议我从 <code>Scheduler</code> 的实现上来进行注入，因为 <code>Scheduler</code> 本身是有状态的。于是我开始写一个 <a href="https://github.com/dsh0416/evt" target="_blank" rel="noopener">gem</a> 作为 Ruby 3 调度器接口的概念证明。</p>
 <h2 id="实现调度器"><a href="#实现调度器" class="headerlink" title="实现调度器"></a>实现调度器</h2><p>本文中的 Ruby 版本是：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ruby 2.8.0dev (2020-08-18T10:10:09Z master 172d44e809) [x86_64-linux]</span><br></pre></td></tr></table></figure>

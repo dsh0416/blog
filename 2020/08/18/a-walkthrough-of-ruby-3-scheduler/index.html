@@ -6,16 +6,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="A Failed ProposalWhen preparing for RubyConf China 2020, I checked the recent patch for Fiber Scheduler in Ruby. When inspecting the example Scheduler, I found it’s using IO.select API in Ruby. IO.sel">
+    <meta name="description" content="中文版本 A Failed ProposalWhen preparing for RubyConf China 2020, I checked the recent patch for Fiber Scheduler in Ruby. When inspecting the example Scheduler, I found it’s using IO.select API in Ruby. I">
 <meta property="og:type" content="article">
 <meta property="og:title" content="A Walkthrough of Ruby 3 Scheduler">
 <meta property="og:url" content="https://coderemixer.com/2020/08/18/a-walkthrough-of-ruby-3-scheduler/index.html">
 <meta property="og:site_name" content="代码混音师">
-<meta property="og:description" content="A Failed ProposalWhen preparing for RubyConf China 2020, I checked the recent patch for Fiber Scheduler in Ruby. When inspecting the example Scheduler, I found it’s using IO.select API in Ruby. IO.sel">
+<meta property="og:description" content="中文版本 A Failed ProposalWhen preparing for RubyConf China 2020, I checked the recent patch for Fiber Scheduler in Ruby. When inspecting the example Scheduler, I found it’s using IO.select API in Ruby. I">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://coderemixer.com/static/ruby-scheduler-benchmark.pbg">
 <meta property="article:published_time" content="2020-08-18T12:40:14.000Z">
-<meta property="article:modified_time" content="2020-08-18T12:59:34.206Z">
+<meta property="article:modified_time" content="2020-08-18T13:07:55.656Z">
 <meta property="article:author" content="CodeRemixer">
 <meta property="article:tag" content="Ruby">
 <meta property="article:tag" content="编程">
@@ -157,7 +157,8 @@
   
 
   <div class="content" itemprop="articleBody">
-    <h2 id="A-Failed-Proposal"><a href="#A-Failed-Proposal" class="headerlink" title="A Failed Proposal"></a>A Failed Proposal</h2><p>When preparing for RubyConf China 2020, I checked the recent patch for <a href="https://github.com/ruby/ruby/pull/1870" target="_blank" rel="noopener">Fiber Scheduler</a> in Ruby. When inspecting the example Scheduler, I found it’s using <code>IO.select</code> API in Ruby. <code>IO.select</code> API has multiple different implementations in Ruby. It may probably call <code>poll</code>, large-size <code>select</code>, or the POSIX <code>select</code> in the operating system. So I try to implement the I/O scheduler with faster syscalls like <code>epoll</code>, <code>kqueue</code>, and <code>IOCP</code>.</p>
+    <p><a href="/2020/08/18/a-walkthrough-of-ruby-3-scheduler-cn/">中文版本</a></p>
+<h2 id="A-Failed-Proposal"><a href="#A-Failed-Proposal" class="headerlink" title="A Failed Proposal"></a>A Failed Proposal</h2><p>When preparing for RubyConf China 2020, I checked the recent patch for <a href="https://github.com/ruby/ruby/pull/1870" target="_blank" rel="noopener">Fiber Scheduler</a> in Ruby. When inspecting the example Scheduler, I found it’s using <code>IO.select</code> API in Ruby. <code>IO.select</code> API has multiple different implementations in Ruby. It may probably call <code>poll</code>, large-size <code>select</code>, or the POSIX <code>select</code> in the operating system. So I try to implement the I/O scheduler with faster syscalls like <code>epoll</code>, <code>kqueue</code>, and <code>IOCP</code>.</p>
 <p>I proposed an <a href="https://bugs.ruby-lang.org/issues/17059" target="_blank" rel="noopener">issue</a> to Ruby, but it was rejected. The major problem is that, the <code>IO.select</code> API is stateless. Without stateful registration, the performance is even getting lower when using <code>epoll</code>. It’s proved by the benchmark written by <a href="https://bugs.ruby-lang.org/issues/17059#note-14" target="_blank" rel="noopener">Koichi Sasada</a>. After discussing with Samuel Williams on Twitter, he recommended me to directly hook the implementation of <code>Scheduler</code>, which the registration process is stateful. So I start a PoC <a href="https://github.com/dsh0416/evt" target="_blank" rel="noopener">gem</a> development for Ruby 3 Scheduler interface.</p>
 <h2 id="Implement-a-Scheduler"><a href="#Implement-a-Scheduler" class="headerlink" title="Implement a Scheduler"></a>Implement a Scheduler</h2><p>The Ruby version mentioned in this article is:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ruby 2.8.0dev (2020-08-18T10:10:09Z master 172d44e809) [x86_64-linux]</span><br></pre></td></tr></table></figure>
