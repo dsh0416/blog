@@ -306,7 +306,7 @@ end.resume
 
 The benchmark shows the original `IO.select` in Ruby would improve the performance by 3.33x when using non-blocking I/O, and using `epoll` would improve the performance by 4.21x. The server example is very short, when JIT-enabled, it's not going to hit problems like ICache missing, so that the performance is 4.54x improved comparing to the original blocking I/O.
 
-![Benchmark Result](/static/ruby-scheduler-benchmark.pbg)
+![Benchmark Result](/static/ruby-scheduler-benchmark.png)
 
 The benchmark is run under Intel(R) Xeon(R) CPU E3-1220L V2 @ 2.30GHz, and the program is single-threaded. With better CPUs, the difference between `epoll` and `poll` would be larger. Feel free to try the gem if you want.
 

@@ -306,7 +306,7 @@ end.resume
 
 比起原先阻塞的 I/O，使用 Ruby 3 非阻塞 I/O 后可以达到 3.33x 的性能，而使用 `epoll` 后可以达到 4.21x。服务器的例子很简单，所以当 JIT 启动时，不容易造成 ICache 不命中，因此性能进一步提升到了 4.54x。
 
-![Benchmark Result](/static/ruby-scheduler-benchmark.pbg)
+![Benchmark Result](/static/ruby-scheduler-benchmark.png)
 
 测试是基于 Intel(R) Xeon(R) CPU E3-1220L V2 @ 2.30GHz CPU 的，而且程序是单线程的。如果有更好的 CPU，`epoll` 和 `poll` 的差距会更大。欢迎尝试，相关 gem 代码已开源。
 
