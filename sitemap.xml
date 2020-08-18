@@ -2,9 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://coderemixer.com/2020/08/18/a-walkthrough-of-ruby-3-scheduler-cn/</loc>
+    
+    <lastmod>2020-08-18T13:06:57.652Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://coderemixer.com/2020/08/18/a-walkthrough-of-ruby-3-scheduler/</loc>
     
-    <lastmod>2020-08-18T12:44:06.200Z</lastmod>
+    <lastmod>2020-08-18T12:59:34.206Z</lastmod>
     
   </url>
   
