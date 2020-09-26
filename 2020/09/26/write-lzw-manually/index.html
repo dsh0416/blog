@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="起因之前需要在某个单片机下塞点阵字库，为了能多覆盖一些字，准备在字库上做一点压缩。由于常用字相邻编码通常是按形码编码的，所以形状上有很多相似性，因此应该是比较可以压缩的。读取的时候，把一整块相邻编码解压塞到内存里，在内存里做个 LRU 缓存。由于常用字的编码也比较靠近，所以可以一定程度上在覆盖生僻字的同时，达到比较好的读取性能。 不过单片机上写个压缩算法比较麻烦。单片机本身的性能就很差，压缩算法本">
+<meta property="og:type" content="article">
+<meta property="og:title" content="手写一个 LZW 压缩算法">
+<meta property="og:url" content="https://coderemixer.com/2020/09/26/write-lzw-manually/index.html">
+<meta property="og:site_name" content="代码混音师">
+<meta property="og:description" content="起因之前需要在某个单片机下塞点阵字库，为了能多覆盖一些字，准备在字库上做一点压缩。由于常用字相邻编码通常是按形码编码的，所以形状上有很多相似性，因此应该是比较可以压缩的。读取的时候，把一整块相邻编码解压塞到内存里，在内存里做个 LRU 缓存。由于常用字的编码也比较靠近，所以可以一定程度上在覆盖生僻字的同时，达到比较好的读取性能。 不过单片机上写个压缩算法比较麻烦。单片机本身的性能就很差，压缩算法本">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-09-26T07:05:10.000Z">
+<meta property="article:modified_time" content="2020-09-26T08:09:18.502Z">
+<meta property="article:author" content="CodeRemixer">
+<meta property="article:tag" content="算法">
+<meta property="article:tag" content="LZW">
+<meta property="article:tag" content="C语言">
+<meta property="article:tag" content="压缩">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>手写一个 LZW 压缩算法</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/true" title="代码混音师" type="application/atom+xml" />
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/2020/08/18/a-walkthrough-of-ruby-3-scheduler-cn/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://coderemixer.com/2020/09/26/write-lzw-manually/" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://coderemixer.com/2020/09/26/write-lzw-manually/&text=手写一个 LZW 压缩算法" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://coderemixer.com/2020/09/26/write-lzw-manually/&title=手写一个 LZW 压缩算法" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://coderemixer.com/2020/09/26/write-lzw-manually/&is_video=false&description=手写一个 LZW 压缩算法" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=手写一个 LZW 压缩算法&body=Check out this article: https://coderemixer.com/2020/09/26/write-lzw-manually/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://coderemixer.com/2020/09/26/write-lzw-manually/&title=手写一个 LZW 压缩算法" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://coderemixer.com/2020/09/26/write-lzw-manually/&title=手写一个 LZW 压缩算法" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://coderemixer.com/2020/09/26/write-lzw-manually/&title=手写一个 LZW 压缩算法" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://coderemixer.com/2020/09/26/write-lzw-manually/&title=手写一个 LZW 压缩算法" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://coderemixer.com/2020/09/26/write-lzw-manually/&name=手写一个 LZW 压缩算法&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://coderemixer.com/2020/09/26/write-lzw-manually/&t=手写一个 LZW 压缩算法" target="_blank" rel="noopener"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#起因"><span class="toc-number">1.</span> <span class="toc-text">起因</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LZW-基本原理"><span class="toc-number">2.</span> <span class="toc-text">LZW 基本原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#函数签名"><span class="toc-number">3.</span> <span class="toc-text">函数签名</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#压缩过程"><span class="toc-number">4.</span> <span class="toc-text">压缩过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解压过程"><span class="toc-number">5.</span> <span class="toc-text">解压过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实验"><span class="toc-number">6.</span> <span class="toc-text">实验</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        手写一个 LZW 压缩算法
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">代码混音师</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-09-26T07:05:10.000Z" itemprop="datePublished">2020-09-26</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/C%E8%AF%AD%E8%A8%80/" rel="tag">C语言</a>, <a class="tag-link" href="/tags/LZW/" rel="tag">LZW</a>, <a class="tag-link" href="/tags/%E5%8E%8B%E7%BC%A9/" rel="tag">压缩</a>, <a class="tag-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><p>之前需要在某个单片机下塞点阵字库，为了能多覆盖一些字，准备在字库上做一点压缩。由于常用字相邻编码通常是按形码编码的，所以形状上有很多相似性，因此应该是比较可以压缩的。读取的时候，把一整块相邻编码解压塞到内存里，在内存里做个 LRU 缓存。由于常用字的编码也比较靠近，所以可以一定程度上在覆盖生僻字的同时，达到比较好的读取性能。</p>
+<p>不过单片机上写个压缩算法比较麻烦。单片机本身的性能就很差，压缩算法本身约简单越好。最好实现的压缩算法恐怕就是 LZW 了。由于 LZW 的字典是自解释的，也不需要单独构建霍夫曼树，one-pass 一遍读完就解决。于是就考虑写个 LZW。</p>
+<h2 id="LZW-基本原理"><a href="#LZW-基本原理" class="headerlink" title="LZW 基本原理"></a>LZW 基本原理</h2><p>LZW 压缩需要两件东西，一个是字符集一个是字典。最常见的字符集就是 <code>0x00</code> 到 <code>0xff</code> 的 256 个字符当作字符集，即我们把所以 8-bit 数据看成一个单独字符。字典是这个字符集的组合。字典构成一个更大的空间，通常教科书上的例子的是 14-bit 的字典空间。也就是 <code>0x0000-0x1fff</code>，其中 <code>0x0000-0x00ff</code> 是基础字符集，<code>0x0100-0x1fff</code> 7935 个编号作为可编码的字典。这对于压缩率是比较好的，不过 14-bit 的读取实在太麻烦了，因为它不是 byte 的整倍数。于是我把可编码的字典空间放达到 2 个 bytes 也就是 <code>0x0100-0xffff</code> 65279 个字符，和字符集一起构成一个 65536 字符的空间。</p>
+<h2 id="函数签名"><a href="#函数签名" class="headerlink" title="函数签名"></a>函数签名</h2><p>头文件和函数签名非常简单：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;assert.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdbool.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">dictionary</span> &#123;</span></span><br><span class="line">    <span class="keyword">size_t</span> count;</span><br><span class="line">    <span class="keyword">size_t</span> entries_sizes[<span class="number">65536</span>];</span><br><span class="line">    <span class="keyword">char</span>* entries[<span class="number">65536</span>];</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function">struct dictionary* <span class="title">dictionary_init</span><span class="params">()</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">dictionary_free</span><span class="params">(struct dictionary* dict)</span></span>;</span><br><span class="line"><span class="keyword">size_t</span> dictionary_insert(struct dictionary* dict, <span class="keyword">const</span> <span class="keyword">char</span>* word, <span class="keyword">size_t</span> size); <span class="comment">// The string would be copied, be sure to free the word.</span></span><br><span class="line"><span class="keyword">size_t</span> dictionary_find(struct dictionary* dict, <span class="keyword">const</span> <span class="keyword">char</span>* word, <span class="keyword">size_t</span> size);</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">compress</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span>* source, <span class="keyword">size_t</span> size, <span class="keyword">const</span> <span class="keyword">char</span>* filepath)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">char</span>* <span class="title">decompress</span><span class="params">(<span class="keyword">size_t</span>* size, <span class="keyword">const</span> <span class="keyword">char</span>* filepath)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>维护字典大小、插入字典、根据字符查找在字典的位置、执行压缩和解压缩。</p>
+<p>其中字典的创建、释放和插入是基本的 C 语言常识：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">struct dictionary* <span class="title">dictionary_init</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">dictionary</span>* <span class="title">dict</span> = (<span class="title">struct</span> <span class="title">dictionary</span>*) <span class="title">malloc</span>(<span class="title">sizeof</span>(<span class="title">struct</span> <span class="title">dictionary</span>));</span></span><br><span class="line">    dict-&gt;count = <span class="number">256</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">size_t</span> i = <span class="number">0</span>; i &lt; <span class="number">256</span>; i++) &#123;</span><br><span class="line">        dict-&gt;entries[i] = (<span class="keyword">char</span>*) <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="keyword">char</span>));</span><br><span class="line">        dict-&gt;entries[i][<span class="number">0</span>] = (<span class="keyword">char</span>) i;</span><br><span class="line">        dict-&gt;entries_sizes[i] = <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> dict;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">dictionary_free</span><span class="params">(struct dictionary* dict)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">size_t</span> i = <span class="number">0</span>; i &lt; dict-&gt;count; i++) &#123;</span><br><span class="line">        <span class="built_in">free</span>(dict-&gt;entries[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">free</span>(dict);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">size_t</span> dictionary_insert(struct dictionary* dict, <span class="keyword">const</span> <span class="keyword">char</span>* word, <span class="keyword">size_t</span> size) &#123;</span><br><span class="line">    <span class="keyword">char</span>* w = (<span class="keyword">char</span>*) <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="keyword">char</span>) * size);</span><br><span class="line">    <span class="keyword">size_t</span> idx = dict-&gt;count;</span><br><span class="line"></span><br><span class="line">    assert(idx &lt; <span class="number">65536</span>);</span><br><span class="line">    <span class="built_in">memcpy</span>(w, word, size);</span><br><span class="line"></span><br><span class="line">    dict-&gt;entries[idx] = w;</span><br><span class="line">    dict-&gt;entries_sizes[idx] = size;</span><br><span class="line">    dict-&gt;count++;</span><br><span class="line">    <span class="keyword">return</span> idx;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>查找的一个比较好的实现方法是使用哈希（<code>unordered_map</code>）。不过由于我在使用 C 语言，没有炫酷的 C++ STL 标准库。考虑到字典最大就 65536 个，而且用 size 大小就能很好做初步的筛选，我还是整个遍历一遍算了。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">size_t</span> dictionary_find(struct dictionary* dict, <span class="keyword">const</span> <span class="keyword">char</span>* word, <span class="keyword">size_t</span> size) &#123;</span><br><span class="line">    <span class="keyword">size_t</span> i;</span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; dict-&gt;count; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (dict-&gt;entries_sizes[i] == size) &#123;</span><br><span class="line">            <span class="keyword">bool</span> found = <span class="literal">true</span>;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">size_t</span> j = <span class="number">0</span>; j &lt; size; j++) &#123;</span><br><span class="line">                <span class="keyword">if</span> (dict-&gt;entries[i][j] != word[j]) &#123;</span><br><span class="line">                    found = <span class="literal">false</span>;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (found) &#123; <span class="keyword">return</span> i; &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> i;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="压缩过程"><a href="#压缩过程" class="headerlink" title="压缩过程"></a>压缩过程</h2><p>LZW 之所以不需要单独维护字典是因为 LZW 对于如何建立字典这件事情是 <strong>隐含</strong> 在算法中的。对于当前压缩过程，如果前一个字典字和当前的字符的组合没有出现在字典中，那么就插入到字典中。为了理解这个概念，我们先简化一下模型。我们假设基本字符集只有 <code>0</code> 和 <code>1</code> 两个字符，然后我们编码这个序列：<code>01001101</code></p>
+<table>
+<thead>
+<tr>
+<th>前一个字典字</th>
+<th>当前字符</th>
+<th>构成的组合</th>
+<th>是否出现在字典中？</th>
+<th>输出</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-</td>
+<td>0</td>
+<td>0</td>
+<td>出现（基本字符 0 -&gt; 0）</td>
+<td>-</td>
+</tr>
+<tr>
+<td>0</td>
+<td>1</td>
+<td>01</td>
+<td>没有（插入字典 2 -&gt; 01）</td>
+<td>0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>0</td>
+<td>10</td>
+<td>没有（插入字典 3 -&gt; 10）</td>
+<td>1</td>
+</tr>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>00</td>
+<td>没有（插入字典 4 -&gt; 00）</td>
+<td>0</td>
+</tr>
+<tr>
+<td>0</td>
+<td>1</td>
+<td>01</td>
+<td>出现（2 -&gt; 01）</td>
+<td>-</td>
+</tr>
+<tr>
+<td>01</td>
+<td>1</td>
+<td>011</td>
+<td>没有（插入字典 5 -&gt; 011）</td>
+<td>2</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>11</td>
+<td>没有（插入字典 6 -&gt; 11）</td>
+<td>1</td>
+</tr>
+<tr>
+<td>1</td>
+<td>0</td>
+<td>10</td>
+<td>出现（3 -&gt; 10）</td>
+<td>-</td>
+</tr>
+<tr>
+<td>10</td>
+<td>1</td>
+<td>101</td>
+<td>没有（插入字典 7 -&gt; 101）</td>
+<td>3</td>
+</tr>
+<tr>
+<td>1</td>
+<td>-</td>
+<td>1</td>
+<td></td>
+<td>1</td>
+</tr>
+</tbody></table>
+<p>于是我们把 <code>01001101</code> 编码成了 <code>0102131</code>，这个序列的压缩率是非常糟糕的，因为 01 可以用一个 bit 表示，<code>01001101</code> 只有 1 byte，但压缩后的 <code>0102131</code> 至少需要 2 个 bit 来表示一个字符，虽然整体数量减少到了 7 个字符，但是实际上需要 14-bit（1.75 bytes）才能存储。但随着字符变长，字典覆盖会越来越好，压缩率也会越来越低。</p>
+<p>我在实际实现的时候还标注了一个元信息，就是用第一个 <code>size_t</code> 来标注源文件的大小，以便于之后解压的时候申请内存。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">compress</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span>* source, <span class="keyword">size_t</span> size, <span class="keyword">const</span> <span class="keyword">char</span>* filepath)</span> </span>&#123;</span><br><span class="line">    FILE* destination = fopen(filepath, <span class="string">"wb+"</span>);</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">dictionary</span>* <span class="title">dict</span> = <span class="title">dictionary_init</span>();</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// First size_t indicates the file size</span></span><br><span class="line">    fwrite(&amp;size, <span class="keyword">sizeof</span>(<span class="keyword">size_t</span>), <span class="number">1</span>, destination);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">char</span>* p = <span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">size_t</span> p_size = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">char</span> c;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">size_t</span> i = <span class="number">0</span>; i &lt; size; i++) &#123;</span><br><span class="line">        <span class="keyword">char</span>* ppc = (<span class="keyword">char</span>*) <span class="built_in">malloc</span>(p_size + <span class="number">1</span>); <span class="comment">// p + c</span></span><br><span class="line"></span><br><span class="line">        c = source[i];</span><br><span class="line">        <span class="built_in">memcpy</span>(ppc, p, p_size);</span><br><span class="line">        ppc[p_size] = c;</span><br><span class="line">        <span class="keyword">size_t</span> idx = dictionary_find(dict, ppc, p_size+<span class="number">1</span>);</span><br><span class="line">        <span class="keyword">if</span> (idx &lt; dict-&gt;count) &#123;</span><br><span class="line">            <span class="comment">// Found</span></span><br><span class="line">            <span class="keyword">if</span> (p != <span class="literal">NULL</span>) &#123; <span class="built_in">free</span>(p); &#125;</span><br><span class="line">            p_size = p_size + <span class="number">1</span>;</span><br><span class="line">            p = <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="keyword">char</span>) * p_size);</span><br><span class="line">            <span class="built_in">memcpy</span>(p, ppc, p_size);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// Not found</span></span><br><span class="line">            assert(p != <span class="literal">NULL</span>);</span><br><span class="line">            <span class="keyword">unsigned</span> <span class="keyword">short</span> p_res = dictionary_find(dict, p, p_size);</span><br><span class="line">            fwrite(&amp;p_res, <span class="keyword">sizeof</span>(<span class="keyword">unsigned</span> <span class="keyword">short</span>), <span class="number">1</span>, destination);</span><br><span class="line">            <span class="built_in">free</span>(p); p = <span class="literal">NULL</span>;</span><br><span class="line">            dictionary_insert(dict, ppc, p_size + <span class="number">1</span>);</span><br><span class="line">            p = (<span class="keyword">char</span>*) <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="keyword">char</span>));</span><br><span class="line">            p[<span class="number">0</span>] = c;</span><br><span class="line">            p_size = <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">if</span> (i == size - <span class="number">1</span>) &#123;</span><br><span class="line">                <span class="keyword">unsigned</span> <span class="keyword">short</span> c_res = dictionary_find(dict, p, <span class="number">1</span>);</span><br><span class="line">                fwrite(&amp;c_res, <span class="keyword">sizeof</span>(<span class="keyword">unsigned</span> <span class="keyword">short</span>), <span class="number">1</span>, destination);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">free</span>(ppc);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (p != <span class="literal">NULL</span>) &#123;</span><br><span class="line">        <span class="built_in">free</span>(p);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    dictionary_free(dict);</span><br><span class="line">    fclose(destination);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="解压过程"><a href="#解压过程" class="headerlink" title="解压过程"></a>解压过程</h2><p>LZW 的压缩是比较简单的，但是解压却是有点 tricky 的。如果我们顺着压缩的思路来解压，我们会认为，顺着我们解压的过程，我们会慢慢构建出我们需要的字典。我们考虑下面一个序列 <code>10101</code> 的压缩过程：</p>
+<table>
+<thead>
+<tr>
+<th>前一个字典字</th>
+<th>当前字符</th>
+<th>构成的组合</th>
+<th>是否出现在字典中？</th>
+<th>输出</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-</td>
+<td>1</td>
+<td>1</td>
+<td>出现（基本字符 1 -&gt; 1）</td>
+<td>-</td>
+</tr>
+<tr>
+<td>1</td>
+<td>0</td>
+<td>10</td>
+<td>没有（插入字典 3 -&gt; 10）</td>
+<td>1</td>
+</tr>
+<tr>
+<td>0</td>
+<td>1</td>
+<td>01</td>
+<td>没有（插入字典 4 -&gt; 01）</td>
+<td>0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>0</td>
+<td>10</td>
+<td>出现（3 -&gt; 10）</td>
+<td>-</td>
+</tr>
+<tr>
+<td>10</td>
+<td>1</td>
+<td>101</td>
+<td>没有（插入字典 5 -&gt; 101）</td>
+<td>3</td>
+</tr>
+<tr>
+<td>1</td>
+<td>-</td>
+<td>1</td>
+<td></td>
+<td>1</td>
+</tr>
+</tbody></table>
+<p>输出的结果是 <code>1031</code>。如果我们解压的话过程如下：</p>
+<table>
+<thead>
+<tr>
+<th>前一个字典字</th>
+<th>当前字符</th>
+<th>构成的组合</th>
+<th>是否出现在字典中？</th>
+<th>输出</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-</td>
+<td>1</td>
+<td>1</td>
+<td>出现（基本字符 1 -&gt; 1）</td>
+<td>1</td>
+</tr>
+<tr>
+<td>1</td>
+<td>0</td>
+<td>10</td>
+<td>没有（插入字典 3 -&gt; 10）</td>
+<td>0</td>
+</tr>
+<tr>
+<td>0</td>
+<td>3 (10)</td>
+<td>010</td>
+<td><strong>没有（4 -&gt; 010）</strong></td>
+<td>10</td>
+</tr>
+</tbody></table>
+<p>显然我们把第四个字典的字符值插入错了，应该是 <code>01</code> 而我们却组合出了 <code>010</code>。这会进一步导致之后的解压出错。而且我们很容易思考到一个问题，在压缩过程中我们组合的都是前一个字典字和一个 <strong>单一字符</strong>，这里我们让 0 和 10 相加，后者显然不是单一字符。进一步思考我们会发现，在压缩过程中如果一个字典被创建，那么这个步骤的前一个插入字典的尾部，必然是这个匹配到的前缀，也就是这个字典值的第一个字符。所以这里的 <code>4</code> 应该是前一个字典字 <code>0</code> 和 <code>10</code> 的第一个字符 1 的组合，也就是 <code>01</code>。</p>
+<p>于是我们以此正确构建我们的解压代码：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">char</span>* <span class="title">decompress</span><span class="params">(<span class="keyword">size_t</span>* size, <span class="keyword">const</span> <span class="keyword">char</span>* filepath)</span> </span>&#123;</span><br><span class="line">    FILE* source = fopen(filepath, <span class="string">"rb"</span>);</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">dictionary</span>* <span class="title">dict</span> = <span class="title">dictionary_init</span>();</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// First size_t indicates the file size</span></span><br><span class="line">    fread(size, <span class="keyword">sizeof</span>(<span class="keyword">size_t</span>), <span class="number">1</span>, source);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">char</span>* result = <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="keyword">char</span>) * (*size));</span><br><span class="line">    <span class="keyword">size_t</span> counter = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (size == <span class="number">0</span>) &#123;</span><br><span class="line">        dictionary_free(dict);</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">short</span> p_index;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">short</span> c_index;</span><br><span class="line">    <span class="keyword">char</span>* c_word;</span><br><span class="line">    <span class="keyword">size_t</span> c_word_size;</span><br><span class="line">    <span class="keyword">char</span>* p_word = <span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">size_t</span> p_word_size = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    fread(&amp;p_index, <span class="keyword">sizeof</span>(<span class="keyword">unsigned</span> <span class="keyword">short</span>), <span class="number">1</span>, source);</span><br><span class="line">    p_word = dict-&gt;entries[p_index];</span><br><span class="line">    p_word_size = dict-&gt;entries_sizes[p_index];</span><br><span class="line">    <span class="built_in">memcpy</span>(result+counter, p_word, p_word_size);</span><br><span class="line">    counter += p_word_size;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (counter &lt; *size) &#123;</span><br><span class="line">        fread(&amp;c_index, <span class="keyword">sizeof</span>(<span class="keyword">unsigned</span> <span class="keyword">short</span>), <span class="number">1</span>, source);</span><br><span class="line">        <span class="keyword">if</span> (c_index &lt; dict-&gt;count) &#123;</span><br><span class="line">            <span class="comment">// Found</span></span><br><span class="line">            c_word = dict-&gt;entries[c_index];</span><br><span class="line">            c_word_size = dict-&gt;entries_sizes[c_index];</span><br><span class="line">            <span class="built_in">memcpy</span>(result+counter, c_word, c_word_size);</span><br><span class="line">            counter += c_word_size;</span><br><span class="line">            <span class="keyword">char</span>* ppc = <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="keyword">char</span>) * (p_word_size + <span class="number">1</span>));</span><br><span class="line">            <span class="built_in">memcpy</span>(ppc, p_word, p_word_size);</span><br><span class="line">            <span class="built_in">memcpy</span>(ppc+p_word_size, c_word, <span class="number">1</span>);</span><br><span class="line">            dictionary_insert(dict, ppc, p_word_size + <span class="number">1</span>);</span><br><span class="line">            <span class="built_in">free</span>(ppc);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">char</span>* ppc = <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="keyword">char</span>) * (p_word_size + <span class="number">1</span>));</span><br><span class="line">            <span class="built_in">memcpy</span>(ppc, p_word, p_word_size);</span><br><span class="line">            <span class="built_in">memcpy</span>(ppc+p_word_size, p_word, <span class="number">1</span>);</span><br><span class="line">            c_index = dictionary_insert(dict, ppc, p_word_size + <span class="number">1</span>);</span><br><span class="line">            <span class="built_in">memcpy</span>(result+counter, ppc, p_word_size + <span class="number">1</span>);</span><br><span class="line">            c_word = dict-&gt;entries[c_index];</span><br><span class="line">            c_word_size = p_word_size + <span class="number">1</span>;</span><br><span class="line">            counter += p_word_size + <span class="number">1</span>;</span><br><span class="line">            <span class="built_in">free</span>(ppc);</span><br><span class="line">        &#125;</span><br><span class="line">        p_word = c_word;</span><br><span class="line">        p_word_size = c_word_size;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    dictionary_free(dict);</span><br><span class="line">    fclose(source);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h2><p>我尝试用马丁路德金的《I have a dream》作为例子实验了一下这个实现：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">char</span> path[] = <span class="string">"/tmp/compressed.lzw"</span>;</span><br><span class="line">    <span class="keyword">char</span> test[] = <span class="string">"I am happy to ..."</span>;</span><br><span class="line">    compress(test, <span class="keyword">sizeof</span>(test), path);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">size_t</span> s = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    FILE* f = fopen(path, <span class="string">"rb"</span>);</span><br><span class="line">    fseek(f, <span class="number">0</span>, SEEK_END); <span class="comment">// seek to end of file</span></span><br><span class="line">    <span class="keyword">size_t</span> file_size = ftell(f);</span><br><span class="line">    fclose(f);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">char</span>* res = decompress(&amp;s, path);</span><br><span class="line"></span><br><span class="line">    assert(<span class="keyword">sizeof</span>(test) == s);</span><br><span class="line">    assert(<span class="built_in">strcmp</span>(test, res) == <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"         Raw Text: %s\n"</span>, test);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"Decompressed Text: %s\n"</span>, res);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">" Compression Rate: %d%%\n"</span>,  (<span class="keyword">unsigned</span> <span class="keyword">int</span>)(file_size * <span class="number">1.0</span> / <span class="keyword">sizeof</span>(test) * <span class="number">100</span>));</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最后的输出如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;Users&#x2F;delton&#x2F;CLionProjects&#x2F;playgound&#x2F;cmake-build-debug&#x2F;playgound</span><br><span class="line">         Raw Text: I am happy to ...</span><br><span class="line">Decompressed Text: I am happy to ...</span><br><span class="line"> Compression Rate: 73%</span><br></pre></td></tr></table></figure>
+
+<p>整体压缩率有 73%，对比了一下 zip 42% 的压缩率，实在是望尘莫及。</p>
+<p>如果我们把文本重复 5 遍，压缩率能提升到 49%。不过这条件下，zip 能提高到 9% 的压缩率。果然还是不能和 DEFLATE 这种 LZW + 霍夫曼树这样的怪物比啊。不过简简单单 200 行代码就能实现一个性能上还不错的压缩、解压缩算法我已经比较满意了。</p>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>加载评论需要在浏览器启用 JavaScript 脚本支持。</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#起因"><span class="toc-number">1.</span> <span class="toc-text">起因</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LZW-基本原理"><span class="toc-number">2.</span> <span class="toc-text">LZW 基本原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#函数签名"><span class="toc-number">3.</span> <span class="toc-text">函数签名</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#压缩过程"><span class="toc-number">4.</span> <span class="toc-text">压缩过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解压过程"><span class="toc-number">5.</span> <span class="toc-text">解压过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实验"><span class="toc-number">6.</span> <span class="toc-text">实验</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://coderemixer.com/2020/09/26/write-lzw-manually/" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://coderemixer.com/2020/09/26/write-lzw-manually/&text=手写一个 LZW 压缩算法" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://coderemixer.com/2020/09/26/write-lzw-manually/&title=手写一个 LZW 压缩算法" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://coderemixer.com/2020/09/26/write-lzw-manually/&is_video=false&description=手写一个 LZW 压缩算法" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=手写一个 LZW 压缩算法&body=Check out this article: https://coderemixer.com/2020/09/26/write-lzw-manually/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://coderemixer.com/2020/09/26/write-lzw-manually/&title=手写一个 LZW 压缩算法" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://coderemixer.com/2020/09/26/write-lzw-manually/&title=手写一个 LZW 压缩算法" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://coderemixer.com/2020/09/26/write-lzw-manually/&title=手写一个 LZW 压缩算法" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://coderemixer.com/2020/09/26/write-lzw-manually/&title=手写一个 LZW 压缩算法" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://coderemixer.com/2020/09/26/write-lzw-manually/&name=手写一个 LZW 压缩算法&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://coderemixer.com/2020/09/26/write-lzw-manually/&t=手写一个 LZW 压缩算法" target="_blank" rel="noopener"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2020
+    CodeRemixer
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/atom.xml">RSS</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-127825283-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'coderemixer';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+
+</body>
+</html>
