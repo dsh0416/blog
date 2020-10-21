@@ -8,14 +8,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="description" content="For English version, click here 一个困扰了一周的 bug2016 年的一天，当我们发现 iPhone 上的浏览器不能正确通过我们的 CDN 鉴权后，我们花了数天的时间来 debug。简单来说当时的情况是，我们需要同时上传 3 个文件，我们会用用户 token 来换 3 个独立的随机数 id，这三个 id 会被 CDN 服务器认为合法，用户可以直接上传到 CDN 上而">
 <meta property="og:type" content="article">
-<meta property="og:title" content="如果 Safari 不能做到正确的行为，何来的快？">
+<meta property="og:title" content="如果 Safari 做不到对，快有何用？">
 <meta property="og:url" content="https://coderemixer.com/2020/10/21/safari-is-fast-but-so-what/index.html">
 <meta property="og:site_name" content="代码混音师">
 <meta property="og:description" content="For English version, click here 一个困扰了一周的 bug2016 年的一天，当我们发现 iPhone 上的浏览器不能正确通过我们的 CDN 鉴权后，我们花了数天的时间来 debug。简单来说当时的情况是，我们需要同时上传 3 个文件，我们会用用户 token 来换 3 个独立的随机数 id，这三个 id 会被 CDN 服务器认为合法，用户可以直接上传到 CDN 上而">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://coderemixer.com/static/safari-js-bug.png">
 <meta property="article:published_time" content="2020-10-21T02:52:12.000Z">
-<meta property="article:modified_time" content="2020-10-21T04:04:29.090Z">
+<meta property="article:modified_time" content="2020-10-21T04:08:57.900Z">
 <meta property="article:author" content="CodeRemixer">
 <meta property="article:tag" content="JavaScript">
 <meta property="article:tag" content="Safari">
@@ -43,7 +43,7 @@
         
     
     <!-- title -->
-    <title>如果 Safari 不能做到正确的行为，何来的快？</title>
+    <title>如果 Safari 做不到对，快有何用？</title>
     <!-- styles -->
     
 <link rel="stylesheet" href="/css/style.css">
@@ -111,16 +111,16 @@
     <div id="share" style="display: none">
       <ul>
   <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://coderemixer.com/2020/10/21/safari-is-fast-but-so-what/" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=https://coderemixer.com/2020/10/21/safari-is-fast-but-so-what/&text=如果 Safari 不能做到正确的行为，何来的快？" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://coderemixer.com/2020/10/21/safari-is-fast-but-so-what/&title=如果 Safari 不能做到正确的行为，何来的快？" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://coderemixer.com/2020/10/21/safari-is-fast-but-so-what/&is_video=false&description=如果 Safari 不能做到正确的行为，何来的快？" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=如果 Safari 不能做到正确的行为，何来的快？&body=Check out this article: https://coderemixer.com/2020/10/21/safari-is-fast-but-so-what/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=https://coderemixer.com/2020/10/21/safari-is-fast-but-so-what/&title=如果 Safari 不能做到正确的行为，何来的快？" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=https://coderemixer.com/2020/10/21/safari-is-fast-but-so-what/&title=如果 Safari 不能做到正确的行为，何来的快？" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://coderemixer.com/2020/10/21/safari-is-fast-but-so-what/&title=如果 Safari 不能做到正确的行为，何来的快？" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=https://coderemixer.com/2020/10/21/safari-is-fast-but-so-what/&title=如果 Safari 不能做到正确的行为，何来的快？" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://coderemixer.com/2020/10/21/safari-is-fast-but-so-what/&name=如果 Safari 不能做到正确的行为，何来的快？&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://coderemixer.com/2020/10/21/safari-is-fast-but-so-what/&t=如果 Safari 不能做到正确的行为，何来的快？" target="_blank" rel="noopener"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://coderemixer.com/2020/10/21/safari-is-fast-but-so-what/&text=如果 Safari 做不到对，快有何用？" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://coderemixer.com/2020/10/21/safari-is-fast-but-so-what/&title=如果 Safari 做不到对，快有何用？" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://coderemixer.com/2020/10/21/safari-is-fast-but-so-what/&is_video=false&description=如果 Safari 做不到对，快有何用？" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=如果 Safari 做不到对，快有何用？&body=Check out this article: https://coderemixer.com/2020/10/21/safari-is-fast-but-so-what/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://coderemixer.com/2020/10/21/safari-is-fast-but-so-what/&title=如果 Safari 做不到对，快有何用？" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://coderemixer.com/2020/10/21/safari-is-fast-but-so-what/&title=如果 Safari 做不到对，快有何用？" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://coderemixer.com/2020/10/21/safari-is-fast-but-so-what/&title=如果 Safari 做不到对，快有何用？" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://coderemixer.com/2020/10/21/safari-is-fast-but-so-what/&title=如果 Safari 做不到对，快有何用？" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://coderemixer.com/2020/10/21/safari-is-fast-but-so-what/&name=如果 Safari 做不到对，快有何用？&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://coderemixer.com/2020/10/21/safari-is-fast-but-so-what/&t=如果 Safari 做不到对，快有何用？" target="_blank" rel="noopener"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -137,7 +137,7 @@
   <header>
     
     <h1 class="posttitle" itemprop="name headline">
-        如果 Safari 不能做到正确的行为，何来的快？
+        如果 Safari 做不到对，快有何用？
     </h1>
 
 
@@ -229,16 +229,16 @@
     <div id="share-footer" style="display: none">
       <ul>
   <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://coderemixer.com/2020/10/21/safari-is-fast-but-so-what/" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=https://coderemixer.com/2020/10/21/safari-is-fast-but-so-what/&text=如果 Safari 不能做到正确的行为，何来的快？" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://coderemixer.com/2020/10/21/safari-is-fast-but-so-what/&title=如果 Safari 不能做到正确的行为，何来的快？" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://coderemixer.com/2020/10/21/safari-is-fast-but-so-what/&is_video=false&description=如果 Safari 不能做到正确的行为，何来的快？" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=如果 Safari 不能做到正确的行为，何来的快？&body=Check out this article: https://coderemixer.com/2020/10/21/safari-is-fast-but-so-what/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=https://coderemixer.com/2020/10/21/safari-is-fast-but-so-what/&title=如果 Safari 不能做到正确的行为，何来的快？" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=https://coderemixer.com/2020/10/21/safari-is-fast-but-so-what/&title=如果 Safari 不能做到正确的行为，何来的快？" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://coderemixer.com/2020/10/21/safari-is-fast-but-so-what/&title=如果 Safari 不能做到正确的行为，何来的快？" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=https://coderemixer.com/2020/10/21/safari-is-fast-but-so-what/&title=如果 Safari 不能做到正确的行为，何来的快？" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://coderemixer.com/2020/10/21/safari-is-fast-but-so-what/&name=如果 Safari 不能做到正确的行为，何来的快？&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://coderemixer.com/2020/10/21/safari-is-fast-but-so-what/&t=如果 Safari 不能做到正确的行为，何来的快？" target="_blank" rel="noopener"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://coderemixer.com/2020/10/21/safari-is-fast-but-so-what/&text=如果 Safari 做不到对，快有何用？" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://coderemixer.com/2020/10/21/safari-is-fast-but-so-what/&title=如果 Safari 做不到对，快有何用？" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://coderemixer.com/2020/10/21/safari-is-fast-but-so-what/&is_video=false&description=如果 Safari 做不到对，快有何用？" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=如果 Safari 做不到对，快有何用？&body=Check out this article: https://coderemixer.com/2020/10/21/safari-is-fast-but-so-what/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://coderemixer.com/2020/10/21/safari-is-fast-but-so-what/&title=如果 Safari 做不到对，快有何用？" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://coderemixer.com/2020/10/21/safari-is-fast-but-so-what/&title=如果 Safari 做不到对，快有何用？" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://coderemixer.com/2020/10/21/safari-is-fast-but-so-what/&title=如果 Safari 做不到对，快有何用？" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://coderemixer.com/2020/10/21/safari-is-fast-but-so-what/&title=如果 Safari 做不到对，快有何用？" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://coderemixer.com/2020/10/21/safari-is-fast-but-so-what/&name=如果 Safari 做不到对，快有何用？&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://coderemixer.com/2020/10/21/safari-is-fast-but-so-what/&t=如果 Safari 做不到对，快有何用？" target="_blank" rel="noopener"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
