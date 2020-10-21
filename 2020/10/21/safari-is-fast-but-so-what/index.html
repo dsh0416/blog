@@ -15,7 +15,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://coderemixer.com/static/safari-js-bug.png">
 <meta property="article:published_time" content="2020-10-21T02:52:12.000Z">
-<meta property="article:modified_time" content="2020-10-21T03:36:31.633Z">
+<meta property="article:modified_time" content="2020-10-21T04:04:29.090Z">
 <meta property="article:author" content="CodeRemixer">
 <meta property="article:tag" content="JavaScript">
 <meta property="article:tag" content="Safari">
@@ -177,7 +177,15 @@
 
 <p>在 Firefox 上，你会得到 1 2 3 的输出，而在 Safari 上你会得到 3 个 1。</p>
 <p>针对同一个 API 接口，只要请求参数完全一致，并且在一个请求返回前，相同的请求已经被发出，那么这些请求都会得到完全相同的结果。</p>
-<h2 id="问题分析"><a href="#问题分析" class="headerlink" title="问题分析"></a>问题分析</h2><p>一般来说我们认为 RESTful API 的 GET 是幂等的，如果我们把 x 当作服务器的状态，f 是 GET 请求操作，那么我们有：<br>$$<br>f(f(x)) = f(x)<br>$$<br>这确保了多次调用接口产生的副作用，和一次调用是一致的。这可以得到推论认为每次 GET 请求的返回都应该是一样的。但一方面这是 RESTful 风格的特性，而不是标准的 HTTP 请求的特性；另一方面一些接口必然无法满足这样的要求，比如统计接口和随机数接口。</p>
+<h2 id="问题分析"><a href="#问题分析" class="headerlink" title="问题分析"></a>问题分析</h2><p>HTTP/1.1 规格上 API 的 GET 是幂等的，如果我们把 x 当作服务器的状态，f 是 GET 请求操作，那么我们有：</p>
+<p>$$<br>f(f(x)) = f(x)<br>$$</p>
+<p>这确保了多次调用接口产生的副作用，和一次调用是一致的。我们似乎可以得到推论认为每次 GET 请求的返回都应该是一样的。</p>
+<p>但如果我们仔细来看 <a href="https://tools.ietf.org/html/rfc7231#section-4.2.2" target="_blank" rel="noopener">rfc7231</a> 对于 HTTP 幂等的定义，其只是为了确保请求重新发送的可靠性，而不是不允许后端进行任何非幂等的操作。</p>
+<p>如果我们把 GET 换成 POST 结果如何呢？</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">require</span> <span class="string">'sinatra'</span></span><br><span class="line"></span><br><span class="line">get <span class="string">'/'</span> <span class="keyword">do</span></span><br><span class="line">  <span class="string">&lt;&lt;-EOF</span></span><br><span class="line"><span class="string">&lt;html&gt;</span></span><br><span class="line"><span class="string">&lt;script type="text/javascript"&gt;</span></span><br><span class="line"><span class="string">function reqListener () &#123;</span></span><br><span class="line"><span class="string">  console.log(this.responseText);</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">for (i = 0; i &lt; 3; i++) &#123;</span></span><br><span class="line"><span class="string">  var oReq = new XMLHttpRequest();</span></span><br><span class="line"><span class="string">  oReq.addEventListener("load", reqListener);</span></span><br><span class="line"><span class="string">  oReq.open("POST", "/count");</span></span><br><span class="line"><span class="string">  oReq.send();</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string">&lt;/script&gt;</span></span><br><span class="line"><span class="string">&lt;/html&gt;</span></span><br><span class="line"><span class="string">EOF</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">post <span class="string">'/count'</span> <span class="keyword">do</span></span><br><span class="line">  count += <span class="number">1</span></span><br><span class="line">  count.to_s</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+<p>竟然得到的也是三个 1！任何关于 HTTP 的规格都没有这样的描述，这对于 HTTP 动词的基本概念相违背，显然会带来非常严重的问题。</p>
+<p>一些接口必然无法满足幂等的要求，比如统计接口和随机数接口。</p>
 <p>如果我们假设这个幂等的可靠性，那么我们自然可以把请求参数进行哈希，从而提高事件回调时事件引擎的处理速度。但是显然这个假设是错的。但显然 Safari 做了相关的优化，从而导致了问题。</p>
 <h2 id="Bug-Report"><a href="#Bug-Report" class="headerlink" title="Bug Report"></a>Bug Report</h2><p><img src="/static/safari-js-bug.png" alt="Screenshot"></p>
 <p>我在 2016 年通过 Apple 当时非常丑的 Feedback 系统提交了这个 bug。然而从这个 Feedback 系统升级到了 Feedback Assistant，Mac OS X 改名成了 macOS，从 El Capitan 升级到了 Big Sur，这个 Bug 不但在最新的 Safari 14.0.1 (16610.2.8.1.1) 依然存在。这个 Ticket 也没有得到任何回复。</p>
