@@ -52,13 +52,46 @@ For the same API request, if the parameters are identical. Safari may return sam
 
 ## Analysis
 
-In general, we may think that GET requests of RESTful API are Idempotent. If we treat x as the status of the server, and f is the GET request, we would have:
+In general, we may think that GET requests of HTTP/1.1 are Idempotent. If we treat x as the status of the server, and f is the GET request, we would have:
 
 $$
 f(f(x)) = f(x)
 $$
 
-The idempotence ensures that the side effects of multiple calls are identical to a single call. We could infer that all responses of the same GET request should also be exact. But first, this is the requirements of RESTful API instead of the HTTP standard. Second, some of the requests can't meet such needs like random generator or statistics.
+The idempotence ensures that the side effects of multiple calls are identical to a single call. We could infer that all responses of the same GET request should also be exact.
+
+But if we check [rfc7231](https://tools.ietf.org/html/rfc7231#section-4.2.2) carefully, the definition of the Idempotence is to ensure resend of a failure request safe instead of not allowing the backend to do any non-idempotent operations.
+
+What if we change GET to POST?
+
+```ruby
+require 'sinatra'
+
+get '/' do
+  <<-EOF
+<html>
+<script type="text/javascript">
+function reqListener () {
+  console.log(this.responseText);
+}
+
+for (i = 0; i < 3; i++) {
+  var oReq = new XMLHttpRequest();
+  oReq.addEventListener("load", reqListener);
+  oReq.open("POST", "/count");
+  oReq.send();
+}
+</script>
+</html>
+EOF
+end
+
+post '/count' do
+  count += 1
+  count.to_s
+end
+```
+IT IS STILL THREE 1s! There's not any HTTP spectification to define the Idempotence of POST action. This must cause serious problems due to the basic concepts of HTTP actions.
 
 If we assume the reliability of idempotence, we could hash the parameters to improve the performance of callbacks in the event engine of a browser. But apparently, this assumption is incorrect, and Safari does make such optimizations, which causes the bug.
 

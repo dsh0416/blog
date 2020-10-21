@@ -52,11 +52,49 @@ end
 
 ## 问题分析
 
-一般来说我们认为 RESTful API 的 GET 是幂等的，如果我们把 x 当作服务器的状态，f 是 GET 请求操作，那么我们有：
+HTTP/1.1 规格上 API 的 GET 是幂等的，如果我们把 x 当作服务器的状态，f 是 GET 请求操作，那么我们有：
+
 $$
 f(f(x)) = f(x)
 $$
-这确保了多次调用接口产生的副作用，和一次调用是一致的。这可以得到推论认为每次 GET 请求的返回都应该是一样的。但一方面这是 RESTful 风格的特性，而不是标准的 HTTP 请求的特性；另一方面一些接口必然无法满足这样的要求，比如统计接口和随机数接口。
+
+这确保了多次调用接口产生的副作用，和一次调用是一致的。我们似乎可以得到推论认为每次 GET 请求的返回都应该是一样的。
+
+但如果我们仔细来看 [rfc7231](https://tools.ietf.org/html/rfc7231#section-4.2.2) 对于 HTTP 幂等的定义，其只是为了确保请求重新发送的可靠性，而不是不允许后端进行任何非幂等的操作。
+
+如果我们把 GET 换成 POST 结果如何呢？
+
+```ruby
+require 'sinatra'
+
+get '/' do
+  <<-EOF
+<html>
+<script type="text/javascript">
+function reqListener () {
+  console.log(this.responseText);
+}
+
+for (i = 0; i < 3; i++) {
+  var oReq = new XMLHttpRequest();
+  oReq.addEventListener("load", reqListener);
+  oReq.open("POST", "/count");
+  oReq.send();
+}
+</script>
+</html>
+EOF
+end
+
+post '/count' do
+  count += 1
+  count.to_s
+end
+```
+
+竟然得到的也是三个 1！任何关于 HTTP 的规格都没有这样的描述，这对于 HTTP 动词的基本概念相违背，显然会带来非常严重的问题。
+
+一些接口必然无法满足幂等的要求，比如统计接口和随机数接口。
 
 如果我们假设这个幂等的可靠性，那么我们自然可以把请求参数进行哈希，从而提高事件回调时事件引擎的处理速度。但是显然这个假设是错的。但显然 Safari 做了相关的优化，从而导致了问题。
 
