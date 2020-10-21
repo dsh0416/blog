@@ -1,5 +1,5 @@
 ---
-title: 如果 Safari 不能做到正确的行为，何来的快？
+title: 如果 Safari 做不到对，快有何用？
 date: 2020-10-21 11:52:12
 tags: [Safari, Apple, Web, W3C, JavaScript]
 ---
