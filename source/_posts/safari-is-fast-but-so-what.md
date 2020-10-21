@@ -68,7 +68,7 @@ $$
 
 ## 结论
 
-Safari 很快，Safari 效率很高，Safari 很省电。但如果连基本的 W3C Web API 的兼容性、可靠性都不能保证，我们怎么敢使用这个浏览器？但好在由于 App Store 的垄断性，iOS 设备被要求不允许使用第三方 Webview，包括 iOS 上的 Chrome 和 Firefox。从而迫使我们这些 Web 开发者为 Safari 的无下限进行妥协。就连邪恶的微软 IE，也没有敢利用操作系统的垄断来强制浏览器的规格。
+Safari 很快，Safari 效率很高，Safari 很省电。但如果连基本的 W3C Web API 的兼容性、可靠性都不能保证，我们怎么敢使用这个浏览器？但好在由于 App Store 的垄断性，iOS 设备被要求不允许使用第三方 Webview，包括 iOS 上的 Chrome 和 Firefox。在 iOS 之前不会有人理 Safari 的，但现在我们这些 Web 开发者被迫为 Safari 的无下限进行妥协。就连邪恶的微软 IE，也没有敢利用操作系统的垄断来强制浏览器的规格。
 
 Safari 何止是新的 IE，它比 IE 邪恶多了。Apple 根本就是自由互联网的摧毁者，这和中国开发者痛恨的微信浏览器又有什么本质上的区别呢？
 

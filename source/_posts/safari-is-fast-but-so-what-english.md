@@ -10,7 +10,7 @@ tags: [Safari, Apple, Web, W3C, JavaScript]
 
 In a day of 2016, we found that our users could not pass the CDN authentication with their iPhones. We then took several days to debug. The situation is that we need to upload three files at the same time. We use the token of the user to generate three random ids. The CDN server would use these ids to authenticate the upload of user files. In this case, we don't have to transfer the files to CDN on our server.
 
-But soon, iOS users found a weird problem. Users could only upload one of the free files. After debugging, we found that after uploading the first file, the next two ids become illegal. Furthermore, we found the three ids fetched by Safari are precisely the same?!
+But soon, iOS users found a weird problem. Users could only upload one of the three files. After debugging, we found that after uploading the first file, the next two ids become illegal. Furthermore, we found the three ids fetched by Safari are precisely the same?!
 
 ## Reproduction
 
@@ -70,7 +70,7 @@ I submitted this bug from Apple's feedback system in 2016. After four years, the
 
 ## Conclusion
 
-Safari is fast, efficient, and power-saving. But if Safari can't keep essential compatibility with W3C Web API standards, how dare we using this browser? But due to the monopoly of iOS and App Store, iOS developers are not allowed to use third-party Webview, including Chrome and Firefox. We, the web developers, have to compromise with the incorrect implementation of Safari. Even the evil IE, didn't use the monopoly of the operating system to force users to accept the specification of a browser.
+Safari is fast, efficient, and power-saving. But if Safari can't keep essential compatibility with W3C Web API standards, how dare we using this browser? But due to the monopoly of iOS and App Store, iOS developers are not allowed to use third-party Webview, including Chrome and Firefox. Before iOS, nobody cares about Safari. But now, we, the web developers, have to compromise with the incorrect implementation of Safari. Even the evil IE, didn't use the monopoly of the operating system to force users to accept the specification of a browser.
 
 Safari is not only the new IE, but it is also more evil than IE. Apple is the destroyer of the free Internet system.
 
