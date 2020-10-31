@@ -94,13 +94,17 @@ end
 
 竟然得到的也是三个 1！任何关于 HTTP 的规格都没有这样的描述，这对于 HTTP 动词的基本概念相违背，显然会带来非常严重的问题。
 
+我们检查一下后端的输出，只有一个 1。也就是这三个 POST 请求被 Safari 缓存了？！
+
 一些接口必然无法满足幂等的要求，比如统计接口和随机数接口。
 
-如果我们假设这个幂等的可靠性，那么我们自然可以把请求参数进行哈希，从而提高事件回调时事件引擎的处理速度。但是显然这个假设是错的。但显然 Safari 做了相关的优化，从而导致了问题。
+如果我们假设这个幂等的可靠性，那么我们自然可以把请求参数进行哈希，缓存降低响应时间，以及提高事件回调时事件引擎的处理速度。但是显然这个假设是错的。但显然 Safari 做了相关的优化，从而导致了问题。
 
 ## Bug Report
 
 ![Screenshot](/static/safari-js-bug.png)
+
+如果仔细找一下会发现，2012 年左右开始几乎每年都有人在网上问 Safari cache POST 请求和 Safari cache GET requests with cache disabled 的问题。
 
 我在 2016 年通过 Apple 当时非常丑的 Feedback 系统提交了这个 bug。然而从这个 Feedback 系统升级到了 Feedback Assistant，Mac OS X 改名成了 macOS，从 El Capitan 升级到了 Big Sur，这个 Bug 不但在最新的 Safari 14.0.1 (16610.2.8.1.1) 依然存在。这个 Ticket 也没有得到任何回复。
 

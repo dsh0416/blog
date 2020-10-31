@@ -93,11 +93,15 @@ end
 ```
 IT IS STILL THREE 1s! There's not any HTTP spectification to define the Idempotence of POST action. This must cause serious problems due to the basic concepts of HTTP actions.
 
-If we assume the reliability of idempotence, we could hash the parameters to improve the performance of callbacks in the event engine of a browser. But apparently, this assumption is incorrect, and Safari does make such optimizations, which causes the bug.
+If we check the output from the backend, there is only one 1, which means the three POST requests are cached by Safari?!
+
+If we assume the reliability of idempotence, we could hash the parameters to reduce the response time with cache and improve the performance of callbacks in the event engine of a browser. But apparently, this assumption is incorrect, and Safari does make such optimizations, which causes the bug.
 
 ## Bug Report
 
 ![Screenshot](/static/safari-js-bug.png)
+
+If we check this problem carefully on the Internet, people started asking questions about Safari cache POST requests and Safari cache GET requests with cache disabled from 2012.
 
 I submitted this bug from Apple's feedback system in 2016. After four years, the feedback system has evolved to Feedback Assistant; Mac OS X has been renamed to macOS; El Capitan has been upgraded to Big Sur. But this bug is still in the latest Safari (16610.2.8.1.1). My ticket is still open, with NO RESPONSE.
 
