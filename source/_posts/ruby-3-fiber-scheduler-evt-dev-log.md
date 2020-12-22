@@ -461,7 +461,7 @@ VALUE method_scheduler_register(VALUE self, VALUE io, VALUE interest) {
 
 相当惊人。这个结果有几方面因素。现在的 Falcon 等异步框架使用的都是基于 [nio4r](https://github.com/socketry/nio4r) 来实现的，其背后是 libev。libev 在各个异步事件库中的性能本来就是比较一般的，再加上其为了更好的兼容性做了大量的妥协。另一方面，以前的调度库需要大量 Ruby 元编程帮助，而现在几乎都是在 C extension 间完成的，性能也有了很大的提升。
 
-另外比起我们之前在 preview1 上做的测试，这个版本的 Fiber 调度器修复了大量的错误，而 wrk 的测试结果是非常错误敏感的，这使得我们最终的请求速度比起之前又提升了仅 10 倍。
+另外比起我们之前在 preview1 上做的测试，这个版本的 Fiber 调度器修复了大量的错误，而 wrk 的测试结果是非常错误敏感的，这使得我们最终的请求速度比起之前又提升了 10 倍。
 
 ## 与 Ractor 结合
 
