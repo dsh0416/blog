@@ -463,7 +463,7 @@ VALUE method_scheduler_register(VALUE self, VALUE io, VALUE interest) {
 
 另外比起我们之前在 preview1 上做的测试，这个版本的 Fiber 调度器修复了大量的错误，而 wrk 的测试结果是非常错误敏感的，这使得我们最终的请求速度比起之前又提升了 10 倍。
 
-**wrk 对于错误非常敏感，这个 benchmark 中的 parser 有问题，无法准确关闭 socket。把我的 [Midori](https://github.com/midori-rb/midori.rb) 重新捡起来改成了 Ruby 3 Scheduler 项目。性能达到了 247k req/s 单线程！达到了上百倍的性能提升。**
+**wrk 对于错误非常敏感，这个 benchmark 中的 parser 有问题，无法准确关闭 socket。把我的 [Midori](https://github.com/midori-rb/midori.rb) 重新捡起来改成了 Ruby 3 Scheduler 项目。性能达到了 247k req/s 单线程使用 kqueue！使用 epoll 更是达到了 647k req/s！达到了上百倍的性能提升。**
 
 ## 与 Ractor 结合
 

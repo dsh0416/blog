@@ -505,7 +505,7 @@ But this extension is almost written in C, with only the features the scheduler 
 Comparing to my previous tests on preview 1, this version uses long connection, and Ruby nonblock I/O also has fixed a lot.
 The `wrk` results are very error-sensitive. All of these things makes our performance 10 times faster comparing to what we have done 3 months ago.
 
-**wrk is very error-sensitive, the parser in the benchmark is incorrect, which could not close the socket properly. I updated my [Midori](https://github.com/midori-rb/midori.rb) to a Ruby 3 Scheduler project, the performance could reach 247k req/s, which is more than 100x times faster comparing to blocking I/O.**
+**wrk is very error-sensitive, the parser in the benchmark is incorrect, which could not close the socket properly. I updated my [Midori](https://github.com/midori-rb/midori.rb) to a Ruby 3 Scheduler project, the performance could reach 247k req/s with kqueue and 647k req/s with epoll, which is more than 100x times faster comparing to blocking I/O.**
 
 ## Combining with Ractor
 
