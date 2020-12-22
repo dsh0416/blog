@@ -14,7 +14,7 @@
 <meta property="og:description" content="For English Readers Ruby 3 Fiber 调度器我在 2020 年 7 月写过一篇文章 《Ruby 3 Fiber 变化前瞻》，以及后来 8 月又写过一篇文章 《尝试使用 Ruby 3 调度器》，简单介绍了 Fiber 调度器。Ruby 3 在这几个月中更新了数个版本，包括 ruby-3.0.0-preview1 ruby-3.0.0-preview2 和 ruby-3.0">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-12-22T08:41:41.000Z">
-<meta property="article:modified_time" content="2020-12-22T15:48:53.490Z">
+<meta property="article:modified_time" content="2020-12-22T15:59:17.659Z">
 <meta property="article:author" content="CodeRemixer">
 <meta property="article:tag" content="Ruby">
 <meta property="article:tag" content="编程">
@@ -299,7 +299,7 @@
 </tbody></table>
 <p>相当惊人。这个结果有几方面因素。现在的 Falcon 等异步框架使用的都是基于 <a href="https://github.com/socketry/nio4r" target="_blank" rel="noopener">nio4r</a> 来实现的，其背后是 libev。libev 在各个异步事件库中的性能本来就是比较一般的，再加上其为了更好的兼容性做了大量的妥协。另一方面，以前的调度库需要大量 Ruby 元编程帮助，而现在几乎都是在 C extension 间完成的，性能也有了很大的提升。</p>
 <p>另外比起我们之前在 preview1 上做的测试，这个版本的 Fiber 调度器修复了大量的错误，而 wrk 的测试结果是非常错误敏感的，这使得我们最终的请求速度比起之前又提升了 10 倍。</p>
-<p><strong>wrk 对于错误非常敏感，这个 benchmark 中的 parser 有问题，无法准确关闭 socket。把我的 <a href="https://github.com/midori-rb/midori.rb" target="_blank" rel="noopener">Midori</a> 重新捡起来改成了 Ruby 3 Scheduler 项目。性能达到了 247k req/s 单线程！达到了上百倍的性能提升。</strong></p>
+<p><strong>wrk 对于错误非常敏感，这个 benchmark 中的 parser 有问题，无法准确关闭 socket。把我的 <a href="https://github.com/midori-rb/midori.rb" target="_blank" rel="noopener">Midori</a> 重新捡起来改成了 Ruby 3 Scheduler 项目。性能达到了 247k req/s 单线程使用 kqueue！使用 epoll 更是达到了 647k req/s！达到了上百倍的性能提升。</strong></p>
 <h2 id="与-Ractor-结合"><a href="#与-Ractor-结合" class="headerlink" title="与 Ractor 结合"></a>与 Ractor 结合</h2><p>我在 2020 年 11 月 17 日写过一篇关于 Ractor 的扫盲贴 <a href="https://coderemixer.com/2020/11/17/ruby-3-ractor-guide/">《Ractor 下多线程 Ruby 程序指南》</a>，Ractor 和 Fiber 的结合始终是一个有意思的话题。目前情况下 Fiber 与 Ractor 结合来实现 Web 服务器有两个可能的路径：</p>
 <ol>
 <li>在主 Ractor 部署一个调度器，用来处理请求的 accept。将请求派发到子 Ractor 中，由子线程进行处理后将返回值传回主 Ractor 中进行请求返回。</li>
