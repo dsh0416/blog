@@ -134,7 +134,9 @@ $$
 $$
 那么方向角（自正北作为 0 度的顺时针角度）就是
 $$
-tan(\theta)=\frac{x_b-x_a}{y_b-y_a} \\
+tan(\theta)=\frac{x_b-x_a}{y_b-y_a}
+$$
+$$
 \theta = atan(\frac{x_b-x_a}{y_b-y_a})
 $$
 然而在球面上计算这个问题要复杂一些，本质上我们需要知道大圆上任意两点的距离，我们需要用到球面三角学中重要的[半正矢公式（Harversine Formula）](https://zh.wikipedia.org/wiki/%E5%8D%8A%E6%AD%A3%E7%9F%A2%E5%85%AC%E5%BC%8F)。
@@ -151,9 +153,15 @@ $$
 
 进一步我们可以得到：
 $$
-A = (lat_a, lng_a) \\
-B = (lat_b, lng_b) \\
-N = (\frac{\pi}{2}, 0) \\
+A = (lat_a, lng_a)
+$$
+$$
+B = (lat_b, lng_b)
+$$
+$$
+N = (\frac{\pi}{2}, 0)
+$$
+$$
 hav(NB) = hav(AB-AN)+sin(AB)sin(AN)hav(\angle NAB)
 $$
 再往下算基本就吐了，这公式长到打在 Wolfram Alpha 上直接不识别。只好上网找了个算好的结果：
