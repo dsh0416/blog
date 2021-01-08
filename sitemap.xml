@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://coderemixer.com/2021/01/08/autopilot-with-ruby/</loc>
+    
+    <lastmod>2021-01-08T07:09:22.431Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://coderemixer.com/2020/12/22/ruby-3-fiber-scheduler-evt-dev-log/</loc>
     
     <lastmod>2020-12-22T15:59:17.659Z</lastmod>
@@ -23,7 +30,7 @@
   </url>
   
   <url>
-    <loc>https://coderemixer.com/2020/11/11/how-anti-reflective-coating-works/</loc>
+    <loc>https://coderemixer.com/2020/11/10/how-anti-reflective-coating-works/</loc>
     
     <lastmod>2020-11-10T15:58:49.740Z</lastmod>
     
@@ -86,7 +93,7 @@
   </url>
   
   <url>
-    <loc>https://coderemixer.com/2019/01/19/why-i-hear-all-ha-into-wa/</loc>
+    <loc>https://coderemixer.com/2019/01/18/why-i-hear-all-ha-into-wa/</loc>
     
     <lastmod>2020-08-12T09:01:06.008Z</lastmod>
     
