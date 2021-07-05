@@ -6,7 +6,7 @@ tags: [编译, Ruby, 语言学]
 
 ## 大马饮料名
 
-近几日新加坡网友 Bernard Tee 在 Facebook 发的这个「三点几嚟，饮茶先啦」非常流行。
+近几日马来西亚网友 Gurdip Singh 在 Facebook 发的这个「三点几嚟，饮茶先啦」非常流行。
 
 Facebook: www.facebook.com/100009201465316/videos/2530411593942198
 
