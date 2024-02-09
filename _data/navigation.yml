@@ -1,0 +1,11 @@
+main:
+  - title: 首页
+    url: /
+  - title: 关于
+    url: /about
+  - title: GitHub
+    url: https://github.com/dsh0416
+  - title: Twitter
+    url: https://twitter.com/DeltonDing
+  - title: RSS
+    url: /atom.xml

@@ -1,0 +1,88 @@
+title: Coderemixer 代码混音师
+email: me@delton.me
+description: >-
+  一个用来发牢骚的网站，以至于无法对所说的话负责。
+baseurl: ""
+url: "https://coderemixer.com"
+permalink: /:year/:month/:day/:title
+head_scripts:
+  - /assets/js/mathjax.js
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+
+author:
+  name: CodeRemixer
+  avatar: "/assets/images/bio-photo.png"
+  bio: >-
+    一个用来发牢骚的网站，以至于无法对所说的话负责。<br><br>
+    文章若无特别声明，皆采用 <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 进行许可。
+
+
+# Build settings
+theme: minimal-mistakes-jekyll
+minimal_mistakes_skin: "dark"
+plugins:
+  - jekyll-feed
+  - jekyll-archives
+feed:
+  path: /atom.xml
+tag_archive:
+  type: jekyll-archives
+  path: /tags/
+jekyll-archives:
+  enabled:
+    - tags
+  layouts:
+    tag: archive-taxonomy
+  permalinks:
+    tag: /tags/:name/
+
+defaults:
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: single
+      author_profile: true
+      read_time: true
+      comments: true
+      share: true
+      related: true
+      show_date: true
+  - scope:
+      path: ""
+      type: pages
+    values:
+      layout: single
+      author_profile: true
+  - scope:
+      path: ""
+      type: tag
+    values:
+      author_profile: true
+
+include: ["_pages"]
+
+comments:
+  provider: "disqus"
+  disqus:
+    shortname: "coderemixer"
+
+# Exclude from processing.
+# The following items will not be processed, by default.
+# Any item listed under the `exclude:` key here will be automatically added to
+# the internal "default list".
+#
+# Excluded items can be processed by explicitly listing the directories or
+# their entries' file path in the `include:` list.
+#
+# exclude:
+#   - .sass-cache/
+#   - .jekyll-cache/
+#   - gemfiles/
+#   - Gemfile
+#   - Gemfile.lock
+#   - node_modules/
+#   - vendor/bundle/
+#   - vendor/cache/
+#   - vendor/gems/
+#   - vendor/ruby/
