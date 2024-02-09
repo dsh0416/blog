@@ -1,0 +1,874 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>用 Ruby 实现飞机自动驾驶仪 - Coderemixer 代码混音师</title>
+<meta name="description" content="krpc 是一个砍巴拉太空计划（Kerbel Space Program）中的插件。可以通过 RPC 来控制游戏。同时有第三方的 Ruby 客户端：krpc-rb。和真实飞机不同的是，在砍巴拉游戏中驾驶飞机是非常痛苦的，在没有插件辅助的情况下，你看不到具体的 GPS 坐标，很多时候看到的都是和飞机驾驶无关的轨道参数，而一些关键的控制参数缺很难获取。同时游戏中也没有自动驾驶仪。特别在航天飞机降落的控制非常难，虽然手动降落不会太有问题，游戏对于重着陆的容忍度很高，但是要控制飞机飞往机场的过程漫长而痛苦。于是我们试试看利用 krpc 来实现正常商用飞机都有的自动驾驶仪的功能。">
+
+
+  <meta name="author" content="CodeRemixer">
+  
+  <meta property="article:author" content="CodeRemixer">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Coderemixer 代码混音师">
+<meta property="og:title" content="用 Ruby 实现飞机自动驾驶仪">
+<meta property="og:url" content="https://coderemixer.com/2021/01/08/autopilot-with-ruby">
+
+
+  <meta property="og:description" content="krpc 是一个砍巴拉太空计划（Kerbel Space Program）中的插件。可以通过 RPC 来控制游戏。同时有第三方的 Ruby 客户端：krpc-rb。和真实飞机不同的是，在砍巴拉游戏中驾驶飞机是非常痛苦的，在没有插件辅助的情况下，你看不到具体的 GPS 坐标，很多时候看到的都是和飞机驾驶无关的轨道参数，而一些关键的控制参数缺很难获取。同时游戏中也没有自动驾驶仪。特别在航天飞机降落的控制非常难，虽然手动降落不会太有问题，游戏对于重着陆的容忍度很高，但是要控制飞机飞往机场的过程漫长而痛苦。于是我们试试看利用 krpc 来实现正常商用飞机都有的自动驾驶仪的功能。">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2021-01-08T13:03:32+00:00">
+
+
+
+
+
+
+<link rel="canonical" href="https://coderemixer.com/2021/01/08/autopilot-with-ruby">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": null,
+      "url": "https://coderemixer.com/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Coderemixer 代码混音师 Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+  
+    <script src="/assets/js/mathjax.js"></script>
+  
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          Coderemixer 代码混音师
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/">首页</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about">关于</a>
+            </li><li class="masthead__menu-item">
+              <a href="https://github.com/dsh0416">GitHub</a>
+            </li><li class="masthead__menu-item">
+              <a href="https://twitter.com/DeltonDing">Twitter</a>
+            </li><li class="masthead__menu-item">
+              <a href="/atom.xml">RSS</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/bio-photo.png" alt="CodeRemixer" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">CodeRemixer</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>一个用来发牢骚的网站，以至于无法对所说的话负责。<br /><br /> 文章若无特别声明，皆采用 <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 进行许可。</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="用 Ruby 实现飞机自动驾驶仪">
+    <meta itemprop="description" content="krpc 是一个砍巴拉太空计划（Kerbel Space Program）中的插件。可以通过 RPC 来控制游戏。同时有第三方的 Ruby 客户端：krpc-rb。和真实飞机不同的是，在砍巴拉游戏中驾驶飞机是非常痛苦的，在没有插件辅助的情况下，你看不到具体的 GPS 坐标，很多时候看到的都是和飞机驾驶无关的轨道参数，而一些关键的控制参数缺很难获取。同时游戏中也没有自动驾驶仪。特别在航天飞机降落的控制非常难，虽然手动降落不会太有问题，游戏对于重着陆的容忍度很高，但是要控制飞机飞往机场的过程漫长而痛苦。于是我们试试看利用 krpc 来实现正常商用飞机都有的自动驾驶仪的功能。">
+    <meta itemprop="datePublished" content="2021-01-08T13:03:32+00:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">用 Ruby 实现飞机自动驾驶仪
+</h1>
+          
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2021-01-08T13:03:32+00:00">January 8, 2021</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+        <p><code class="language-plaintext highlighter-rouge">krpc</code> 是一个砍巴拉太空计划（Kerbel Space Program）中的插件。可以通过 RPC 来控制游戏。同时有第三方的 Ruby 客户端：<a href="https://github.com/TeWu/krpc-rb">krpc-rb</a>。和真实飞机不同的是，在砍巴拉游戏中驾驶飞机是非常痛苦的，在没有插件辅助的情况下，你看不到具体的 GPS 坐标，很多时候看到的都是和飞机驾驶无关的轨道参数，而一些关键的控制参数缺很难获取。同时游戏中也没有自动驾驶仪。特别在航天飞机降落的控制非常难，虽然手动降落不会太有问题，游戏对于重着陆的容忍度很高，但是要控制飞机飞往机场的过程漫长而痛苦。于是我们试试看利用 <code class="language-plaintext highlighter-rouge">krpc</code> 来实现正常商用飞机都有的自动驾驶仪的功能。</p>
+
+<h2 id="pid-控制">PID 控制</h2>
+
+<p>PID 是自动化控制中最基础也是最常用的控制算法。</p>
+
+<p>我们假设我们要控制汽车油门使得汽车的速度达到某个我们预想中的速度。最直接的想法就是基于距离目标速度的大小来调整油门。也就是说越接近目标速度，我们油门踩得越轻。</p>
+
+<p>但这会产生一个问题，由于我们控制的是给油，油门到加速度控制存在一个延迟，使得我们放开油门后的几毫秒内可能速度还会上升；而当我们看到速度超过放开油门的量越来越大，随着车速越来越快，我们受到的空气阻力实际在增加，车速又会很快下降，而无法与加速度达到平衡，这种情况下我们就会在目标速度附近来回震荡。根据我们按比例控制的激进程度，振幅可能有所变化，最坏情况下我们会震动幅度越来越大，使得系统完全失控。</p>
+
+<p>解决这个问题最直接的方法是引入一个积分项，不单单根据目前速度的误差，也要根据当前加速度的积分，也就是速度来判断。速度越大可能我们需要的油门也要更大一些。</p>
+
+<p>最后我们实际控制还会遇到扰动的问题，我们可能还要根据过去一段时间内误差变化幅度来调节油门大小，比如遇到一个晃动速度快速下降，我们就要快速补一下油门来弥补这个误差。这意味着我们还要引入一个微分项。把这三个结合起来，我们可以得到公式：
+\(u(t) = K_pe(t) + K_i\int_0^te(\tau)d\tau+K_d\frac{d}{dt}e(t)\)
+形成一个通用的 P（比例）I（积分）D（微分）控制器。不过虽然说是通用，这每一项前面的系数比例要想调好也是不容易的。我们会用这个控制器来分别控制飞机的节流阀、滚转和俯仰。</p>
+
+<p>用 Ruby 实现出来是这样的：</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">PIDController</span>
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">kp</span><span class="p">,</span> <span class="n">ki</span><span class="p">,</span> <span class="n">kd</span><span class="p">,</span> <span class="n">clip_min</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">clip_max</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+    <span class="vi">@prev_err</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="vi">@integral</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="vi">@kp</span> <span class="o">=</span> <span class="n">kp</span>
+    <span class="vi">@ki</span> <span class="o">=</span> <span class="n">ki</span>
+    <span class="vi">@kd</span> <span class="o">=</span> <span class="n">kd</span>
+    <span class="vi">@clip_min</span> <span class="o">=</span> <span class="n">clip_min</span>
+    <span class="vi">@clip_max</span> <span class="o">=</span> <span class="n">clip_max</span>
+
+    <span class="vi">@last_frame</span> <span class="o">=</span> <span class="mf">0.0</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">trigger</span><span class="p">(</span><span class="n">goal</span><span class="p">,</span> <span class="n">measured</span><span class="p">)</span>
+    <span class="n">trigger_err</span><span class="p">(</span><span class="n">goal</span> <span class="o">-</span> <span class="n">measured</span><span class="p">)</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">trigger_err</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+    <span class="n">current_frame</span> <span class="o">=</span> <span class="no">Time</span><span class="p">.</span><span class="nf">now</span><span class="p">.</span><span class="nf">to_f</span>
+    <span class="n">dt</span> <span class="o">=</span> <span class="n">current_frame</span> <span class="o">-</span> <span class="vi">@last_frame</span>
+    <span class="k">if</span> <span class="n">dt</span> <span class="o">&gt;</span> <span class="mf">1.0</span>
+      <span class="vi">@last_frame</span> <span class="o">=</span> <span class="n">current_frame</span>
+      <span class="k">return</span> <span class="mf">0.0</span>
+    <span class="k">end</span>
+
+    <span class="vi">@integral</span> <span class="o">=</span> <span class="vi">@integral</span> <span class="o">+</span> <span class="n">err</span> <span class="o">*</span> <span class="n">dt</span>
+
+    <span class="vi">@integral</span> <span class="o">=</span> <span class="vi">@clip_min</span> <span class="k">if</span> <span class="vi">@integral</span> <span class="o">&lt;</span> <span class="vi">@clip_min</span>
+    <span class="vi">@integral</span> <span class="o">=</span> <span class="vi">@clip_max</span> <span class="k">if</span> <span class="vi">@integral</span> <span class="o">&gt;</span> <span class="vi">@clip_max</span>
+
+    <span class="n">d</span> <span class="o">=</span> <span class="p">(</span><span class="n">err</span> <span class="o">-</span> <span class="vi">@prev_err</span><span class="p">)</span> <span class="o">/</span> <span class="n">dt</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="vi">@kp</span> <span class="o">*</span> <span class="n">err</span> <span class="o">+</span> <span class="vi">@ki</span> <span class="o">*</span> <span class="vi">@integral</span> <span class="o">+</span> <span class="vi">@kd</span> <span class="o">*</span> <span class="n">d</span>
+    <span class="vi">@prev_err</span> <span class="o">=</span> <span class="n">err</span>
+    <span class="vi">@last_frame</span> <span class="o">=</span> <span class="n">current_frame</span>
+
+    <span class="k">return</span> <span class="vi">@clip_min</span> <span class="k">if</span> <span class="n">res</span> <span class="o">&lt;</span> <span class="vi">@clip_min</span>
+    <span class="k">return</span> <span class="vi">@clip_max</span> <span class="k">if</span> <span class="n">res</span> <span class="o">&gt;</span> <span class="vi">@clip_max</span>
+    <span class="n">res</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+</code></pre></div></div>
+
+<p>实际实现和公式有一些细微差异。积分项不能比可以控制的最大值更大，也不能比最小值更小。否则当误差和控制不在一个数量级的时候，往往会出现很难控制或者反应迟钝的问题。</p>
+
+<h2 id="起飞控制">起飞控制</h2>
+
+<p>起飞控制比较简单，在打开 SAS 保持稳定的情况下，我们只需要控制系统加速到抬轮速度，然后将飞机抬头到俯仰 10 度，收起起落架。最后爬升到给定的高度。</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">TakeoffProcess</span>
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">vessel</span><span class="p">,</span> <span class="n">vr</span><span class="p">,</span> <span class="n">velocity</span><span class="p">,</span> <span class="n">height</span><span class="p">)</span>
+    <span class="vi">@vessel</span> <span class="o">=</span> <span class="n">vessel</span>
+    <span class="vi">@control</span> <span class="o">=</span> <span class="n">vessel</span><span class="p">.</span><span class="nf">control</span>
+
+    <span class="vi">@vr</span> <span class="o">=</span> <span class="n">vr</span>
+    <span class="vi">@velocity</span> <span class="o">=</span> <span class="n">velocity</span>
+    <span class="vi">@height</span> <span class="o">=</span> <span class="n">height</span>
+
+    <span class="vi">@throttle_controller</span> <span class="o">=</span> <span class="no">PIDController</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">)</span>
+    <span class="vi">@pitch_controller</span> <span class="o">=</span> <span class="no">PIDController</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">run</span>
+    <span class="vi">@control</span><span class="p">.</span><span class="nf">brakes</span> <span class="o">=</span> <span class="kp">false</span>
+    <span class="vi">@control</span><span class="p">.</span><span class="nf">sas</span> <span class="o">=</span> <span class="kp">true</span>
+    <span class="kp">loop</span> <span class="k">do</span>
+      <span class="n">orbit</span> <span class="o">=</span> <span class="vi">@vessel</span><span class="p">.</span><span class="nf">flight</span><span class="p">(</span><span class="vi">@vessel</span><span class="p">.</span><span class="nf">orbit</span><span class="p">.</span><span class="nf">body</span><span class="p">.</span><span class="nf">reference_frame</span><span class="p">)</span>
+      <span class="n">surface</span> <span class="o">=</span> <span class="vi">@vessel</span><span class="p">.</span><span class="nf">flight</span><span class="p">(</span><span class="vi">@vessel</span><span class="p">.</span><span class="nf">surface_reference_frame</span><span class="p">)</span>
+      <span class="k">break</span> <span class="k">unless</span> <span class="n">orbit</span><span class="p">.</span><span class="nf">speed</span> <span class="o">&lt;</span> <span class="vi">@vr</span>
+      <span class="n">throttle</span> <span class="o">=</span> <span class="vi">@throttle_controller</span><span class="p">.</span><span class="nf">trigger</span><span class="p">(</span><span class="vi">@velocity</span><span class="p">,</span> <span class="n">orbit</span><span class="p">.</span><span class="nf">speed</span><span class="p">)</span>
+      <span class="vi">@control</span><span class="p">.</span><span class="nf">throttle</span> <span class="o">=</span> <span class="n">throttle</span>
+    <span class="k">end</span>
+
+    <span class="c1"># Rotate</span>
+    <span class="nb">puts</span> <span class="s2">"Rotate, Gear Up!"</span>
+    <span class="vi">@control</span><span class="p">.</span><span class="nf">gear</span> <span class="o">=</span> <span class="kp">false</span>
+
+    <span class="kp">loop</span> <span class="k">do</span>
+      <span class="n">orbit</span> <span class="o">=</span> <span class="vi">@vessel</span><span class="p">.</span><span class="nf">flight</span><span class="p">(</span><span class="vi">@vessel</span><span class="p">.</span><span class="nf">orbit</span><span class="p">.</span><span class="nf">body</span><span class="p">.</span><span class="nf">reference_frame</span><span class="p">)</span>
+      <span class="n">surface</span> <span class="o">=</span> <span class="vi">@vessel</span><span class="p">.</span><span class="nf">flight</span><span class="p">(</span><span class="vi">@vessel</span><span class="p">.</span><span class="nf">surface_reference_frame</span><span class="p">)</span>
+      <span class="k">break</span> <span class="k">unless</span> <span class="n">orbit</span><span class="p">.</span><span class="nf">mean_altitude</span> <span class="o">&lt;</span> <span class="vi">@height</span> <span class="o">-</span> <span class="mi">100</span>
+      <span class="n">throttle</span> <span class="o">=</span> <span class="vi">@throttle_controller</span><span class="p">.</span><span class="nf">trigger</span><span class="p">(</span><span class="vi">@velocity</span><span class="p">,</span> <span class="n">orbit</span><span class="p">.</span><span class="nf">speed</span><span class="p">)</span>
+      <span class="vi">@control</span><span class="p">.</span><span class="nf">throttle</span> <span class="o">=</span> <span class="n">throttle</span>
+
+      <span class="n">pitch</span> <span class="o">=</span> <span class="vi">@pitch_controller</span><span class="p">.</span><span class="nf">trigger</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">surface</span><span class="p">.</span><span class="nf">pitch</span><span class="p">)</span>
+      <span class="vi">@control</span><span class="p">.</span><span class="nf">pitch</span> <span class="o">=</span> <span class="n">pitch</span>
+    <span class="k">end</span>
+
+    <span class="nb">puts</span> <span class="s2">"Takeoff Process Finished."</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+</code></pre></div></div>
+
+<p>比较麻烦的地方是 ksp 有一个 reference_frame 的概念，很多参数需要的是相对于 reference_frame 参数的概念。比如当你需要速度的时候，有可能获得轨道速度，也可能得到的是地面速度。再比如俯仰，如果是相对于轨道的俯仰，那么理论上始终应该是在 0 附近，因为轨道会随着俯仰变化而变化。所以计算的时候要小心。</p>
+
+<h2 id="方向角计算">方向角计算</h2>
+
+<p>起飞后一般飞机自动驾驶仪一个最重要的功能就是根据预先在飞行电脑上设定好的飞行路线来飞行了。路点一般有几个关键参数：高度、速度、经纬度。高度和速度的写法和我们起飞的时候差不多。但转向就比较复杂。</p>
+
+<p>我们首先需要确定的是，飞机要转几度才能转到目标点，也就是计算方位角。我们先来考虑，如果这个地球是一个平面，经纬度是 x 和 y 轴上的坐标，方向角应当怎么算呢？其实我们可以很容易得到方向向量：
+\((x, y) = (x_b-x_a, y_b-y_a)\)
+那么方向角（自正北作为 0 度的顺时针角度）就是
+\(tan(\theta)=\frac{x_b-x_a}{y_b-y_a}\)
+\(\theta = atan(\frac{x_b-x_a}{y_b-y_a})\)
+然而在球面上计算这个问题要复杂一些，本质上我们需要知道大圆上任意两点的距离，我们需要用到球面三角学中重要的<a href="https://zh.wikipedia.org/wiki/%E5%8D%8A%E6%AD%A3%E7%9F%A2%E5%85%AC%E5%BC%8F">半正矢公式（Harversine Formula）</a>。</p>
+
+<p>根据半正矢定理，我们有：
+\(hav(c) = hav(a-b)+sin(a)sin(b)hav(C)\)
+其中：
+\(hav(\theta)=sin^2\frac{\theta}{2}=\frac{1-cos\theta}{2}\)
+<img src="/assets/images/harversine.png" alt="Harversine" /></p>
+
+<p>进一步我们可以得到：
+\(A = (lat_a, lng_a)\)
+\(B = (lat_b, lng_b)\)
+\(N = (\frac{\pi}{2}, 0)\)
+\(hav(NB) = hav(AB-AN)+sin(AB)sin(AN)hav(\angle NAB)\)
+再往下算基本就吐了，这公式长到打在 Wolfram Alpha 上直接不识别。只好上网找了个算好的结果：
+\(tan(\theta)=\frac{|lng_b-lng_a|}{ln(\frac{tan(\frac{lat_B}{2}+\frac{\pi}{4})}{tan(\frac{lat_A}{2}+\frac{\pi}{4})})}\)
+需要特别注意，当
+\(lat_a = lat_b\)
+的时候分母为 0，针对这类情况，大多数编程语言都有 <code class="language-plaintext highlighter-rouge">atan2(y, x)</code> 函数，当 <code class="language-plaintext highlighter-rouge">x = 0</code> 时返回 90 度。最后我们有程序：</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">delta_phi</span> <span class="o">=</span> <span class="no">Math</span><span class="p">.</span><span class="nf">log</span><span class="p">(</span><span class="no">Math</span><span class="p">.</span><span class="nf">tan</span><span class="p">((</span><span class="vi">@latitude</span> <span class="o">/</span> <span class="mi">180</span> <span class="o">*</span> <span class="no">Math</span><span class="o">::</span><span class="no">PI</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">+</span> <span class="no">Math</span><span class="o">::</span><span class="no">PI</span> <span class="o">/</span> <span class="mi">4</span><span class="p">)</span> <span class="o">/</span> <span class="no">Math</span><span class="p">.</span><span class="nf">tan</span><span class="p">((</span><span class="n">orbit</span><span class="p">.</span><span class="nf">latitude</span> <span class="o">/</span> <span class="mi">180</span> <span class="o">*</span> <span class="no">Math</span><span class="o">::</span><span class="no">PI</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">+</span> <span class="no">Math</span><span class="o">::</span><span class="no">PI</span> <span class="o">/</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">delta_lon</span> <span class="o">=</span>  <span class="p">(</span><span class="vi">@longitude</span> <span class="o">-</span> <span class="n">orbit</span><span class="p">.</span><span class="nf">longitude</span><span class="p">)</span>  <span class="o">/</span> <span class="mi">180</span> <span class="o">*</span> <span class="no">Math</span><span class="o">::</span><span class="no">PI</span>
+<span class="n">theta</span> <span class="o">=</span> <span class="no">Math</span><span class="p">.</span><span class="nf">atan2</span><span class="p">(</span><span class="n">delta_lon</span><span class="p">,</span> <span class="n">delta_phi</span><span class="p">)</span>
+<span class="n">target_heading</span> <span class="o">=</span> <span class="n">theta</span> <span class="o">*</span> <span class="mi">180</span> <span class="o">/</span> <span class="no">Math</span><span class="o">::</span><span class="no">PI</span>
+</code></pre></div></div>
+
+<h2 id="偏航控制">偏航控制</h2>
+
+<p>飞机上有两个可以控制飞机转向的方法，一个是偏航（Yaw），另一个是组合使用滚转（Roll）和俯仰（Pitch）。偏航通常是通过垂直尾翼来产生偏航力矩。而滚转和俯仰由副翼和水平尾翼得到。显然副翼和水平尾翼比垂直尾翼大很多，控制也会更快速、灵敏。事实上我们只需要控制滚转即可，因为当我们控制滚转，飞机的升力面会减少，从而导致升力下降、飞机下降；为了保持飞行高度，我们基于飞行高度控制的俯仰自然会提高俯仰，从而产生偏航方向的力矩。</p>
+
+<p>不过需要注意两个关键点：</p>
+
+<ol>
+  <li>控制俯仰来控制升力的原理是，在一定范围内攻角（Angle of Attack）和升力系数成正比。然而当攻角大于某个角度，升力可能会迅速下降（即失速），如果要提高升力应当降低俯仰，而不是继续抬升俯仰。</li>
+  <li>当滚转角度越来越大后，副翼的升力面会逐渐减小到无论如何提高节流阀大小或调整俯仰都无法维持的情况（即失速），应当将侧倾角度（bank angle）控制在合理范围内。</li>
+</ol>
+
+<p>在控制程序中我直接限制了俯仰的范围是 [-5.0, 10] 度，而滚转限制在正负 25 度以内。整体程序如下：</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">WaypointProcess</span>
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">vessel</span><span class="p">,</span> <span class="n">velocity</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">latitude</span><span class="p">,</span> <span class="n">longitude</span><span class="p">)</span>
+    <span class="vi">@vessel</span> <span class="o">=</span> <span class="n">vessel</span>
+    <span class="vi">@control</span> <span class="o">=</span> <span class="n">vessel</span><span class="p">.</span><span class="nf">control</span>
+
+    <span class="vi">@velocity</span> <span class="o">=</span> <span class="n">velocity</span>
+    <span class="vi">@height</span> <span class="o">=</span> <span class="n">height</span>
+    <span class="vi">@longitude</span> <span class="o">=</span> <span class="n">longitude</span>
+    <span class="vi">@latitude</span> <span class="o">=</span> <span class="n">latitude</span>
+
+    <span class="vi">@throttle_controller</span> <span class="o">=</span> <span class="no">PIDController</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">)</span>
+    <span class="vi">@pitch_controller</span> <span class="o">=</span> <span class="no">PIDController</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+    <span class="vi">@roll_controller</span> <span class="o">=</span> <span class="no">PIDController</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="mf">0.0005</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">run</span>
+    <span class="vi">@control</span><span class="p">.</span><span class="nf">sas</span> <span class="o">=</span> <span class="kp">false</span>
+    <span class="kp">loop</span> <span class="k">do</span>
+      <span class="n">orbit</span> <span class="o">=</span> <span class="vi">@vessel</span><span class="p">.</span><span class="nf">flight</span><span class="p">(</span><span class="vi">@vessel</span><span class="p">.</span><span class="nf">orbit</span><span class="p">.</span><span class="nf">body</span><span class="p">.</span><span class="nf">reference_frame</span><span class="p">)</span>
+      <span class="n">surface</span> <span class="o">=</span> <span class="vi">@vessel</span><span class="p">.</span><span class="nf">flight</span><span class="p">(</span><span class="vi">@vessel</span><span class="p">.</span><span class="nf">surface_reference_frame</span><span class="p">)</span>
+      <span class="k">break</span> <span class="k">if</span> <span class="p">(</span><span class="n">orbit</span><span class="p">.</span><span class="nf">latitude</span> <span class="o">-</span> <span class="vi">@latitude</span><span class="p">).</span><span class="nf">abs</span> <span class="o">&lt;</span> <span class="mf">1e-4</span> <span class="ow">and</span> <span class="p">(</span><span class="n">orbit</span><span class="p">.</span><span class="nf">longitude</span> <span class="o">-</span> <span class="vi">@longitude</span><span class="p">).</span><span class="nf">abs</span> <span class="o">&lt;</span> <span class="mf">1e-4</span>
+
+      <span class="n">throttle</span> <span class="o">=</span> <span class="vi">@throttle_controller</span><span class="p">.</span><span class="nf">trigger</span><span class="p">(</span><span class="vi">@velocity</span><span class="p">,</span> <span class="n">orbit</span><span class="p">.</span><span class="nf">speed</span><span class="p">)</span>
+      <span class="vi">@control</span><span class="p">.</span><span class="nf">throttle</span> <span class="o">=</span> <span class="n">throttle</span>
+
+      <span class="n">pitch</span> <span class="o">=</span> <span class="vi">@pitch_controller</span><span class="p">.</span><span class="nf">trigger</span><span class="p">(</span><span class="vi">@height</span><span class="p">,</span> <span class="n">orbit</span><span class="p">.</span><span class="nf">mean_altitude</span><span class="p">)</span>
+      <span class="k">if</span> <span class="n">pitch</span> <span class="o">&gt;</span> <span class="mf">0.0</span> <span class="ow">and</span> <span class="n">surface</span><span class="p">.</span><span class="nf">pitch</span> <span class="o">&gt;</span> <span class="mi">10</span>
+        <span class="n">pitch</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.1</span>
+      <span class="k">elsif</span> <span class="n">pitch</span> <span class="o">&lt;</span> <span class="mf">0.0</span> <span class="ow">and</span> <span class="n">surface</span><span class="p">.</span><span class="nf">pitch</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mi">5</span>
+        <span class="n">pitch</span> <span class="o">=</span> <span class="mf">0.1</span>
+      <span class="k">end</span>
+      <span class="vi">@control</span><span class="p">.</span><span class="nf">pitch</span> <span class="o">=</span> <span class="n">pitch</span>
+
+      <span class="n">delta_phi</span> <span class="o">=</span> <span class="no">Math</span><span class="p">.</span><span class="nf">log</span><span class="p">(</span><span class="no">Math</span><span class="p">.</span><span class="nf">tan</span><span class="p">((</span><span class="vi">@latitude</span> <span class="o">/</span> <span class="mi">180</span> <span class="o">*</span> <span class="no">Math</span><span class="o">::</span><span class="no">PI</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">+</span> <span class="no">Math</span><span class="o">::</span><span class="no">PI</span> <span class="o">/</span> <span class="mi">4</span><span class="p">)</span> <span class="o">/</span> <span class="no">Math</span><span class="p">.</span><span class="nf">tan</span><span class="p">((</span><span class="n">orbit</span><span class="p">.</span><span class="nf">latitude</span> <span class="o">/</span> <span class="mi">180</span> <span class="o">*</span> <span class="no">Math</span><span class="o">::</span><span class="no">PI</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">+</span> <span class="no">Math</span><span class="o">::</span><span class="no">PI</span> <span class="o">/</span> <span class="mi">4</span><span class="p">))</span>
+      <span class="n">delta_lon</span> <span class="o">=</span>  <span class="p">(</span><span class="vi">@longitude</span> <span class="o">-</span> <span class="n">orbit</span><span class="p">.</span><span class="nf">longitude</span><span class="p">)</span>  <span class="o">/</span> <span class="mi">180</span> <span class="o">*</span> <span class="no">Math</span><span class="o">::</span><span class="no">PI</span>
+      <span class="n">theta</span> <span class="o">=</span> <span class="no">Math</span><span class="p">.</span><span class="nf">atan2</span><span class="p">(</span><span class="n">delta_lon</span><span class="p">,</span> <span class="n">delta_phi</span><span class="p">)</span>
+      <span class="n">target_heading</span> <span class="o">=</span> <span class="n">theta</span> <span class="o">*</span> <span class="mi">180</span> <span class="o">/</span> <span class="no">Math</span><span class="o">::</span><span class="no">PI</span>
+
+      <span class="n">target_heading</span> <span class="o">=</span> <span class="mi">360</span> <span class="o">+</span> <span class="n">target_heading</span> <span class="k">if</span> <span class="n">target_heading</span> <span class="o">&lt;</span> <span class="mi">0</span>
+      <span class="n">delta_heading</span> <span class="o">=</span> <span class="n">target_heading</span> <span class="o">-</span> <span class="n">surface</span><span class="p">.</span><span class="nf">heading</span>
+
+      <span class="n">delta_heading</span> <span class="o">=</span> <span class="mi">360</span> <span class="o">-</span> <span class="n">delta_heading</span> <span class="k">if</span> <span class="n">delta_heading</span> <span class="o">&gt;</span> <span class="mi">180</span>
+      <span class="n">delta_heading</span> <span class="o">=</span> <span class="n">delta_heading</span> <span class="o">+</span> <span class="mi">360</span> <span class="k">if</span> <span class="n">delta_heading</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mi">180</span>
+
+      <span class="n">bank_angle</span> <span class="o">=</span> <span class="n">delta_heading</span>
+      <span class="n">bank_angle</span> <span class="o">=</span> <span class="mi">25</span> <span class="k">if</span> <span class="n">delta_heading</span> <span class="o">&gt;</span> <span class="mi">25</span>
+      <span class="n">bank_angle</span> <span class="o">=</span> <span class="o">-</span><span class="mi">25</span> <span class="k">if</span> <span class="n">delta_heading</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mi">25</span>
+
+      <span class="n">roll</span> <span class="o">=</span> <span class="vi">@roll_controller</span><span class="p">.</span><span class="nf">trigger</span><span class="p">(</span><span class="n">bank_angle</span><span class="p">,</span> <span class="n">surface</span><span class="p">.</span><span class="nf">roll</span><span class="p">)</span>
+      <span class="vi">@control</span><span class="p">.</span><span class="nf">roll</span> <span class="o">=</span> <span class="n">roll</span>
+      <span class="n">current_roll</span> <span class="o">=</span> <span class="n">surface</span><span class="p">.</span><span class="nf">roll</span>
+    <span class="k">end</span>
+
+    <span class="nb">puts</span> <span class="s2">"Waypoint lat: </span><span class="si">#{</span><span class="vi">@latitude</span><span class="si">}</span><span class="s2">, lng: </span><span class="si">#{</span><span class="vi">@longitude</span><span class="si">}</span><span class="s2"> Reached."</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+</code></pre></div></div>
+
+<h2 id="测试">测试</h2>
+
+<p>我们使用如下的飞行路径设定：</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">require</span> <span class="s1">'matrix'</span>
+<span class="nb">require</span> <span class="s1">'krpc'</span>
+
+<span class="nb">require</span> <span class="s1">'./libs/controller/pid'</span>
+<span class="nb">require</span> <span class="s1">'./libs/process/takeoff'</span>
+<span class="nb">require</span> <span class="s1">'./libs/process/waypoint'</span>
+
+<span class="no">KRPC</span><span class="p">.</span><span class="nf">connect</span> <span class="k">do</span> <span class="o">|</span><span class="n">client</span><span class="o">|</span>
+  <span class="n">vessel</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="nf">space_center</span><span class="p">.</span><span class="nf">active_vessel</span>
+
+  <span class="c1"># VR: 100m/s, Climb at 390 knots to 2000m</span>
+  <span class="no">TakeoffProcess</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">vessel</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">2000</span><span class="p">).</span><span class="nf">run</span>
+  <span class="c1"># Fly to North pole (N90, S0.0) at 330 knots at FL300</span>
+  <span class="no">WaypointProcess</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">vessel</span><span class="p">,</span> <span class="mi">170</span><span class="p">,</span> <span class="mi">7000</span><span class="p">,</span> <span class="mf">90.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">).</span><span class="nf">run</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>在 100m/s 时抬轮，以 390 节速度爬升到 2000 米，然后爬升到 30000 英尺转向飞往北极点。测试完美。</p>
+
+<p><img src="/assets/images/ksp-ap-test.jpg" alt="KSP AP Test" /></p>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/Mlqzk6bTOxQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<p>完整代码：<a href="https://github.com/dsh0416/ksp-pilot">GitHub dsh0416/ksp-pilot</a></p>
+
+<p>我用的是自带存档强翼 A300 进行的测试。该飞机被设计成大气层内飞行的重型运输机。由于 Kerbin 星球比起地球大气稀薄，到 FL300 飞机已经难以维持 300 节的时速了。不过如果使用空天飞机进行测试则没有这样的问题。</p>
+
+<p>目前的 PID 曲线的调教比较保守，在高度控制上震荡比较厉害。这可以针对具体飞机进行调整，如果在安装 <a href="https://forum.kerbalspaceprogram.com/index.php?/topic/19321-130-ferram-aerospace-research-v0159-liebe-82117/">Ferram Aerospace Research</a> 的情况下，可以获得具体的「升力系数参数」，其实通过控制升力系数来控制高度是最为可靠的方法，现实中的飞机也是这么做的。</p>
+
+<p>之后如果能获取机场 GPS 坐标实现自动进近和降落应该会更有意思。</p>
+
+<p>不过这个项目还是很有意义的，不但练习了 Ruby 编程，还学习了立体几何、物理、飞行原理和自动化控制的相关知识。</p>
+
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/ksp" class="page__taxonomy-item" rel="tag">KSP</a><span class="sep">, </span>
+    
+      <a href="/tags/pid" class="page__taxonomy-item" rel="tag">PID</a><span class="sep">, </span>
+    
+      <a href="/tags/ruby" class="page__taxonomy-item" rel="tag">Ruby</a>
+    
+    </span>
+  </p>
+
+
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2021-01-08T13:03:32+00:00">January 8, 2021</time></p>
+
+
+      </footer>
+
+      <section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?text=%E7%94%A8+Ruby+%E5%AE%9E%E7%8E%B0%E9%A3%9E%E6%9C%BA%E8%87%AA%E5%8A%A8%E9%A9%BE%E9%A9%B6%E4%BB%AA%20https%3A%2F%2Fcoderemixer.com%2F2021%2F01%2F08%2Fautopilot-with-ruby" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fcoderemixer.com%2F2021%2F01%2F08%2Fautopilot-with-ruby" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fcoderemixer.com%2F2021%2F01%2F08%2Fautopilot-with-ruby" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/2020/12/22/ruby-3-fiber-scheduler-evt-dev-log" class="pagination--pager" title="为 Ruby 3 Fiber 调度器设计事件库 Evt
+">Previous</a>
+    
+    
+      <a href="/2021/07/05/compile-malay-tea-name" class="pagination--pager" title="三点几嚟，饮茶先啦 —— 将大马饮料名编译成汉语
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You May Also Enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/2021/07/05/compile-malay-tea-name" rel="permalink">三点几嚟，饮茶先啦 —— 将大马饮料名编译成汉语
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2021-07-05T12:44:49+00:00">July 5, 2021</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          less than 1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">近几日马来西亚网友 Gurdip Singh 在 Facebook 发的这个「三点几嚟，饮茶先啦」非常流行。
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/2020/12/22/ruby-3-fiber-scheduler-evt-dev-log" rel="permalink">为 Ruby 3 Fiber 调度器设计事件库 Evt
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2020-12-22T17:41:41+00:00">December 22, 2020</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          7 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">For English Readers
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/2020/12/22/ruby-3-fiber-scheduler-evt-dev-log-en" rel="permalink">Developing Fiber Scheduler for Ruby 3
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2020-12-22T17:41:41+00:00">December 22, 2020</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          11 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">中文版本
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/2020/11/17/ruby-3-ractor-guide" rel="permalink">Ractor 下多线程 Ruby 程序指南
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2020-11-17T16:30:24+00:00">November 17, 2020</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          2 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">什么是 Ractor?
+</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2024 Coderemixer 代码混音师. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "https://coderemixer.com/2021/01/08/autopilot-with-ruby";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/2021/01/08/autopilot-with-ruby"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://coderemixer.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+
+  </body>
+</html>

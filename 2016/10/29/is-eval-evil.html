@@ -1,0 +1,893 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>关于 eval 是否 evil 的一些想法 - Coderemixer 代码混音师</title>
+<meta name="description" content="对于大多数动态语言，都支持 eval 这个神奇的函数。这打他们太爷爷 Lisp 开始就支持这种方法。虽然写法（eg: (eval &#39;(+ 1 2 3)) ）有稍许不同，但语义是一样的，就是说 eval 函数接受一个字符串类型作为参数，将其解析成语句并混合在当前作用域内运行。但我想大家也都听过这么一句话：">
+
+
+  <meta name="author" content="CodeRemixer">
+  
+  <meta property="article:author" content="CodeRemixer">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Coderemixer 代码混音师">
+<meta property="og:title" content="关于 eval 是否 evil 的一些想法">
+<meta property="og:url" content="https://coderemixer.com/2016/10/29/is-eval-evil">
+
+
+  <meta property="og:description" content="对于大多数动态语言，都支持 eval 这个神奇的函数。这打他们太爷爷 Lisp 开始就支持这种方法。虽然写法（eg: (eval &#39;(+ 1 2 3)) ）有稍许不同，但语义是一样的，就是说 eval 函数接受一个字符串类型作为参数，将其解析成语句并混合在当前作用域内运行。但我想大家也都听过这么一句话：">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2016-10-29T22:03:33+00:00">
+
+
+
+
+
+
+<link rel="canonical" href="https://coderemixer.com/2016/10/29/is-eval-evil">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": null,
+      "url": "https://coderemixer.com/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Coderemixer 代码混音师 Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+  
+    <script src="/assets/js/mathjax.js"></script>
+  
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          Coderemixer 代码混音师
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/">首页</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about">关于</a>
+            </li><li class="masthead__menu-item">
+              <a href="https://github.com/dsh0416">GitHub</a>
+            </li><li class="masthead__menu-item">
+              <a href="https://twitter.com/DeltonDing">Twitter</a>
+            </li><li class="masthead__menu-item">
+              <a href="/atom.xml">RSS</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/bio-photo.png" alt="CodeRemixer" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">CodeRemixer</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>一个用来发牢骚的网站，以至于无法对所说的话负责。<br /><br /> 文章若无特别声明，皆采用 <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 进行许可。</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="关于 eval 是否 evil 的一些想法">
+    <meta itemprop="description" content="对于大多数动态语言，都支持 eval 这个神奇的函数。这打他们太爷爷 Lisp 开始就支持这种方法。虽然写法（eg: (eval &#39;(+ 1 2 3)) ）有稍许不同，但语义是一样的，就是说 eval 函数接受一个字符串类型作为参数，将其解析成语句并混合在当前作用域内运行。但我想大家也都听过这么一句话：">
+    <meta itemprop="datePublished" content="2016-10-29T22:03:33+00:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">关于 eval 是否 evil 的一些想法
+</h1>
+          
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2016-10-29T22:03:33+00:00">October 29, 2016</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+        <p>对于大多数动态语言，都支持 <code class="language-plaintext highlighter-rouge">eval</code> 这个神奇的函数。这打他们太爷爷 Lisp 开始就支持这种方法。虽然写法（eg: <code class="language-plaintext highlighter-rouge">(eval '(+ 1 2 3))</code> ）有稍许不同，但语义是一样的，就是说 <code class="language-plaintext highlighter-rouge">eval</code> 函数接受一个字符串类型作为参数，将其解析成语句并混合在当前作用域内运行。但我想大家也都听过这么一句话：</p>
+
+<blockquote>
+  <p>eval is evil.</p>
+</blockquote>
+
+<p>但是 How evil is eval？那么既然 <code class="language-plaintext highlighter-rouge">eval</code> 如此罪恶，那么为什么它仍被那么多动态语言作为接口暴露呢？我们不妨来仔细探讨一下 <code class="language-plaintext highlighter-rouge">eval</code> 在使用中究竟会产生什么问题，在日常编程中究竟该不该使用 <code class="language-plaintext highlighter-rouge">eval</code>，如果要用，那么又该如何使用。</p>
+
+<h2 id="字符串安全">字符串安全</h2>
+
+<p>说到 <code class="language-plaintext highlighter-rouge">eval</code> 第一个会被讨论的当然就是其安全性。比如说，我们现在来实现一个四则运算器：</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kp">loop</span> <span class="k">do</span>
+  <span class="nb">print</span><span class="p">(</span><span class="s1">'Expression: '</span><span class="p">)</span>
+  <span class="nb">puts</span><span class="p">(</span><span class="s2">"result: </span><span class="si">#{</span><span class="nb">eval</span> <span class="nb">gets</span><span class="p">.</span><span class="nf">chomp</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Expression: 1+1
+result: 2
+Expression: 2+2
+result: 4
+Expression: 3*4
+result: 12
+Expression: 4+(1*1)
+result: 6
+</code></pre></div></div>
+
+<p>Awesome! 这段程序实现了全部四则运算的功能！只不过，这东西实现了 <strong>不止</strong> 四则运算的功能，事实上，它能处理任意 Ruby 语句，实际上这已经是一个 REPL（Read-Eval-Print Loop）了。我们可以运行一些「危险」的代码，比如：</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Expression: exit
+Process exit with code 0
+</code></pre></div></div>
+
+<p>更实际的应用是，在 JavaScript 中，如果你想要支持 IE7 的话，<code class="language-plaintext highlighter-rouge">JSON.parse()</code> 是不被支持的，除非你引入一个 JSON 解析库，最方便的写法就是 <code class="language-plaintext highlighter-rouge">eval(json)</code>，因为毕竟 JSON 也是合法的 JavaScript 语句，这样的方法安全性问题是显然的。</p>
+
+<p>这样的问题不止 <code class="language-plaintext highlighter-rouge">eval</code> 有，事实上，所有和字符串打交道的事情，或多或少都有类似的问题。比如「SQL 注入」说到底也就是这么一回事。再比如你在 Ruby 代码中试图操作 <code class="language-plaintext highlighter-rouge">git</code> 命令的时候，如果你使用反引号，也可能遇到这样的问题。</p>
+
+<p>不过我们来看下面这个例子：</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># gems/rest-client-1.6.7/bin/restclient 摘自《Ruby 元编程(第二版)》第 142 页</span>
+<span class="no">POSSIBLE_VERBS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'get'</span><span class="p">,</span> <span class="s1">'put'</span><span class="p">,</span> <span class="s1">'post'</span><span class="p">,</span> <span class="s1">'delete'</span><span class="p">]</span>
+<span class="no">POSSIBLE_VERBS</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">m</span><span class="o">|</span>
+  <span class="nb">eval</span> <span class="o">&lt;&lt;-</span><span class="no">end_eval</span><span class="sh">
+    def </span><span class="si">#{</span><span class="n">m</span><span class="si">}</span><span class="sh">(path, *args, &amp;b)
+      r[path].</span><span class="si">#{</span><span class="n">m</span><span class="si">}</span><span class="sh">(*args, &amp;b)
+     end
+</span><span class="no">  end_eval</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>在这个例子中，也使用了 <code class="language-plaintext highlighter-rouge">eval</code>，也在 <code class="language-plaintext highlighter-rouge">eval</code> 中拼接了字符串，存在字符串拼接的安全性问题吗？并没有。因为是从常量数组中读取的字符串，并不存在用户任意输入导致注入的问题。</p>
+
+<p>但，我们反过来说，SQL 驱动自带的 <code class="language-plaintext highlighter-rouge">query</code> 函数都可能存在注入，难道我们就不用 SQL 了吗？并没有。事实上，注入问题是可以被解决的。如果我们做好对用户输入的 <strong>过滤</strong> 和 <strong>转义</strong> 同样也能解决。问题就在于，这么做的成本和 <code class="language-plaintext highlighter-rouge">eval</code> 带来的动态性好处，哪个更大的权衡问题。</p>
+
+<h2 id="lexer--parser">Lexer &amp; Parser</h2>
+
+<blockquote>
+  <p>本来想用中文写这个小标题，但感觉「词法分析器和语法分析器」实在这标题太长了</p>
+</blockquote>
+
+<p>学过一些《编译原理》都知道，无论是解释器还是编译器，拿到字符串无非就是</p>
+
+<p><code class="language-plaintext highlighter-rouge">词法分析 -&gt; 语法分析 -&gt; 语义检查 -&gt; 生成语法树 -&gt; 代码优化 -&gt; 生成目标代码/执行</code></p>
+
+<p>使用 <code class="language-plaintext highlighter-rouge">eval</code> 函数意味着，你的程序需要在运行时经历全部的这些步骤。通常来说即使是脚本语言，在你加载所有文件初始化运行的过程中。前期步骤通常都已经完成了，只剩下最后一步执行了。不过加入 <code class="language-plaintext highlighter-rouge">eval</code> 之后就不一样了。因为 <code class="language-plaintext highlighter-rouge">eval</code> 传入的是字符串，所以这意味着它需要对这一部分代码从词法分析开始重新走一遍。事实上，词法分析、语法分析、语义检查并不快。</p>
+
+<p>比如说，我们对比下面的代码</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="no">GC</span><span class="p">.</span><span class="nf">disable</span> <span class="c1"># 禁用 GC 以避免后一段代码在运行过程中遭遇 GC 对其不公</span>
+
+<span class="n">time</span> <span class="o">=</span> <span class="no">Time</span><span class="p">.</span><span class="nf">now</span><span class="p">.</span><span class="nf">to_f</span>
+<span class="mi">1000000</span><span class="p">.</span><span class="nf">times</span> <span class="k">do</span>
+  <span class="nb">rand</span><span class="o">+</span><span class="nb">rand</span>
+<span class="k">end</span>
+<span class="nb">puts</span> <span class="s2">"Without eval: </span><span class="si">#{</span><span class="no">Time</span><span class="p">.</span><span class="nf">now</span><span class="p">.</span><span class="nf">to_f</span> <span class="o">-</span> <span class="n">time</span><span class="si">}</span><span class="s2">"</span>
+
+<span class="n">time</span> <span class="o">=</span> <span class="no">Time</span><span class="p">.</span><span class="nf">now</span><span class="p">.</span><span class="nf">to_f</span>
+<span class="mi">1000000</span><span class="p">.</span><span class="nf">times</span> <span class="k">do</span>
+  <span class="nb">eval</span><span class="p">(</span><span class="s1">'rand+rand'</span><span class="p">)</span>
+<span class="k">end</span>
+<span class="nb">puts</span> <span class="s2">"With eval: </span><span class="si">#{</span><span class="no">Time</span><span class="p">.</span><span class="nf">now</span><span class="p">.</span><span class="nf">to_f</span> <span class="o">-</span> <span class="n">time</span><span class="si">}</span><span class="s2">"</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Without eval: 0.11499691009521484
+With eval: 6.516125917434692
+</code></pre></div></div>
+
+<p>慢了 55 倍。如果我们用 Ruby 自带的 profiler 对这两段代码跑一下的话，结果如下：</p>
+
+<p>没有 eval：</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  %   cumulative   self              self     total
+ time   seconds   seconds    calls  ms/call  ms/call  name
+ 62.15    17.03     17.03  1000000     0.02     0.02  nil#
+ 18.65    22.14      5.11        1  5110.00 27400.00  Integer#times
+ 12.77    25.64      3.50  2000000     0.00     0.00  Kernel#rand
+  6.42    27.40      1.76  1000000     0.00     0.00  Float#+
+  0.00    27.40      0.00        2     0.00     0.00  Time.now
+  0.00    27.40      0.00        2     0.00     0.00  Fixnum#fdiv
+  0.00    27.40      0.00        2     0.00     0.00  Numeric#quo
+  0.00    27.40      0.00        2     0.00     0.00  Time#to_f
+  0.00    27.40      0.00        1     0.00     0.00  Float#-
+  0.00    27.40      0.00        1     0.00     0.00  Float#to_s
+  0.00    27.40      0.00        2     0.00     0.00  IO#write
+  0.00    27.40      0.00        1     0.00     0.00  IO#puts
+  0.00    27.40      0.00        1     0.00     0.00  Kernel#puts
+  0.00    27.40      0.00        1     0.00     0.00  TracePoint#enable
+  0.00    27.40      0.00        1     0.00     0.00  TracePoint#disable
+  0.00    27.40      0.00        2     0.00     0.00  IO#set_encoding
+  0.00    27.40      0.00        2     0.00     0.00  Fixnum#+
+  0.00    27.40      0.00        2     0.00     0.00  Time#initialize
+  0.00    27.40      0.00        1     0.00 27400.00  #toplevel
+</code></pre></div></div>
+
+<p>有 eval：</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  %   cumulative   self              self     total
+ time   seconds   seconds    calls  ms/call  ms/call  name
+ 57.58    25.67     25.67  1000000     0.03     0.03  Kernel#eval
+ 16.02    32.81      7.14  1000000     0.01     0.04  nil#
+ 13.14    38.67      5.86        1  5860.00 44580.00  Integer#times
+  9.17    42.76      4.09  2000000     0.00     0.00  Kernel#rand
+  4.08    44.58      1.82  1000000     0.00     0.00  Float#+
+  0.00    44.58      0.00        2     0.00     0.00  Fixnum#fdiv
+  0.00    44.58      0.00        2     0.00     0.00  Numeric#quo
+  0.00    44.58      0.00        2     0.00     0.00  Time#to_f
+  0.00    44.58      0.00        1     0.00     0.00  Float#-
+  0.00    44.58      0.00        1     0.00     0.00  Float#to_s
+  0.00    44.58      0.00        2     0.00     0.00  IO#write
+  0.00    44.58      0.00        1     0.00     0.00  IO#puts
+  0.00    44.58      0.00        1     0.00     0.00  Kernel#puts
+  0.00    44.58      0.00        1     0.00     0.00  TracePoint#enable
+  0.00    44.58      0.00        1     0.00     0.00  TracePoint#disable
+  0.00    44.58      0.00        2     0.00     0.00  IO#set_encoding
+  0.00    44.58      0.00        2     0.00     0.00  Fixnum#+
+  0.00    44.58      0.00        2     0.00     0.00  Time#initialize
+  0.00    44.58      0.00        2     0.00     0.00  Time.now
+  0.00    44.58      0.00        1     0.00 44580.00  #toplevel
+</code></pre></div></div>
+
+<p>虽然在 profile 的掺和下，差距被缩小到了几倍之内，但也可以看出 <code class="language-plaintext highlighter-rouge">eval</code> 函数自行的语法解析有多么耗时。所以说，如果你的 <code class="language-plaintext highlighter-rouge">eval</code> 是一次性运行与加载时候的，比如上面那个 Rest Client 的例子里，问题并不大，但如果你的 <code class="language-plaintext highlighter-rouge">eval</code> 是被频繁调用的话，使用 <code class="language-plaintext highlighter-rouge">eval</code> 是非常影响性能的，不应该这么使用。</p>
+
+<h2 id="静态分析与代码优化">静态分析与代码优化</h2>
+
+<p>在分析这个问题前，我们先来看两段代码：</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;cstdio&gt;</span><span class="cp">
+</span><span class="kt">void</span> <span class="nf">recursion_loop</span><span class="p">(</span><span class="kt">int</span> <span class="n">count</span><span class="p">){</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">"Count: %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">count</span><span class="p">);</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">count</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span><span class="k">return</span><span class="p">;}</span>
+  <span class="n">recursion_loop</span><span class="p">(</span><span class="n">count</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(){</span>
+  <span class="n">recursion_loop</span><span class="p">(</span><span class="mi">100000</span><span class="p">);</span>
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">recursion_loop</span><span class="p">(</span><span class="n">count</span><span class="p">)</span>
+  <span class="nb">puts</span><span class="p">(</span><span class="s2">"Count: </span><span class="si">#{</span><span class="n">count</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+  <span class="k">return</span> <span class="k">if</span> <span class="n">count</span> <span class="o">==</span> <span class="mi">0</span>
+  <span class="n">recursion_loop</span><span class="p">(</span><span class="n">count</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="n">recursion_loop</span><span class="p">(</span><span class="mi">100000</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>为什么第一段代码在 C++ 中可以正确运行（注：需要开启 -O2 编译选项），而第二段代码在 Ruby 下会报错。</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/Users/Delton/RubymineProjects/untitled/script4.rb:2:in `puts': stack level too deep (SystemStackError)
+	from /Users/Delton/RubymineProjects/untitled/script4.rb:2:in `puts'
+	from /Users/Delton/RubymineProjects/untitled/script4.rb:2:in `recursion_loop'
+	from /Users/Delton/RubymineProjects/untitled/script4.rb:4:in `recursion_loop'
+	from /Users/Delton/RubymineProjects/untitled/script4.rb:4:in `recursion_loop'
+	from /Users/Delton/RubymineProjects/untitled/script4.rb:4:in `recursion_loop'
+	from /Users/Delton/RubymineProjects/untitled/script4.rb:4:in `recursion_loop'
+	from /Users/Delton/RubymineProjects/untitled/script4.rb:4:in `recursion_loop'
+	from /Users/Delton/RubymineProjects/untitled/script4.rb:4:in `recursion_loop'
+	 ... 10908 levels...
+	from /Users/Delton/RubymineProjects/untitled/script4.rb:4:in `recursion_loop'
+	from /Users/Delton/RubymineProjects/untitled/script4.rb:7:in `&lt;top (required)&gt;'
+	from -e:1:in `load'
+	from -e:1:in `&lt;main&gt;'
+</code></pre></div></div>
+
+<p>报错的原因很显然，栈太深了。这个用递归实现的循环，需要建一个深度高达 100000 层深栈。一般的运行时都不会允许这么深的栈。诶？等一下，那为什么在 C++ 中这段代码可以正常运行呢？因为你的 C++ 编译器发现了这是一个「尾递归」，可以进行「尾递归优化」。尾递归可以被优化成一个非递归形式，自然就不需要那么深的栈了。</p>
+
+<p>这就是 <code class="language-plaintext highlighter-rouge">词法分析 -&gt; 语法分析 -&gt; 语义检查 -&gt; 生成语法树 -&gt; 代码优化 -&gt; 生成目标代码/执行</code> 的倒数第二步。Ruby 中也有尾递归优化的选项，但默认不开启。开启的话方法也比较复杂，需要用到 <code class="language-plaintext highlighter-rouge">InstrctionSequence</code> 这个编译中间码的类，代码如下：</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="no">RubyVM</span><span class="o">::</span><span class="no">InstructionSequence</span><span class="p">.</span><span class="nf">compile_option</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="ss">:tailcall_optimization</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">,</span>
+    <span class="ss">:trace_instruction</span> <span class="o">=&gt;</span> <span class="kp">false</span>
+<span class="p">}</span>
+
+<span class="n">source</span> <span class="o">=</span> <span class="o">&lt;&lt;-</span><span class="no">end_source</span><span class="sh">
+  def recursion_loop(count)
+    puts("Count: </span><span class="se">\#</span><span class="sh">{count}")
+    return if count == 0
+    recursion_loop(count - 1)
+  end
+  recursion_loop(100000)
+</span><span class="no">end_source</span>
+
+<span class="no">RubyVM</span><span class="o">::</span><span class="no">InstructionSequence</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">source</span><span class="p">).</span><span class="nf">eval</span>
+</code></pre></div></div>
+
+<p><strong>注：事实上，这里开启的是尾调用优化，尾调用是尾递归的超集，开启尾调用优化不止会优化尾递归。</strong></p>
+
+<p>但下面这段尾递归代码在即使开启优化的情况下，一样不会得到优化：</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">recursion_loop</span><span class="p">(</span><span class="n">count</span><span class="p">)</span>
+  <span class="nb">puts</span><span class="p">(</span><span class="s2">"Count: </span><span class="si">#{</span><span class="n">count</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+  <span class="k">return</span> <span class="k">if</span> <span class="n">count</span> <span class="o">==</span> <span class="mi">0</span>
+  <span class="nb">eval</span><span class="p">(</span><span class="s1">'recursion_loop(count - 1)'</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="n">recursion_loop</span><span class="p">(</span><span class="mi">100000</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>这段代码把一个明明是尾递归的情况破坏成了非尾递归。因为编译器静态分析的时候根本不知道你 <code class="language-plaintext highlighter-rouge">eval</code> 里是什么东西。怎么可能给你优化？</p>
+
+<p>虽然这个例子非常极端，但其实不止 <code class="language-plaintext highlighter-rouge">eval</code>，比如：</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="vi">@next_recursion</span> <span class="o">=</span> <span class="nb">proc</span> <span class="p">{</span> <span class="o">|</span><span class="n">count</span><span class="o">|</span>
+  <span class="n">recursion_loop</span><span class="p">(</span><span class="n">count</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="k">def</span> <span class="nf">recursion_loop</span><span class="p">(</span><span class="n">count</span><span class="p">)</span>
+  <span class="nb">puts</span><span class="p">(</span><span class="s2">"Count: </span><span class="si">#{</span><span class="n">count</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+  <span class="k">return</span> <span class="k">if</span> <span class="n">count</span> <span class="o">==</span> <span class="mi">0</span>
+  <span class="vi">@next_recursion</span><span class="p">.</span><span class="nf">call</span><span class="p">(</span><span class="n">count</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="n">recursion_loop</span><span class="p">(</span><span class="mi">100000</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>大多数动态方法，都没有办法被静态分析，以提供足够的优化。以至于动态语言的代码优化也一直是一大难点。</p>
+
+<h2 id="对-eval-魔法的思考">对 eval 魔法的思考</h2>
+
+<p>总结一下，谈一谈对「eval 魔法」的思考。<code class="language-plaintext highlighter-rouge">eval</code> 在元编程里也一直属于接近于禁术的那种类型。就好像核武器一样可怕。在用 <code class="language-plaintext highlighter-rouge">eval</code> 的时候要充分认识到可能带来的后果，才能对其进行使用。核国家的战争也不一定非要互相丢核武器，如果常规武器可以解决的，不必如此大动干戈。比如说前面 rest-client 的例子，也可以不用 <code class="language-plaintext highlighter-rouge">eval</code>：</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="no">POSSIBLE_VERBS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'get'</span><span class="p">,</span> <span class="s1">'put'</span><span class="p">,</span> <span class="s1">'post'</span><span class="p">,</span> <span class="s1">'delete'</span><span class="p">]</span>
+<span class="no">POSSIBLE_VERBS</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">m</span><span class="o">|</span>
+  <span class="n">define_method</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">path</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">b</span><span class="o">|</span>
+    <span class="n">r</span><span class="p">[</span><span class="n">path</span><span class="p">].</span><span class="nf">send</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">b</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>也可以解决这样的问题。不过 <code class="language-plaintext highlighter-rouge">define_method</code> 的方法，也不能给代码带来静态分析，而这又是在启动时一次性执行的代码，对性能的提升是微乎其微的。所以 rest-client 的 <code class="language-plaintext highlighter-rouge">eval</code> 实现并谈不上 evil。</p>
+
+<p><code class="language-plaintext highlighter-rouge">eval</code> 被那么多语言至今沿用，其巨大的灵活性带来的便利是毋庸置疑的。只是说，使用 <code class="language-plaintext highlighter-rouge">eval</code> 包括使用任何元编程技巧的时候，都要充分考虑到这么做的可能造成的后果，以免莽撞瞎写，误伤自己。</p>
+
+<h2 id="彩蛋">彩蛋</h2>
+
+<p>在 <a href="https://leetcode.com/problems/valid-parentheses/">Leetcode #20</a> 括号匹配问题里，有一个可以用 JavaScript 的 <code class="language-plaintext highlighter-rouge">eval</code> 实现的魔法写法，非常有趣，大家可以看看开心开心。</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/**
+ * @param {string} s
+ * @return {boolean}
+ */</span>
+<span class="kd">var</span> <span class="nx">isValid</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">s</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">s</span> <span class="o">=</span> <span class="nx">s</span><span class="p">.</span><span class="nf">replace</span><span class="p">(</span><span class="sr">/</span><span class="se">\(</span><span class="sr">/g</span><span class="p">,</span> <span class="dl">'</span><span class="s1">+(</span><span class="dl">'</span><span class="p">);</span>
+    <span class="nx">s</span> <span class="o">=</span> <span class="nx">s</span><span class="p">.</span><span class="nf">replace</span><span class="p">(</span><span class="sr">/</span><span class="se">\[</span><span class="sr">/g</span><span class="p">,</span> <span class="dl">'</span><span class="s1">+[</span><span class="dl">'</span><span class="p">);</span>
+    <span class="nx">s</span> <span class="o">=</span> <span class="nx">s</span><span class="p">.</span><span class="nf">replace</span><span class="p">(</span><span class="sr">/</span><span class="se">\{</span><span class="sr">/g</span><span class="p">,</span> <span class="dl">'</span><span class="s1">+{0:</span><span class="dl">'</span><span class="p">);</span>
+    <span class="nx">s</span> <span class="o">=</span> <span class="nx">s</span><span class="p">.</span><span class="nf">replace</span><span class="p">(</span><span class="sr">/</span><span class="se">\)</span><span class="sr">/g</span><span class="p">,</span> <span class="dl">'</span><span class="s1">+0)</span><span class="dl">'</span><span class="p">);</span>
+    <span class="nx">s</span> <span class="o">=</span> <span class="nx">s</span><span class="p">.</span><span class="nf">replace</span><span class="p">(</span><span class="sr">/</span><span class="se">\]</span><span class="sr">/g</span><span class="p">,</span> <span class="dl">'</span><span class="s1">+0]</span><span class="dl">'</span><span class="p">);</span>
+    <span class="nx">s</span> <span class="o">=</span> <span class="nx">s</span><span class="p">.</span><span class="nf">replace</span><span class="p">(</span><span class="sr">/</span><span class="se">\}</span><span class="sr">/g</span><span class="p">,</span> <span class="dl">'</span><span class="s1">+0}</span><span class="dl">'</span><span class="p">);</span>
+    <span class="k">try</span><span class="p">{</span>
+        <span class="nf">eval</span><span class="p">(</span><span class="nx">s</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">catch</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/ruby" class="page__taxonomy-item" rel="tag">Ruby</a><span class="sep">, </span>
+    
+      <a href="/tags/%E7%BC%96%E7%A8%8B" class="page__taxonomy-item" rel="tag">编程</a>
+    
+    </span>
+  </p>
+
+
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2016-10-29T22:03:33+00:00">October 29, 2016</time></p>
+
+
+      </footer>
+
+      <section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?text=%E5%85%B3%E4%BA%8E+eval+%E6%98%AF%E5%90%A6+evil+%E7%9A%84%E4%B8%80%E4%BA%9B%E6%83%B3%E6%B3%95%20https%3A%2F%2Fcoderemixer.com%2F2016%2F10%2F29%2Fis-eval-evil" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fcoderemixer.com%2F2016%2F10%2F29%2Fis-eval-evil" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fcoderemixer.com%2F2016%2F10%2F29%2Fis-eval-evil" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/2016/06/10/ruby-on-php" class="pagination--pager" title="从零开始 Ruby on PHP
+">Previous</a>
+    
+    
+      <a href="/2017/02/14/build-up-x79-workstation" class="pagination--pager" title="花了半个月捡垃圾
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You May Also Enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/2021/07/05/compile-malay-tea-name" rel="permalink">三点几嚟，饮茶先啦 —— 将大马饮料名编译成汉语
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2021-07-05T12:44:49+00:00">July 5, 2021</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          less than 1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">近几日马来西亚网友 Gurdip Singh 在 Facebook 发的这个「三点几嚟，饮茶先啦」非常流行。
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/2021/01/08/autopilot-with-ruby" rel="permalink">用 Ruby 实现飞机自动驾驶仪
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2021-01-08T13:03:32+00:00">January 8, 2021</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">krpc 是一个砍巴拉太空计划（Kerbel Space Program）中的插件。可以通过 RPC 来控制游戏。同时有第三方的 Ruby 客户端：krpc-rb。和真实飞机不同的是，在砍巴拉游戏中驾驶飞机是非常痛苦的，在没有插件辅助的情况下，你看不到具体的 GPS 坐标，很多时候看到的都是和飞机驾驶无关的轨道参...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/2020/12/22/ruby-3-fiber-scheduler-evt-dev-log" rel="permalink">为 Ruby 3 Fiber 调度器设计事件库 Evt
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2020-12-22T17:41:41+00:00">December 22, 2020</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          7 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">For English Readers
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/2020/12/22/ruby-3-fiber-scheduler-evt-dev-log-en" rel="permalink">Developing Fiber Scheduler for Ruby 3
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2020-12-22T17:41:41+00:00">December 22, 2020</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          11 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">中文版本
+</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2024 Coderemixer 代码混音师. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "https://coderemixer.com/2016/10/29/is-eval-evil";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/2016/10/29/is-eval-evil"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://coderemixer.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+
+  </body>
+</html>

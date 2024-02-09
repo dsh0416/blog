@@ -1,0 +1,659 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>从 bopomofo 说起 —— 学习注音符号后对拼音系统的一些新体悟 - Coderemixer 代码混音师</title>
+<meta name="description" content="众所周知，我从小接受的用于标记现代标准汉语的系统是「汉语拼音」。两年前，我决定学习一下「注音符号」。注音符号是以章太炎编创的「纽文」、「韵文」为蓝本，设计的一套汉语拼音方案。其实最早决定去学的原因还是好奇好玩，用一套完全不熟悉的拼读系统来学习自己已经掌握的汉语发音，可以很好从另一个方面来认识汉语的发音系统。最后也证明这样的形式确实帮助我从某种角度重新认识了汉语发音，特别是当这套系统和汉语拼音符号本身产生差异的时候，通过深究差异产生的原因，极大提高了我对汉语发音的理解，可以说是受益良多。下面就来分享一些，我学习过程中遇到的一些有意思的事情。">
+
+
+  <meta name="author" content="CodeRemixer">
+  
+  <meta property="article:author" content="CodeRemixer">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Coderemixer 代码混音师">
+<meta property="og:title" content="从 bopomofo 说起 —— 学习注音符号后对拼音系统的一些新体悟">
+<meta property="og:url" content="https://coderemixer.com/2020/01/10/from-bopomofo">
+
+
+  <meta property="og:description" content="众所周知，我从小接受的用于标记现代标准汉语的系统是「汉语拼音」。两年前，我决定学习一下「注音符号」。注音符号是以章太炎编创的「纽文」、「韵文」为蓝本，设计的一套汉语拼音方案。其实最早决定去学的原因还是好奇好玩，用一套完全不熟悉的拼读系统来学习自己已经掌握的汉语发音，可以很好从另一个方面来认识汉语的发音系统。最后也证明这样的形式确实帮助我从某种角度重新认识了汉语发音，特别是当这套系统和汉语拼音符号本身产生差异的时候，通过深究差异产生的原因，极大提高了我对汉语发音的理解，可以说是受益良多。下面就来分享一些，我学习过程中遇到的一些有意思的事情。">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2020-01-10T22:06:49+00:00">
+
+
+
+
+
+
+<link rel="canonical" href="https://coderemixer.com/2020/01/10/from-bopomofo">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": null,
+      "url": "https://coderemixer.com/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Coderemixer 代码混音师 Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+  
+    <script src="/assets/js/mathjax.js"></script>
+  
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          Coderemixer 代码混音师
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/">首页</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about">关于</a>
+            </li><li class="masthead__menu-item">
+              <a href="https://github.com/dsh0416">GitHub</a>
+            </li><li class="masthead__menu-item">
+              <a href="https://twitter.com/DeltonDing">Twitter</a>
+            </li><li class="masthead__menu-item">
+              <a href="/atom.xml">RSS</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/bio-photo.png" alt="CodeRemixer" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">CodeRemixer</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>一个用来发牢骚的网站，以至于无法对所说的话负责。<br /><br /> 文章若无特别声明，皆采用 <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 进行许可。</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="从 bopomofo 说起 —— 学习注音符号后对拼音系统的一些新体悟">
+    <meta itemprop="description" content="众所周知，我从小接受的用于标记现代标准汉语的系统是「汉语拼音」。两年前，我决定学习一下「注音符号」。注音符号是以章太炎编创的「纽文」、「韵文」为蓝本，设计的一套汉语拼音方案。其实最早决定去学的原因还是好奇好玩，用一套完全不熟悉的拼读系统来学习自己已经掌握的汉语发音，可以很好从另一个方面来认识汉语的发音系统。最后也证明这样的形式确实帮助我从某种角度重新认识了汉语发音，特别是当这套系统和汉语拼音符号本身产生差异的时候，通过深究差异产生的原因，极大提高了我对汉语发音的理解，可以说是受益良多。下面就来分享一些，我学习过程中遇到的一些有意思的事情。">
+    <meta itemprop="datePublished" content="2020-01-10T22:06:49+00:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">从 bopomofo 说起 —— 学习注音符号后对拼音系统的一些新体悟
+</h1>
+          
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2020-01-10T22:06:49+00:00">January 10, 2020</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          less than 1 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+        <p>众所周知，我从小接受的用于标记现代标准汉语的系统是「汉语拼音」。两年前，我决定学习一下「注音符号」。注音符号是以章太炎编创的「纽文」、「韵文」为蓝本，设计的一套汉语拼音方案。其实最早决定去学的原因还是好奇好玩，用一套完全不熟悉的拼读系统来学习自己已经掌握的汉语发音，可以很好从另一个方面来认识汉语的发音系统。最后也证明这样的形式确实帮助我从某种角度重新认识了汉语发音，特别是当这套系统和汉语拼音符号本身产生差异的时候，通过深究差异产生的原因，极大提高了我对汉语发音的理解，可以说是受益良多。下面就来分享一些，我学习过程中遇到的一些有意思的事情。</p>
+
+<p>先放一个我在 YouTube 上看到的「注音符号歌」，让没有听说过这个系统的人有个大概的印象。</p>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/n0G-cKUkt3c" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<p>（比较可怕的是这个影片播放完后的推荐影片里都是一些真的不明所以非常奇怪的儿童影片）</p>
+
+<h2 id="前四个声母">前四个声母</h2>
+
+<p>一个有意思的现象是，虽然「注音符号」的英文叫「Bopomofo Symbols」。但显然，背诵注音符号表的时候，这四个音用的都不是 /o/ 的韵母，而是使用 /ɤ/。「ㄅㄆㄇㄈ」念成 /pɤ/ /pʰɤ/ /mɤ/ /fɤ/。相反，我们在背诵汉语拼音表的时候，倒是真的拼成了 /o/，bo po mo fo /po/ /pʰo/ /mo/ /fo/ 。</p>
+
+<p>不过突然发现，bo po mo fo 小时候老师教的都是发成闭口呼，也就是 ㄅㄨㄛ buo ㄆㄨㄛ puo ㄇㄨㄛ muo ㄈㄨㄛ fuo。但是无论是查大陆的使用拼音的字典，还是台湾的教育部国语辞典，都不会拼入ㄨ，坚持使用开口呼。而且看一些比较权威的汉语拼音或者注音的教学录音，都是录的开口呼，和学得并不一样。</p>
+
+<p>查了一下发现，北京音的「波（ㄅㄛ）坡（ㄆㄛ）摸（ㄇㄛ）佛（ㄈㄛ）」一直到新国音还一直开口呼。拼成 bo po mo fo 很好保留了当时的语音。一直到近几十年，才有人开始不区分开口呼和闭口呼，把「菠菜」念成ㄅㄨㄛ ㄘㄞˋ，这不是什么省略 ㄨ (u) 的结果。</p>
+
+<p>而北京音在晚清到民国早年「多（ㄉㄛ）拖（ㄊㄛ）挪（ㄋㄛ）罗（ㄌㄛ）」虽然也是开口呼，到新国音的时候就已经逐渐转换成闭口呼，也就是 ㄉㄨㄛ ㄊㄨㄛ ㄋㄨㄛ ㄌㄨㄛ，所以汉语拼音也是按 duo tuo nuo luo 拼写。</p>
+
+<h2 id="e-的奇妙之旅">e 的奇妙之旅</h2>
+
+<p>另外一个发现就是，汉语拼音里的 e，实际上发的音可太多了，因为注音把所有复合韵母单独设计了符号，所以一下子显得特别明显。整理了一下，至少可以发 /ɤ/ /e/ /ə/ 这三个音，还可能在一些情况下发成 /ɑ/ 或者 /ɐ/ 这种听起来更像 a 的音。在注音符号中，复音韵母使用完全独立的符号，但是在汉语拼音中使用一些单音韵母的符号再进行一些组合，但是复音韵母可能和单音韵母的发音有很大的差异。</p>
+
+<p>下面给一些例子：</p>
+
+<p>得 (ㄉㄜˊ, dé) 里的韵母是 /ɤ/</p>
+
+<p>谁 (ㄕㄟˊ, shéi) 里的韵母是 /ei̯/</p>
+
+<p>申 (ㄕㄣ, shēn) 里的韵母是 /ən/</p>
+
+<p>生 (ㄕㄥ, shēng) 里的韵母是 /ɤŋ/</p>
+
+<p>另外还有个最奇怪的「二」（ㄦˋ, èr），包括我在内的很多人都会念成 /ɐɻ/。我查了下，很多教程上的 IPA 拼音标成了 /ɑɻ/。如果是这么发的话，汉语拼音是不是标成 àr 更好？查了一下，一说是对于是 /ɐɚ/ /ɑɻ/ /ɤɻ/ 还是 /ɚ/ 存在很大争议。20 年代的很多北京话录音中，发得比较接近 /ɚ/ 到 /əɻ/ 中间的感觉，所以这一标记也可能是历史原因产生的。</p>
+
+<h2 id="尾声">尾声</h2>
+
+<p>现代标准汉语是基于北京音设计的，而这里的北京音和现在的北京音还是有很大差异的。要想理解注音符号和汉语拼音的很多特点，确实需要了解那个时空北京下的北京音。我在写这个文章的时候，发现了一个非常有意思的系列视频，最后推荐大家看一看。里面对很多细节的描述也非常清晰，我甚至是看了这个影片后才发现，现代标准汉语里的「你」「娘」「牛」韵母是 /n/ 而不是硬腭化的 /ɲ/ 或者 /ȵ/，给我念错几十年的人生带来了极大的震撼。</p>
+
+<iframe src="https://player.bilibili.com/player.html?aid=62002848&amp;cid=137623039&amp;page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
+
+<p><a href="https://www.bilibili.com/video/av62002848/">影片地址</a></p>
+
+<p>对于文字不能直接反映读音的语言来说，通常都会引入一个标注发音的方案，从美语的 KK 音标，现代标准汉语的注音、拼音、威妥玛，以及很多方言的像是闽拼、台罗、教罗、上海话钱乃荣方案、耶鲁粤拼、香港教育学院粤拼等一大堆拼音方案。很多方案直接的标注都是互相冲突的，有的时候看到这堆拉丁字母，真的不知道到底要怎么读。但每个方案都有自己设计的时空背景、设计的动机，通过了解这些不同方案设计的背景和动机，可以从不同的角度重新认识语言，让自己对于语音的理解提升更高的层次。</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/%E5%AE%98%E8%AF%9D" class="page__taxonomy-item" rel="tag">官话</a><span class="sep">, </span>
+    
+      <a href="/tags/%E6%B1%89%E8%AF%AD" class="page__taxonomy-item" rel="tag">汉语</a><span class="sep">, </span>
+    
+      <a href="/tags/%E8%AF%AD%E8%A8%80%E5%AD%A6" class="page__taxonomy-item" rel="tag">语言学</a>
+    
+    </span>
+  </p>
+
+
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2020-01-10T22:06:49+00:00">January 10, 2020</time></p>
+
+
+      </footer>
+
+      <section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?text=%E4%BB%8E+bopomofo+%E8%AF%B4%E8%B5%B7+%E2%80%94%E2%80%94+%E5%AD%A6%E4%B9%A0%E6%B3%A8%E9%9F%B3%E7%AC%A6%E5%8F%B7%E5%90%8E%E5%AF%B9%E6%8B%BC%E9%9F%B3%E7%B3%BB%E7%BB%9F%E7%9A%84%E4%B8%80%E4%BA%9B%E6%96%B0%E4%BD%93%E6%82%9F%20https%3A%2F%2Fcoderemixer.com%2F2020%2F01%2F10%2Ffrom-bopomofo" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fcoderemixer.com%2F2020%2F01%2F10%2Ffrom-bopomofo" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fcoderemixer.com%2F2020%2F01%2F10%2Ffrom-bopomofo" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/2020/01/07/archetypes-listener" class="pagination--pager" title="大猩猩的乐谱有多少错误？—— 13 Archetypes: Listener 解谜翻船记
+">Previous</a>
+    
+    
+      <a href="/2020/01/14/archetypes-humanity" class="pagination--pager" title="元胞自动机 101 —— 13 Archetypes: Humanist
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You May Also Enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/2021/07/05/compile-malay-tea-name" rel="permalink">三点几嚟，饮茶先啦 —— 将大马饮料名编译成汉语
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2021-07-05T12:44:49+00:00">July 5, 2021</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          less than 1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">近几日马来西亚网友 Gurdip Singh 在 Facebook 发的这个「三点几嚟，饮茶先啦」非常流行。
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/2021/01/08/autopilot-with-ruby" rel="permalink">用 Ruby 实现飞机自动驾驶仪
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2021-01-08T13:03:32+00:00">January 8, 2021</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">krpc 是一个砍巴拉太空计划（Kerbel Space Program）中的插件。可以通过 RPC 来控制游戏。同时有第三方的 Ruby 客户端：krpc-rb。和真实飞机不同的是，在砍巴拉游戏中驾驶飞机是非常痛苦的，在没有插件辅助的情况下，你看不到具体的 GPS 坐标，很多时候看到的都是和飞机驾驶无关的轨道参...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/2020/12/22/ruby-3-fiber-scheduler-evt-dev-log" rel="permalink">为 Ruby 3 Fiber 调度器设计事件库 Evt
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2020-12-22T17:41:41+00:00">December 22, 2020</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          7 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">For English Readers
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/2020/12/22/ruby-3-fiber-scheduler-evt-dev-log-en" rel="permalink">Developing Fiber Scheduler for Ruby 3
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2020-12-22T17:41:41+00:00">December 22, 2020</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          11 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">中文版本
+</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2024 Coderemixer 代码混音师. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "https://coderemixer.com/2020/01/10/from-bopomofo";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/2020/01/10/from-bopomofo"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://coderemixer.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+
+  </body>
+</html>

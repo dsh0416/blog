@@ -1,0 +1,1079 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>「Keyboard Moe」从零开始自制键盘（二）：蓝牙连接与原型键盘矩阵 - Coderemixer 代码混音师</title>
+<meta name="description" content="前情回顾">
+
+
+  <meta name="author" content="CodeRemixer">
+  
+  <meta property="article:author" content="CodeRemixer">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Coderemixer 代码混音师">
+<meta property="og:title" content="「Keyboard Moe」从零开始自制键盘（二）：蓝牙连接与原型键盘矩阵">
+<meta property="og:url" content="https://coderemixer.com/2020/02/21/moe-keyboard-log-2">
+
+
+  <meta property="og:description" content="前情回顾">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2020-02-21T10:03:37+00:00">
+
+
+
+
+
+
+<link rel="canonical" href="https://coderemixer.com/2020/02/21/moe-keyboard-log-2">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": null,
+      "url": "https://coderemixer.com/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Coderemixer 代码混音师 Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+  
+    <script src="/assets/js/mathjax.js"></script>
+  
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          Coderemixer 代码混音师
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/">首页</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about">关于</a>
+            </li><li class="masthead__menu-item">
+              <a href="https://github.com/dsh0416">GitHub</a>
+            </li><li class="masthead__menu-item">
+              <a href="https://twitter.com/DeltonDing">Twitter</a>
+            </li><li class="masthead__menu-item">
+              <a href="/atom.xml">RSS</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/bio-photo.png" alt="CodeRemixer" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">CodeRemixer</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>一个用来发牢骚的网站，以至于无法对所说的话负责。<br /><br /> 文章若无特别声明，皆采用 <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 进行许可。</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="「Keyboard Moe」从零开始自制键盘（二）：蓝牙连接与原型键盘矩阵">
+    <meta itemprop="description" content="前情回顾">
+    <meta itemprop="datePublished" content="2020-02-21T10:03:37+00:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">「Keyboard Moe」从零开始自制键盘（二）：蓝牙连接与原型键盘矩阵
+</h1>
+          
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2020-02-21T10:03:37+00:00">February 21, 2020</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          7 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+        <h2 id="前情回顾">前情回顾</h2>
+
+<ul>
+  <li><a href="https://coderemixer.com/2020/02/16/moe-keyboard-log-1/">「Keyboard Moe」从零开始自制键盘（一）：硬件设计</a></li>
+</ul>
+
+<h2 id="开发板">开发板</h2>
+
+<p>由于之前设计的主控是 ESP-WROOM-32，而且自动刷机口用的 CP210x 芯片。理所当然，开发板就会买 <a href="http://akizukidenshi.com/catalog/g/gM-11819/">ESP32-DevKitC ESP-WROOM-32</a>。最近日本疫情也是越来越重了，我就从秋月电子通商网站上买了一片。说实话这网站的硬件也不是特别全，如果最后配 BOM 可能还是要亲自去跑秋叶原。ESP32 自己的官方库不是特别好用，好在已经有兼容的 <a href="https://www.arduino.cc/">Arduino</a> 库。<a href="https://platformio.org/">PlatformIO</a> 对 ESP32 开发板也做了支持，所以一键就能建出基本的工程结构。</p>
+
+<h2 id="蓝牙连接">蓝牙连接</h2>
+
+<p>我对蓝牙一窍不通，就上网参考一下。我上网看了看找到一个 <a href="https://gist.github.com/sabas1080/93115fb66e09c9b40e5857a19f3e7787">Gist 样例</a>。跑了一下很容易跑通了。比较奇怪的是，一引入蓝牙的协议栈，Flash 就吃掉 73% 了，其它部分程序可能要省着用了。</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Advanced Memory Usage is available via "PlatformIO Home &gt; Project Inspect"
+RAM:   [=         ]  11.0% (used 35960 bytes from 327680 bytes)
+Flash: [=======   ]  73.6% (used 964611 bytes from 1310720 bytes)
+</code></pre></div></div>
+
+<p>但我不能直接抄这代码，首先这东西是 GNU LGPL 协议的，实在是太污染了。另一个问题是，这个 C++ 代码写得非常不 C++，而且在协议栈上只实现了键盘相关的协议，而我需要同时用 HID 中键盘和鼠标两者的协议。所以我又参考了 ESP32 的另一个<a href="https://github.com/asterics/esp32_mouse_keyboard">实现</a>，最后还是选择自己重写。</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// status.h</span>
+<span class="cp">#ifndef STATUS_H_
+#define STATUS_H_
+</span>
+<span class="kt">bool</span> <span class="n">bluetoothConnected</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+
+<span class="cp">#endif // STATUS_H_
+</span></code></pre></div></div>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// BluetoothService.h</span>
+<span class="cp">#ifndef BLUETOOTH_SERVICE_H_
+#define BLUETOOTH_SERVICE_H_
+</span>
+<span class="cp">#include</span> <span class="cpf">&lt;Arduino.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;BLEDevice.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;BLEHIDDevice.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;BLE2902.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;status.h&gt;</span><span class="cp">
+</span>
+<span class="k">static</span> <span class="k">const</span> <span class="kt">uint8_t</span> <span class="n">HID_REPORT_MAP</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="mh">0x05</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">,</span>  <span class="c1">// Usage Page (Generic Desktop)</span>
+  <span class="mh">0x09</span><span class="p">,</span> <span class="mh">0x02</span><span class="p">,</span>  <span class="c1">// Usage (Mouse)</span>
+  <span class="mh">0xA1</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">,</span>  <span class="c1">// Collection (Application)</span>
+  <span class="mh">0x85</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">,</span>  <span class="c1">// Report Id (1)</span>
+  <span class="mh">0x09</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">,</span>  <span class="c1">//   Usage (Pointer)</span>
+  <span class="mh">0xA1</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span>  <span class="c1">//   Collection (Physical)</span>
+  <span class="mh">0x05</span><span class="p">,</span> <span class="mh">0x09</span><span class="p">,</span>  <span class="c1">//     Usage Page (Buttons)</span>
+  <span class="mh">0x19</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">,</span>  <span class="c1">//     Usage Minimum (01) - Button 1</span>
+  <span class="mh">0x29</span><span class="p">,</span> <span class="mh">0x03</span><span class="p">,</span>  <span class="c1">//     Usage Maximum (03) - Button 3</span>
+  <span class="mh">0x15</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span>  <span class="c1">//     Logical Minimum (0)</span>
+  <span class="mh">0x25</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">,</span>  <span class="c1">//     Logical Maximum (1)</span>
+  <span class="mh">0x75</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">,</span>  <span class="c1">//     Report Size (1)</span>
+  <span class="mh">0x95</span><span class="p">,</span> <span class="mh">0x03</span><span class="p">,</span>  <span class="c1">//     Report Count (3)</span>
+  <span class="mh">0x81</span><span class="p">,</span> <span class="mh">0x02</span><span class="p">,</span>  <span class="c1">//     Input (Data, Variable, Absolute) - Button states</span>
+  <span class="mh">0x75</span><span class="p">,</span> <span class="mh">0x05</span><span class="p">,</span>  <span class="c1">//     Report Size (5)</span>
+  <span class="mh">0x95</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">,</span>  <span class="c1">//     Report Count (1)</span>
+  <span class="mh">0x81</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">,</span>  <span class="c1">//     Input (Constant) - Padding or Reserved bits</span>
+  <span class="mh">0x05</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">,</span>  <span class="c1">//     Usage Page (Generic Desktop)</span>
+  <span class="mh">0x09</span><span class="p">,</span> <span class="mh">0x30</span><span class="p">,</span>  <span class="c1">//     Usage (X)</span>
+  <span class="mh">0x09</span><span class="p">,</span> <span class="mh">0x31</span><span class="p">,</span>  <span class="c1">//     Usage (Y)</span>
+  <span class="mh">0x09</span><span class="p">,</span> <span class="mh">0x38</span><span class="p">,</span>  <span class="c1">//     Usage (Wheel)</span>
+  <span class="mh">0x15</span><span class="p">,</span> <span class="mh">0x81</span><span class="p">,</span>  <span class="c1">//     Logical Minimum (-127)</span>
+  <span class="mh">0x25</span><span class="p">,</span> <span class="mh">0x7F</span><span class="p">,</span>  <span class="c1">//     Logical Maximum (127)</span>
+  <span class="mh">0x75</span><span class="p">,</span> <span class="mh">0x08</span><span class="p">,</span>  <span class="c1">//     Report Size (8)</span>
+  <span class="mh">0x95</span><span class="p">,</span> <span class="mh">0x03</span><span class="p">,</span>  <span class="c1">//     Report Count (3)</span>
+  <span class="mh">0x81</span><span class="p">,</span> <span class="mh">0x06</span><span class="p">,</span>  <span class="c1">//     Input (Data, Variable, Relative) - X &amp; Y coordinate</span>
+  <span class="mh">0xC0</span><span class="p">,</span>        <span class="c1">//   End Collection</span>
+  <span class="mh">0xC0</span><span class="p">,</span>        <span class="c1">// End Collection</span>
+
+  <span class="mh">0x05</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">,</span>  <span class="c1">// Usage Pg (Generic Desktop)</span>
+  <span class="mh">0x09</span><span class="p">,</span> <span class="mh">0x06</span><span class="p">,</span>  <span class="c1">// Usage (Keyboard)</span>
+  <span class="mh">0xA1</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">,</span>  <span class="c1">// Collection: (Application)</span>
+  <span class="mh">0x85</span><span class="p">,</span> <span class="mh">0x02</span><span class="p">,</span>  <span class="c1">// Report Id (2)</span>
+  <span class="c1">//</span>
+  <span class="mh">0x05</span><span class="p">,</span> <span class="mh">0x07</span><span class="p">,</span>  <span class="c1">//   Usage Pg (Key Codes)</span>
+  <span class="mh">0x19</span><span class="p">,</span> <span class="mh">0xE0</span><span class="p">,</span>  <span class="c1">//   Usage Min (224)</span>
+  <span class="mh">0x29</span><span class="p">,</span> <span class="mh">0xE7</span><span class="p">,</span>  <span class="c1">//   Usage Max (231)</span>
+  <span class="mh">0x15</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span>  <span class="c1">//   Log Min (0)</span>
+  <span class="mh">0x25</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">,</span>  <span class="c1">//   Log Max (1)</span>
+  <span class="c1">//</span>
+  <span class="c1">//   Modifier byte</span>
+  <span class="mh">0x75</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">,</span>  <span class="c1">//   Report Size (1)</span>
+  <span class="mh">0x95</span><span class="p">,</span> <span class="mh">0x08</span><span class="p">,</span>  <span class="c1">//   Report Count (8)</span>
+  <span class="mh">0x81</span><span class="p">,</span> <span class="mh">0x02</span><span class="p">,</span>  <span class="c1">//   Input: (Data, Variable, Absolute)</span>
+  <span class="c1">//</span>
+  <span class="c1">//   Reserved byte</span>
+  <span class="mh">0x95</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">,</span>  <span class="c1">//   Report Count (1)</span>
+  <span class="mh">0x75</span><span class="p">,</span> <span class="mh">0x08</span><span class="p">,</span>  <span class="c1">//   Report Size (8)</span>
+  <span class="mh">0x81</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">,</span>  <span class="c1">//   Input: (Constant)</span>
+  <span class="c1">//</span>
+  <span class="c1">//   LED report</span>
+  <span class="mh">0x95</span><span class="p">,</span> <span class="mh">0x05</span><span class="p">,</span>  <span class="c1">//   Report Count (5)</span>
+  <span class="mh">0x75</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">,</span>  <span class="c1">//   Report Size (1)</span>
+  <span class="mh">0x05</span><span class="p">,</span> <span class="mh">0x08</span><span class="p">,</span>  <span class="c1">//   Usage Pg (LEDs)</span>
+  <span class="mh">0x19</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">,</span>  <span class="c1">//   Usage Min (1)</span>
+  <span class="mh">0x29</span><span class="p">,</span> <span class="mh">0x05</span><span class="p">,</span>  <span class="c1">//   Usage Max (5)</span>
+  <span class="mh">0x91</span><span class="p">,</span> <span class="mh">0x02</span><span class="p">,</span>  <span class="c1">//   Output: (Data, Variable, Absolute)</span>
+  <span class="c1">//</span>
+  <span class="c1">//   LED report padding</span>
+  <span class="mh">0x95</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">,</span>  <span class="c1">//   Report Count (1)</span>
+  <span class="mh">0x75</span><span class="p">,</span> <span class="mh">0x03</span><span class="p">,</span>  <span class="c1">//   Report Size (3)</span>
+  <span class="mh">0x91</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">,</span>  <span class="c1">//   Output: (Constant)</span>
+  <span class="c1">//</span>
+  <span class="c1">//   Key arrays (6 bytes)</span>
+  <span class="mh">0x95</span><span class="p">,</span> <span class="mh">0x06</span><span class="p">,</span>  <span class="c1">//   Report Count (6)</span>
+  <span class="mh">0x75</span><span class="p">,</span> <span class="mh">0x08</span><span class="p">,</span>  <span class="c1">//   Report Size (8)</span>
+  <span class="mh">0x15</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span>  <span class="c1">//   Log Min (0)</span>
+  <span class="mh">0x25</span><span class="p">,</span> <span class="mh">0x65</span><span class="p">,</span>  <span class="c1">//   Log Max (101)</span>
+  <span class="mh">0x05</span><span class="p">,</span> <span class="mh">0x07</span><span class="p">,</span>  <span class="c1">//   Usage Pg (Key Codes)</span>
+  <span class="mh">0x19</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span>  <span class="c1">//   Usage Min (0)</span>
+  <span class="mh">0x29</span><span class="p">,</span> <span class="mh">0x65</span><span class="p">,</span>  <span class="c1">//   Usage Max (101)</span>
+  <span class="mh">0x81</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span>  <span class="c1">//   Input: (Data, Array)</span>
+  <span class="c1">//</span>
+  <span class="mh">0xC0</span><span class="p">,</span>        <span class="c1">// End Collection</span>
+  <span class="c1">//</span>
+  <span class="mh">0x05</span><span class="p">,</span> <span class="mh">0x0C</span><span class="p">,</span>   <span class="c1">// Usage Pg (Consumer Devices)</span>
+  <span class="mh">0x09</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">,</span>   <span class="c1">// Usage (Consumer Control)</span>
+  <span class="mh">0xA1</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">,</span>   <span class="c1">// Collection (Application)</span>
+  <span class="mh">0x85</span><span class="p">,</span> <span class="mh">0x03</span><span class="p">,</span>   <span class="c1">// Report Id (3)</span>
+  <span class="mh">0x09</span><span class="p">,</span> <span class="mh">0x02</span><span class="p">,</span>   <span class="c1">//   Usage (Numeric Key Pad)</span>
+  <span class="mh">0xA1</span><span class="p">,</span> <span class="mh">0x02</span><span class="p">,</span>   <span class="c1">//   Collection (Logical)</span>
+  <span class="mh">0x05</span><span class="p">,</span> <span class="mh">0x09</span><span class="p">,</span>   <span class="c1">//     Usage Pg (Button)</span>
+  <span class="mh">0x19</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">,</span>   <span class="c1">//     Usage Min (Button 1)</span>
+  <span class="mh">0x29</span><span class="p">,</span> <span class="mh">0x0A</span><span class="p">,</span>   <span class="c1">//     Usage Max (Button 10)</span>
+  <span class="mh">0x15</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">,</span>   <span class="c1">//     Logical Min (1)</span>
+  <span class="mh">0x25</span><span class="p">,</span> <span class="mh">0x0A</span><span class="p">,</span>   <span class="c1">//     Logical Max (10)</span>
+  <span class="mh">0x75</span><span class="p">,</span> <span class="mh">0x04</span><span class="p">,</span>   <span class="c1">//     Report Size (4)</span>
+  <span class="mh">0x95</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">,</span>   <span class="c1">//     Report Count (1)</span>
+  <span class="mh">0x81</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span>   <span class="c1">//     Input (Data, Ary, Abs)</span>
+  <span class="mh">0xC0</span><span class="p">,</span>         <span class="c1">//   End Collection</span>
+  <span class="mh">0x05</span><span class="p">,</span> <span class="mh">0x0C</span><span class="p">,</span>   <span class="c1">//   Usage Pg (Consumer Devices)</span>
+  <span class="mh">0x09</span><span class="p">,</span> <span class="mh">0x86</span><span class="p">,</span>   <span class="c1">//   Usage (Channel)</span>
+  <span class="mh">0x15</span><span class="p">,</span> <span class="mh">0xFF</span><span class="p">,</span>   <span class="c1">//   Logical Min (-1)</span>
+  <span class="mh">0x25</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">,</span>   <span class="c1">//   Logical Max (1)</span>
+  <span class="mh">0x75</span><span class="p">,</span> <span class="mh">0x02</span><span class="p">,</span>   <span class="c1">//   Report Size (2)</span>
+  <span class="mh">0x95</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">,</span>   <span class="c1">//   Report Count (1)</span>
+  <span class="mh">0x81</span><span class="p">,</span> <span class="mh">0x46</span><span class="p">,</span>   <span class="c1">//   Input (Data, Var, Rel, Null)</span>
+  <span class="mh">0x09</span><span class="p">,</span> <span class="mh">0xE9</span><span class="p">,</span>   <span class="c1">//   Usage (Volume Up)</span>
+  <span class="mh">0x09</span><span class="p">,</span> <span class="mh">0xEA</span><span class="p">,</span>   <span class="c1">//   Usage (Volume Down)</span>
+  <span class="mh">0x15</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span>   <span class="c1">//   Logical Min (0)</span>
+  <span class="mh">0x75</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">,</span>   <span class="c1">//   Report Size (1)</span>
+  <span class="mh">0x95</span><span class="p">,</span> <span class="mh">0x02</span><span class="p">,</span>   <span class="c1">//   Report Count (2)</span>
+  <span class="mh">0x81</span><span class="p">,</span> <span class="mh">0x02</span><span class="p">,</span>   <span class="c1">//   Input (Data, Var, Abs)</span>
+  <span class="mh">0x09</span><span class="p">,</span> <span class="mh">0xE2</span><span class="p">,</span>   <span class="c1">//   Usage (Mute)</span>
+  <span class="mh">0x09</span><span class="p">,</span> <span class="mh">0x30</span><span class="p">,</span>   <span class="c1">//   Usage (Power)</span>
+  <span class="mh">0x09</span><span class="p">,</span> <span class="mh">0x83</span><span class="p">,</span>   <span class="c1">//   Usage (Recall Last)</span>
+  <span class="mh">0x09</span><span class="p">,</span> <span class="mh">0x81</span><span class="p">,</span>   <span class="c1">//   Usage (Assign Selection)</span>
+  <span class="mh">0x09</span><span class="p">,</span> <span class="mh">0xB0</span><span class="p">,</span>   <span class="c1">//   Usage (Play)</span>
+  <span class="mh">0x09</span><span class="p">,</span> <span class="mh">0xB1</span><span class="p">,</span>   <span class="c1">//   Usage (Pause)</span>
+  <span class="mh">0x09</span><span class="p">,</span> <span class="mh">0xB2</span><span class="p">,</span>   <span class="c1">//   Usage (Record)</span>
+  <span class="mh">0x09</span><span class="p">,</span> <span class="mh">0xB3</span><span class="p">,</span>   <span class="c1">//   Usage (Fast Forward)</span>
+  <span class="mh">0x09</span><span class="p">,</span> <span class="mh">0xB4</span><span class="p">,</span>   <span class="c1">//   Usage (Rewind)</span>
+  <span class="mh">0x09</span><span class="p">,</span> <span class="mh">0xB5</span><span class="p">,</span>   <span class="c1">//   Usage (Scan Next)</span>
+  <span class="mh">0x09</span><span class="p">,</span> <span class="mh">0xB6</span><span class="p">,</span>   <span class="c1">//   Usage (Scan Prev)</span>
+  <span class="mh">0x09</span><span class="p">,</span> <span class="mh">0xB7</span><span class="p">,</span>   <span class="c1">//   Usage (Stop)</span>
+  <span class="mh">0x15</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">,</span>   <span class="c1">//   Logical Min (1)</span>
+  <span class="mh">0x25</span><span class="p">,</span> <span class="mh">0x0C</span><span class="p">,</span>   <span class="c1">//   Logical Max (12)</span>
+  <span class="mh">0x75</span><span class="p">,</span> <span class="mh">0x04</span><span class="p">,</span>   <span class="c1">//   Report Size (4)</span>
+  <span class="mh">0x95</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">,</span>   <span class="c1">//   Report Count (1)</span>
+  <span class="mh">0x81</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span>   <span class="c1">//   Input (Data, Ary, Abs)</span>
+  <span class="mh">0x09</span><span class="p">,</span> <span class="mh">0x80</span><span class="p">,</span>   <span class="c1">//   Usage (Selection)</span>
+  <span class="mh">0xA1</span><span class="p">,</span> <span class="mh">0x02</span><span class="p">,</span>   <span class="c1">//   Collection (Logical)</span>
+  <span class="mh">0x05</span><span class="p">,</span> <span class="mh">0x09</span><span class="p">,</span>   <span class="c1">//     Usage Pg (Button)</span>
+  <span class="mh">0x19</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">,</span>   <span class="c1">//     Usage Min (Button 1)</span>
+  <span class="mh">0x29</span><span class="p">,</span> <span class="mh">0x03</span><span class="p">,</span>   <span class="c1">//     Usage Max (Button 3)</span>
+  <span class="mh">0x15</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">,</span>   <span class="c1">//     Logical Min (1)</span>
+  <span class="mh">0x25</span><span class="p">,</span> <span class="mh">0x03</span><span class="p">,</span>   <span class="c1">//     Logical Max (3)</span>
+  <span class="mh">0x75</span><span class="p">,</span> <span class="mh">0x02</span><span class="p">,</span>   <span class="c1">//     Report Size (2)</span>
+  <span class="mh">0x81</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span>   <span class="c1">//     Input (Data, Ary, Abs)</span>
+  <span class="mh">0xC0</span><span class="p">,</span>           <span class="c1">//   End Collection</span>
+  <span class="mh">0x81</span><span class="p">,</span> <span class="mh">0x03</span><span class="p">,</span>   <span class="c1">//   Input (Const, Var, Abs)</span>
+  <span class="mh">0xC0</span><span class="p">,</span>            <span class="c1">// End Collection</span>
+  <span class="mh">0x06</span><span class="p">,</span> <span class="mh">0xFF</span><span class="p">,</span> <span class="mh">0xFF</span><span class="p">,</span> <span class="c1">// Usage Page(Vendor defined)</span>
+  <span class="mh">0x09</span><span class="p">,</span> <span class="mh">0xA5</span><span class="p">,</span>       <span class="c1">// Usage(Vendor Defined)</span>
+  <span class="mh">0xA1</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">,</span>       <span class="c1">// Collection(Application)</span>
+  <span class="mh">0x85</span><span class="p">,</span> <span class="mh">0x04</span><span class="p">,</span>   <span class="c1">// Report Id (4)</span>
+  <span class="mh">0x09</span><span class="p">,</span> <span class="mh">0xA6</span><span class="p">,</span>   <span class="c1">// Usage(Vendor defined)</span>
+  <span class="mh">0x09</span><span class="p">,</span> <span class="mh">0xA9</span><span class="p">,</span>   <span class="c1">// Usage(Vendor defined)</span>
+  <span class="mh">0x75</span><span class="p">,</span> <span class="mh">0x08</span><span class="p">,</span>   <span class="c1">// Report Size</span>
+  <span class="mh">0x95</span><span class="p">,</span> <span class="mh">0x7F</span><span class="p">,</span>   <span class="c1">// Report Count = 127 Btyes</span>
+  <span class="mh">0x91</span><span class="p">,</span> <span class="mh">0x02</span><span class="p">,</span>   <span class="c1">// Output(Data, Variable, Absolute)</span>
+  <span class="mh">0xC0</span><span class="p">,</span>         <span class="c1">// End Collection</span>
+<span class="p">};</span>
+
+<span class="k">class</span> <span class="nc">BluetoothService</span> <span class="p">{</span>
+<span class="nl">private:</span>
+  <span class="n">BLEHIDDevice</span><span class="o">*</span> <span class="n">hid</span><span class="p">;</span>
+  <span class="n">BLEAdvertising</span> <span class="o">*</span><span class="n">pAdvertising</span><span class="p">;</span>
+
+<span class="nl">public:</span>
+  <span class="n">BLECharacteristic</span><span class="o">*</span> <span class="n">input</span><span class="p">;</span>
+  <span class="n">BLECharacteristic</span><span class="o">*</span> <span class="n">output</span><span class="p">;</span>
+
+  <span class="n">BluetoothService</span><span class="p">();</span>
+  <span class="kt">void</span> <span class="n">startAdvertising</span><span class="p">();</span>
+  <span class="kt">void</span> <span class="n">stopAdvertising</span><span class="p">();</span>
+<span class="p">};</span>
+
+<span class="k">class</span> <span class="nc">BluetoothCallbacks</span><span class="o">:</span> <span class="k">public</span> <span class="n">BLEServerCallbacks</span> <span class="p">{</span>
+  <span class="n">BluetoothService</span><span class="o">*</span> <span class="n">service</span><span class="p">;</span>
+  <span class="kt">void</span> <span class="n">onConnect</span><span class="p">(</span><span class="n">BLEServer</span><span class="o">*</span> <span class="n">_</span><span class="p">);</span>
+  <span class="kt">void</span> <span class="n">onDisconnect</span><span class="p">(</span><span class="n">BLEServer</span><span class="o">*</span> <span class="n">pServer</span><span class="p">);</span>
+
+<span class="nl">public:</span>
+  <span class="n">BluetoothCallbacks</span><span class="p">(</span><span class="n">BluetoothService</span><span class="o">*</span> <span class="n">service</span><span class="p">);</span>
+<span class="p">};</span>
+
+<span class="k">class</span> <span class="nc">BluetoothOutputCallbacks</span> <span class="o">:</span> <span class="k">public</span> <span class="n">BLECharacteristicCallbacks</span> <span class="p">{</span>
+  <span class="kt">void</span> <span class="n">onWrite</span><span class="p">(</span><span class="n">BLECharacteristic</span><span class="o">*</span> <span class="n">me</span><span class="p">);</span>
+<span class="p">};</span>
+
+<span class="cp">#endif // BLUETOOTH_SERVICE_H_
+</span></code></pre></div></div>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// BluetoothService.cpp</span>
+<span class="cp">#ifndef BLUETOOTH_SERVICE_CPP_
+#define BLUETOOTH_SERVICE_CPP_
+</span>
+<span class="cp">#include</span> <span class="cpf">"BluetoothService.h"</span><span class="cp">
+</span>
+<span class="n">BluetoothCallbacks</span><span class="o">::</span><span class="n">BluetoothCallbacks</span><span class="p">(</span><span class="n">BluetoothService</span><span class="o">*</span> <span class="n">service</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">this</span><span class="o">-&gt;</span><span class="n">service</span> <span class="o">=</span> <span class="n">service</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="n">BluetoothCallbacks</span><span class="o">::</span><span class="n">onConnect</span><span class="p">(</span><span class="n">BLEServer</span><span class="o">*</span> <span class="n">_</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">BLE2902</span><span class="o">*</span> <span class="n">desc</span> <span class="o">=</span> <span class="p">(</span><span class="n">BLE2902</span><span class="o">*</span><span class="p">)</span><span class="n">service</span><span class="o">-&gt;</span><span class="n">input</span><span class="o">-&gt;</span><span class="n">getDescriptorByUUID</span><span class="p">(</span><span class="n">BLEUUID</span><span class="p">((</span><span class="kt">uint16_t</span><span class="p">)</span><span class="mh">0x2902</span><span class="p">));</span>
+  <span class="n">desc</span><span class="o">-&gt;</span><span class="n">setNotifications</span><span class="p">(</span><span class="nb">true</span><span class="p">);</span>
+  <span class="n">bluetoothConnected</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+  <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"Bluetooth Connected."</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="n">BluetoothCallbacks</span><span class="o">::</span><span class="n">onDisconnect</span><span class="p">(</span><span class="n">BLEServer</span><span class="o">*</span> <span class="n">pServer</span><span class="p">){</span>
+  <span class="n">BLE2902</span><span class="o">*</span> <span class="n">desc</span> <span class="o">=</span> <span class="p">(</span><span class="n">BLE2902</span><span class="o">*</span><span class="p">)</span><span class="n">service</span><span class="o">-&gt;</span><span class="n">input</span><span class="o">-&gt;</span><span class="n">getDescriptorByUUID</span><span class="p">(</span><span class="n">BLEUUID</span><span class="p">((</span><span class="kt">uint16_t</span><span class="p">)</span><span class="mh">0x2902</span><span class="p">));</span>
+  <span class="n">desc</span><span class="o">-&gt;</span><span class="n">setNotifications</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
+  <span class="n">bluetoothConnected</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+  <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"Bluetooth Disconnected."</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="n">BluetoothOutputCallbacks</span><span class="o">::</span><span class="n">onWrite</span><span class="p">(</span><span class="n">BLECharacteristic</span><span class="o">*</span> <span class="n">me</span><span class="p">){</span>
+  <span class="kt">uint8_t</span><span class="o">*</span> <span class="n">value</span> <span class="o">=</span> <span class="p">(</span><span class="kt">uint8_t</span><span class="o">*</span><span class="p">)(</span><span class="n">me</span><span class="o">-&gt;</span><span class="n">getValue</span><span class="p">().</span><span class="n">c_str</span><span class="p">());</span>
+  <span class="n">Serial</span><span class="p">.</span><span class="n">printf</span><span class="p">(</span><span class="s">"special keys: %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="o">*</span><span class="n">value</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">BluetoothService</span><span class="o">::</span><span class="n">BluetoothService</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">BLEDevice</span><span class="o">::</span><span class="n">init</span><span class="p">(</span><span class="s">"Keyboard Moe"</span><span class="p">);</span>
+  <span class="n">BLEServer</span> <span class="o">*</span><span class="n">pServer</span> <span class="o">=</span> <span class="n">BLEDevice</span><span class="o">::</span><span class="n">createServer</span><span class="p">();</span>
+  <span class="n">pServer</span><span class="o">-&gt;</span><span class="n">setCallbacks</span><span class="p">(</span><span class="k">new</span> <span class="n">BluetoothCallbacks</span><span class="p">(</span><span class="k">this</span><span class="p">));</span>
+
+  <span class="n">hid</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BLEHIDDevice</span><span class="p">(</span><span class="n">pServer</span><span class="p">);</span>
+  <span class="n">input</span> <span class="o">=</span> <span class="n">hid</span><span class="o">-&gt;</span><span class="n">inputReport</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+  <span class="n">output</span> <span class="o">=</span> <span class="n">hid</span><span class="o">-&gt;</span><span class="n">outputReport</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+
+  <span class="n">output</span><span class="o">-&gt;</span><span class="n">setCallbacks</span><span class="p">(</span><span class="k">new</span> <span class="n">BluetoothOutputCallbacks</span><span class="p">());</span>
+
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">manufacturer</span> <span class="o">=</span> <span class="s">"CodeRemixer"</span><span class="p">;</span>
+  <span class="n">hid</span><span class="o">-&gt;</span><span class="n">manufacturer</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">setValue</span><span class="p">(</span><span class="n">manufacturer</span><span class="p">);</span>
+
+  <span class="n">hid</span><span class="o">-&gt;</span><span class="n">pnp</span><span class="p">(</span><span class="mh">0x02</span><span class="p">,</span> <span class="mh">0xe502</span><span class="p">,</span> <span class="mh">0xa111</span><span class="p">,</span> <span class="mh">0x0210</span><span class="p">);</span>
+  <span class="n">BLESecurity</span> <span class="o">*</span><span class="n">pSecurity</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BLESecurity</span><span class="p">();</span>
+  <span class="n">pSecurity</span><span class="o">-&gt;</span><span class="n">setAuthenticationMode</span><span class="p">(</span><span class="n">ESP_LE_AUTH_BOND</span><span class="p">);</span>
+
+  <span class="c1">// https://www.bluetooth.com/wp-content/uploads/Sitecore-Media-Library/Gatt/Xml/Characteristics/org.bluetooth.characteristic.hid_information.xml</span>
+  <span class="n">hid</span><span class="o">-&gt;</span><span class="n">hidInfo</span><span class="p">(</span><span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x02</span><span class="p">);</span>
+
+  <span class="n">hid</span><span class="o">-&gt;</span><span class="n">reportMap</span><span class="p">((</span><span class="kt">uint8_t</span><span class="o">*</span><span class="p">)</span><span class="n">HID_REPORT_MAP</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">HID_REPORT_MAP</span><span class="p">));</span>
+  <span class="n">hid</span><span class="o">-&gt;</span><span class="n">startServices</span><span class="p">();</span>
+
+  <span class="n">pAdvertising</span> <span class="o">=</span> <span class="n">pServer</span><span class="o">-&gt;</span><span class="n">getAdvertising</span><span class="p">();</span>
+  <span class="n">pAdvertising</span><span class="o">-&gt;</span><span class="n">setAppearance</span><span class="p">(</span><span class="n">HID_KEYBOARD</span><span class="p">);</span>
+  <span class="n">pAdvertising</span><span class="o">-&gt;</span><span class="n">addServiceUUID</span><span class="p">(</span><span class="n">hid</span><span class="o">-&gt;</span><span class="n">hidService</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">getUUID</span><span class="p">());</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="n">BluetoothService</span><span class="o">::</span><span class="n">startAdvertising</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">pAdvertising</span><span class="o">-&gt;</span><span class="n">start</span><span class="p">();</span>
+  <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"Advertising Started."</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="n">BluetoothService</span><span class="o">::</span><span class="n">stopAdvertising</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">pAdvertising</span><span class="o">-&gt;</span><span class="n">stop</span><span class="p">();</span>
+  <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"Advertising Stopped."</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="cp">#endif // BLUETOOTH_SERVICE_CPP_
+</span></code></pre></div></div>
+
+<p>写完发现一个奇怪的事情就是蓝牙一连接会把循环阻塞，于是直接用 FreeRTOS 来执行蓝牙代码。</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// main.cpp</span>
+<span class="cp">#include</span> <span class="cpf">&lt;Arduino.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;status.h&gt;</span><span class="cp">
+</span>
+<span class="cp">#include</span> <span class="cpf">"BluetoothService.cpp"</span><span class="cp">
+</span>
+<span class="n">BluetoothService</span><span class="o">*</span> <span class="n">bluetoothService</span><span class="p">;</span>
+
+<span class="kt">void</span> <span class="nf">bluetoothServiceProcess</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">bluetoothService</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BluetoothService</span><span class="p">();</span>
+  <span class="n">bluetoothService</span><span class="o">-&gt;</span><span class="n">startAdvertising</span><span class="p">();</span>
+  <span class="n">delay</span><span class="p">(</span><span class="n">portMAX_DELAY</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">setup</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">115200</span><span class="p">);</span>
+  <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"Moe Keyboard is Starting Up..."</span><span class="p">);</span>
+
+  <span class="n">xTaskCreate</span><span class="p">(</span><span class="n">bluetoothServiceProcess</span><span class="p">,</span> <span class="s">"bluetooth_server"</span><span class="p">,</span> <span class="mi">20000</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="4x3-键盘矩阵">4x3 键盘矩阵</h2>
+
+<p>接下来就是需要调键盘按键了，一个节省 pin 的典型设计就是键盘矩阵。为了解耦，这里使用的是键盘矩阵套件，等测试通过后才会换成正式的键盘矩阵。我买的是 <a href="http://akizukidenshi.com/catalog/g/gK-12229/">4x3 键盘矩阵套件</a>。</p>
+
+<p><img src="/assets/images/keyboard-matrix-kit-1.jpg" alt="Keyboard Matrix" /></p>
+
+<p>买回来花了两个小时自己焊接了起来。比较奇怪的是二极管正负极标注和脚的长度不匹配，吓得我赶紧用万用表出来重新测了一下。</p>
+
+<p><img src="/assets/images/keyboard-matrix-kit-2.jpg" alt="Keyboard Matrix" /></p>
+
+<p>焊得非常吃力，焊完反应过来，把焊台温度调得太低了…</p>
+
+<p><img src="/assets/images/keyboard-matrix-kit-3.jpg" alt="Keyboard Matrix" />
+<img src="/assets/images/keyboard-matrix-kit-4.png" alt="Keyboard Matrix" /></p>
+
+<h2 id="键盘矩阵扫描">键盘矩阵扫描</h2>
+
+<p>这个键盘矩阵套件自带上拉电阻，这和最后我的矩阵有一定出入（因为我还要实现灯阵），但程序还是差不多的。</p>
+
+<p>一开始我选的是 34 35 32 33 25 26 27 这几 pin 来做。结果，写完后发现前两排按键死活不能用。一开始以为自己焊接短路了，用万用表测了半天也没找到短路点。以防万一又重新焊了一遍结果问题依旧。</p>
+
+<p>最后查了一下发现 GPIO 34 35 36 39 是<a href="https://randomnerdtutorials.com/esp32-pinout-reference-gpios/">无法作为 output 模式运行</a>的，最后把需要 output 的更换到了 19 18 和 5 上。</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// gpio.h</span>
+
+<span class="cp">#ifndef GPIO_H_
+#define GPIO_H_
+</span>
+<span class="cp">#include</span> <span class="cpf">"KeyCode.cpp"</span><span class="cp">
+</span>
+<span class="k">static</span> <span class="k">const</span> <span class="kt">uint8_t</span> <span class="n">COL_NUM</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+<span class="k">static</span> <span class="k">const</span> <span class="kt">uint8_t</span> <span class="n">ROW_NUM</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
+
+<span class="k">static</span> <span class="k">const</span> <span class="kt">uint8_t</span> <span class="n">COL_GPIO</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="mi">19</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">5</span>
+<span class="p">};</span>
+
+<span class="k">static</span> <span class="k">const</span> <span class="kt">uint8_t</span> <span class="n">ROW_GPIO</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="mi">33</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">26</span><span class="p">,</span> <span class="mi">27</span>
+<span class="p">};</span>
+
+<span class="k">static</span> <span class="k">const</span> <span class="n">KeyCode</span><span class="o">*</span> <span class="n">KEYCODE_MAP</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="k">new</span> <span class="n">KeyCode</span><span class="p">(</span><span class="n">NORMAL</span><span class="p">,</span> <span class="mh">0x55</span><span class="p">),</span> <span class="c1">// *</span>
+  <span class="k">new</span> <span class="n">KeyCode</span><span class="p">(</span><span class="n">NORMAL</span><span class="p">,</span> <span class="mh">0x5f</span><span class="p">),</span> <span class="c1">// 7</span>
+  <span class="k">new</span> <span class="n">KeyCode</span><span class="p">(</span><span class="n">NORMAL</span><span class="p">,</span> <span class="mh">0x5c</span><span class="p">),</span> <span class="c1">// 4</span>
+  <span class="k">new</span> <span class="n">KeyCode</span><span class="p">(</span><span class="n">NORMAL</span><span class="p">,</span> <span class="mh">0x59</span><span class="p">),</span> <span class="c1">// 1</span>
+  <span class="k">new</span> <span class="n">KeyCode</span><span class="p">(</span><span class="n">NORMAL</span><span class="p">,</span> <span class="mh">0x62</span><span class="p">),</span> <span class="c1">// 0</span>
+  <span class="k">new</span> <span class="n">KeyCode</span><span class="p">(</span><span class="n">NORMAL</span><span class="p">,</span> <span class="mh">0x80</span><span class="p">),</span> <span class="c1">// 8</span>
+  <span class="k">new</span> <span class="n">KeyCode</span><span class="p">(</span><span class="n">NORMAL</span><span class="p">,</span> <span class="mh">0x5d</span><span class="p">),</span> <span class="c1">// 5</span>
+  <span class="k">new</span> <span class="n">KeyCode</span><span class="p">(</span><span class="n">NORMAL</span><span class="p">,</span> <span class="mh">0x5a</span><span class="p">),</span> <span class="c1">// 2</span>
+  <span class="k">new</span> <span class="n">KeyCode</span><span class="p">(</span><span class="n">NORMAL</span><span class="p">,</span> <span class="mh">0xcc</span><span class="p">),</span> <span class="c1">// #</span>
+  <span class="k">new</span> <span class="n">KeyCode</span><span class="p">(</span><span class="n">NORMAL</span><span class="p">,</span> <span class="mh">0x61</span><span class="p">),</span> <span class="c1">// 9</span>
+  <span class="k">new</span> <span class="n">KeyCode</span><span class="p">(</span><span class="n">NORMAL</span><span class="p">,</span> <span class="mh">0x5e</span><span class="p">),</span> <span class="c1">// 6</span>
+  <span class="k">new</span> <span class="n">KeyCode</span><span class="p">(</span><span class="n">NORMAL</span><span class="p">,</span> <span class="mh">0x5b</span><span class="p">),</span> <span class="c1">// 3</span>
+<span class="p">};</span>
+
+<span class="k">static</span> <span class="kt">bool</span> <span class="n">keyStatus</span><span class="p">[</span><span class="n">COL_NUM</span><span class="p">][</span><span class="n">ROW_NUM</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="nb">false</span> <span class="p">};</span>
+<span class="k">static</span> <span class="kt">bool</span> <span class="n">keyStatusSaved</span><span class="p">[</span><span class="n">COL_NUM</span><span class="p">][</span><span class="n">ROW_NUM</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="nb">false</span> <span class="p">};</span>
+
+<span class="cp">#endif // GPIO_H_
+</span></code></pre></div></div>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// KeyCode.h</span>
+<span class="cp">#ifndef KEYCODE_H_
+#define KEYCODE_H_
+</span>
+<span class="k">enum</span> <span class="n">KeyType</span> <span class="p">{</span>
+  <span class="n">MULTIMEDIA</span><span class="p">,</span>
+  <span class="n">MODIFIER</span><span class="p">,</span>
+  <span class="n">NORMAL</span><span class="p">,</span>
+<span class="p">};</span>
+
+<span class="k">class</span> <span class="nc">KeyCode</span> <span class="p">{</span>
+<span class="nl">public:</span>
+  <span class="n">KeyType</span> <span class="n">type</span><span class="p">;</span>
+  <span class="kt">uint8_t</span> <span class="n">code</span><span class="p">;</span>
+
+  <span class="n">KeyCode</span><span class="p">(</span><span class="n">KeyType</span> <span class="n">type</span><span class="p">,</span> <span class="kt">uint8_t</span> <span class="n">code</span><span class="p">);</span>
+<span class="p">};</span>
+
+<span class="cp">#endif // KEYCODE_H_
+</span></code></pre></div></div>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// KeyCode.cpp</span>
+<span class="cp">#ifndef KEYCODE_CPP_
+#define KEYCODE_CPP_
+</span>
+<span class="cp">#include</span> <span class="cpf">"KeyCode.h"</span><span class="cp">
+</span>
+<span class="n">KeyCode</span><span class="o">::</span><span class="n">KeyCode</span><span class="p">(</span><span class="n">KeyType</span> <span class="n">type</span><span class="p">,</span> <span class="kt">uint8_t</span> <span class="n">code</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">this</span><span class="o">-&gt;</span><span class="n">type</span> <span class="o">=</span> <span class="n">type</span><span class="p">;</span>
+  <span class="k">this</span><span class="o">-&gt;</span><span class="n">code</span> <span class="o">=</span> <span class="n">code</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cp">#endif // KEYCODE_CPP_
+</span></code></pre></div></div>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;Arduino.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;status.h&gt;</span><span class="cp">
+</span>
+<span class="cp">#include</span> <span class="cpf">"gpio.h"</span><span class="cp">
+#include</span> <span class="cpf">"BluetoothService.cpp"</span><span class="cp">
+</span>
+<span class="n">BluetoothService</span><span class="o">*</span> <span class="n">bluetoothService</span><span class="p">;</span>
+
+<span class="kt">void</span> <span class="nf">bluetoothServiceProcess</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">bluetoothService</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BluetoothService</span><span class="p">();</span>
+  <span class="n">bluetoothService</span><span class="o">-&gt;</span><span class="n">startAdvertising</span><span class="p">();</span>
+  <span class="n">delay</span><span class="p">(</span><span class="n">portMAX_DELAY</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">setup</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">115200</span><span class="p">);</span>
+  <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"Moe Keyboard is Starting Up..."</span><span class="p">);</span>
+
+  <span class="k">for</span> <span class="p">(</span><span class="kt">uint8_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">COL_NUM</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">pinMode</span><span class="p">(</span><span class="n">COL_GPIO</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">OUTPUT</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="k">for</span> <span class="p">(</span><span class="kt">uint8_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">ROW_NUM</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">pinMode</span><span class="p">(</span><span class="n">ROW_GPIO</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">INPUT</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="n">xTaskCreate</span><span class="p">(</span><span class="n">bluetoothServiceProcess</span><span class="p">,</span> <span class="s">"bluetooth_server"</span><span class="p">,</span> <span class="mi">20000</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">loop</span><span class="p">()</span> <span class="p">{</span>
+  <span class="c1">// Matrix Scan</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">uint8_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">COL_NUM</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">uint8_t</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">COL_NUM</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span>
+      <span class="n">i</span> <span class="o">==</span> <span class="n">j</span> <span class="o">?</span> <span class="n">digitalWrite</span><span class="p">(</span><span class="n">COL_GPIO</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">LOW</span><span class="p">)</span> <span class="o">:</span> <span class="n">digitalWrite</span><span class="p">(</span><span class="n">COL_GPIO</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">HIGH</span><span class="p">);</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">uint8_t</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">ROW_NUM</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">keyStatus</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="o">!</span><span class="n">digitalRead</span><span class="p">(</span><span class="n">ROW_GPIO</span><span class="p">[</span><span class="n">j</span><span class="p">]);</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="c1">// Output</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">uint8_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">COL_NUM</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">uint8_t</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">ROW_NUM</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">keyStatus</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="nb">true</span> <span class="o">&amp;&amp;</span> <span class="n">keyStatusSaved</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">Serial</span><span class="p">.</span><span class="n">printf</span><span class="p">(</span><span class="s">"Key Down: (col: %d, row: %d, code: %d)</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">KEYCODE_MAP</span><span class="p">[</span><span class="n">i</span> <span class="o">*</span> <span class="n">ROW_NUM</span> <span class="o">+</span> <span class="n">j</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">code</span><span class="p">);</span>
+      <span class="p">}</span> <span class="k">else</span> <span class="nf">if</span>  <span class="p">(</span><span class="n">keyStatus</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="nb">false</span> <span class="o">&amp;&amp;</span> <span class="n">keyStatusSaved</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="nb">true</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">Serial</span><span class="p">.</span><span class="n">printf</span><span class="p">(</span><span class="s">"Key Up: (col: %d, row: %d, code: %d)</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">KEYCODE_MAP</span><span class="p">[</span><span class="n">i</span> <span class="o">*</span> <span class="n">ROW_NUM</span> <span class="o">+</span> <span class="n">j</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">code</span><span class="p">);</span>
+      <span class="p">}</span>
+      <span class="n">keyStatusSaved</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">keyStatus</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">];</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="n">delay</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>运行结果：</p>
+
+<p><img src="/assets/images/matrix-scan.png" alt="Matrix Scan" /></p>
+
+<p>完美。</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/%E9%94%AE%E7%9B%98" class="page__taxonomy-item" rel="tag">键盘</a>
+    
+    </span>
+  </p>
+
+
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2020-02-21T10:03:37+00:00">February 21, 2020</time></p>
+
+
+      </footer>
+
+      <section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?text=%E3%80%8CKeyboard+Moe%E3%80%8D%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E8%87%AA%E5%88%B6%E9%94%AE%E7%9B%98%EF%BC%88%E4%BA%8C%EF%BC%89%EF%BC%9A%E8%93%9D%E7%89%99%E8%BF%9E%E6%8E%A5%E4%B8%8E%E5%8E%9F%E5%9E%8B%E9%94%AE%E7%9B%98%E7%9F%A9%E9%98%B5%20https%3A%2F%2Fcoderemixer.com%2F2020%2F02%2F21%2Fmoe-keyboard-log-2" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fcoderemixer.com%2F2020%2F02%2F21%2Fmoe-keyboard-log-2" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fcoderemixer.com%2F2020%2F02%2F21%2Fmoe-keyboard-log-2" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/2020/02/16/moe-keyboard-log-1" class="pagination--pager" title="「Keyboard Moe」从零开始自制键盘（一）：硬件设计
+">Previous</a>
+    
+    
+      <a href="/2020/03/11/moe-keyboard-log-3" class="pagination--pager" title="「Keyboard Moe」从零开始自制键盘（三）：分区
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You May Also Enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/2021/07/05/compile-malay-tea-name" rel="permalink">三点几嚟，饮茶先啦 —— 将大马饮料名编译成汉语
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2021-07-05T12:44:49+00:00">July 5, 2021</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          less than 1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">近几日马来西亚网友 Gurdip Singh 在 Facebook 发的这个「三点几嚟，饮茶先啦」非常流行。
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/2021/01/08/autopilot-with-ruby" rel="permalink">用 Ruby 实现飞机自动驾驶仪
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2021-01-08T13:03:32+00:00">January 8, 2021</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">krpc 是一个砍巴拉太空计划（Kerbel Space Program）中的插件。可以通过 RPC 来控制游戏。同时有第三方的 Ruby 客户端：krpc-rb。和真实飞机不同的是，在砍巴拉游戏中驾驶飞机是非常痛苦的，在没有插件辅助的情况下，你看不到具体的 GPS 坐标，很多时候看到的都是和飞机驾驶无关的轨道参...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/2020/12/22/ruby-3-fiber-scheduler-evt-dev-log" rel="permalink">为 Ruby 3 Fiber 调度器设计事件库 Evt
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2020-12-22T17:41:41+00:00">December 22, 2020</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          7 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">For English Readers
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/2020/12/22/ruby-3-fiber-scheduler-evt-dev-log-en" rel="permalink">Developing Fiber Scheduler for Ruby 3
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2020-12-22T17:41:41+00:00">December 22, 2020</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          11 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">中文版本
+</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2024 Coderemixer 代码混音师. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "https://coderemixer.com/2020/02/21/moe-keyboard-log-2";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/2020/02/21/moe-keyboard-log-2"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://coderemixer.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+
+  </body>
+</html>

@@ -1,431 +1,452 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  
-  <url>
-    <loc>https://coderemixer.com/2021/07/05/compile-malay-tea-name/</loc>
-    
-    <lastmod>2021-07-05T04:46:57.644Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://coderemixer.com/2021/01/08/autopilot-with-ruby/</loc>
-    
-    <lastmod>2021-01-08T08:17:24.471Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://coderemixer.com/2020/12/22/ruby-3-fiber-scheduler-evt-dev-log/</loc>
-    
-    <lastmod>2020-12-22T15:59:17.659Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://coderemixer.com/2020/12/22/ruby-3-fiber-scheduler-evt-dev-log-en/</loc>
-    
-    <lastmod>2020-12-22T15:58:56.595Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://coderemixer.com/2020/11/17/ruby-3-ractor-guide/</loc>
-    
-    <lastmod>2020-11-17T13:00:45.129Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://coderemixer.com/2020/11/10/how-anti-reflective-coating-works/</loc>
-    
-    <lastmod>2020-11-10T15:58:49.740Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://coderemixer.com/2020/10/21/safari-is-fast-but-so-what-english/</loc>
-    
-    <lastmod>2020-10-22T01:36:27.435Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://coderemixer.com/2020/10/21/safari-is-fast-but-so-what/</loc>
-    
-    <lastmod>2020-10-22T01:34:06.329Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://coderemixer.com/2020/09/26/write-lzw-manually/</loc>
-    
-    <lastmod>2020-09-26T08:09:18.502Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://coderemixer.com/2020/08/18/a-walkthrough-of-ruby-3-scheduler/</loc>
-    
-    <lastmod>2020-08-18T13:10:02.408Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://coderemixer.com/2020/08/18/a-walkthrough-of-ruby-3-scheduler-cn/</loc>
-    
-    <lastmod>2020-08-18T13:09:57.311Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://coderemixer.com/2020/08/12/save-my-macbook-pro-2016/</loc>
-    
-    <lastmod>2020-08-12T09:52:19.788Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://coderemixer.com/2020/03/15/one-day-two-fans/</loc>
-    
-    <lastmod>2020-08-12T09:21:34.415Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://coderemixer.com/2020/07/26/whats-new-in-ruby-3-fiber/</loc>
-    
-    <lastmod>2020-08-12T09:18:24.781Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://coderemixer.com/2019/01/18/why-i-hear-all-ha-into-wa/</loc>
-    
-    <lastmod>2020-08-12T09:01:06.008Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://coderemixer.com/2018/12/07/y-combinator-in-ten-minutes/</loc>
-    
-    <lastmod>2020-08-12T09:01:06.008Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://coderemixer.com/about/index.html</loc>
-    
-    <lastmod>2020-08-12T09:01:06.008Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://coderemixer.com/2017/05/17/spit-bugs/</loc>
-    
-    <lastmod>2020-08-12T09:01:06.007Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://coderemixer.com/2018/10/22/waki-reiko/</loc>
-    
-    <lastmod>2020-08-12T09:01:06.007Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://coderemixer.com/2019/03/26/wechat-red-envelope-analyze/</loc>
-    
-    <lastmod>2020-08-12T09:01:06.007Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://coderemixer.com/2020/05/21/whos-the-most-beautiful-woman-in-the-world/</loc>
-    
-    <lastmod>2020-08-12T09:01:06.007Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://coderemixer.com/2018/10/21/ruby-native-ext-compass/</loc>
-    
-    <lastmod>2020-08-12T09:01:06.006Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://coderemixer.com/2016/06/10/ruby-on-php/</loc>
-    
-    <lastmod>2020-08-12T09:01:06.006Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://coderemixer.com/2018/07/03/ruby-inline-private-method/</loc>
-    
-    <lastmod>2020-08-12T09:01:06.006Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://coderemixer.com/2017/12/26/rack-rails-user-ip-bug/</loc>
-    
-    <lastmod>2020-08-12T09:01:06.006Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://coderemixer.com/2018/12/08/ruby-quiz-base32/</loc>
-    
-    <lastmod>2020-08-12T09:01:06.006Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://coderemixer.com/2018/07/10/ruby-websocket-in-c-lang/</loc>
-    
-    <lastmod>2020-08-12T09:01:06.006Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://coderemixer.com/2018/01/05/mysql-recover-from-general/</loc>
-    
-    <lastmod>2020-08-12T09:01:06.005Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://coderemixer.com/2019/05/06/programming-jokes-that-hard-to-be-understood/</loc>
-    
-    <lastmod>2020-08-12T09:01:06.005Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://coderemixer.com/2019/03/05/project-nyan-chat/</loc>
-    
-    <lastmod>2020-08-12T09:01:06.005Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://coderemixer.com/2019/11/13/quantum-poe/</loc>
-    
-    <lastmod>2020-08-12T09:01:06.005Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://coderemixer.com/2017/08/31/mid-autumn-2017/</loc>
-    
-    <lastmod>2020-08-12T09:01:06.004Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://coderemixer.com/2020/02/16/moe-keyboard-log-1/</loc>
-    
-    <lastmod>2020-08-12T09:01:06.004Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://coderemixer.com/2020/03/11/moe-keyboard-log-3/</loc>
-    
-    <lastmod>2020-08-12T09:01:06.004Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://coderemixer.com/2020/04/18/musicality-of-hanmai/</loc>
-    
-    <lastmod>2020-08-12T09:01:06.004Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://coderemixer.com/2020/02/21/moe-keyboard-log-2/</loc>
-    
-    <lastmod>2020-08-12T09:01:06.004Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://coderemixer.com/2016/10/29/is-eval-evil/</loc>
-    
-    <lastmod>2020-08-12T09:01:06.003Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://coderemixer.com/2019/08/15/japansese-kanji-5173-research/</loc>
-    
-    <lastmod>2020-08-12T09:01:06.003Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://coderemixer.com/2020/04/11/learn-music-theory-with-ruby-1/</loc>
-    
-    <lastmod>2020-08-12T09:01:06.003Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://coderemixer.com/2020/04/11/learn-music-theory-with-ruby-2/</loc>
-    
-    <lastmod>2020-08-12T09:01:06.003Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://coderemixer.com/2017/05/22/mass-produced-engineers/</loc>
-    
-    <lastmod>2020-08-12T09:01:06.003Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://coderemixer.com/2020/04/05/ideas-about-music-game/</loc>
-    
-    <lastmod>2020-08-12T09:01:06.002Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://coderemixer.com/2018/11/24/how-to-use-fonts/</loc>
-    
-    <lastmod>2020-08-12T09:01:06.002Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://coderemixer.com/2019/08/12/ingress-resistance-shonan-homogeneous-field/</loc>
-    
-    <lastmod>2020-08-12T09:01:06.002Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://coderemixer.com/2018/12/25/is-antd-wrong/</loc>
-    
-    <lastmod>2020-08-12T09:01:06.002Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://coderemixer.com/2020/01/10/from-bopomofo/</loc>
-    
-    <lastmod>2020-08-12T09:01:06.001Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://coderemixer.com/2019/01/10/heisei-last-unfinished-game/</loc>
-    
-    <lastmod>2020-08-12T09:01:06.001Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://coderemixer.com/2020/05/22/how-floating-number-caused-strange-earthquake/</loc>
-    
-    <lastmod>2020-08-12T09:01:06.001Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://coderemixer.com/2018/11/26/home-network-fujisawa/</loc>
-    
-    <lastmod>2020-08-12T09:01:06.001Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://coderemixer.com/2017/07/16/how-to-read-the-fxxking-manual/</loc>
-    
-    <lastmod>2020-08-12T09:01:06.001Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://coderemixer.com/2020/03/15/fast-srt-subtitle/</loc>
-    
-    <lastmod>2020-08-12T09:01:06.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://coderemixer.com/2018/06/06/coding-tutorial/</loc>
-    
-    <lastmod>2020-08-12T09:01:06.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://coderemixer.com/2019/12/08/chiba-new-town-mission-day/</loc>
-    
-    <lastmod>2020-08-12T09:01:06.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://coderemixer.com/2019/02/07/chinese-dialect-orthography/</loc>
-    
-    <lastmod>2020-08-12T09:01:06.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://coderemixer.com/2020/01/18/archetypes-skeptic/</loc>
-    
-    <lastmod>2020-08-12T09:01:05.999Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://coderemixer.com/2020/04/23/auto-blues-generator/</loc>
-    
-    <lastmod>2020-08-12T09:01:05.999Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://coderemixer.com/2017/02/14/build-up-x79-workstation/</loc>
-    
-    <lastmod>2020-08-12T09:01:05.999Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://coderemixer.com/2020/05/24/bcd-cobol-showa-100-years-problem/</loc>
-    
-    <lastmod>2020-08-12T09:01:05.999Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://coderemixer.com/2020/01/07/archetypes-listener/</loc>
-    
-    <lastmod>2020-08-12T09:01:05.997Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://coderemixer.com/2020/04/16/after-i-did-my-kakuteishinko/</loc>
-    
-    <lastmod>2020-08-12T09:01:05.997Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://coderemixer.com/2020/01/14/archetypes-humanity/</loc>
-    
-    <lastmod>2020-08-12T09:01:05.997Z</lastmod>
-    
-  </url>
-  
+<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<url>
+<loc>https://coderemixer.com/2016/06/10/ruby-on-php</loc>
+<lastmod>2016-06-10T22:02:06+00:00</lastmod>
+</url>
+<url>
+<loc>https://coderemixer.com/2016/10/29/is-eval-evil</loc>
+<lastmod>2016-10-29T22:03:33+00:00</lastmod>
+</url>
+<url>
+<loc>https://coderemixer.com/2017/02/14/build-up-x79-workstation</loc>
+<lastmod>2017-02-14T21:51:58+00:00</lastmod>
+</url>
+<url>
+<loc>https://coderemixer.com/2017/05/17/spit-bugs</loc>
+<lastmod>2017-05-17T22:10:50+00:00</lastmod>
+</url>
+<url>
+<loc>https://coderemixer.com/2017/05/22/mass-produced-engineers</loc>
+<lastmod>2017-05-22T17:03:10+00:00</lastmod>
+</url>
+<url>
+<loc>https://coderemixer.com/2017/07/16/how-to-read-the-fxxking-manual</loc>
+<lastmod>2017-07-16T21:57:12+00:00</lastmod>
+</url>
+<url>
+<loc>https://coderemixer.com/2017/08/31/mid-autumn-2017</loc>
+<lastmod>2017-08-31T22:08:22+00:00</lastmod>
+</url>
+<url>
+<loc>https://coderemixer.com/2017/12/26/rack-rails-user-ip-bug</loc>
+<lastmod>2017-12-26T21:58:59+00:00</lastmod>
+</url>
+<url>
+<loc>https://coderemixer.com/2018/01/05/mysql-recover-from-general</loc>
+<lastmod>2018-01-05T21:48:59+00:00</lastmod>
+</url>
+<url>
+<loc>https://coderemixer.com/2018/06/06/coding-tutorial</loc>
+<lastmod>2018-06-06T04:21:04+00:00</lastmod>
+</url>
+<url>
+<loc>https://coderemixer.com/2018/07/03/ruby-inline-private-method</loc>
+<lastmod>2018-07-03T21:35:49+00:00</lastmod>
+</url>
+<url>
+<loc>https://coderemixer.com/2018/07/10/ruby-websocket-in-c-lang</loc>
+<lastmod>2018-07-10T21:47:45+00:00</lastmod>
+</url>
+<url>
+<loc>https://coderemixer.com/2018/11/24/how-to-use-fonts</loc>
+<lastmod>2018-11-24T10:48:02+00:00</lastmod>
+</url>
+<url>
+<loc>https://coderemixer.com/2018/11/26/home-network-fujisawa</loc>
+<lastmod>2018-11-26T19:37:47+00:00</lastmod>
+</url>
+<url>
+<loc>https://coderemixer.com/2018/12/07/y-combinator-in-ten-minutes</loc>
+<lastmod>2018-12-07T16:44:33+00:00</lastmod>
+</url>
+<url>
+<loc>https://coderemixer.com/2018/12/08/ruby-quiz-base32</loc>
+<lastmod>2018-12-08T10:54:43+00:00</lastmod>
+</url>
+<url>
+<loc>https://coderemixer.com/2018/12/25/is-antd-wrong</loc>
+<lastmod>2018-12-25T22:43:54+00:00</lastmod>
+</url>
+<url>
+<loc>https://coderemixer.com/2019/01/10/heisei-last-unfinished-game</loc>
+<lastmod>2019-01-10T20:58:25+00:00</lastmod>
+</url>
+<url>
+<loc>https://coderemixer.com/2019/01/19/why-i-hear-all-ha-into-wa</loc>
+<lastmod>2019-01-19T00:07:02+00:00</lastmod>
+</url>
+<url>
+<loc>https://coderemixer.com/2019/02/07/chinese-dialect-orthography</loc>
+<lastmod>2019-02-07T01:26:09+00:00</lastmod>
+</url>
+<url>
+<loc>https://coderemixer.com/2019/03/26/wechat-red-envelope-analyze</loc>
+<lastmod>2019-03-26T23:15:09+00:00</lastmod>
+</url>
+<url>
+<loc>https://coderemixer.com/2019/08/12/ingress-resistance-shonan-homogeneous-field</loc>
+<lastmod>2019-08-12T21:29:28+00:00</lastmod>
+</url>
+<url>
+<loc>https://coderemixer.com/2019/08/15/japansese-kanji-5173-research</loc>
+<lastmod>2019-08-15T19:22:16+00:00</lastmod>
+</url>
+<url>
+<loc>https://coderemixer.com/2019/11/13/quantum-poe</loc>
+<lastmod>2019-11-13T02:54:20+00:00</lastmod>
+</url>
+<url>
+<loc>https://coderemixer.com/2019/12/08/chiba-new-town-mission-day</loc>
+<lastmod>2019-12-08T13:43:16+00:00</lastmod>
+</url>
+<url>
+<loc>https://coderemixer.com/2020/01/07/archetypes-listener</loc>
+<lastmod>2020-01-07T14:01:14+00:00</lastmod>
+</url>
+<url>
+<loc>https://coderemixer.com/2020/01/10/from-bopomofo</loc>
+<lastmod>2020-01-10T22:06:49+00:00</lastmod>
+</url>
+<url>
+<loc>https://coderemixer.com/2020/01/14/archetypes-humanity</loc>
+<lastmod>2020-01-14T14:22:47+00:00</lastmod>
+</url>
+<url>
+<loc>https://coderemixer.com/2020/01/18/archetypes-skeptic</loc>
+<lastmod>2020-01-18T22:29:29+00:00</lastmod>
+</url>
+<url>
+<loc>https://coderemixer.com/2020/02/16/moe-keyboard-log-1</loc>
+<lastmod>2020-02-16T15:43:03+00:00</lastmod>
+</url>
+<url>
+<loc>https://coderemixer.com/2020/02/21/moe-keyboard-log-2</loc>
+<lastmod>2020-02-21T10:03:37+00:00</lastmod>
+</url>
+<url>
+<loc>https://coderemixer.com/2020/03/11/moe-keyboard-log-3</loc>
+<lastmod>2020-03-11T01:48:08+00:00</lastmod>
+</url>
+<url>
+<loc>https://coderemixer.com/2020/03/15/one-day-two-fans</loc>
+<lastmod>2020-03-15T01:55:18+00:00</lastmod>
+</url>
+<url>
+<loc>https://coderemixer.com/2020/03/15/fast-srt-subtitle</loc>
+<lastmod>2020-03-15T10:20:37+00:00</lastmod>
+</url>
+<url>
+<loc>https://coderemixer.com/2020/04/05/ideas-about-music-game</loc>
+<lastmod>2020-04-05T11:14:42+00:00</lastmod>
+</url>
+<url>
+<loc>https://coderemixer.com/2020/04/11/learn-music-theory-with-ruby-1</loc>
+<lastmod>2020-04-11T14:36:38+00:00</lastmod>
+</url>
+<url>
+<loc>https://coderemixer.com/2020/04/11/learn-music-theory-with-ruby-2</loc>
+<lastmod>2020-04-11T18:21:06+00:00</lastmod>
+</url>
+<url>
+<loc>https://coderemixer.com/2020/04/16/after-i-did-my-kakuteishinko</loc>
+<lastmod>2020-04-16T17:28:03+00:00</lastmod>
+</url>
+<url>
+<loc>https://coderemixer.com/2020/04/18/musicality-of-hanmai</loc>
+<lastmod>2020-04-18T23:03:04+00:00</lastmod>
+</url>
+<url>
+<loc>https://coderemixer.com/2020/04/23/auto-blues-generator</loc>
+<lastmod>2020-04-23T12:02:53+00:00</lastmod>
+</url>
+<url>
+<loc>https://coderemixer.com/2020/05/21/whos-the-most-beautiful-woman-in-the-world</loc>
+<lastmod>2020-05-21T02:07:43+00:00</lastmod>
+</url>
+<url>
+<loc>https://coderemixer.com/2020/05/22/how-floating-number-caused-strange-earthquake</loc>
+<lastmod>2020-05-22T01:28:59+00:00</lastmod>
+</url>
+<url>
+<loc>https://coderemixer.com/2020/05/24/bcd-cobol-showa-100-years-problem</loc>
+<lastmod>2020-05-24T13:23:23+00:00</lastmod>
+</url>
+<url>
+<loc>https://coderemixer.com/2020/07/26/whats-new-in-ruby-3-fiber</loc>
+<lastmod>2020-07-26T18:16:43+00:00</lastmod>
+</url>
+<url>
+<loc>https://coderemixer.com/2020/08/12/save-my-macbook-pro-2016</loc>
+<lastmod>2020-08-12T18:19:58+00:00</lastmod>
+</url>
+<url>
+<loc>https://coderemixer.com/2020/08/18/a-walkthrough-of-ruby-3-scheduler</loc>
+<lastmod>2020-08-18T21:40:14+00:00</lastmod>
+</url>
+<url>
+<loc>https://coderemixer.com/2020/08/18/a-walkthrough-of-ruby-3-scheduler-cn</loc>
+<lastmod>2020-08-18T21:46:47+00:00</lastmod>
+</url>
+<url>
+<loc>https://coderemixer.com/2020/09/26/write-lzw-manually</loc>
+<lastmod>2020-09-26T16:05:10+00:00</lastmod>
+</url>
+<url>
+<loc>https://coderemixer.com/2020/10/21/safari-is-fast-but-so-what</loc>
+<lastmod>2020-10-21T11:52:12+00:00</lastmod>
+</url>
+<url>
+<loc>https://coderemixer.com/2020/10/21/safari-is-fast-but-so-what-english</loc>
+<lastmod>2020-10-21T11:52:13+00:00</lastmod>
+</url>
+<url>
+<loc>https://coderemixer.com/2020/11/11/how-anti-reflective-coating-works</loc>
+<lastmod>2020-11-11T00:48:24+00:00</lastmod>
+</url>
+<url>
+<loc>https://coderemixer.com/2020/11/17/ruby-3-ractor-guide</loc>
+<lastmod>2020-11-17T16:30:24+00:00</lastmod>
+</url>
+<url>
+<loc>https://coderemixer.com/2020/12/22/ruby-3-fiber-scheduler-evt-dev-log-en</loc>
+<lastmod>2020-12-22T17:41:41+00:00</lastmod>
+</url>
+<url>
+<loc>https://coderemixer.com/2020/12/22/ruby-3-fiber-scheduler-evt-dev-log</loc>
+<lastmod>2020-12-22T17:41:41+00:00</lastmod>
+</url>
+<url>
+<loc>https://coderemixer.com/2021/01/08/autopilot-with-ruby</loc>
+<lastmod>2021-01-08T13:03:32+00:00</lastmod>
+</url>
+<url>
+<loc>https://coderemixer.com/2021/07/05/compile-malay-tea-name</loc>
+<lastmod>2021-07-05T12:44:49+00:00</lastmod>
+</url>
+<url>
+<loc>https://coderemixer.com/about/</loc>
+</url>
+<url>
+<loc>https://coderemixer.com/</loc>
+</url>
+<url>
+<loc>https://coderemixer.com/tags/%E7%BC%96%E7%A8%8B/</loc>
+</url>
+<url>
+<loc>https://coderemixer.com/tags/ruby/</loc>
+</url>
+<url>
+<loc>https://coderemixer.com/tags/php/</loc>
+</url>
+<url>
+<loc>https://coderemixer.com/tags/%E7%94%9F%E6%B4%BB/</loc>
+</url>
+<url>
+<loc>https://coderemixer.com/tags/%E7%9E%8E%E6%89%AF%E8%9B%8B/</loc>
+</url>
+<url>
+<loc>https://coderemixer.com/tags/%E7%9B%B8%E5%A3%B0/</loc>
+</url>
+<url>
+<loc>https://coderemixer.com/tags/%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4/</loc>
+</url>
+<url>
+<loc>https://coderemixer.com/tags/%E8%BF%90%E7%BB%B4/</loc>
+</url>
+<url>
+<loc>https://coderemixer.com/tags/mysql/</loc>
+</url>
+<url>
+<loc>https://coderemixer.com/tags/%E5%AD%97%E4%BD%93/</loc>
+</url>
+<url>
+<loc>https://coderemixer.com/tags/%E6%B3%95%E5%BE%8B/</loc>
+</url>
+<url>
+<loc>https://coderemixer.com/tags/%E7%BD%91%E7%BB%9C/</loc>
+</url>
+<url>
+<loc>https://coderemixer.com/tags/javascript/</loc>
+</url>
+<url>
+<loc>https://coderemixer.com/tags/lambda-%E6%BC%94%E7%AE%97/</loc>
+</url>
+<url>
+<loc>https://coderemixer.com/tags/ruby-quiz/</loc>
+</url>
+<url>
+<loc>https://coderemixer.com/tags/%E5%89%8D%E7%AB%AF/</loc>
+</url>
+<url>
+<loc>https://coderemixer.com/tags/%E5%BC%80%E6%BA%90/</loc>
+</url>
+<url>
+<loc>https://coderemixer.com/tags/%E6%B8%B8%E6%88%8F/</loc>
+</url>
+<url>
+<loc>https://coderemixer.com/tags/%E8%AE%BE%E8%AE%A1/</loc>
+</url>
+<url>
+<loc>https://coderemixer.com/tags/%E6%B7%B7%E5%90%88%E7%8E%B0%E5%AE%9E/</loc>
+</url>
+<url>
+<loc>https://coderemixer.com/tags/%E6%97%A5%E8%AF%AD/</loc>
+</url>
+<url>
+<loc>https://coderemixer.com/tags/%E8%AF%AD%E8%A8%80%E5%AD%A6/</loc>
+</url>
+<url>
+<loc>https://coderemixer.com/tags/%E6%96%B9%E8%A8%80/</loc>
+</url>
+<url>
+<loc>https://coderemixer.com/tags/%E6%B1%89%E8%AF%AD/</loc>
+</url>
+<url>
+<loc>https://coderemixer.com/tags/%E5%90%B4%E8%AF%AD/</loc>
+</url>
+<url>
+<loc>https://coderemixer.com/tags/%E9%97%BD%E5%8D%97%E8%AF%9D/</loc>
+</url>
+<url>
+<loc>https://coderemixer.com/tags/%E7%B2%A4%E8%AF%AD/</loc>
+</url>
+<url>
+<loc>https://coderemixer.com/tags/%E5%BE%AE%E4%BF%A1/</loc>
+</url>
+<url>
+<loc>https://coderemixer.com/tags/%E6%95%B0%E5%AD%A6/</loc>
+</url>
+<url>
+<loc>https://coderemixer.com/tags/%E8%B5%8C%E5%8D%9A/</loc>
+</url>
+<url>
+<loc>https://coderemixer.com/tags/ingress/</loc>
+</url>
+<url>
+<loc>https://coderemixer.com/tags/%E5%AE%8C%E5%85%A8%E5%9B%9B%E9%87%8D/</loc>
+</url>
+<url>
+<loc>https://coderemixer.com/tags/%E9%87%8F%E5%AD%90%E8%AE%A1%E7%AE%97/</loc>
+</url>
+<url>
+<loc>https://coderemixer.com/tags/%E9%87%8F%E5%AD%90%E7%89%A9%E7%90%86/</loc>
+</url>
+<url>
+<loc>https://coderemixer.com/tags/%E7%89%A9%E7%90%86/</loc>
+</url>
+<url>
+<loc>https://coderemixer.com/tags/mission-day/</loc>
+</url>
+<url>
+<loc>https://coderemixer.com/tags/%E5%AE%98%E8%AF%9D/</loc>
+</url>
+<url>
+<loc>https://coderemixer.com/tags/%E5%85%83%E8%83%9E%E8%87%AA%E5%8A%A8%E6%9C%BA/</loc>
+</url>
+<url>
+<loc>https://coderemixer.com/tags/%E6%B7%B7%E6%B2%8C/</loc>
+</url>
+<url>
+<loc>https://coderemixer.com/tags/prolog/</loc>
+</url>
+<url>
+<loc>https://coderemixer.com/tags/%E9%80%BB%E8%BE%91%E5%AD%A6/</loc>
+</url>
+<url>
+<loc>https://coderemixer.com/tags/%E9%94%AE%E7%9B%98/</loc>
+</url>
+<url>
+<loc>https://coderemixer.com/tags/%E6%95%A3%E7%83%AD/</loc>
+</url>
+<url>
+<loc>https://coderemixer.com/tags/ps4/</loc>
+</url>
+<url>
+<loc>https://coderemixer.com/tags/%E7%BB%B4%E4%BF%AE/</loc>
+</url>
+<url>
+<loc>https://coderemixer.com/tags/%E5%AD%97%E5%B9%95/</loc>
+</url>
+<url>
+<loc>https://coderemixer.com/tags/youtube/</loc>
+</url>
+<url>
+<loc>https://coderemixer.com/tags/%E9%9F%B3%E4%B9%90/</loc>
+</url>
+<url>
+<loc>https://coderemixer.com/tags/%E9%9A%8F%E7%AC%94/</loc>
+</url>
+<url>
+<loc>https://coderemixer.com/tags/%E4%B9%90%E7%90%86/</loc>
+</url>
+<url>
+<loc>https://coderemixer.com/tags/%E6%95%99%E7%A8%8B/</loc>
+</url>
+<url>
+<loc>https://coderemixer.com/tags/%E6%97%A5%E6%9C%AC/</loc>
+</url>
+<url>
+<loc>https://coderemixer.com/tags/%E6%94%BF%E6%B2%BB/</loc>
+</url>
+<url>
+<loc>https://coderemixer.com/tags/%E6%83%85%E6%84%9F/</loc>
+</url>
+<url>
+<loc>https://coderemixer.com/tags/%E6%8A%BD%E8%B1%A1%E4%BB%A3%E6%95%B0/</loc>
+</url>
+<url>
+<loc>https://coderemixer.com/tags/%E9%9B%86%E5%90%88%E8%AE%BA/</loc>
+</url>
+<url>
+<loc>https://coderemixer.com/tags/%E7%BB%9F%E8%AE%A1%E5%AD%A6/</loc>
+</url>
+<url>
+<loc>https://coderemixer.com/tags/%E7%AE%97%E6%B3%95/</loc>
+</url>
+<url>
+<loc>https://coderemixer.com/tags/cobol/</loc>
+</url>
+<url>
+<loc>https://coderemixer.com/tags/%E6%98%AD%E5%92%8C/</loc>
+</url>
+<url>
+<loc>https://coderemixer.com/tags/fiber/</loc>
+</url>
+<url>
+<loc>https://coderemixer.com/tags/macbook-pro/</loc>
+</url>
+<url>
+<loc>https://coderemixer.com/tags/lzw/</loc>
+</url>
+<url>
+<loc>https://coderemixer.com/tags/c%E8%AF%AD%E8%A8%80/</loc>
+</url>
+<url>
+<loc>https://coderemixer.com/tags/%E5%8E%8B%E7%BC%A9/</loc>
+</url>
+<url>
+<loc>https://coderemixer.com/tags/safari/</loc>
+</url>
+<url>
+<loc>https://coderemixer.com/tags/apple/</loc>
+</url>
+<url>
+<loc>https://coderemixer.com/tags/web/</loc>
+</url>
+<url>
+<loc>https://coderemixer.com/tags/w3c/</loc>
+</url>
+<url>
+<loc>https://coderemixer.com/tags/%E5%85%89%E5%AD%A6/</loc>
+</url>
+<url>
+<loc>https://coderemixer.com/tags/ksp/</loc>
+</url>
+<url>
+<loc>https://coderemixer.com/tags/pid/</loc>
+</url>
+<url>
+<loc>https://coderemixer.com/tags/%E7%BC%96%E8%AF%91/</loc>
+</url>
 </urlset>

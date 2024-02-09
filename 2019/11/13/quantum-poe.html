@@ -1,0 +1,669 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>量子算命，在线掷筊 —— IBM 量子云计算机使用入门 - Coderemixer 代码混音师</title>
+<meta name="description" content="背景">
+
+
+  <meta name="author" content="CodeRemixer">
+  
+  <meta property="article:author" content="CodeRemixer">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Coderemixer 代码混音师">
+<meta property="og:title" content="量子算命，在线掷筊 —— IBM 量子云计算机使用入门">
+<meta property="og:url" content="https://coderemixer.com/2019/11/13/quantum-poe">
+
+
+  <meta property="og:description" content="背景">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2019-11-13T02:54:20+00:00">
+
+
+
+
+
+
+<link rel="canonical" href="https://coderemixer.com/2019/11/13/quantum-poe">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": null,
+      "url": "https://coderemixer.com/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Coderemixer 代码混音师 Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+  
+    <script src="/assets/js/mathjax.js"></script>
+  
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          Coderemixer 代码混音师
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/">首页</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about">关于</a>
+            </li><li class="masthead__menu-item">
+              <a href="https://github.com/dsh0416">GitHub</a>
+            </li><li class="masthead__menu-item">
+              <a href="https://twitter.com/DeltonDing">Twitter</a>
+            </li><li class="masthead__menu-item">
+              <a href="/atom.xml">RSS</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/bio-photo.png" alt="CodeRemixer" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">CodeRemixer</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>一个用来发牢骚的网站，以至于无法对所说的话负责。<br /><br /> 文章若无特别声明，皆采用 <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 进行许可。</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="量子算命，在线掷筊 —— IBM 量子云计算机使用入门">
+    <meta itemprop="description" content="背景">
+    <meta itemprop="datePublished" content="2019-11-13T02:54:20+00:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">量子算命，在线掷筊 —— IBM 量子云计算机使用入门
+</h1>
+          
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2019-11-13T02:54:20+00:00">November 13, 2019</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          less than 1 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+        <h2 id="背景">背景</h2>
+
+<p>自古以来算命离不开随机现象。古代人使用龟壳的裂纹来进行占卜，但出于动物保护主义，现代社会使用裂纹之类的自然混沌来预测变得不人道。现代算命会使用洗牌等手段产生随机数，但这样的随机很多时候可以得到人为控制，无法真正体现神明的意思。</p>
+
+<p>作者在此提出一个方法，利用量子力学现象进行随机数的发生。我们对于一个量子位（qubit），使其通过一个阿达马门（Hadamard gate）。这个门可以将 $\vert0\rangle $ 转换成 $\frac{ \vert0\rangle + \vert1\rangle } {\sqrt{2}} $，即进行状态叠加。当我们此时测量这一量子的状态，那么其波函数会发生突变，变为其中一个本征态。且在我们所设计的量子电路中，观察到 0 和 1 的概率应该都是 50%。如果我们今天对量子力学的认识是正确的，那么随机性应该是量子物理的内禀性质，所以我们在邀请真正的上帝来为我们掷骰子，能真正表达量子神明的意愿。</p>
+
+<h2 id="实现">实现</h2>
+
+<p>我们采用 IBM 的量子云计算机 IBM Q 进行实现。IBM 提供了丰富好用的量子程序开发的 SDK，并且可以在设计调试完成后，交给线上真正的云量子计算机进行运算，让你足不出户，不需要亲自前往土地庙，也可以听到神明的解答。</p>
+
+<p>我们以「掷筊」为例，</p>
+
+<blockquote>
+  <p><a href="https://zh.wikipedia.org/zh-hans/%E6%93%B2%E7%AD%8A">掷筊</a>是一种道教与民间信仰中问卜的仪式；又称掷筶、掷杯、博杯，普遍流传于华人民间传统社会。「筊杯」是一种占卜工具，是世俗之人所用以与神明指示的工具。</p>
+</blockquote>
+
+<p>我们同时观测两个处于叠加态的量子。若它们都是 0，那么就是「阴筊」；如果都是 1，那么就是「笑筊」；如果两个状态相反，那么则是「圣筊」。具体的量子电路如下：</p>
+
+<p><img src="/assets/images/poe-circuit.png" alt="Poe Circuit" /></p>
+
+<p>使用 Qiskit 实现起来非常便利：</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Setup Dependencies
+</span><span class="kn">from</span> <span class="n">qiskit</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="c1"># Setup Poe Dictionaty
+</span><span class="n">POES</span> <span class="o">=</span> <span class="p">[</span><span class="sh">'</span><span class="s">陰筊</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">聖筊</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">聖筊</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">笑筊</span><span class="sh">'</span><span class="p">]</span>
+
+<span class="c1"># Setup Quantum Circuit
+</span><span class="n">circ</span> <span class="o">=</span> <span class="nc">QuantumCircuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>
+    <span class="n">circ</span><span class="p">.</span><span class="nf">h</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<span class="n">circ</span><span class="p">.</span><span class="nf">measure_all</span><span class="p">()</span>
+
+<span class="c1"># Use Simulator for Testing
+</span><span class="n">backend</span> <span class="o">=</span> <span class="n">Aer</span><span class="p">.</span><span class="nf">get_backend</span><span class="p">(</span><span class="sh">'</span><span class="s">qasm_simulator</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="c1"># Execute the Result
+</span><span class="n">job</span> <span class="o">=</span> <span class="nf">execute</span><span class="p">(</span><span class="n">circ</span><span class="p">,</span> <span class="n">backend</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">job</span><span class="p">.</span><span class="nf">result</span><span class="p">().</span><span class="nf">get_counts</span><span class="p">(</span><span class="n">circ</span><span class="p">)</span>
+
+<span class="c1"># Convert results
+</span><span class="n">converted</span> <span class="o">=</span> <span class="nf">int</span><span class="p">(</span><span class="nf">list</span><span class="p">(</span><span class="n">result</span><span class="p">.</span><span class="nf">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">2</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">POES</span><span class="p">[</span><span class="n">converted</span><span class="p">])</span>
+</code></pre></div></div>
+
+<p>我们只需要每进行一次这个量子电路的执行，就可以得到一次上天的掷筊结果。在模拟器测试成功后，我们就可以将后端换成真正的 IBM 云量子计算机进行掷筊。（完整样例程序<a href="https://github.com/dsh0416/quantum-i-ching/blob/master/poe.ipynb">参考这里</a>）</p>
+
+<h2 id="未来工作">未来工作</h2>
+
+<p>我们使用了这一技术更有效的让神明为我们解答问题，对于人类社会具有重大意义。再也不需要等妈祖来托梦，人类可以主动去探寻神明的秘密。但是这一方案目前仍存在不足。</p>
+
+<p>例如如果我们基于易经进行六爻占卜（<a href="https://github.com/dsh0416/quantum-i-ching/blob/master/notebook.ipynb">程序</a>），一共需要 64 个经典态，即需要 6 个量子。但 6 个量子的量子芯片目前仍十分稀有。但由于我们的占卜过程不需要产生任何纠缠态，只需要 H 门这一种量子门，在此我们提出可以针对这一市场需求设计并行的单量子芯片，从而让量子计算走入千家万户。</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/%E7%89%A9%E7%90%86" class="page__taxonomy-item" rel="tag">物理</a><span class="sep">, </span>
+    
+      <a href="/tags/%E9%87%8F%E5%AD%90%E7%89%A9%E7%90%86" class="page__taxonomy-item" rel="tag">量子物理</a><span class="sep">, </span>
+    
+      <a href="/tags/%E9%87%8F%E5%AD%90%E8%AE%A1%E7%AE%97" class="page__taxonomy-item" rel="tag">量子计算</a>
+    
+    </span>
+  </p>
+
+
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2019-11-13T02:54:20+00:00">November 13, 2019</time></p>
+
+
+      </footer>
+
+      <section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?text=%E9%87%8F%E5%AD%90%E7%AE%97%E5%91%BD%EF%BC%8C%E5%9C%A8%E7%BA%BF%E6%8E%B7%E7%AD%8A+%E2%80%94%E2%80%94+IBM+%E9%87%8F%E5%AD%90%E4%BA%91%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BD%BF%E7%94%A8%E5%85%A5%E9%97%A8%20https%3A%2F%2Fcoderemixer.com%2F2019%2F11%2F13%2Fquantum-poe" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fcoderemixer.com%2F2019%2F11%2F13%2Fquantum-poe" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fcoderemixer.com%2F2019%2F11%2F13%2Fquantum-poe" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/2019/08/15/japansese-kanji-5173-research" class="pagination--pager" title="日本語字形「关」字攷
+">Previous</a>
+    
+    
+      <a href="/2019/12/08/chiba-new-town-mission-day" class="pagination--pager" title="真的走不动了！魔蓝 MD 千叶新城徒步制霸记
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You May Also Enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/2021/07/05/compile-malay-tea-name" rel="permalink">三点几嚟，饮茶先啦 —— 将大马饮料名编译成汉语
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2021-07-05T12:44:49+00:00">July 5, 2021</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          less than 1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">近几日马来西亚网友 Gurdip Singh 在 Facebook 发的这个「三点几嚟，饮茶先啦」非常流行。
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/2021/01/08/autopilot-with-ruby" rel="permalink">用 Ruby 实现飞机自动驾驶仪
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2021-01-08T13:03:32+00:00">January 8, 2021</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">krpc 是一个砍巴拉太空计划（Kerbel Space Program）中的插件。可以通过 RPC 来控制游戏。同时有第三方的 Ruby 客户端：krpc-rb。和真实飞机不同的是，在砍巴拉游戏中驾驶飞机是非常痛苦的，在没有插件辅助的情况下，你看不到具体的 GPS 坐标，很多时候看到的都是和飞机驾驶无关的轨道参...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/2020/12/22/ruby-3-fiber-scheduler-evt-dev-log" rel="permalink">为 Ruby 3 Fiber 调度器设计事件库 Evt
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2020-12-22T17:41:41+00:00">December 22, 2020</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          7 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">For English Readers
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/2020/12/22/ruby-3-fiber-scheduler-evt-dev-log-en" rel="permalink">Developing Fiber Scheduler for Ruby 3
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2020-12-22T17:41:41+00:00">December 22, 2020</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          11 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">中文版本
+</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2024 Coderemixer 代码混音师. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "https://coderemixer.com/2019/11/13/quantum-poe";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/2019/11/13/quantum-poe"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://coderemixer.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+
+  </body>
+</html>

@@ -1,0 +1,1169 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>为 Ruby 3 Fiber 调度器设计事件库 Evt - Coderemixer 代码混音师</title>
+<meta name="description" content="For English Readers">
+
+
+  <meta name="author" content="CodeRemixer">
+  
+  <meta property="article:author" content="CodeRemixer">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Coderemixer 代码混音师">
+<meta property="og:title" content="为 Ruby 3 Fiber 调度器设计事件库 Evt">
+<meta property="og:url" content="https://coderemixer.com/2020/12/22/ruby-3-fiber-scheduler-evt-dev-log">
+
+
+  <meta property="og:description" content="For English Readers">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2020-12-22T17:41:41+00:00">
+
+
+
+
+
+
+<link rel="canonical" href="https://coderemixer.com/2020/12/22/ruby-3-fiber-scheduler-evt-dev-log">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": null,
+      "url": "https://coderemixer.com/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Coderemixer 代码混音师 Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+  
+    <script src="/assets/js/mathjax.js"></script>
+  
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          Coderemixer 代码混音师
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/">首页</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about">关于</a>
+            </li><li class="masthead__menu-item">
+              <a href="https://github.com/dsh0416">GitHub</a>
+            </li><li class="masthead__menu-item">
+              <a href="https://twitter.com/DeltonDing">Twitter</a>
+            </li><li class="masthead__menu-item">
+              <a href="/atom.xml">RSS</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/bio-photo.png" alt="CodeRemixer" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">CodeRemixer</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>一个用来发牢骚的网站，以至于无法对所说的话负责。<br /><br /> 文章若无特别声明，皆采用 <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 进行许可。</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="为 Ruby 3 Fiber 调度器设计事件库 Evt">
+    <meta itemprop="description" content="For English Readers">
+    <meta itemprop="datePublished" content="2020-12-22T17:41:41+00:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">为 Ruby 3 Fiber 调度器设计事件库 Evt
+</h1>
+          
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2020-12-22T17:41:41+00:00">December 22, 2020</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          7 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+        <p><a href="https://coderemixer.com/2020/12/22/ruby-3-fiber-scheduler-evt-dev-log-en/">For English Readers</a></p>
+
+<h2 id="ruby-3-fiber-调度器">Ruby 3 Fiber 调度器</h2>
+
+<p>我在 2020 年 7 月写过一篇文章 <a href="https://coderemixer.com/2020/07/26/whats-new-in-ruby-3-fiber/">《Ruby 3 Fiber 变化前瞻》</a>，以及后来 8 月又写过一篇文章 <a href="https://coderemixer.com/2020/08/18/a-walkthrough-of-ruby-3-scheduler-cn/">《尝试使用 Ruby 3 调度器》</a>，简单介绍了 Fiber 调度器。Ruby 3 在这几个月中更新了数个版本，包括 <code class="language-plaintext highlighter-rouge">ruby-3.0.0-preview1</code> <code class="language-plaintext highlighter-rouge">ruby-3.0.0-preview2</code> 和 <code class="language-plaintext highlighter-rouge">ruby-3.0.0-rc1</code>，其对于 Fiber 调度器的 API 做了更多的改进。</p>
+
+<p>不过正如我之前所说，Ruby 3 调度器实现的只有接口，如果没有配套的接口实现，默认是不会启动的。最近四个月工作实在很忙，抽出了点时间来跟上 API 更新的脚步。这个项目得以进一步更新。</p>
+
+<p>项目地址：<a href="https://github.com/dsh0416/evt">Evt</a></p>
+
+<h2 id="fiber-调度器的使用">Fiber 调度器的使用</h2>
+
+<p>我们假设我们现在有一对 <code class="language-plaintext highlighter-rouge">IO.pipe</code>，我们往一个里写入 <code class="language-plaintext highlighter-rouge">Hello World</code>，然后从另一个里读出来。我们可能会写这样一份代码：</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">rd</span><span class="p">,</span> <span class="n">wr</span> <span class="o">=</span> <span class="no">IO</span><span class="p">.</span><span class="nf">pipe</span>
+
+<span class="n">wr</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="s2">"Hello World"</span><span class="p">)</span>
+<span class="n">wr</span><span class="p">.</span><span class="nf">close</span>
+
+<span class="n">message</span> <span class="o">=</span> <span class="n">rd</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+<span class="nb">puts</span> <span class="n">message</span>
+<span class="n">rd</span><span class="p">.</span><span class="nf">close</span>
+</code></pre></div></div>
+
+<p>不过这个程序有很多限制，比如写入不能超过 <code class="language-plaintext highlighter-rouge">buffer</code>，否则另一端由于没有异步读取，会卡死。以及必须要先写再读，否则也会卡死。当然我们可以使用多线程来解决这个问题：</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">require</span> <span class="s1">'thread'</span>
+
+<span class="n">rd</span><span class="p">,</span> <span class="n">wr</span> <span class="o">=</span> <span class="no">IO</span><span class="p">.</span><span class="nf">pipe</span>
+
+<span class="n">t1</span> <span class="o">=</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span>
+  <span class="n">message</span> <span class="o">=</span> <span class="n">rd</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+  <span class="nb">puts</span> <span class="n">message</span>
+  <span class="n">rd</span><span class="p">.</span><span class="nf">close</span>
+<span class="k">end</span>
+
+<span class="n">t2</span> <span class="o">=</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span>
+  <span class="n">wr</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="s2">"Hello World"</span><span class="p">)</span>
+  <span class="n">wr</span><span class="p">.</span><span class="nf">close</span>
+<span class="k">end</span>
+
+<span class="n">t1</span><span class="p">.</span><span class="nf">join</span>
+<span class="n">t2</span><span class="p">.</span><span class="nf">join</span>
+</code></pre></div></div>
+
+<p>但我们知道，使用线程来实现 I/O 的多路复用是效率极低的。操作系统的线程切换代价非常大，甚至对于线程之间调度的公平性，至今都是操作系统研究领域的噩梦。然而对于一个 I/O 问题，并不是 CPU-bound 的，只是需要调度器提供合适的睡眠和回调。这时，你只需要调用 Ruby 3 的调度器接口来替代线程就可以了。</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">require</span> <span class="s1">'evt'</span>
+
+<span class="n">rd</span><span class="p">,</span> <span class="n">wr</span> <span class="o">=</span> <span class="no">IO</span><span class="p">.</span><span class="nf">pipe</span>
+<span class="n">scheduler</span> <span class="o">=</span> <span class="no">Evt</span><span class="o">::</span><span class="no">Scheduler</span><span class="p">.</span><span class="nf">new</span>
+
+<span class="no">Fiber</span><span class="p">.</span><span class="nf">set_scheduler</span> <span class="n">scheduler</span>
+
+<span class="no">Fiber</span><span class="p">.</span><span class="nf">schedule</span> <span class="k">do</span>
+  <span class="n">message</span> <span class="o">=</span> <span class="n">rd</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+  <span class="nb">puts</span> <span class="n">message</span>
+  <span class="n">rd</span><span class="p">.</span><span class="nf">close</span>
+<span class="k">end</span>
+
+<span class="no">Fiber</span><span class="p">.</span><span class="nf">schedule</span> <span class="k">do</span>
+  <span class="n">wr</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="s2">"Hello World"</span><span class="p">)</span>
+  <span class="n">wr</span><span class="p">.</span><span class="nf">close</span>
+<span class="k">end</span>
+
+<span class="n">scheduler</span><span class="p">.</span><span class="nf">run</span>
+</code></pre></div></div>
+
+<p>一般来说异步代码需要写 <code class="language-plaintext highlighter-rouge">callback</code> 或者引入 <code class="language-plaintext highlighter-rouge">async</code> <code class="language-plaintext highlighter-rouge">await</code> 的关键字。但是在 Ruby 3 中这是不必要的。Ruby 3 列举了所有常见的需要进行上下文切换调度的场景：I/O 多路复用、等待进程退出、内核睡眠、自旋锁。把这些接口暴露出来，让开发者可以通过自行开发调度器来进行处理，从而无需引入任何额外的关键字。而我这几个月写的 <a href="https://github.com/dsh0416/evt">Evt</a> 就是这样一个调度器。</p>
+
+<p>比起上面这个简单的例子，下面这个例子是一个 HTTP/1.1 的服务器</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">require</span> <span class="s1">'evt'</span>
+
+<span class="vi">@scheduler</span> <span class="o">=</span> <span class="no">Evt</span><span class="o">::</span><span class="no">Scheduler</span><span class="p">.</span><span class="nf">new</span>
+<span class="no">Fiber</span><span class="p">.</span><span class="nf">set_scheduler</span> <span class="vi">@scheduler</span>
+
+<span class="vi">@server</span> <span class="o">=</span> <span class="no">Socket</span><span class="p">.</span><span class="nf">new</span> <span class="no">Socket</span><span class="o">::</span><span class="no">AF_INET</span><span class="p">,</span> <span class="no">Socket</span><span class="o">::</span><span class="no">SOCK_STREAM</span>
+<span class="vi">@server</span><span class="p">.</span><span class="nf">bind</span> <span class="no">Addrinfo</span><span class="p">.</span><span class="nf">tcp</span> <span class="s1">'127.0.0.1'</span><span class="p">,</span> <span class="mi">3002</span>
+<span class="vi">@server</span><span class="p">.</span><span class="nf">listen</span> <span class="no">Socket</span><span class="o">::</span><span class="no">SOMAXCONN</span>
+
+<span class="k">def</span> <span class="nf">handle_socket</span><span class="p">(</span><span class="n">socket</span><span class="p">)</span>
+  <span class="k">until</span> <span class="n">socket</span><span class="p">.</span><span class="nf">closed?</span>
+    <span class="n">line</span> <span class="o">=</span> <span class="n">socket</span><span class="p">.</span><span class="nf">gets</span>
+    <span class="k">until</span> <span class="n">line</span> <span class="o">==</span> <span class="s2">"</span><span class="se">\r\n</span><span class="s2">"</span> <span class="o">||</span> <span class="n">line</span><span class="p">.</span><span class="nf">nil?</span>
+      <span class="n">line</span> <span class="o">=</span> <span class="n">socket</span><span class="p">.</span><span class="nf">gets</span>
+    <span class="k">end</span>
+    <span class="n">socket</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="s2">"HTTP/1.1 200 OK</span><span class="se">\r\n</span><span class="s2">Content-Length: 0</span><span class="se">\r\n\r\n</span><span class="s2">"</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="no">Fiber</span><span class="p">.</span><span class="nf">schedule</span> <span class="k">do</span>
+  <span class="kp">loop</span> <span class="k">do</span>
+    <span class="n">socket</span><span class="p">,</span> <span class="n">addr</span> <span class="o">=</span> <span class="vi">@server</span><span class="p">.</span><span class="nf">accept</span>
+    <span class="no">Fiber</span><span class="p">.</span><span class="nf">schedule</span> <span class="k">do</span>
+      <span class="n">handle_socket</span><span class="p">(</span><span class="n">socket</span><span class="p">)</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="vi">@scheduler</span><span class="p">.</span><span class="nf">run</span>
+</code></pre></div></div>
+
+<p>可以看出来，开发的过程基本上和同步阻塞的线程开发没有任何区别，只需要 <code class="language-plaintext highlighter-rouge">Fiber.set_scheduler</code> 来设置你的调度器，然后在每个原先需要多线程来处理的 I/O 阻塞场景用 <code class="language-plaintext highlighter-rouge">Fiber.scheduler</code> 来替代。最后触发 <code class="language-plaintext highlighter-rouge">scheduler.run</code> 来启动调度器即可。</p>
+
+<h2 id="后端支持情况">后端支持情况</h2>
+
+<h3 id="io_uring-支持"><code class="language-plaintext highlighter-rouge">io_uring</code> 支持</h3>
+
+<p>这几个月不止 Ruby API 进行了很多优化，我的调度器也做了很多优化，比如做了许多 I/O 多路复用后端的优化。一个是 Linux 5.4 开始引入的 <code class="language-plaintext highlighter-rouge">io_uring</code> 多路复用的支持。由于 <code class="language-plaintext highlighter-rouge">io_uring</code> 可以减少 <code class="language-plaintext highlighter-rouge">syscall</code> 调用次数以及直接的 <code class="language-plaintext highlighter-rouge">iov</code> 调用理论上能比 <code class="language-plaintext highlighter-rouge">epoll</code> 达到更好的性能。直接的 <code class="language-plaintext highlighter-rouge">iov</code> 调用需要 Ruby Fiber 调度器接口上的额外支持。在和 ioquatix 讨论后，Ruby 3.0.0-preview2 开始引入了相关的接口。于是整个 <code class="language-plaintext highlighter-rouge">io_uring</code> 的实现需要两个部分，一个是和 <code class="language-plaintext highlighter-rouge">epoll</code> 模式兼容的 one-shot polling 相关的代码：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;liburing.h&gt;</span><span class="cp">
+</span>
+<span class="cp">#define URING_ENTRIES 64
+#define URING_MAX_EVENTS 64
+</span>
+<span class="k">struct</span> <span class="n">uring_data</span> <span class="p">{</span>
+  <span class="n">bool</span> <span class="n">is_poll</span><span class="p">;</span>
+  <span class="kt">short</span> <span class="n">poll_mask</span><span class="p">;</span>
+  <span class="n">VALUE</span> <span class="n">io</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="kt">void</span> <span class="nf">uring_payload_free</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span> <span class="n">data</span><span class="p">);</span>
+<span class="kt">size_t</span> <span class="nf">uring_payload_size</span><span class="p">(</span><span class="k">const</span> <span class="kt">void</span><span class="o">*</span> <span class="n">data</span><span class="p">);</span>
+
+<span class="k">static</span> <span class="k">const</span> <span class="n">rb_data_type_t</span> <span class="n">type_uring_payload</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="p">.</span><span class="n">wrap_struct_name</span> <span class="o">=</span> <span class="s">"uring_payload"</span><span class="p">,</span>
+  <span class="p">.</span><span class="n">function</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="p">.</span><span class="n">dmark</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">,</span>
+    <span class="p">.</span><span class="n">dfree</span> <span class="o">=</span> <span class="n">uring_payload_free</span><span class="p">,</span>
+    <span class="p">.</span><span class="n">dsize</span> <span class="o">=</span> <span class="n">uring_payload_size</span><span class="p">,</span>
+  <span class="p">},</span>
+  <span class="p">.</span><span class="n">data</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">,</span>
+  <span class="p">.</span><span class="n">flags</span> <span class="o">=</span> <span class="n">RUBY_TYPED_FREE_IMMEDIATELY</span><span class="p">,</span>
+<span class="p">};</span>
+
+<span class="kt">void</span> <span class="nf">uring_payload_free</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span> <span class="n">data</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">io_uring_queue_exit</span><span class="p">((</span><span class="k">struct</span> <span class="n">io_uring</span><span class="o">*</span><span class="p">)</span> <span class="n">data</span><span class="p">);</span>
+    <span class="n">xfree</span><span class="p">(</span><span class="n">data</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">size_t</span> <span class="nf">uring_payload_size</span><span class="p">(</span><span class="k">const</span> <span class="kt">void</span><span class="o">*</span> <span class="n">data</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="n">io_uring</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">VALUE</span> <span class="nf">method_scheduler_init</span><span class="p">(</span><span class="n">VALUE</span> <span class="n">self</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">ret</span><span class="p">;</span>
+    <span class="k">struct</span> <span class="n">io_uring</span><span class="o">*</span> <span class="n">ring</span><span class="p">;</span>
+    <span class="n">ring</span> <span class="o">=</span> <span class="n">xmalloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="n">io_uring</span><span class="p">));</span>
+    <span class="n">ret</span> <span class="o">=</span> <span class="n">io_uring_queue_init</span><span class="p">(</span><span class="n">URING_ENTRIES</span><span class="p">,</span> <span class="n">ring</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">ret</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">rb_raise</span><span class="p">(</span><span class="n">rb_eIOError</span><span class="p">,</span> <span class="s">"unable to initalize io_uring"</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="n">rb_iv_set</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="s">"@ring"</span><span class="p">,</span> <span class="n">TypedData_Wrap_Struct</span><span class="p">(</span><span class="n">Payload</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">type_uring_payload</span><span class="p">,</span> <span class="n">ring</span><span class="p">));</span>
+    <span class="k">return</span> <span class="n">Qnil</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">VALUE</span> <span class="nf">method_scheduler_register</span><span class="p">(</span><span class="n">VALUE</span> <span class="n">self</span><span class="p">,</span> <span class="n">VALUE</span> <span class="n">io</span><span class="p">,</span> <span class="n">VALUE</span> <span class="n">interest</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">VALUE</span> <span class="n">ring_obj</span><span class="p">;</span>
+    <span class="k">struct</span> <span class="n">io_uring</span><span class="o">*</span> <span class="n">ring</span><span class="p">;</span>
+    <span class="k">struct</span> <span class="n">io_uring_sqe</span> <span class="o">*</span><span class="n">sqe</span><span class="p">;</span>
+    <span class="k">struct</span> <span class="n">uring_data</span> <span class="o">*</span><span class="n">data</span><span class="p">;</span>
+    <span class="kt">short</span> <span class="n">poll_mask</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">ID</span> <span class="n">id_fileno</span> <span class="o">=</span> <span class="n">rb_intern</span><span class="p">(</span><span class="s">"fileno"</span><span class="p">);</span>
+
+    <span class="n">ring_obj</span> <span class="o">=</span> <span class="n">rb_iv_get</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="s">"@ring"</span><span class="p">);</span>
+    <span class="n">TypedData_Get_Struct</span><span class="p">(</span><span class="n">ring_obj</span><span class="p">,</span> <span class="k">struct</span> <span class="n">io_uring</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">type_uring_payload</span><span class="p">,</span> <span class="n">ring</span><span class="p">);</span>
+    <span class="n">sqe</span> <span class="o">=</span> <span class="n">io_uring_get_sqe</span><span class="p">(</span><span class="n">ring</span><span class="p">);</span>
+    <span class="kt">int</span> <span class="n">fd</span> <span class="o">=</span> <span class="n">NUM2INT</span><span class="p">(</span><span class="n">rb_funcall</span><span class="p">(</span><span class="n">io</span><span class="p">,</span> <span class="n">id_fileno</span><span class="p">,</span> <span class="mi">0</span><span class="p">));</span>
+
+    <span class="kt">int</span> <span class="n">ruby_interest</span> <span class="o">=</span> <span class="n">NUM2INT</span><span class="p">(</span><span class="n">interest</span><span class="p">);</span>
+    <span class="kt">int</span> <span class="n">readable</span> <span class="o">=</span> <span class="n">NUM2INT</span><span class="p">(</span><span class="n">rb_const_get</span><span class="p">(</span><span class="n">rb_cIO</span><span class="p">,</span> <span class="n">rb_intern</span><span class="p">(</span><span class="s">"READABLE"</span><span class="p">)));</span>
+    <span class="kt">int</span> <span class="n">writable</span> <span class="o">=</span> <span class="n">NUM2INT</span><span class="p">(</span><span class="n">rb_const_get</span><span class="p">(</span><span class="n">rb_cIO</span><span class="p">,</span> <span class="n">rb_intern</span><span class="p">(</span><span class="s">"WRITABLE"</span><span class="p">)));</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">ruby_interest</span> <span class="o">&amp;</span> <span class="n">readable</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">poll_mask</span> <span class="o">|=</span> <span class="n">POLL_IN</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">ruby_interest</span> <span class="o">&amp;</span> <span class="n">writable</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">poll_mask</span> <span class="o">|=</span> <span class="n">POLL_OUT</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">data</span> <span class="o">=</span> <span class="p">(</span><span class="k">struct</span> <span class="n">uring_data</span><span class="o">*</span><span class="p">)</span> <span class="n">xmalloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="n">uring_data</span><span class="p">));</span>
+    <span class="n">data</span><span class="o">-&gt;</span><span class="n">is_poll</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+    <span class="n">data</span><span class="o">-&gt;</span><span class="n">io</span> <span class="o">=</span> <span class="n">io</span><span class="p">;</span>
+    <span class="n">data</span><span class="o">-&gt;</span><span class="n">poll_mask</span> <span class="o">=</span> <span class="n">poll_mask</span><span class="p">;</span>
+    
+    <span class="n">io_uring_prep_poll_add</span><span class="p">(</span><span class="n">sqe</span><span class="p">,</span> <span class="n">fd</span><span class="p">,</span> <span class="n">poll_mask</span><span class="p">);</span>
+    <span class="n">io_uring_sqe_set_data</span><span class="p">(</span><span class="n">sqe</span><span class="p">,</span> <span class="n">data</span><span class="p">);</span>
+    <span class="n">io_uring_submit</span><span class="p">(</span><span class="n">ring</span><span class="p">);</span>
+    <span class="k">return</span> <span class="n">Qnil</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">VALUE</span> <span class="nf">method_scheduler_deregister</span><span class="p">(</span><span class="n">VALUE</span> <span class="n">self</span><span class="p">,</span> <span class="n">VALUE</span> <span class="n">io</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// io_uring runs under oneshot mode. No need to deregister.</span>
+    <span class="k">return</span> <span class="n">Qnil</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>另一部分则是直接的 iov 支持：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">VALUE</span> <span class="nf">method_scheduler_io_read</span><span class="p">(</span><span class="n">VALUE</span> <span class="n">self</span><span class="p">,</span> <span class="n">VALUE</span> <span class="n">io</span><span class="p">,</span> <span class="n">VALUE</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">VALUE</span> <span class="n">offset</span><span class="p">,</span> <span class="n">VALUE</span> <span class="n">length</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">struct</span> <span class="n">io_uring</span><span class="o">*</span> <span class="n">ring</span><span class="p">;</span>
+    <span class="k">struct</span> <span class="n">uring_data</span> <span class="o">*</span><span class="n">data</span><span class="p">;</span>
+    <span class="kt">char</span><span class="o">*</span> <span class="n">read_buffer</span><span class="p">;</span>
+    <span class="n">ID</span> <span class="n">id_fileno</span> <span class="o">=</span> <span class="n">rb_intern</span><span class="p">(</span><span class="s">"fileno"</span><span class="p">);</span>
+    <span class="c1">// @iov[io] = Fiber.current</span>
+    <span class="n">VALUE</span> <span class="n">iovs</span> <span class="o">=</span> <span class="n">rb_iv_get</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="s">"@iovs"</span><span class="p">);</span>
+    <span class="n">rb_hash_aset</span><span class="p">(</span><span class="n">iovs</span><span class="p">,</span> <span class="n">io</span><span class="p">,</span> <span class="n">rb_funcall</span><span class="p">(</span><span class="n">Fiber</span><span class="p">,</span> <span class="n">rb_intern</span><span class="p">(</span><span class="s">"current"</span><span class="p">),</span> <span class="mi">0</span><span class="p">));</span>
+    <span class="c1">// register</span>
+    <span class="n">VALUE</span> <span class="n">ring_obj</span> <span class="o">=</span> <span class="n">rb_iv_get</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="s">"@ring"</span><span class="p">);</span>
+    <span class="n">TypedData_Get_Struct</span><span class="p">(</span><span class="n">ring_obj</span><span class="p">,</span> <span class="k">struct</span> <span class="n">io_uring</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">type_uring_payload</span><span class="p">,</span> <span class="n">ring</span><span class="p">);</span>
+    <span class="k">struct</span> <span class="n">io_uring_sqe</span> <span class="o">*</span><span class="n">sqe</span> <span class="o">=</span> <span class="n">io_uring_get_sqe</span><span class="p">(</span><span class="n">ring</span><span class="p">);</span>
+    <span class="kt">int</span> <span class="n">fd</span> <span class="o">=</span> <span class="n">NUM2INT</span><span class="p">(</span><span class="n">rb_funcall</span><span class="p">(</span><span class="n">io</span><span class="p">,</span> <span class="n">id_fileno</span><span class="p">,</span> <span class="mi">0</span><span class="p">));</span>
+
+    <span class="n">read_buffer</span> <span class="o">=</span> <span class="p">(</span><span class="kt">char</span><span class="o">*</span><span class="p">)</span> <span class="n">xmalloc</span><span class="p">(</span><span class="n">NUM2SIZET</span><span class="p">(</span><span class="n">length</span><span class="p">));</span>
+    <span class="k">struct</span> <span class="n">iovec</span> <span class="n">iov</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="p">.</span><span class="n">iov_base</span> <span class="o">=</span> <span class="n">read_buffer</span><span class="p">,</span>
+        <span class="p">.</span><span class="n">iov_len</span> <span class="o">=</span> <span class="n">NUM2SIZET</span><span class="p">(</span><span class="n">length</span><span class="p">),</span>
+    <span class="p">};</span>
+
+    <span class="n">data</span> <span class="o">=</span> <span class="p">(</span><span class="k">struct</span> <span class="n">uring_data</span><span class="o">*</span><span class="p">)</span> <span class="n">xmalloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="n">uring_data</span><span class="p">));</span>
+    <span class="n">data</span><span class="o">-&gt;</span><span class="n">is_poll</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="n">data</span><span class="o">-&gt;</span><span class="n">io</span> <span class="o">=</span> <span class="n">io</span><span class="p">;</span>
+    <span class="n">data</span><span class="o">-&gt;</span><span class="n">poll_mask</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    
+    <span class="n">io_uring_prep_readv</span><span class="p">(</span><span class="n">sqe</span><span class="p">,</span> <span class="n">fd</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">iov</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">NUM2SIZET</span><span class="p">(</span><span class="n">offset</span><span class="p">));</span>
+    <span class="n">io_uring_sqe_set_data</span><span class="p">(</span><span class="n">sqe</span><span class="p">,</span> <span class="n">data</span><span class="p">);</span>
+    <span class="n">io_uring_submit</span><span class="p">(</span><span class="n">ring</span><span class="p">);</span>
+
+    <span class="n">VALUE</span> <span class="n">result</span> <span class="o">=</span> <span class="n">rb_str_new</span><span class="p">(</span><span class="n">read_buffer</span><span class="p">,</span> <span class="n">strlen</span><span class="p">(</span><span class="n">read_buffer</span><span class="p">));</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">buffer</span> <span class="o">!=</span> <span class="n">Qnil</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">rb_str_append</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">result</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="n">rb_funcall</span><span class="p">(</span><span class="n">Fiber</span><span class="p">,</span> <span class="n">rb_intern</span><span class="p">(</span><span class="s">"yield"</span><span class="p">),</span> <span class="mi">0</span><span class="p">);</span> <span class="c1">// Fiber.yield</span>
+    <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">VALUE</span> <span class="nf">method_scheduler_io_write</span><span class="p">(</span><span class="n">VALUE</span> <span class="n">self</span><span class="p">,</span> <span class="n">VALUE</span> <span class="n">io</span><span class="p">,</span> <span class="n">VALUE</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">VALUE</span> <span class="n">offset</span><span class="p">,</span> <span class="n">VALUE</span> <span class="n">length</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">struct</span> <span class="n">io_uring</span><span class="o">*</span> <span class="n">ring</span><span class="p">;</span>
+    <span class="k">struct</span> <span class="n">uring_data</span> <span class="o">*</span><span class="n">data</span><span class="p">;</span>
+    <span class="kt">char</span><span class="o">*</span> <span class="n">write_buffer</span><span class="p">;</span>
+    <span class="n">ID</span> <span class="n">id_fileno</span> <span class="o">=</span> <span class="n">rb_intern</span><span class="p">(</span><span class="s">"fileno"</span><span class="p">);</span>
+    <span class="c1">// @iov[io] = Fiber.current</span>
+    <span class="n">VALUE</span> <span class="n">iovs</span> <span class="o">=</span> <span class="n">rb_iv_get</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="s">"@iovs"</span><span class="p">);</span>
+    <span class="n">rb_hash_aset</span><span class="p">(</span><span class="n">iovs</span><span class="p">,</span> <span class="n">io</span><span class="p">,</span> <span class="n">rb_funcall</span><span class="p">(</span><span class="n">Fiber</span><span class="p">,</span> <span class="n">rb_intern</span><span class="p">(</span><span class="s">"current"</span><span class="p">),</span> <span class="mi">0</span><span class="p">));</span>
+    <span class="c1">// register</span>
+    <span class="n">VALUE</span> <span class="n">ring_obj</span> <span class="o">=</span> <span class="n">rb_iv_get</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="s">"@ring"</span><span class="p">);</span>
+    <span class="n">TypedData_Get_Struct</span><span class="p">(</span><span class="n">ring_obj</span><span class="p">,</span> <span class="k">struct</span> <span class="n">io_uring</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">type_uring_payload</span><span class="p">,</span> <span class="n">ring</span><span class="p">);</span>
+    <span class="k">struct</span> <span class="n">io_uring_sqe</span> <span class="o">*</span><span class="n">sqe</span> <span class="o">=</span> <span class="n">io_uring_get_sqe</span><span class="p">(</span><span class="n">ring</span><span class="p">);</span>
+    <span class="kt">int</span> <span class="n">fd</span> <span class="o">=</span> <span class="n">NUM2INT</span><span class="p">(</span><span class="n">rb_funcall</span><span class="p">(</span><span class="n">io</span><span class="p">,</span> <span class="n">id_fileno</span><span class="p">,</span> <span class="mi">0</span><span class="p">));</span>
+
+    <span class="n">write_buffer</span> <span class="o">=</span> <span class="n">StringValueCStr</span><span class="p">(</span><span class="n">buffer</span><span class="p">);</span>
+    <span class="k">struct</span> <span class="n">iovec</span> <span class="n">iov</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="p">.</span><span class="n">iov_base</span> <span class="o">=</span> <span class="n">write_buffer</span><span class="p">,</span>
+        <span class="p">.</span><span class="n">iov_len</span> <span class="o">=</span> <span class="n">NUM2SIZET</span><span class="p">(</span><span class="n">length</span><span class="p">),</span>
+    <span class="p">};</span>
+
+    <span class="n">data</span> <span class="o">=</span> <span class="p">(</span><span class="k">struct</span> <span class="n">uring_data</span><span class="o">*</span><span class="p">)</span> <span class="n">xmalloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="n">uring_data</span><span class="p">));</span>
+    <span class="n">data</span><span class="o">-&gt;</span><span class="n">is_poll</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="n">data</span><span class="o">-&gt;</span><span class="n">io</span> <span class="o">=</span> <span class="n">io</span><span class="p">;</span>
+    <span class="n">data</span><span class="o">-&gt;</span><span class="n">poll_mask</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    
+    <span class="n">io_uring_prep_writev</span><span class="p">(</span><span class="n">sqe</span><span class="p">,</span> <span class="n">fd</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">iov</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">NUM2SIZET</span><span class="p">(</span><span class="n">offset</span><span class="p">));</span>
+    <span class="n">io_uring_sqe_set_data</span><span class="p">(</span><span class="n">sqe</span><span class="p">,</span> <span class="n">data</span><span class="p">);</span>
+    <span class="n">io_uring_submit</span><span class="p">(</span><span class="n">ring</span><span class="p">);</span>
+    <span class="n">rb_funcall</span><span class="p">(</span><span class="n">Fiber</span><span class="p">,</span> <span class="n">rb_intern</span><span class="p">(</span><span class="s">"yield"</span><span class="p">),</span> <span class="mi">0</span><span class="p">);</span> <span class="c1">// Fiber.yield</span>
+    <span class="k">return</span> <span class="n">length</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>不过目前不知道为什么 <code class="language-plaintext highlighter-rouge">iov</code> 调用没有被 Ruby Scheduler 识别到，目前还在修复相关的问题。不过好消息是至少达到了接近 <code class="language-plaintext highlighter-rouge">epoll</code> 的性能了。</p>
+
+<h3 id="iocp-支持">IOCP 支持</h3>
+
+<p>另一个麻烦的地方是 Windows IOCP 支持。我试图写了一个 IOCP 的调度器：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">VALUE</span> <span class="nf">method_scheduler_init</span><span class="p">(</span><span class="n">VALUE</span> <span class="n">self</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">HANDLE</span> <span class="n">iocp</span> <span class="o">=</span> <span class="n">CreateIoCompletionPort</span><span class="p">(</span><span class="n">INVALID_HANDLE_VALUE</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="n">rb_iv_set</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="s">"@iocp"</span><span class="p">,</span> <span class="n">TypedData_Wrap_Struct</span><span class="p">(</span><span class="n">Payload</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">type_iocp_payload</span><span class="p">,</span> <span class="n">iocp</span><span class="p">));</span>
+    <span class="k">return</span> <span class="n">Qnil</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">VALUE</span> <span class="nf">method_scheduler_register</span><span class="p">(</span><span class="n">VALUE</span> <span class="n">self</span><span class="p">,</span> <span class="n">VALUE</span> <span class="n">io</span><span class="p">,</span> <span class="n">VALUE</span> <span class="n">interest</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">HANDLE</span> <span class="n">iocp</span><span class="p">;</span>
+    <span class="n">VALUE</span> <span class="n">iocp_obj</span> <span class="o">=</span> <span class="n">rb_iv_get</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="s">"@iocp"</span><span class="p">);</span>
+    <span class="k">struct</span> <span class="n">iocp_data</span><span class="o">*</span> <span class="n">data</span><span class="p">;</span>
+    <span class="n">TypedData_Get_Struct</span><span class="p">(</span><span class="n">iocp_obj</span><span class="p">,</span> <span class="n">HANDLE</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">type_iocp_payload</span><span class="p">,</span> <span class="n">iocp</span><span class="p">);</span>
+    <span class="kt">int</span> <span class="n">fd</span> <span class="o">=</span> <span class="n">NUM2INT</span><span class="p">(</span><span class="n">rb_funcallv</span><span class="p">(</span><span class="n">io</span><span class="p">,</span> <span class="n">rb_intern</span><span class="p">(</span><span class="s">"fileno"</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">));</span>
+    <span class="n">HANDLE</span> <span class="n">io_handler</span> <span class="o">=</span> <span class="p">(</span><span class="n">HANDLE</span><span class="p">)</span><span class="n">rb_w32_get_osfhandle</span><span class="p">(</span><span class="n">fd</span><span class="p">);</span>
+    
+    <span class="kt">int</span> <span class="n">ruby_interest</span> <span class="o">=</span> <span class="n">NUM2INT</span><span class="p">(</span><span class="n">interest</span><span class="p">);</span>
+    <span class="kt">int</span> <span class="n">readable</span> <span class="o">=</span> <span class="n">NUM2INT</span><span class="p">(</span><span class="n">rb_const_get</span><span class="p">(</span><span class="n">rb_cIO</span><span class="p">,</span> <span class="n">rb_intern</span><span class="p">(</span><span class="s">"READABLE"</span><span class="p">)));</span>
+    <span class="kt">int</span> <span class="n">writable</span> <span class="o">=</span> <span class="n">NUM2INT</span><span class="p">(</span><span class="n">rb_const_get</span><span class="p">(</span><span class="n">rb_cIO</span><span class="p">,</span> <span class="n">rb_intern</span><span class="p">(</span><span class="s">"WRITABLE"</span><span class="p">)));</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="p">(</span><span class="k">struct</span> <span class="n">iocp_data</span><span class="o">*</span><span class="p">)</span> <span class="n">xmalloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="n">iocp_data</span><span class="p">));</span>
+    <span class="n">data</span><span class="o">-&gt;</span><span class="n">io</span> <span class="o">=</span> <span class="n">io</span><span class="p">;</span>
+    <span class="n">data</span><span class="o">-&gt;</span><span class="n">is_poll</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+    <span class="n">data</span><span class="o">-&gt;</span><span class="n">interest</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">ruby_interest</span> <span class="o">&amp;</span> <span class="n">readable</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">interest</span> <span class="o">|=</span> <span class="n">readable</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">ruby_interest</span> <span class="o">&amp;</span> <span class="n">writable</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">interest</span> <span class="o">|=</span> <span class="n">writable</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">HANDLE</span> <span class="n">res</span> <span class="o">=</span> <span class="n">CreateIoCompletionPort</span><span class="p">(</span><span class="n">io_handler</span><span class="p">,</span> <span class="n">iocp</span><span class="p">,</span> <span class="p">(</span><span class="n">ULONG_PTR</span><span class="p">)</span> <span class="n">data</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"IO at address: 0x%08x</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="p">)</span><span class="n">data</span><span class="p">);</span>
+
+    <span class="k">return</span> <span class="n">Qnil</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">VALUE</span> <span class="nf">method_scheduler_wait</span><span class="p">(</span><span class="n">VALUE</span> <span class="n">self</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">ID</span> <span class="n">id_next_timeout</span> <span class="o">=</span> <span class="n">rb_intern</span><span class="p">(</span><span class="s">"next_timeout"</span><span class="p">);</span>
+    <span class="n">ID</span> <span class="n">id_push</span> <span class="o">=</span> <span class="n">rb_intern</span><span class="p">(</span><span class="s">"push"</span><span class="p">);</span>
+    <span class="n">VALUE</span> <span class="n">iocp_obj</span> <span class="o">=</span> <span class="n">rb_iv_get</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="s">"@iocp"</span><span class="p">);</span>
+    <span class="n">VALUE</span> <span class="n">next_timeout</span> <span class="o">=</span> <span class="n">rb_funcall</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">id_next_timeout</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+    
+    <span class="kt">int</span> <span class="n">readable</span> <span class="o">=</span> <span class="n">NUM2INT</span><span class="p">(</span><span class="n">rb_const_get</span><span class="p">(</span><span class="n">rb_cIO</span><span class="p">,</span> <span class="n">rb_intern</span><span class="p">(</span><span class="s">"READABLE"</span><span class="p">)));</span>
+    <span class="kt">int</span> <span class="n">writable</span> <span class="o">=</span> <span class="n">NUM2INT</span><span class="p">(</span><span class="n">rb_const_get</span><span class="p">(</span><span class="n">rb_cIO</span><span class="p">,</span> <span class="n">rb_intern</span><span class="p">(</span><span class="s">"WRITABLE"</span><span class="p">)));</span>
+
+    <span class="n">HANDLE</span> <span class="n">iocp</span><span class="p">;</span>
+    <span class="n">OVERLAPPED_ENTRY</span> <span class="n">lpCompletionPortEntries</span><span class="p">[</span><span class="n">IOCP_MAX_EVENTS</span><span class="p">];</span>
+    <span class="n">ULONG</span> <span class="n">ulNumEntriesRemoved</span><span class="p">;</span>
+    <span class="n">TypedData_Get_Struct</span><span class="p">(</span><span class="n">iocp_obj</span><span class="p">,</span> <span class="n">HANDLE</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">type_iocp_payload</span><span class="p">,</span> <span class="n">iocp</span><span class="p">);</span>
+
+    <span class="n">DWORD</span> <span class="n">timeout</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">next_timeout</span> <span class="o">==</span> <span class="n">Qnil</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">timeout</span> <span class="o">=</span> <span class="mh">0x5000</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="n">timeout</span> <span class="o">=</span> <span class="n">NUM2INT</span><span class="p">(</span><span class="n">next_timeout</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">;</span> <span class="c1">// seconds to milliseconds</span>
+    <span class="p">}</span>
+
+    <span class="n">DWORD</span> <span class="n">NumberOfBytesTransferred</span><span class="p">;</span>
+    <span class="n">LPOVERLAPPED</span> <span class="n">pOverlapped</span><span class="p">;</span>
+    <span class="n">ULONG_PTR</span> <span class="n">CompletionKey</span><span class="p">;</span>
+
+    <span class="n">BOOL</span> <span class="n">res</span> <span class="o">=</span> <span class="n">GetQueuedCompletionStatus</span><span class="p">(</span><span class="n">iocp</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">NumberOfBytesTransferred</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">CompletionKey</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">pOverlapped</span><span class="p">,</span> <span class="n">timeout</span><span class="p">);</span>
+    <span class="c1">// BOOL res = GetQueuedCompletionStatusEx(</span>
+    <span class="c1">//    iocp, lpCompletionPortEntries, IOCP_MAX_EVENTS, &amp;ulNumEntriesRemoved, timeout, TRUE);</span>
+
+    <span class="n">VALUE</span> <span class="n">result</span> <span class="o">=</span> <span class="n">rb_ary_new2</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+
+    <span class="n">VALUE</span> <span class="n">readables</span> <span class="o">=</span> <span class="n">rb_ary_new</span><span class="p">();</span>
+    <span class="n">VALUE</span> <span class="n">writables</span> <span class="o">=</span> <span class="n">rb_ary_new</span><span class="p">();</span>
+
+    <span class="n">rb_ary_store</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">readables</span><span class="p">);</span>
+    <span class="n">rb_ary_store</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">writables</span><span class="p">);</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">result</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">printf</span><span class="p">(</span><span class="s">"--------- Received! ---------</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"Received IO at address: 0x%08x</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="p">)</span><span class="n">CompletionKey</span><span class="p">);</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"dwNumberOfBytesTransferred: %lld</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">NumberOfBytesTransferred</span><span class="p">);</span>
+
+    <span class="c1">// if (ulNumEntriesRemoved &gt; 0) {</span>
+    <span class="c1">//     printf("Entries: %ld\n", ulNumEntriesRemoved);</span>
+    <span class="c1">// }</span>
+
+    <span class="c1">// for (ULONG i = 0; i &lt; ulNumEntriesRemoved; i++) {</span>
+    <span class="c1">//     OVERLAPPED_ENTRY entry = lpCompletionPortEntries[i];</span>
+        
+    <span class="c1">//     struct iocp_data *data = (struct iocp_data*) entry.lpCompletionKey;</span>
+
+    <span class="c1">//     int interest = data-&gt;interest;</span>
+    <span class="c1">//     VALUE obj_io = data-&gt;io;</span>
+    <span class="c1">//     if (interest &amp; readable) {</span>
+    <span class="c1">//         rb_funcall(readables, id_push, 1, obj_io);</span>
+    <span class="c1">//     } else if (interest &amp; writable) {</span>
+    <span class="c1">//         rb_funcall(writables, id_push, 1, obj_io);</span>
+    <span class="c1">//     }</span>
+
+    <span class="c1">//     xfree(data);</span>
+    <span class="c1">// }</span>
+
+    <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>但实际发现收到的 I/O 全部都是错误的指针。一番研究后发现，如果要让 IOCP 调度对应的 I/O，该 I/O 在初始化时就要有  <code class="language-plaintext highlighter-rouge">FILE_FLAG_OVERLAPPED</code> Flag 的支持。这意味着还需要 Ruby 的 <code class="language-plaintext highlighter-rouge">win32/win32.c</code> 中做出一些改进，才能在调度器中正确调度 IOCP。不过 Windows 上的 fallback <code class="language-plaintext highlighter-rouge">IO.select</code> 调度器还是能正常使用的，这问题就不大，毕竟谁在乎 Windows 的生产性能呢…</p>
+
+<h3 id="kqueue-支持改进"><code class="language-plaintext highlighter-rouge">kqueue</code> 支持改进</h3>
+
+<p>另一个做出的改进是在 macOS 的 <code class="language-plaintext highlighter-rouge">kqueue</code> 上。<code class="language-plaintext highlighter-rouge">kqueue</code> 在 FreeBSD 上的性能相当好，但是在 macOS 上就比较拉跨。只能通过减少 <code class="language-plaintext highlighter-rouge">syscall</code> 来提高性能。这几个月的一个改进是使用了 <code class="language-plaintext highlighter-rouge">kqueue</code> 的 one-shot 模式，来减少一次 deregister 需要的 <code class="language-plaintext highlighter-rouge">syscall</code>。</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">VALUE</span> <span class="nf">method_scheduler_register</span><span class="p">(</span><span class="n">VALUE</span> <span class="n">self</span><span class="p">,</span> <span class="n">VALUE</span> <span class="n">io</span><span class="p">,</span> <span class="n">VALUE</span> <span class="n">interest</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">struct</span> <span class="n">kevent</span> <span class="n">event</span><span class="p">;</span>
+    <span class="n">u_short</span> <span class="n">event_flags</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">ID</span> <span class="n">id_fileno</span> <span class="o">=</span> <span class="n">rb_intern</span><span class="p">(</span><span class="s">"fileno"</span><span class="p">);</span>
+    <span class="kt">int</span> <span class="n">kq</span> <span class="o">=</span> <span class="n">NUM2INT</span><span class="p">(</span><span class="n">rb_iv_get</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="s">"@kq"</span><span class="p">));</span>
+    <span class="kt">int</span> <span class="n">fd</span> <span class="o">=</span> <span class="n">NUM2INT</span><span class="p">(</span><span class="n">rb_funcall</span><span class="p">(</span><span class="n">io</span><span class="p">,</span> <span class="n">id_fileno</span><span class="p">,</span> <span class="mi">0</span><span class="p">));</span>
+    <span class="kt">int</span> <span class="n">ruby_interest</span> <span class="o">=</span> <span class="n">NUM2INT</span><span class="p">(</span><span class="n">interest</span><span class="p">);</span>
+    <span class="kt">int</span> <span class="n">readable</span> <span class="o">=</span> <span class="n">NUM2INT</span><span class="p">(</span><span class="n">rb_const_get</span><span class="p">(</span><span class="n">rb_cIO</span><span class="p">,</span> <span class="n">rb_intern</span><span class="p">(</span><span class="s">"READABLE"</span><span class="p">)));</span>
+    <span class="kt">int</span> <span class="n">writable</span> <span class="o">=</span> <span class="n">NUM2INT</span><span class="p">(</span><span class="n">rb_const_get</span><span class="p">(</span><span class="n">rb_cIO</span><span class="p">,</span> <span class="n">rb_intern</span><span class="p">(</span><span class="s">"WRITABLE"</span><span class="p">)));</span>
+    
+    <span class="k">if</span> <span class="p">(</span><span class="n">ruby_interest</span> <span class="o">&amp;</span> <span class="n">readable</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">event_flags</span> <span class="o">|=</span> <span class="n">EVFILT_READ</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">ruby_interest</span> <span class="o">&amp;</span> <span class="n">writable</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">event_flags</span> <span class="o">|=</span> <span class="n">EVFILT_WRITE</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">EV_SET</span><span class="p">(</span><span class="o">&amp;</span><span class="n">event</span><span class="p">,</span> <span class="n">fd</span><span class="p">,</span> <span class="n">event_flags</span><span class="p">,</span> <span class="n">EV_ADD</span><span class="o">|</span><span class="n">EV_ENABLE</span><span class="o">|</span><span class="n">EV_ONESHOT</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="p">)</span> <span class="n">io</span><span class="p">);</span>
+    <span class="n">kevent</span><span class="p">(</span><span class="n">kq</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">event</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span> <span class="c1">// TODO: Check the return value</span>
+    <span class="k">return</span> <span class="n">Qnil</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="概览">概览</h3>
+
+<p>最后我们把主流的操作系统 I/O 多路复用都写了一遍集成到了我们的事件处理库中，整体情况如下：</p>
+
+<table>
+  <thead>
+    <tr>
+      <th> </th>
+      <th>Linux</th>
+      <th>Windows</th>
+      <th>macOS</th>
+      <th>FreeBSD</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>io_uring</td>
+      <td>✅  (见 1)</td>
+      <td>❌</td>
+      <td>❌</td>
+      <td>❌</td>
+    </tr>
+    <tr>
+      <td>epoll</td>
+      <td>✅  (见 2)</td>
+      <td>❌</td>
+      <td>❌</td>
+      <td>❌</td>
+    </tr>
+    <tr>
+      <td>kqueue</td>
+      <td>❌</td>
+      <td>❌</td>
+      <td>✅ (⚠️见 5)</td>
+      <td>✅</td>
+    </tr>
+    <tr>
+      <td>IOCP</td>
+      <td>❌</td>
+      <td>❌ (⚠️见 3)</td>
+      <td>❌</td>
+      <td>❌</td>
+    </tr>
+    <tr>
+      <td>Ruby (<code class="language-plaintext highlighter-rouge">IO.select</code>)</td>
+      <td>✅ Fallback</td>
+      <td>✅ (⚠️见 4)</td>
+      <td>✅ Fallback</td>
+      <td>✅ Fallback</td>
+    </tr>
+  </tbody>
+</table>
+
+<ol>
+  <li>当编译时检测到 <code class="language-plaintext highlighter-rouge">liburing-dev</code> 已被安装</li>
+  <li>当 Linux 内核版本 &gt;= 2.6.8</li>
+  <li>在 I/O 初始化过程中 <code class="language-plaintext highlighter-rouge">FILE_FLAG_OVERLAPPED</code> flag 被引入前 <strong>无法工作</strong>。</li>
+  <li>一些 I/O 在 Windows 下无法变成非阻塞 I/O，详见 <a href="https://docs.ruby-lang.org/en/master/doc/scheduler_md.html#label-IO">调度器文档</a>.</li>
+  <li><code class="language-plaintext highlighter-rouge">kqueue</code> 在 Darwin 下的一些特殊情况性能很烂，<strong>可能会在未来被禁用。</strong></li>
+</ol>
+
+<h2 id="基准测试">基准测试</h2>
+
+<p>那么总体性能如何呢？</p>
+
+<p>下面的测试是在 evt <code class="language-plaintext highlighter-rouge">v0.2.2</code> 和 Ruby 3.0.0-rc1 上运行的，详细的测试代码见 <a href="https://github.com/dsh0416/evt-server-benchmark">evt-server-benchmark</a>。测试仅使用单线程服务器。</p>
+
+<p>测试命令是 <code class="language-plaintext highlighter-rouge">wrk -t4 -c8192 -d30s http://localhost:3001</code>.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>操作系统</th>
+      <th>CPU</th>
+      <th>内存</th>
+      <th>后端</th>
+      <th>请求/秒</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Linux</td>
+      <td>Ryzen 2700x</td>
+      <td>64GB</td>
+      <td>epoll</td>
+      <td>54680.08</td>
+    </tr>
+    <tr>
+      <td>Linux</td>
+      <td>Ryzen 2700x</td>
+      <td>64GB</td>
+      <td>io_uring</td>
+      <td>50245.53</td>
+    </tr>
+    <tr>
+      <td>Linux</td>
+      <td>Ryzen 2700x</td>
+      <td>64GB</td>
+      <td>Ruby (使用 poll)</td>
+      <td>44159.23</td>
+    </tr>
+    <tr>
+      <td>macOS</td>
+      <td>i7-6820HQ</td>
+      <td>16GB</td>
+      <td>kqueue</td>
+      <td>37855.53</td>
+    </tr>
+    <tr>
+      <td>macOS</td>
+      <td>i7-6820HQ</td>
+      <td>16GB</td>
+      <td>Ruby (使用 poll)</td>
+      <td>28293.36</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>相当惊人。这个结果有几方面因素。现在的 Falcon 等异步框架使用的都是基于 <a href="https://github.com/socketry/nio4r">nio4r</a> 来实现的，其背后是 libev。libev 在各个异步事件库中的性能本来就是比较一般的，再加上其为了更好的兼容性做了大量的妥协。另一方面，以前的调度库需要大量 Ruby 元编程帮助，而现在几乎都是在 C extension 间完成的，性能也有了很大的提升。</p>
+
+<p>另外比起我们之前在 preview1 上做的测试，这个版本的 Fiber 调度器修复了大量的错误，而 wrk 的测试结果是非常错误敏感的，这使得我们最终的请求速度比起之前又提升了 10 倍。</p>
+
+<p><strong>wrk 对于错误非常敏感，这个 benchmark 中的 parser 有问题，无法准确关闭 socket。把我的 <a href="https://github.com/midori-rb/midori.rb">Midori</a> 重新捡起来改成了 Ruby 3 Scheduler 项目。性能达到了 247k req/s 单线程使用 kqueue！使用 epoll 更是达到了 647k req/s！达到了上百倍的性能提升。</strong></p>
+
+<h2 id="与-ractor-结合">与 Ractor 结合</h2>
+
+<p>我在 2020 年 11 月 17 日写过一篇关于 Ractor 的扫盲贴 <a href="https://coderemixer.com/2020/11/17/ruby-3-ractor-guide/">《Ractor 下多线程 Ruby 程序指南》</a>，Ractor 和 Fiber 的结合始终是一个有意思的话题。目前情况下 Fiber 与 Ractor 结合来实现 Web 服务器有两个可能的路径：</p>
+
+<ol>
+  <li>在主 Ractor 部署一个调度器，用来处理请求的 accept。将请求派发到子 Ractor 中，由子线程进行处理后将返回值传回主 Ractor 中进行请求返回。</li>
+  <li>利用 Linux 内核 <code class="language-plaintext highlighter-rouge">SO_REUSEPORT</code> 特性让多个 Ractor 同时监听请求，即可直接将单线程服务器扩展成多线程服务器。</li>
+</ol>
+
+<p>比较可惜的是，目前这两者都是无法实现的。因为目前 Fiber 的一些特性无法在 Ractor 中使用。我个人倾向认为这是误报，目前已提交了一个 patch <a href="https://github.com/ruby/ruby/pull/3971">GitHub #3971</a>。根据我之前的测试，Ractor 的加入在实际上应该还能再提升 4 倍左右的吞吐量。不过由于 API 服务器通常是无状态的，主要矛盾也不是 CPU-bound，所以这些吞吐量也是可以由多进程来实现的，Ractor 的引入更多是比起多进程实现的内存消耗降低。</p>
+
+<p>等 Ruby 3.0 更新后我们可以进一步测试。</p>
+
+<h2 id="总结">总结</h2>
+
+<p>这比起 preview1 10 倍的性能提升，和比起以前阻塞 I/O 近 36 倍的性能提升足以证明 Ruby 目前<strong>服务器的性能</strong>问题的本质是 I/O 阻塞问题，而不是 Ruby CPU 执行慢的问题。而随着 I/O 调度器的引入，Ruby 3 的 I/O 性能能更上一个台阶。接下来我们要等待的就是一些使用 C 原生组件的，比如数据库驱动和 Redis 驱动的更新。然后使用一个基于 Fiber 的 Web 服务器，例如 <a href="https://github.com/socketry/falcon">Falcon</a>。无需任何业务上代码的变化，就能得到数倍甚至数十倍的性能提升。</p>
+
+<p>让我们继续享受 Ruby 的快乐编程。</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/ruby" class="page__taxonomy-item" rel="tag">Ruby</a><span class="sep">, </span>
+    
+      <a href="/tags/%E7%BC%96%E7%A8%8B" class="page__taxonomy-item" rel="tag">编程</a>
+    
+    </span>
+  </p>
+
+
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2020-12-22T17:41:41+00:00">December 22, 2020</time></p>
+
+
+      </footer>
+
+      <section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?text=%E4%B8%BA+Ruby+3+Fiber+%E8%B0%83%E5%BA%A6%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%BA%8B%E4%BB%B6%E5%BA%93+Evt%20https%3A%2F%2Fcoderemixer.com%2F2020%2F12%2F22%2Fruby-3-fiber-scheduler-evt-dev-log" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fcoderemixer.com%2F2020%2F12%2F22%2Fruby-3-fiber-scheduler-evt-dev-log" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fcoderemixer.com%2F2020%2F12%2F22%2Fruby-3-fiber-scheduler-evt-dev-log" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/2020/12/22/ruby-3-fiber-scheduler-evt-dev-log-en" class="pagination--pager" title="Developing Fiber Scheduler for Ruby 3
+">Previous</a>
+    
+    
+      <a href="/2021/01/08/autopilot-with-ruby" class="pagination--pager" title="用 Ruby 实现飞机自动驾驶仪
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You May Also Enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/2021/07/05/compile-malay-tea-name" rel="permalink">三点几嚟，饮茶先啦 —— 将大马饮料名编译成汉语
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2021-07-05T12:44:49+00:00">July 5, 2021</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          less than 1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">近几日马来西亚网友 Gurdip Singh 在 Facebook 发的这个「三点几嚟，饮茶先啦」非常流行。
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/2021/01/08/autopilot-with-ruby" rel="permalink">用 Ruby 实现飞机自动驾驶仪
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2021-01-08T13:03:32+00:00">January 8, 2021</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">krpc 是一个砍巴拉太空计划（Kerbel Space Program）中的插件。可以通过 RPC 来控制游戏。同时有第三方的 Ruby 客户端：krpc-rb。和真实飞机不同的是，在砍巴拉游戏中驾驶飞机是非常痛苦的，在没有插件辅助的情况下，你看不到具体的 GPS 坐标，很多时候看到的都是和飞机驾驶无关的轨道参...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/2020/12/22/ruby-3-fiber-scheduler-evt-dev-log-en" rel="permalink">Developing Fiber Scheduler for Ruby 3
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2020-12-22T17:41:41+00:00">December 22, 2020</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          11 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">中文版本
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/2020/11/17/ruby-3-ractor-guide" rel="permalink">Ractor 下多线程 Ruby 程序指南
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2020-11-17T16:30:24+00:00">November 17, 2020</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          2 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">什么是 Ractor?
+</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2024 Coderemixer 代码混音师. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "https://coderemixer.com/2020/12/22/ruby-3-fiber-scheduler-evt-dev-log";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/2020/12/22/ruby-3-fiber-scheduler-evt-dev-log"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://coderemixer.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+
+  </body>
+</html>
