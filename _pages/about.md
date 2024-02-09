@@ -22,7 +22,7 @@ permalink: /about/
 
 ## 名字的来源
 
-见 [关于学习编程的一箩筐问题](/2018/06/06/coding-tutorial/)。
+见 [关于学习编程的一箩筐问题](/2018/06/06/coding-tutorial)。
 
 ## PGP
 
