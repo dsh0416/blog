@@ -1,4 +1,74 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://coderemixer.com/atom.xml" rel="self" type="application/atom+xml" /><link href="https://coderemixer.com/" rel="alternate" type="text/html" /><updated>2024-02-09T13:33:38+00:00</updated><id>https://coderemixer.com/atom.xml</id><title type="html">Coderemixer 代码混音师</title><subtitle>一个用来发牢骚的网站，以至于无法对所说的话负责。</subtitle><author><name>CodeRemixer</name></author><entry><title type="html">三点几嚟，饮茶先啦 —— 将大马饮料名编译成汉语</title><link href="https://coderemixer.com/2021/07/05/compile-malay-tea-name" rel="alternate" type="text/html" title="三点几嚟，饮茶先啦 —— 将大马饮料名编译成汉语" /><published>2021-07-05T12:44:49+00:00</published><updated>2021-07-05T12:44:49+00:00</updated><id>https://coderemixer.com/2021/07/05/compile-malay-tea-name</id><content type="html" xml:base="https://coderemixer.com/2021/07/05/compile-malay-tea-name"><![CDATA[<p>近几日马来西亚网友 Gurdip Singh 在 Facebook 发的这个「三点几嚟，饮茶先啦」非常流行。</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://coderemixer.com/atom.xml" rel="self" type="application/atom+xml" /><link href="https://coderemixer.com/" rel="alternate" type="text/html" /><updated>2024-04-30T15:58:28+00:00</updated><id>https://coderemixer.com/atom.xml</id><title type="html">Coderemixer 代码混音师</title><subtitle>一个用来发牢骚的网站，以至于无法对所说的话负责。</subtitle><author><name>CodeRemixer</name></author><entry><title type="html">一个熟悉又陌生的解谜游戏 —— 东京地下铁 2023 解谜游戏设计分析</title><link href="https://coderemixer.com/2024/04/30/tokyo-metro-2023" rel="alternate" type="text/html" title="一个熟悉又陌生的解谜游戏 —— 东京地下铁 2023 解谜游戏设计分析" /><published>2024-04-30T15:39:32+00:00</published><updated>2024-04-30T15:39:32+00:00</updated><id>https://coderemixer.com/2024/04/30/tokyo-metro-2023</id><content type="html" xml:base="https://coderemixer.com/2024/04/30/tokyo-metro-2023"><![CDATA[<p>2019 年我写过一篇<a href="/2019/01/11/heisei-last-unfinished-game">《平成最后的烂尾游戏——东京地下铁 2018 解谜游戏设计分析》</a>。2020 年因为 COVID-19 的原因，没怎么敢出门错过了 Tokyo Metro 地下谜 2019。而 2021 年的地下谜又被取消了，乘着 2023 年地下谜延长了举办时间，当然是务必来日本玩了这个游戏。</p>
+
+<p>下面的内容不单纯是从玩家的角度在看这款游戏，很多时候是从游戏设计的角度在看问题，因此包含 <strong>大量剧透</strong>，<strong>请没有玩过这款游戏并且想要体验这款游戏的玩家，千万不要继续往下读</strong>。</p>
+
+<h2 id="国际化">国际化</h2>
+
+<p>2018 和 2019 两代的东京地下铁解谜是有英文和中文版本的，然而 2023 版本是只有日本语的。</p>
+
+<p><img src="/assets/images/tokyo-metro-2023-japanese.png" alt="Japanese Only" /></p>
+
+<p>看到这里的我还天真地没有意识到事情的严重性，我想我 <del>也是 JLPT N2</del> 日本语相关的豆知识知道一大堆，想必区区一个解谜游戏那是余裕吧。</p>
+
+<p>我是从新宿歌舞伎町的 Tokyo Mystery Circus 兑换的招待状，第一章的谜题是比较简单的字谜，我大约在门口的小桌子上画了 30 分钟解完的。整体是一个类似 Crosswords 的游戏。其实大多数的谜题答案其实在「車掌さんのコラムシート」里已经给出了，我还在那里疯狂查 Google。很明显，我犯了和 2018 年一样的错误，忘记在教学关仔细查看袋子里的东西。</p>
+
+<p>然后我们进入到第二章，第二章 Group A 由于 3 月 18 日后两个车站无法在现地进行游戏，于是改成了纯的字谜，也就是噩梦的开始。</p>
+
+<p><img src="/assets/images/tokyo-metro-2023-chapter-2-group-a.jpg" alt="Chapter 2 Group A" /></p>
+
+<p>从一上来的 A=幸 B=踊 C=祝，到下面一排的提示，根据音节的数量的暗示，很明显是要填某种词性变形。虽然我直观上第一反应就是填入「幸せ、踊り、祝い」因为感觉这是最常用的搭配。但不知为何，我的文法小雷达就开始响。「第一个怎么是个形容动词（な类形容词），但第二个是动词，第三个又是名词？」「如果形容动词可以的话幸い（さいわい）不也符合要求吗？」「踊る是五段动词诶，为什么在这里要用连用形？」在脑子里噼里啪啦想了半天… 最后发现一开始的想法就是对的。我觉得反而对于日本人来说我上面这些想法才是很奇怪的，因为语言本身是从上下文中学习的，而不是从语法规则中学习的。但是对于一个日语作为我第四语言的外国人来说，确实是有点难受了。</p>
+
+<p>我们先跳过 Group B 的谜题，聊一聊第三章的谜题。这个谜题简直是上面这个谜题的升级，真的是把我折腾到身心俱疲。</p>
+
+<p><img src="/assets/images/tokyo-metro-2023-chapter-3.jpg" alt="Chapter 3" /></p>
+
+<p>第三章的舞台发生在根津神社。从 Metro 的地铁站出来，首先会经过一个大约高度差 8 米的坂道。STEP1 是比较简单的，就是逛一遍神社，根据内容把神社内的一些贴纸贴上。STEP2 让我从一个词推断出另一个词，我对着这玩意看了至少五分钟，才意识到其实是日语的词语接龙游戏。虽然汉语也会有类似成语接龙之类的东西，但日语的词语接龙还是有不太一样的规则的。上一次看到日语的词语接龙游戏还是在看《小林さんちのメイドラゴン》的时候。这我们バカ外人怎么能很快反应过来啊。</p>
+
+<p>游戏设定在这里，希望你找个餐厅坐下来慢慢搞，但说句实话，由于我是中午 11 点开始的游戏，这个时候不是饭点，即使是书里推荐的合作餐厅好像也只有一家开着。作为国宝・重要文化財（建造物），根津神社那可以说游客是人山人海，完全没有地方能站或者坐下来慢慢想的。想找个星巴克之类的发现好远，那找个麦当劳吧，也要走 1km 并且还是和车站反方向。然后想找个能刷 Suica 的自动贩卖机也没找到，我身上还背着相机电脑，一个包里有 5kg+ 的负重都快脱水了。好不容易看到一个 7-11，硬灌了两瓶宝矿力后开始了这个词语接龙。折腾了半天战绩奇差，只猜出来了四个词语，还有四个都不太确定。尤其那个蝌蚪，我怎么看都像… 孑孓（蚊子的幼虫），结果是蝌蚪… 好消息是这个地方只是想要拼一个鬼脚图（阿弥陀籤），可以通过逻辑推理来弥补掉没猜出来的部分。（怎么又是阿弥陀籤，年年都设计阿弥陀籤吗？）</p>
+
+<p>谁知道，翻到反面让我看这个「①④⑧の成長後」，还是得硬着头皮猜。然而就算你猜出来了，其实和谜题答案关系也不大，需要拿第二章的收尾谜题中用过的纸的一部分和这页拼来拼去，拼完后给你几个抽象的图形，我甚至没反应过来画了这个太阳暗指的是皇居… 这多少对于我们安娜其主义者不太友好了。这地方是我全场唯一一次看 Hint，太离谱了。</p>
+
+<p><img src="/assets/images/tokyo-metro-2023-chapter-3-combination.jpg" alt="Chapter 3 Combination" /></p>
+
+<p>（来，聪明的你告诉我，上面这个图案表示什么车站？）</p>
+
+<p>这其实就是一个国际化陷阱，就是当你写了一些司空见惯的文化符号的时候，其实没有意识到你的语言来自于一个对于上下文（语境）的整体认知。这些设计确实是会在跨文化中非常困境的，也难怪今年谜题没有其它语言，如果让我做这个翻译，我估计会气到脑中风。我不知道这些图形和符号对于以日语为母语的人能有多快的反应速度，但从中其实可以得到一些游戏设计的启示，如果我们要以国际化发行为某种目标的话，应当避免怎么样的设计。</p>
+
+<h2 id="折纸--我最爱的一集">折纸 —— 我最爱的一集</h2>
+
+<p>第二章 Group B 是个中规中矩的内容，和前作一样，第二章的重要目的是聚合，把不同地方开始的玩家，通过不同的引导方式，最终指引到唯一的地方去。</p>
+
+<p>我当时从新宿出发去的最近的「九段下」，做完任务后，我们将 A 和 B 的密码拼起来后得到了一句让你把「千代田线的隔离门打开」的指示。这是个有了很久铺垫的指示，因为第一章中就反复出现了这个「千代田线的隔离门」，你马上就知道要把纸张撕开。比较不方便的是这个中缝订得很牢，我一度以为不需要整张撕下。撕下后比划了一下，发现能折出「金」「空」这样的字，和一开始说「有楽町線」和「東西線」是金色和青空色的。这是一个特别好的模进（Sequentia），我在上一篇文章中也提到过这个设计技巧。然后引入了第一个谷折、山折的概念（我也是第一次学习到这个日语用法）。折完后的形状正好能塞下发的装游戏 Kit 的包，而包上正好有个缺口，把赠的一日票放上去，就得到了下一站的目的地。这套联招下来简直酷死了，当时简直成就感爆棚。和第三章那个诡异的接龙游戏、图像对对乐不知道高到哪里去了。</p>
+
+<p><img src="/assets/images/tokyo-metro-2023-origami.jpg" alt="Origami" /></p>
+
+<p>第四章的谜题相对是比较简单的，由于受到了第三章的折磨，完全知道出题人的思路是什么了。于是我们走向了旅程的终章！</p>
+
+<h2 id="终章--我最最喜欢的一集">终章 —— 我最最喜欢的一集</h2>
+
+<p>我评价 2018 年地下铁谜题是平成最后的烂尾游戏，终章的时候给了极强的气氛渲染，然后莫名其妙就结束了。然而这次的谜题将终章的舞台搬到了东京铁塔，并且是让你一步步推到的东京铁塔！这个心境的变化是难以言说的。</p>
+
+<p>终章中一开始那个字谜，一下子就没有第三章那种缺点了，从「神保町」出来后，一抬头「嘿，这不是到我们学校附近了吗？不会舞台要放到东京铁塔了吧」（结果还真是）。在东京铁塔收集了线索后，完成了线下的全部流程。</p>
+
+<p>但是当你回到家继续完成线上部分的时候，游戏又给你准备了一组渐强的模进。从一个字谜开始，又转向了一个折纸谜题，最后又通过这个折纸又得到了一个东京铁塔！最后终于完成了全部的谜题。这个收尾的感觉太棒了，掩盖了很多游戏中的不足之处，2023 年的结局真的做得比 2018 年的好太多了。</p>
+
+<p><img src="/assets/images/tokyo-metro-2023-tokyo-tower.jpg" alt="Tokyo Tower" /></p>
+
+<h2 id="一些感想">一些感想</h2>
+
+<p>我今天 11:30 兑换的套件，17:50 完成了全部的线下部分，共计 6 小时 20 分钟。线上部分大约又花费了 30 分钟，和 2018 年的游戏时长差不多。</p>
+
+<p><img src="/assets/images/tokyo-metro-2023-congratulations.jpg" alt="Congratulations" /></p>
+
+<p>讨论一下我对这个游戏的整体感想吧。我觉得第二章和终章就是神，第一章和第四章一般，第三章简直就像是因为和根津神社有合作然后胡搞的一样。某种意义上我感觉第一、第二章和终章像是同一个设计师设计的谜题，而第三、第四章是另一个设计师。</p>
+
+<p>其实玩了两把之后还是感觉工业化痕迹挺重的，一些解谜思路在反复出现。作为年货游戏，其实还是能看得出来谜题设计时候的很多思路的。</p>
+
+<p>不过在片尾人员字幕表中再次看到了「堺谷 光」我还是挺震惊的。在上次的文章中我有说过堺谷光的一篇论文中大量围绕动机和模进设计的游戏机制，在今天的游戏中也有不少体现。不过之前看到 Linkedin 上他已经不在 SCRAP 公司工作了，让我对今年的游戏质量多少有点担忧。</p>
+
+<p>还有一个我感觉有点失望的是，在 2018 年游戏的最终谜题中，制作人构造了一个相当精妙的 NP 问题，使得游戏对于玩家试图枚举答案的搜索空间有一个精确的约束，可以极好地控制难度。但这样的数值设计思想没有体现在今年的游戏中。感觉一题这样的东西都没有，很奇怪。</p>
+
+<p>整体感觉今天学到很多，不管是好的方面还是不好的方面。希望明年的游戏可以更好。</p>]]></content><author><name>CodeRemixer</name></author><category term="游戏" /><category term="设计" /><category term="混合现实" /><category term="地下謎" /><summary type="html"><![CDATA[2019 年我写过一篇《平成最后的烂尾游戏——东京地下铁 2018 解谜游戏设计分析》。2020 年因为 COVID-19 的原因，没怎么敢出门错过了 Tokyo Metro 地下谜 2019。而 2021 年的地下谜又被取消了，乘着 2023 年地下谜延长了举办时间，当然是务必来日本玩了这个游戏。]]></summary></entry><entry><title type="html">三点几嚟，饮茶先啦 —— 将大马饮料名编译成汉语</title><link href="https://coderemixer.com/2021/07/05/compile-malay-tea-name" rel="alternate" type="text/html" title="三点几嚟，饮茶先啦 —— 将大马饮料名编译成汉语" /><published>2021-07-05T12:44:49+00:00</published><updated>2021-07-05T12:44:49+00:00</updated><id>https://coderemixer.com/2021/07/05/compile-malay-tea-name</id><content type="html" xml:base="https://coderemixer.com/2021/07/05/compile-malay-tea-name"><![CDATA[<p>近几日马来西亚网友 Gurdip Singh 在 Facebook 发的这个「三点几嚟，饮茶先啦」非常流行。</p>
 
 <p>Facebook: www.facebook.com/100009201465316/videos/2530411593942198</p>
 
@@ -2562,307 +2632,4 @@ Decompressed Text: I am happy to ...
 
 <p>整体压缩率有 73%，对比了一下 zip 42% 的压缩率，实在是望尘莫及。</p>
 
-<p>如果我们把文本重复 5 遍，压缩率能提升到 49%。不过这条件下，zip 能提高到 9% 的压缩率。果然还是不能和 DEFLATE 这种 LZW + 霍夫曼树这样的怪物比啊。不过简简单单 200 行代码就能实现一个性能上还不错的压缩、解压缩算法我已经比较满意了。</p>]]></content><author><name>CodeRemixer</name></author><category term="LZW" /><category term="C语言" /><category term="算法" /><category term="压缩" /><summary type="html"><![CDATA[起因]]></summary></entry><entry><title type="html">尝试使用 Ruby 3 调度器</title><link href="https://coderemixer.com/2020/08/18/a-walkthrough-of-ruby-3-scheduler-cn" rel="alternate" type="text/html" title="尝试使用 Ruby 3 调度器" /><published>2020-08-18T21:46:47+00:00</published><updated>2020-08-18T21:46:47+00:00</updated><id>https://coderemixer.com/2020/08/18/a-walkthrough-of-ruby-3-scheduler-cn</id><content type="html" xml:base="https://coderemixer.com/2020/08/18/a-walkthrough-of-ruby-3-scheduler-cn"><![CDATA[<h2 id="一次失败的提案">一次失败的提案</h2>
-
-<p>在准备 RubyConf China 2020 的时候，我仔细检查了 <a href="https://github.com/ruby/ruby/pull/1870">Fiber 调度器</a> 提出的补丁。当我看调度器的样例代码的时候，我发现其调用的是 Ruby 中的 <code class="language-plaintext highlighter-rouge">IO.select</code> API。<code class="language-plaintext highlighter-rouge">IO.select</code> API 在 Ruby 内部有多种实现，它可能调用 <code class="language-plaintext highlighter-rouge">poll</code>、大尺寸 <code class="language-plaintext highlighter-rouge">select</code>、POSIX 兼容的 <code class="language-plaintext highlighter-rouge">select</code> 取决于不同的操作系统。于是我想用一些更快的 syscall 来实现，比如 <code class="language-plaintext highlighter-rouge">epoll</code> <code class="language-plaintext highlighter-rouge">kqueue</code> 和 <code class="language-plaintext highlighter-rouge">IOCP</code>。</p>
-
-<p>我做了一个相关的<a href="https://bugs.ruby-lang.org/issues/17059">提案</a>但是被拒绝了。主要问题是 Ruby 的 <code class="language-plaintext highlighter-rouge">IO.select</code> API 是无状态的。如果没有含状态的注册，这些新 API 的性能甚至会不如 <code class="language-plaintext highlighter-rouge">poll</code>。在 <a href="https://bugs.ruby-lang.org/issues/17059#note-14">Koichi Sasada</a> 跑了 banchmark 证明了这一点后，提案被正式拒绝。在和 Samuel Williams 在 Twitter 上讨论后，它建议我从 <code class="language-plaintext highlighter-rouge">Scheduler</code> 的实现上来进行注入，因为 <code class="language-plaintext highlighter-rouge">Scheduler</code> 本身是有状态的。于是我开始写一个 <a href="https://github.com/dsh0416/evt">gem</a> 作为 Ruby 3 调度器接口的概念证明。</p>
-
-<h2 id="实现调度器">实现调度器</h2>
-
-<p>本文中的 Ruby 版本是：</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ruby 2.8.0dev (2020-08-18T10:10:09Z master 172d44e809) [x86_64-linux]
-</code></pre></div></div>
-
-<p>基本的 Scheduler 例子来自于 Ruby 的<a href="https://github.com/ruby/ruby/blob/b2976a4fcab70bf9323180fd5ba6c29a5bca0747/test/fiber/test_scheduler.rb">单元测试</a>。这是 Ruby 3 调度器的测试，而不是真正用于生产的，因此是使用 <code class="language-plaintext highlighter-rouge">IO.select</code> 进行 I/O 多路复用。因此我们可以基于此，开发一个性能更好的 Ruby 调度器。</p>
-
-<p>我们需要做一些 C 开发来支持其它 syscall，因此第一件事是兼容原始的实现。</p>
-
-<h3 id="fallback-到-ruby-ioselect">Fallback 到 Ruby <code class="language-plaintext highlighter-rouge">IO.select</code></h3>
-
-<p>对于 select/poll API, 不需要预先创建文件描述符，也不需要在运行时注册文件描述符。所以唯一要做的就是处理调度器触发时的行为。</p>
-
-<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">VALUE</span> <span class="nf">method_scheduler_wait</span><span class="p">(</span><span class="n">VALUE</span> <span class="n">self</span><span class="p">)</span> <span class="p">{</span>
-    <span class="c1">// return IO.select(@readable.keys, @writable.keys, [], next_timeout)</span>
-    <span class="n">VALUE</span> <span class="n">readable</span><span class="p">,</span> <span class="n">writable</span><span class="p">,</span> <span class="n">readable_keys</span><span class="p">,</span> <span class="n">writable_keys</span><span class="p">,</span> <span class="n">next_timeout</span><span class="p">;</span>
-    <span class="n">ID</span> <span class="n">id_select</span> <span class="o">=</span> <span class="n">rb_intern</span><span class="p">(</span><span class="s">"select"</span><span class="p">);</span>
-    <span class="n">ID</span> <span class="n">id_keys</span> <span class="o">=</span> <span class="n">rb_intern</span><span class="p">(</span><span class="s">"keys"</span><span class="p">);</span>
-    <span class="n">ID</span> <span class="n">id_next_timeout</span> <span class="o">=</span> <span class="n">rb_intern</span><span class="p">(</span><span class="s">"next_timeout"</span><span class="p">);</span>
-
-    <span class="n">readable</span> <span class="o">=</span> <span class="n">rb_iv_get</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="s">"@readable"</span><span class="p">);</span>
-    <span class="n">writable</span> <span class="o">=</span> <span class="n">rb_iv_get</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="s">"@writable"</span><span class="p">);</span>
-
-    <span class="n">readable_keys</span> <span class="o">=</span> <span class="n">rb_funcall</span><span class="p">(</span><span class="n">readable</span><span class="p">,</span> <span class="n">id_keys</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-    <span class="n">writable_keys</span> <span class="o">=</span> <span class="n">rb_funcall</span><span class="p">(</span><span class="n">writable</span><span class="p">,</span> <span class="n">id_keys</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-    <span class="n">next_timeout</span> <span class="o">=</span> <span class="n">rb_funcall</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">id_next_timeout</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-
-    <span class="k">return</span> <span class="n">rb_funcall</span><span class="p">(</span><span class="n">rb_cIO</span><span class="p">,</span> <span class="n">id_select</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">readable_keys</span><span class="p">,</span> <span class="n">writable_keys</span><span class="p">,</span> <span class="n">rb_ary_new</span><span class="p">(),</span> <span class="n">next_timeout</span><span class="p">);</span>
-<span class="p">}</span>
-</code></pre></div></div>
-
-<p>我们花了 10 行 C 干了原来 1 行 Ruby 就干好了的事。主要是这允许我们用 C 的宏定义来控制，从而使用其它 I/O 多路复用方法，例如 <code class="language-plaintext highlighter-rouge">epoll</code> and <code class="language-plaintext highlighter-rouge">kqueue</code>。我们需要实现 4 个 C 方法：</p>
-
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="no">Scheduler</span><span class="p">.</span><span class="nf">backend</span>
-<span class="n">scheduler</span> <span class="o">=</span> <span class="no">Scheduler</span><span class="p">.</span><span class="nf">new</span>
-
-<span class="n">scheduler</span><span class="p">.</span><span class="nf">register</span><span class="p">(</span><span class="n">io</span><span class="p">,</span> <span class="n">interest</span><span class="p">)</span>
-<span class="n">scheduler</span><span class="p">.</span><span class="nf">deregister</span><span class="p">(</span><span class="n">io</span><span class="p">)</span>
-<span class="n">scheduler</span><span class="p">.</span><span class="nf">wait</span>
-</code></pre></div></div>
-
-<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;ruby.h&gt;</span><span class="cp">
-</span>
-<span class="n">VALUE</span> <span class="n">Evt</span> <span class="o">=</span> <span class="n">Qnil</span><span class="p">;</span>
-<span class="n">VALUE</span> <span class="n">Scheduler</span> <span class="o">=</span> <span class="n">Qnil</span><span class="p">;</span>
-
-<span class="kt">void</span> <span class="nf">Init_evt_ext</span><span class="p">();</span>
-<span class="n">VALUE</span> <span class="nf">method_scheduler_init</span><span class="p">(</span><span class="n">VALUE</span> <span class="n">self</span><span class="p">);</span>
-<span class="n">VALUE</span> <span class="nf">method_scheduler_register</span><span class="p">(</span><span class="n">VALUE</span> <span class="n">self</span><span class="p">,</span> <span class="n">VALUE</span> <span class="n">io</span><span class="p">,</span> <span class="n">VALUE</span> <span class="n">interest</span><span class="p">);</span>
-<span class="n">VALUE</span> <span class="nf">method_scheduler_deregister</span><span class="p">(</span><span class="n">VALUE</span> <span class="n">self</span><span class="p">,</span> <span class="n">VALUE</span> <span class="n">io</span><span class="p">);</span>
-<span class="n">VALUE</span> <span class="nf">method_scheduler_wait</span><span class="p">(</span><span class="n">VALUE</span> <span class="n">self</span><span class="p">);</span>
-<span class="n">VALUE</span> <span class="nf">method_scheduler_backend</span><span class="p">();</span>
-
-<span class="kt">void</span> <span class="nf">Init_evt_ext</span><span class="p">()</span>
-<span class="p">{</span>
-    <span class="n">Evt</span> <span class="o">=</span> <span class="n">rb_define_module</span><span class="p">(</span><span class="s">"Evt"</span><span class="p">);</span>
-    <span class="n">Scheduler</span> <span class="o">=</span> <span class="n">rb_define_class_under</span><span class="p">(</span><span class="n">Evt</span><span class="p">,</span> <span class="s">"Scheduler"</span><span class="p">,</span> <span class="n">rb_cObject</span><span class="p">);</span>
-    <span class="n">rb_define_singleton_method</span><span class="p">(</span><span class="n">Scheduler</span><span class="p">,</span> <span class="s">"backend"</span><span class="p">,</span> <span class="n">method_scheduler_backend</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-    <span class="n">rb_define_method</span><span class="p">(</span><span class="n">Scheduler</span><span class="p">,</span> <span class="s">"init_selector"</span><span class="p">,</span> <span class="n">method_scheduler_init</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-    <span class="n">rb_define_method</span><span class="p">(</span><span class="n">Scheduler</span><span class="p">,</span> <span class="s">"register"</span><span class="p">,</span> <span class="n">method_scheduler_register</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
-    <span class="n">rb_define_method</span><span class="p">(</span><span class="n">Scheduler</span><span class="p">,</span> <span class="s">"deregister"</span><span class="p">,</span> <span class="n">method_scheduler_deregister</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
-    <span class="n">rb_define_method</span><span class="p">(</span><span class="n">Scheduler</span><span class="p">,</span> <span class="s">"wait"</span><span class="p">,</span> <span class="n">method_scheduler_wait</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-<span class="p">}</span>
-</code></pre></div></div>
-
-<p><code class="language-plaintext highlighter-rouge">Scheduler.backend</code> 是专门给调试用的，剩下 4 个 API 会注入到调度器的 <code class="language-plaintext highlighter-rouge">Scheduelr#run</code>, <code class="language-plaintext highlighter-rouge">Scheduelr#wait_readable</code>, <code class="language-plaintext highlighter-rouge">Scheduelr#wait_writable</code>, <code class="language-plaintext highlighter-rouge">Scheduelr#wait_any</code> 中。</p>
-
-<h3 id="使用-epoll-和-kqueue">使用 <code class="language-plaintext highlighter-rouge">epoll</code> 和 <code class="language-plaintext highlighter-rouge">kqueue</code></h3>
-
-<p>epoll 的三个核心 API 是 <code class="language-plaintext highlighter-rouge">epoll_create</code> <code class="language-plaintext highlighter-rouge">epoll_ctl</code> <code class="language-plaintext highlighter-rouge">epoll_wait</code>。很好理解，我们只要在调度器初始化的时候初始化 <code class="language-plaintext highlighter-rouge">epoll</code> fd，然后在注册 I/O 事件的时候调用 <code class="language-plaintext highlighter-rouge">epoll_ctl</code>，最后用 <code class="language-plaintext highlighter-rouge">epoll_wait</code> 替换掉 <code class="language-plaintext highlighter-rouge">IO.select</code>。</p>
-
-<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#if defined(__linux__) // TODO: Do more checks for using epoll
-#include</span> <span class="cpf">&lt;sys/epoll.h&gt;</span><span class="cp">
-#define EPOLL_MAX_EVENTS 64
-</span>
-<span class="n">VALUE</span> <span class="nf">method_scheduler_init</span><span class="p">(</span><span class="n">VALUE</span> <span class="n">self</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">rb_iv_set</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="s">"@epfd"</span><span class="p">,</span> <span class="n">INT2NUM</span><span class="p">(</span><span class="n">epoll_create</span><span class="p">(</span><span class="mi">1</span><span class="p">)));</span> <span class="c1">// Size of epoll is ignored after Linux 2.6.8.</span>
-    <span class="k">return</span> <span class="n">Qnil</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="n">VALUE</span> <span class="nf">method_scheduler_register</span><span class="p">(</span><span class="n">VALUE</span> <span class="n">self</span><span class="p">,</span> <span class="n">VALUE</span> <span class="n">io</span><span class="p">,</span> <span class="n">VALUE</span> <span class="n">interest</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">struct</span> <span class="n">epoll_event</span> <span class="n">event</span><span class="p">;</span>
-    <span class="n">ID</span> <span class="n">id_fileno</span> <span class="o">=</span> <span class="n">rb_intern</span><span class="p">(</span><span class="s">"fileno"</span><span class="p">);</span>
-    <span class="kt">int</span> <span class="n">epfd</span> <span class="o">=</span> <span class="n">NUM2INT</span><span class="p">(</span><span class="n">rb_iv_get</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="s">"@epfd"</span><span class="p">));</span>
-    <span class="kt">int</span> <span class="n">fd</span> <span class="o">=</span> <span class="n">NUM2INT</span><span class="p">(</span><span class="n">rb_funcall</span><span class="p">(</span><span class="n">io</span><span class="p">,</span> <span class="n">id_fileno</span><span class="p">,</span> <span class="mi">0</span><span class="p">));</span>
-    <span class="kt">int</span> <span class="n">ruby_interest</span> <span class="o">=</span> <span class="n">NUM2INT</span><span class="p">(</span><span class="n">interest</span><span class="p">);</span>
-    <span class="kt">int</span> <span class="n">readable</span> <span class="o">=</span> <span class="n">NUM2INT</span><span class="p">(</span><span class="n">rb_const_get</span><span class="p">(</span><span class="n">rb_cIO</span><span class="p">,</span> <span class="n">rb_intern</span><span class="p">(</span><span class="s">"WAIT_READABLE"</span><span class="p">)));</span>
-    <span class="kt">int</span> <span class="n">writable</span> <span class="o">=</span> <span class="n">NUM2INT</span><span class="p">(</span><span class="n">rb_const_get</span><span class="p">(</span><span class="n">rb_cIO</span><span class="p">,</span> <span class="n">rb_intern</span><span class="p">(</span><span class="s">"WAIT_WRITABLE"</span><span class="p">)));</span>
-  
-    <span class="k">if</span> <span class="p">(</span><span class="n">ruby_interest</span> <span class="o">&amp;</span> <span class="n">readable</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">event</span><span class="p">.</span><span class="n">events</span> <span class="o">|=</span> <span class="n">EPOLLIN</span><span class="p">;</span>
-    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">ruby_interest</span> <span class="o">&amp;</span> <span class="n">writable</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">event</span><span class="p">.</span><span class="n">events</span> <span class="o">|=</span> <span class="n">EPOLLOUT</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="n">event</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">ptr</span> <span class="o">=</span> <span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="p">)</span> <span class="n">io</span><span class="p">;</span>
-
-    <span class="n">epoll_ctl</span><span class="p">(</span><span class="n">epfd</span><span class="p">,</span> <span class="n">EPOLL_CTL_ADD</span><span class="p">,</span> <span class="n">fd</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">event</span><span class="p">);</span>
-    <span class="k">return</span> <span class="n">Qnil</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="n">VALUE</span> <span class="nf">method_scheduler_deregister</span><span class="p">(</span><span class="n">VALUE</span> <span class="n">self</span><span class="p">,</span> <span class="n">VALUE</span> <span class="n">io</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">ID</span> <span class="n">id_fileno</span> <span class="o">=</span> <span class="n">rb_intern</span><span class="p">(</span><span class="s">"fileno"</span><span class="p">);</span>
-    <span class="kt">int</span> <span class="n">epfd</span> <span class="o">=</span> <span class="n">NUM2INT</span><span class="p">(</span><span class="n">rb_iv_get</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="s">"@epfd"</span><span class="p">));</span>
-    <span class="kt">int</span> <span class="n">fd</span> <span class="o">=</span> <span class="n">NUM2INT</span><span class="p">(</span><span class="n">rb_funcall</span><span class="p">(</span><span class="n">io</span><span class="p">,</span> <span class="n">id_fileno</span><span class="p">,</span> <span class="mi">0</span><span class="p">));</span>
-    <span class="n">epoll_ctl</span><span class="p">(</span><span class="n">epfd</span><span class="p">,</span> <span class="n">EPOLL_CTL_DEL</span><span class="p">,</span> <span class="n">fd</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span> <span class="c1">// Require Linux 2.6.9 for NULL event.</span>
-    <span class="k">return</span> <span class="n">Qnil</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="n">VALUE</span> <span class="nf">method_scheduler_wait</span><span class="p">(</span><span class="n">VALUE</span> <span class="n">self</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kt">int</span> <span class="n">n</span><span class="p">,</span> <span class="n">epfd</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">event_flag</span><span class="p">,</span> <span class="n">timeout</span><span class="p">;</span>
-    <span class="n">VALUE</span> <span class="n">next_timeout</span><span class="p">,</span> <span class="n">obj_io</span><span class="p">,</span> <span class="n">readables</span><span class="p">,</span> <span class="n">writables</span><span class="p">,</span> <span class="n">result</span><span class="p">;</span>
-    <span class="n">ID</span> <span class="n">id_next_timeout</span> <span class="o">=</span> <span class="n">rb_intern</span><span class="p">(</span><span class="s">"next_timeout"</span><span class="p">);</span>
-    <span class="n">ID</span> <span class="n">id_push</span> <span class="o">=</span> <span class="n">rb_intern</span><span class="p">(</span><span class="s">"push"</span><span class="p">);</span>
-    
-    <span class="n">epfd</span> <span class="o">=</span> <span class="n">NUM2INT</span><span class="p">(</span><span class="n">rb_iv_get</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="s">"@epfd"</span><span class="p">));</span>
-    <span class="n">next_timeout</span> <span class="o">=</span> <span class="n">rb_funcall</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">id_next_timeout</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-    <span class="n">readables</span> <span class="o">=</span> <span class="n">rb_ary_new</span><span class="p">();</span>
-    <span class="n">writables</span> <span class="o">=</span> <span class="n">rb_ary_new</span><span class="p">();</span>
-
-    <span class="k">if</span> <span class="p">(</span><span class="n">next_timeout</span> <span class="o">==</span> <span class="n">Qnil</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">timeout</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
-    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-        <span class="n">timeout</span> <span class="o">=</span> <span class="n">NUM2INT</span><span class="p">(</span><span class="n">next_timeout</span><span class="p">);</span>
-    <span class="p">}</span>
-
-    <span class="k">struct</span> <span class="n">epoll_event</span><span class="o">*</span> <span class="n">events</span> <span class="o">=</span> <span class="p">(</span><span class="k">struct</span> <span class="n">epoll_event</span><span class="o">*</span><span class="p">)</span> <span class="n">xmalloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="n">epoll_event</span><span class="p">)</span> <span class="o">*</span> <span class="n">EPOLL_MAX_EVENTS</span><span class="p">);</span>
-    
-    <span class="n">n</span> <span class="o">=</span> <span class="n">epoll_wait</span><span class="p">(</span><span class="n">epfd</span><span class="p">,</span> <span class="n">events</span><span class="p">,</span> <span class="n">EPOLL_MAX_EVENTS</span><span class="p">,</span> <span class="n">timeout</span><span class="p">);</span>
-    <span class="c1">// TODO: Check if n &gt;= 0</span>
-
-    <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">event_flag</span> <span class="o">=</span> <span class="n">events</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">events</span><span class="p">;</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">event_flag</span> <span class="o">&amp;</span> <span class="n">EPOLLIN</span><span class="p">)</span> <span class="p">{</span>
-            <span class="n">obj_io</span> <span class="o">=</span> <span class="p">(</span><span class="n">VALUE</span><span class="p">)</span> <span class="n">events</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">data</span><span class="p">.</span><span class="n">ptr</span><span class="p">;</span>
-            <span class="n">rb_funcall</span><span class="p">(</span><span class="n">readables</span><span class="p">,</span> <span class="n">id_push</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">obj_io</span><span class="p">);</span>
-        <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">event_flag</span> <span class="o">&amp;</span> <span class="n">EPOLLOUT</span><span class="p">)</span> <span class="p">{</span>
-            <span class="n">obj_io</span> <span class="o">=</span> <span class="p">(</span><span class="n">VALUE</span><span class="p">)</span> <span class="n">events</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">data</span><span class="p">.</span><span class="n">ptr</span><span class="p">;</span>
-            <span class="n">rb_funcall</span><span class="p">(</span><span class="n">writables</span><span class="p">,</span> <span class="n">id_push</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">obj_io</span><span class="p">);</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-
-    <span class="n">result</span> <span class="o">=</span> <span class="n">rb_ary_new2</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
-    <span class="n">rb_ary_store</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">readables</span><span class="p">);</span>
-    <span class="n">rb_ary_store</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">writables</span><span class="p">);</span>
-
-    <span class="n">xfree</span><span class="p">(</span><span class="n">events</span><span class="p">);</span>
-    <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="n">VALUE</span> <span class="nf">method_scheduler_backend</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="n">rb_str_new_cstr</span><span class="p">(</span><span class="s">"epoll"</span><span class="p">);</span>
-<span class="p">}</span>
-<span class="cp">#endif
-</span></code></pre></div></div>
-
-<p><code class="language-plaintext highlighter-rouge">kqueue</code> 是类似的。唯一不同的是，BSD 的注册和等待用的是同一个 API，只是参数不同，所以有点难懂。</p>
-
-<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#if defined(__FreeBSD__) || defined(__NetBSD__) || defined(__APPLE__)
-#include</span> <span class="cpf">&lt;sys/event.h&gt;</span><span class="cp">
-#define KQUEUE_MAX_EVENTS 64
-</span>
-<span class="n">VALUE</span> <span class="nf">method_scheduler_init</span><span class="p">(</span><span class="n">VALUE</span> <span class="n">self</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">rb_iv_set</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="s">"@kq"</span><span class="p">,</span> <span class="n">INT2NUM</span><span class="p">(</span><span class="n">kqueue</span><span class="p">()));</span>
-    <span class="k">return</span> <span class="n">Qnil</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="n">VALUE</span> <span class="nf">method_scheduler_register</span><span class="p">(</span><span class="n">VALUE</span> <span class="n">self</span><span class="p">,</span> <span class="n">VALUE</span> <span class="n">io</span><span class="p">,</span> <span class="n">VALUE</span> <span class="n">interest</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">struct</span> <span class="n">kevent</span> <span class="n">event</span><span class="p">;</span>
-    <span class="n">u_short</span> <span class="n">event_flags</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-    <span class="n">ID</span> <span class="n">id_fileno</span> <span class="o">=</span> <span class="n">rb_intern</span><span class="p">(</span><span class="s">"fileno"</span><span class="p">);</span>
-    <span class="kt">int</span> <span class="n">kq</span> <span class="o">=</span> <span class="n">NUM2INT</span><span class="p">(</span><span class="n">rb_iv_get</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="s">"@kq"</span><span class="p">));</span>
-    <span class="kt">int</span> <span class="n">fd</span> <span class="o">=</span> <span class="n">NUM2INT</span><span class="p">(</span><span class="n">rb_funcall</span><span class="p">(</span><span class="n">io</span><span class="p">,</span> <span class="n">id_fileno</span><span class="p">,</span> <span class="mi">0</span><span class="p">));</span>
-    <span class="kt">int</span> <span class="n">ruby_interest</span> <span class="o">=</span> <span class="n">NUM2INT</span><span class="p">(</span><span class="n">interest</span><span class="p">);</span>
-    <span class="kt">int</span> <span class="n">readable</span> <span class="o">=</span> <span class="n">NUM2INT</span><span class="p">(</span><span class="n">rb_const_get</span><span class="p">(</span><span class="n">rb_cIO</span><span class="p">,</span> <span class="n">rb_intern</span><span class="p">(</span><span class="s">"WAIT_READABLE"</span><span class="p">)));</span>
-    <span class="kt">int</span> <span class="n">writable</span> <span class="o">=</span> <span class="n">NUM2INT</span><span class="p">(</span><span class="n">rb_const_get</span><span class="p">(</span><span class="n">rb_cIO</span><span class="p">,</span> <span class="n">rb_intern</span><span class="p">(</span><span class="s">"WAIT_WRITABLE"</span><span class="p">)));</span>
-    
-    <span class="k">if</span> <span class="p">(</span><span class="n">ruby_interest</span> <span class="o">&amp;</span> <span class="n">readable</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">event_flags</span> <span class="o">|=</span> <span class="n">EVFILT_READ</span><span class="p">;</span>
-    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">ruby_interest</span> <span class="o">&amp;</span> <span class="n">writable</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">event_flags</span> <span class="o">|=</span> <span class="n">EVFILT_WRITE</span><span class="p">;</span>
-    <span class="p">}</span>
-
-    <span class="n">EV_SET</span><span class="p">(</span><span class="o">&amp;</span><span class="n">event</span><span class="p">,</span> <span class="n">fd</span><span class="p">,</span> <span class="n">event_flags</span><span class="p">,</span> <span class="n">EV_ADD</span><span class="o">|</span><span class="n">EV_ENABLE</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="p">)</span> <span class="n">io</span><span class="p">);</span>
-    <span class="n">kevent</span><span class="p">(</span><span class="n">kq</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">event</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span> <span class="c1">// TODO: Check the return value</span>
-    <span class="k">return</span> <span class="n">Qnil</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="n">VALUE</span> <span class="nf">method_scheduler_deregister</span><span class="p">(</span><span class="n">VALUE</span> <span class="n">self</span><span class="p">,</span> <span class="n">VALUE</span> <span class="n">io</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">struct</span> <span class="n">kevent</span> <span class="n">event</span><span class="p">;</span>
-    <span class="n">ID</span> <span class="n">id_fileno</span> <span class="o">=</span> <span class="n">rb_intern</span><span class="p">(</span><span class="s">"fileno"</span><span class="p">);</span>
-    <span class="kt">int</span> <span class="n">kq</span> <span class="o">=</span> <span class="n">NUM2INT</span><span class="p">(</span><span class="n">rb_iv_get</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="s">"@kq"</span><span class="p">));</span>
-    <span class="kt">int</span> <span class="n">fd</span> <span class="o">=</span> <span class="n">NUM2INT</span><span class="p">(</span><span class="n">rb_funcall</span><span class="p">(</span><span class="n">io</span><span class="p">,</span> <span class="n">id_fileno</span><span class="p">,</span> <span class="mi">0</span><span class="p">));</span>
-    <span class="n">EV_SET</span><span class="p">(</span><span class="o">&amp;</span><span class="n">event</span><span class="p">,</span> <span class="n">fd</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">EV_DELETE</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
-    <span class="n">kevent</span><span class="p">(</span><span class="n">kq</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">event</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span> <span class="c1">// TODO: Check the return value</span>
-    <span class="k">return</span> <span class="n">Qnil</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="n">VALUE</span> <span class="nf">method_scheduler_wait</span><span class="p">(</span><span class="n">VALUE</span> <span class="n">self</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kt">int</span> <span class="n">n</span><span class="p">,</span> <span class="n">kq</span><span class="p">,</span> <span class="n">i</span><span class="p">;</span>
-    <span class="n">u_short</span> <span class="n">event_flags</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-
-    <span class="k">struct</span> <span class="n">kevent</span><span class="o">*</span> <span class="n">events</span><span class="p">;</span> <span class="c1">// Event Triggered</span>
-    <span class="k">struct</span> <span class="n">timespec</span> <span class="n">timeout</span><span class="p">;</span>
-    <span class="n">VALUE</span> <span class="n">next_timeout</span><span class="p">,</span> <span class="n">obj_io</span><span class="p">,</span> <span class="n">readables</span><span class="p">,</span> <span class="n">writables</span><span class="p">,</span> <span class="n">result</span><span class="p">;</span>
-    <span class="n">ID</span> <span class="n">id_next_timeout</span> <span class="o">=</span> <span class="n">rb_intern</span><span class="p">(</span><span class="s">"next_timeout"</span><span class="p">);</span>
-    <span class="n">ID</span> <span class="n">id_push</span> <span class="o">=</span> <span class="n">rb_intern</span><span class="p">(</span><span class="s">"push"</span><span class="p">);</span>
-
-    <span class="n">kq</span> <span class="o">=</span> <span class="n">NUM2INT</span><span class="p">(</span><span class="n">rb_iv_get</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="s">"@kq"</span><span class="p">));</span>
-    <span class="n">next_timeout</span> <span class="o">=</span> <span class="n">rb_funcall</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">id_next_timeout</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-    <span class="n">readables</span> <span class="o">=</span> <span class="n">rb_ary_new</span><span class="p">();</span>
-    <span class="n">writables</span> <span class="o">=</span> <span class="n">rb_ary_new</span><span class="p">();</span>
-
-   <span class="n">events</span> <span class="o">=</span> <span class="p">(</span><span class="k">struct</span> <span class="n">kevent</span><span class="o">*</span><span class="p">)</span> <span class="n">xmalloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="n">kevent</span><span class="p">)</span> <span class="o">*</span> <span class="n">KQUEUE_MAX_EVENTS</span><span class="p">);</span>
-
-    <span class="k">if</span> <span class="p">(</span><span class="n">next_timeout</span> <span class="o">==</span> <span class="n">Qnil</span> <span class="o">||</span> <span class="n">NUM2INT</span><span class="p">(</span><span class="n">next_timeout</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">n</span> <span class="o">=</span> <span class="n">kevent</span><span class="p">(</span><span class="n">kq</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">events</span><span class="p">,</span> <span class="n">KQUEUE_MAX_EVENTS</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
-    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-        <span class="n">timeout</span><span class="p">.</span><span class="n">tv_sec</span> <span class="o">=</span> <span class="n">next_timeout</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">;</span>
-        <span class="n">timeout</span><span class="p">.</span><span class="n">tv_nsec</span> <span class="o">=</span> <span class="n">next_timeout</span> <span class="o">%</span> <span class="mi">1000</span> <span class="o">*</span> <span class="mi">1000</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">;</span>
-        <span class="n">n</span> <span class="o">=</span> <span class="n">kevent</span><span class="p">(</span><span class="n">kq</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">events</span><span class="p">,</span> <span class="n">KQUEUE_MAX_EVENTS</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">timeout</span><span class="p">);</span>
-    <span class="p">}</span>
-
-    <span class="c1">// TODO: Check if n &gt;= 0</span>
-    <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">event_flags</span> <span class="o">=</span> <span class="n">events</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">filter</span><span class="p">;</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">event_flags</span> <span class="o">&amp;</span> <span class="n">EVFILT_READ</span><span class="p">)</span> <span class="p">{</span>
-            <span class="n">obj_io</span> <span class="o">=</span> <span class="p">(</span><span class="n">VALUE</span><span class="p">)</span> <span class="n">events</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">udata</span><span class="p">;</span>
-            <span class="n">rb_funcall</span><span class="p">(</span><span class="n">readables</span><span class="p">,</span> <span class="n">id_push</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">obj_io</span><span class="p">);</span>
-        <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">event_flags</span> <span class="o">&amp;</span> <span class="n">EVFILT_WRITE</span><span class="p">)</span> <span class="p">{</span>
-            <span class="n">obj_io</span> <span class="o">=</span> <span class="p">(</span><span class="n">VALUE</span><span class="p">)</span> <span class="n">events</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">udata</span><span class="p">;</span>
-            <span class="n">rb_funcall</span><span class="p">(</span><span class="n">writables</span><span class="p">,</span> <span class="n">id_push</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">obj_io</span><span class="p">);</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-
-    <span class="n">result</span> <span class="o">=</span> <span class="n">rb_ary_new2</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
-    <span class="n">rb_ary_store</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">readables</span><span class="p">);</span>
-    <span class="n">rb_ary_store</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">writables</span><span class="p">);</span>
-
-    <span class="n">xfree</span><span class="p">(</span><span class="n">events</span><span class="p">);</span>
-    <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="n">VALUE</span> <span class="nf">method_scheduler_backend</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="n">rb_str_new_cstr</span><span class="p">(</span><span class="s">"kqueue"</span><span class="p">);</span>
-<span class="p">}</span>
-<span class="cp">#endif
-</span></code></pre></div></div>
-
-<h2 id="使用调度器的-http-服务器例子">使用调度器的 HTTP 服务器例子</h2>
-
-<p>在实现好调度器后，我们要测试调度器的性能。因此我写了一个简单的 HTTP 服务器 <a href="https://github.com/dsh0416/evt-server-benchmark">benchmark</a>。</p>
-
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">require</span> <span class="s1">'evt'</span>
-
-<span class="nb">puts</span> <span class="s2">"Using Backend: </span><span class="si">#{</span><span class="no">Evt</span><span class="o">::</span><span class="no">Scheduler</span><span class="p">.</span><span class="nf">backend</span><span class="si">}</span><span class="s2">"</span>
-<span class="no">Thread</span><span class="p">.</span><span class="nf">current</span><span class="p">.</span><span class="nf">scheduler</span> <span class="o">=</span> <span class="no">Evt</span><span class="o">::</span><span class="no">Scheduler</span><span class="p">.</span><span class="nf">new</span>
-
-<span class="vi">@server</span> <span class="o">=</span> <span class="no">Socket</span><span class="p">.</span><span class="nf">new</span> <span class="no">Socket</span><span class="o">::</span><span class="no">AF_INET</span><span class="p">,</span> <span class="no">Socket</span><span class="o">::</span><span class="no">SOCK_STREAM</span>
-<span class="vi">@server</span><span class="p">.</span><span class="nf">bind</span> <span class="no">Addrinfo</span><span class="p">.</span><span class="nf">tcp</span> <span class="s1">'127.0.0.1'</span><span class="p">,</span> <span class="mi">3002</span>
-<span class="vi">@server</span><span class="p">.</span><span class="nf">listen</span> <span class="no">Socket</span><span class="o">::</span><span class="no">SOMAXCONN</span>
-<span class="vi">@scheduler</span> <span class="o">=</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">current</span><span class="p">.</span><span class="nf">scheduler</span>
-
-<span class="k">def</span> <span class="nf">handle_socket</span><span class="p">(</span><span class="n">socket</span><span class="p">)</span>
-  <span class="n">line</span> <span class="o">=</span> <span class="n">socket</span><span class="p">.</span><span class="nf">gets</span>
-  <span class="k">until</span> <span class="n">line</span> <span class="o">==</span> <span class="s2">"</span><span class="se">\r\n</span><span class="s2">"</span> <span class="o">||</span> <span class="n">line</span><span class="p">.</span><span class="nf">nil?</span>
-    <span class="n">line</span> <span class="o">=</span> <span class="n">socket</span><span class="p">.</span><span class="nf">gets</span>
-  <span class="k">end</span>
-  <span class="n">socket</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="s2">"HTTP/1.1 200 OK</span><span class="se">\r\n</span><span class="s2">Content-Length: 0</span><span class="se">\r\n\r\n</span><span class="s2">"</span><span class="p">)</span>
-  <span class="n">socket</span><span class="p">.</span><span class="nf">close</span>
-<span class="k">end</span>
-
-<span class="no">Fiber</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">blocking: </span><span class="kp">false</span><span class="p">)</span> <span class="k">do</span>
-  <span class="k">while</span> <span class="kp">true</span>
-    <span class="n">socket</span><span class="p">,</span> <span class="n">addr</span> <span class="o">=</span> <span class="vi">@server</span><span class="p">.</span><span class="nf">accept</span>
-    <span class="no">Fiber</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">blocking: </span><span class="kp">false</span><span class="p">)</span> <span class="k">do</span>
-      <span class="n">handle_socket</span><span class="p">(</span><span class="n">socket</span><span class="p">)</span>
-    <span class="k">end</span><span class="p">.</span><span class="nf">resume</span>
-  <span class="k">end</span>
-<span class="k">end</span><span class="p">.</span><span class="nf">resume</span>
-
-<span class="vi">@scheduler</span><span class="p">.</span><span class="nf">run</span>
-</code></pre></div></div>
-
-<p>比起原先阻塞的 I/O，使用 Ruby 3 非阻塞 I/O 后可以达到 3.33x 的性能，而使用 <code class="language-plaintext highlighter-rouge">epoll</code> 后可以达到 4.21x。服务器的例子很简单，所以当 JIT 启动时，不容易造成 ICache 不命中，因此性能进一步提升到了 4.54x。</p>
-
-<p><img src="/assets/images/ruby-scheduler-benchmark.png" alt="Benchmark Result" /></p>
-
-<p>测试是基于 Intel(R) Xeon(R) CPU E3-1220L V2 @ 2.30GHz CPU 的，而且程序是单线程的。如果有更好的 CPU，<code class="language-plaintext highlighter-rouge">epoll</code> 和 <code class="language-plaintext highlighter-rouge">poll</code> 的差距会更大。欢迎尝试，相关 gem 代码已开源。</p>
-
-<h2 id="未来工作">未来工作</h2>
-
-<p>未来工作主要是两部分。一个是提升现有 API 的稳定性，还有就是加入 <code class="language-plaintext highlighter-rouge">io_uring</code> 和 <code class="language-plaintext highlighter-rouge">IOCP</code> 的支持。<code class="language-plaintext highlighter-rouge">io_uring</code> 倒是还好，但我是一点都不懂 Windows 开发。所以欢迎大家来提供意见和贡献。</p>
-
-<h2 id="源码">源码</h2>
-
-<p><a href="https://github.com/dsh0416/evt">dsh0416/evt</a></p>]]></content><author><name>CodeRemixer</name></author><category term="Ruby" /><category term="编程" /><summary type="html"><![CDATA[一次失败的提案]]></summary></entry></feed>
+<p>如果我们把文本重复 5 遍，压缩率能提升到 49%。不过这条件下，zip 能提高到 9% 的压缩率。果然还是不能和 DEFLATE 这种 LZW + 霍夫曼树这样的怪物比啊。不过简简单单 200 行代码就能实现一个性能上还不错的压缩、解压缩算法我已经比较满意了。</p>]]></content><author><name>CodeRemixer</name></author><category term="LZW" /><category term="C语言" /><category term="算法" /><category term="压缩" /><summary type="html"><![CDATA[起因]]></summary></entry></feed>
