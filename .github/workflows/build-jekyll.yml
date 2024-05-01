@@ -18,6 +18,8 @@ jobs:
         env:
           JEKYLL_ENV: production
         run: bundle exec jekyll build
+      - name: disable jekyll in deployment
+        run: touch _site/.nojekyll
       - name: deploy
         uses: JamesIves/github-pages-deploy-action@v4
         with:
