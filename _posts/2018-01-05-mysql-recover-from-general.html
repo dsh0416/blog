@@ -1,0 +1,454 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.25.1 by Michael Rose
+  Copyright 2013-2024 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>MySQL 惊险恢复记 - Coderemixer 代码混音师</title>
+<meta name="description" content="一个用来发牢骚的网站，以至于无法对所说的话负责。">
+
+
+  <meta name="author" content="CodeRemixer">
+  
+  <meta property="article:author" content="CodeRemixer">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Coderemixer 代码混音师">
+<meta property="og:title" content="MySQL 惊险恢复记">
+<meta property="og:url" content="https://coderemixer.com/_posts/2018-01-05-mysql-recover-from-general">
+
+
+  <meta property="og:description" content="一个用来发牢骚的网站，以至于无法对所说的话负责。">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2018-01-05T21:48:59+08:00">
+
+
+
+
+
+
+<link rel="canonical" href="https://coderemixer.com/_posts/2018-01-05-mysql-recover-from-general">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": null,
+      "url": "https://coderemixer.com/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Coderemixer 代码混音师 Feed">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css"></noscript>
+
+
+  
+    <script src="/assets/js/mathjax.js"></script>
+  
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          Coderemixer 代码混音师
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/">首页</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about">关于</a>
+            </li><li class="masthead__menu-item">
+              <a href="https://github.com/dsh0416">GitHub</a>
+            </li><li class="masthead__menu-item">
+              <a href="https://twitter.com/DeltonDing">X (Twitter)</a>
+            </li><li class="masthead__menu-item">
+              <a href="/atom.xml">RSS</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+    <div class="author__avatar">
+      <a href="https://coderemixer.com/">
+        <img src="/assets/images/bio-photo.png" alt="CodeRemixer" itemprop="image" class="u-photo">
+      </a>
+    </div>
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="https://coderemixer.com/" itemprop="url">CodeRemixer</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>一个用来发牢骚的网站，以至于无法对所说的话负责。<br /><br /> 文章若无特别声明，皆采用 <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 进行许可。</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">Shanghai ⊕ Tokyo</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="mailto:dsh0416@gmail.com" rel="nofollow noopener noreferrer me"><i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/dsh0416" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-github-square" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://twitter.com/DeltonDing" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-square-x-twitter" aria-hidden="true"></i><span class="label">X (Twitter)</span></a></li>
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="MySQL 惊险恢复记">
+    
+    <meta itemprop="datePublished" content="2018-01-05T21:48:59+08:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title p-name" itemprop="headline">
+            <a href="https://coderemixer.com/_posts/2018-01-05-mysql-recover-from-general" class="u-url" itemprop="url">MySQL 惊险恢复记
+</a>
+          </h1>
+          
+
+
+        </header>
+      
+
+      <section class="page__content e-content" itemprop="text">
+        
+        <p>昨天接到朋友的一个电话，说服务器被攻击了。上去一看，Windows 主机弱密码，直接被远程登录中了勒索病毒，要价就是好几十比特币。所有文件都被加密。遇到这个问题，第一反应就是完蛋，直接恢复备份吧。然而这是台物理机，而不是云主机，备份没有那么方便，所以这台机器</p>
+
+<p><strong>没有备份。</strong></p>
+
+<p>这基本上已经基本判了死刑了，当时的解决是立刻切断服务器电源，挂载到安全的电脑上找一些还没来得及被加密的文件抢救。</p>
+
+<h2 id="初探">初探</h2>
+
+<p>由于朋友当时不知道怎么拆 RAID 阵列，所以就直接把服务器整机搬到了我家里。🤦‍</p>
+
+<p>不过后来我拆开一看，其实只是一个 RAID 1，所以任何一块盘的内容是一样的，随便拔一块下来。联想收购 ThinkServer 后干的最大的大好事就是把硬盘架上的 T6H 螺丝换成了标准的十字螺丝。（我之前在 ThinkServer 螺丝问题上的坑爹遭遇参考<a href="/2017/02/15/build-up-x79-workstation/">此贴</a>）</p>
+
+<p>SATA 连上电脑检查文件。硬盘的核心文件是一个 MySQL 数据库，其它文件都是 stateless 的代码，倒是很容易恢复。根据恢复 MySQL 数据库的经验，第一反应是去找 MySQL 二进制日志文件。许多数据灾难最后都是通过二进制日志恢复的，而且这些已经都有非常成熟的工具可以直接使用。</p>
+
+<p>然而找到 <code class="language-plaintext highlighter-rouge">log</code> 的目录的时候发现所有的 <code class="language-plaintext highlighter-rouge">.bin</code> 文件已经变成了 <code class="language-plaintext highlighter-rouge">.bin.RESERVE</code>，显然是已经被加密没救了。</p>
+
+<h2 id="转机">转机</h2>
+
+<p>然而接下来，我突然发现，这个病毒的实现有个 Bug，一个实实在在的 Bug，为这个事情发现了转机。病毒没有加密所有文件，因为如果这样，它也无法发送自己的勒索信息，所以它保留了其自己生成出来文件名的文件不被加密。然而为了方便判断这个「自己生成」的概念，病毒是直接依靠后缀的。病毒保留了 <code class="language-plaintext highlighter-rouge">.html</code> <code class="language-plaintext highlighter-rouge">.txt</code> 和 <code class="language-plaintext highlighter-rouge">.log</code> 后缀的所有文件。</p>
+
+<p><code class="language-plaintext highlighter-rouge">.log</code>？这个通用的日志格式不也是 MySQL General Query Log 用的吗？虽然一般情况下，我们不会打开 MySQL General Query Log 这个那么低级别的 Log，<strong>但是</strong> 这台机器完全是一群不懂运维的人维护的。所有 MySQL 竟然是用 WAMP 全家桶安装的，还真的默认开启了 MySQL General Query Log。把 <code class="language-plaintext highlighter-rouge">mysql.log</code> 文件 dump 下来，果然完整叙述了这台机器运行一年间所有的连接和查询信息。依靠这个看来可以把所有数据都还原了！</p>
+
+<h2 id="oh-general-my-general">Oh General! My General!</h2>
+
+<p>MySQL General Query Log 虽然信息全，但并没有好用的直接把数据倒回去的工具（毕竟会开这个选项的可能性就很小吧）。那么没有就自己写咯。</p>
+
+<p>简单写了个 MySQL General Query Log 恢复工具：<a href="https://github.com/dsh0416/my-general">my_general</a></p>
+
+<p>这个工具的原理很简单，就是 parse log，然后判断这一行是不是一个 QUERY。然后简单判断了一下这个 QUERY 是不是一个 <code class="language-plaintext highlighter-rouge">SELECT</code> 或者 <code class="language-plaintext highlighter-rouge">SHOW</code>。如果是，就直接跳过；如果不是，那么就在数据库上运行一下。</p>
+
+<p>然而这个还是有一些问题，有一些 QUERY 是在 <code class="language-plaintext highlighter-rouge">DATABASE</code> 层做的，有些是连接上具体 <code class="language-plaintext highlighter-rouge">DATABASE</code> 进行的。但是由于问题比较简单，我就先手动建立 <code class="language-plaintext highlighter-rouge">DATABASE</code>，然后过滤所有 <code class="language-plaintext highlighter-rouge">CREATE DATABASE</code> 和 <code class="language-plaintext highlighter-rouge">CREATE USER</code> 的操作。</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt; gem install my_general
+&gt; my_general -l mysql.log -d connection.yaml
+
+Log File:           mysql.log
+Database YAML:      connection.yml
+[1/4] ⌚  Counting Complexity...
+[1/4] ⌚  Counting Complexity... OK [Complexity: 17793561]
+[2/4] 🔌  Dailing Database...
+[2/4] 🔌  Dailing Database... OK [Connected]
+[3/4] ⏳  Importing Data...
+Progress: |=====================================================================|
+[3/4] ⏳  Importing Data... OK [17793561/17793561]
+[4/4] 🚩  Finished!
+</code></pre></div></div>
+
+<p>解决！</p>
+
+<p>不过这玩意有一些问题，因为分隔符是换行号，如果主动比如在 <code class="language-plaintext highlighter-rouge">CREATE TABLE</code> 的时候自己拼一些换行号可能会爆炸。如果是用 ORM 做的 Migration 和日常使用，倒是没有这种特殊符号的问题。</p>
+
+<h2 id="结">结</h2>
+
+<p>做备份啊，做备份。备份不到用的时候永远被低估，一旦用到就悔恨万分。</p>
+
+<p>保持良好的用机习惯，不要没事上服务器下片。这服务器上连天猫、淘宝的浏览记录都有，还把 IE 的安全级别调低了。</p>
+
+<p>还有就是，遇到这种非常规的问题，不能紧张，保持乐观，要仔细寻找线索。</p>
+
+<p>反正修不好是常态，万一修好了呢。（逃</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/mysql" class="page__taxonomy-item p-category" rel="tag">MySQL</a><span class="sep">, </span>
+    
+      <a href="/tags/ruby" class="page__taxonomy-item p-category" rel="tag">Ruby</a><span class="sep">, </span>
+    
+      <a href="/tags/%E7%BC%96%E7%A8%8B" class="page__taxonomy-item p-category" rel="tag">编程</a><span class="sep">, </span>
+    
+      <a href="/tags/%E8%BF%90%E7%BB%B4" class="page__taxonomy-item p-category" rel="tag">运维</a>
+    
+    </span>
+  </p>
+
+
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2018-01-05T21:48:59+08:00">January 5, 2018</time></p>
+
+      </footer>
+
+      
+
+      
+    </div>
+
+    
+  </article>
+
+  
+  
+</div>
+
+      
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';" role="search">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2024 <a href="https://coderemixer.com">Coderemixer 代码混音师</a>. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+
+
+  </body>
+</html>

@@ -14,11 +14,13 @@
   background-color: #1f242c;
 }
 
+/* Copyright comment */
 /*!
- * Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
- * Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
- * Licensed under MIT (https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE)
-*/
+ * Minimal Mistakes Jekyll Theme 4.25.1 by Michael Rose
+ * Copyright 2013-2024 Michael Rose - mademistakes.com | @mmistakes
+ * Free for personal and commercial use under the MIT license
+ * https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+ */
 /* Variables */
 /* ==========================================================================
    Variables
@@ -869,30 +871,6 @@ pre {
   overflow-x: auto; /* add scrollbars to wide code blocks*/
 }
 
-p > code,
-a > code,
-li > code,
-figcaption > code,
-td > code {
-  padding-top: 0.1rem;
-  padding-bottom: 0.1rem;
-  font-size: 0.8em;
-  background: #1f242c;
-  border-radius: 4px;
-}
-p > code:before, p > code:after,
-a > code:before,
-a > code:after,
-li > code:before,
-li > code:after,
-figcaption > code:before,
-figcaption > code:after,
-td > code:before,
-td > code:after {
-  letter-spacing: -0.2em;
-  content: " "; /* non-breaking space*/
-}
-
 /* horizontal rule */
 hr {
   display: block;
@@ -1672,6 +1650,10 @@ th {
 .notice a:hover {
   color: #5f6162;
 }
+blockquote.notice {
+  border-left-color: #aaaeb0;
+}
+
 .notice code {
   background-color: #343942;
 }
@@ -1719,6 +1701,10 @@ th {
 .notice--primary a:hover {
   color: #00575b;
 }
+blockquote.notice--primary {
+  border-left-color: #009ca3;
+}
+
 .notice--primary code {
   background-color: #213741;
 }
@@ -1766,6 +1752,10 @@ th {
 .notice--info a:hover {
   color: #1e4e5d;
 }
+blockquote.notice--info {
+  border-left-color: #358ca7;
+}
+
 .notice--info code {
   background-color: #273541;
 }
@@ -1813,6 +1803,10 @@ th {
 .notice--warning a:hover {
   color: #6b4003;
 }
+blockquote.notice--warning {
+  border-left-color: #c17205;
+}
+
 .notice--warning code {
   background-color: #37332f;
 }
@@ -1860,6 +1854,10 @@ th {
 .notice--success a:hover {
   color: #205320;
 }
+blockquote.notice--success {
+  border-left-color: #399539;
+}
+
 .notice--success code {
   background-color: #283635;
 }
@@ -1907,6 +1905,10 @@ th {
 .notice--danger a:hover {
   color: #77302e;
 }
+blockquote.notice--danger {
+  border-left-color: #d65652;
+}
+
 .notice--danger code {
   background-color: #392f38;
 }
@@ -3648,6 +3650,10 @@ body {
   margin-top: 0;
   line-height: 1;
 }
+.page__title a {
+  color: #eaeaea;
+  text-decoration: none;
+}
 .page__title + .page__meta, .page__title + .comment__date {
   margin-top: -0.5em;
 }
@@ -3692,6 +3698,17 @@ body {
 }
 .page__content a:not(.btn):hover img {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+}
+.page__content :not(pre) > code {
+  padding-top: 0.1rem;
+  padding-bottom: 0.1rem;
+  font-size: 0.8em;
+  background: #1f242c;
+  border-radius: 4px;
+}
+.page__content :not(pre) > code::before, .page__content :not(pre) > code::after {
+  letter-spacing: -0.2em;
+  content: " "; /* non-breaking space*/
 }
 .page__content dt {
   margin-top: 1em;
@@ -4609,6 +4626,10 @@ body {
     clear: both;
     content: "";
     display: table;
+  }
+  .sidebar__right.sticky .toc .toc__menu {
+    overflow-y: auto;
+    max-height: calc(100vh - 7em);
   }
 }
 @media (min-width: 80em) {

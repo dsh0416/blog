@@ -1,0 +1,484 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.25.1 by Michael Rose
+  Copyright 2013-2024 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>从零开始 Ruby on PHP - Coderemixer 代码混音师</title>
+<meta name="description" content="一个用来发牢骚的网站，以至于无法对所说的话负责。">
+
+
+  <meta name="author" content="CodeRemixer">
+  
+  <meta property="article:author" content="CodeRemixer">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Coderemixer 代码混音师">
+<meta property="og:title" content="从零开始 Ruby on PHP">
+<meta property="og:url" content="https://coderemixer.com/_posts/2016-06-10-ruby-on-php">
+
+
+  <meta property="og:description" content="一个用来发牢骚的网站，以至于无法对所说的话负责。">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2016-06-10T22:02:06+08:00">
+
+
+
+
+
+
+<link rel="canonical" href="https://coderemixer.com/_posts/2016-06-10-ruby-on-php">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": null,
+      "url": "https://coderemixer.com/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Coderemixer 代码混音师 Feed">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css"></noscript>
+
+
+  
+    <script src="/assets/js/mathjax.js"></script>
+  
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          Coderemixer 代码混音师
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/">首页</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about">关于</a>
+            </li><li class="masthead__menu-item">
+              <a href="https://github.com/dsh0416">GitHub</a>
+            </li><li class="masthead__menu-item">
+              <a href="https://twitter.com/DeltonDing">X (Twitter)</a>
+            </li><li class="masthead__menu-item">
+              <a href="/atom.xml">RSS</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+    <div class="author__avatar">
+      <a href="https://coderemixer.com/">
+        <img src="/assets/images/bio-photo.png" alt="CodeRemixer" itemprop="image" class="u-photo">
+      </a>
+    </div>
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="https://coderemixer.com/" itemprop="url">CodeRemixer</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>一个用来发牢骚的网站，以至于无法对所说的话负责。<br /><br /> 文章若无特别声明，皆采用 <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 进行许可。</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">Shanghai ⊕ Tokyo</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="mailto:dsh0416@gmail.com" rel="nofollow noopener noreferrer me"><i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/dsh0416" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-github-square" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://twitter.com/DeltonDing" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-square-x-twitter" aria-hidden="true"></i><span class="label">X (Twitter)</span></a></li>
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="从零开始 Ruby on PHP">
+    
+    <meta itemprop="datePublished" content="2016-06-10T22:02:06+08:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title p-name" itemprop="headline">
+            <a href="https://coderemixer.com/_posts/2016-06-10-ruby-on-php" class="u-url" itemprop="url">从零开始 Ruby on PHP
+</a>
+          </h1>
+          
+
+
+        </header>
+      
+
+      <section class="page__content e-content" itemprop="text">
+        
+        <h2 id="关于什叶派-php-教徒">关于什叶派 PHP 教徒</h2>
+<p>PHP 早期的设计意图下整个语言都是模板驱动的。也就是说主要就是写个静态页面，在适当的需要动态的场合插入一些短小的 CGI 代码。然而逊尼派 PHP 教徒确认为 PHP 可以变成一门大而全的语言，摇身一变，强行又是 MVC 又是 MVC 的。各种框架层出不穷，抄完 Spring 又抄 Rails，甚至在一门模板驱动的语言中再搞一个模板渲染引擎。简直是异教。</p>
+
+<h2 id="ruby-on-php">Ruby on PHP</h2>
+<p>考虑到 Ruby 是一门强大的支持元编程的语言。很容易地我们能够将 Ruby 写成一门以模板来驱动的 CGI 语言。通过几行代码</p>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">require</span> <span class="s1">'sinatra'</span>
+
+<span class="n">get</span> <span class="s1">'/'</span> <span class="k">do</span>
+  <span class="n">redirect</span> <span class="s1">'/index.php'</span>
+<span class="k">end</span>
+
+<span class="n">get</span> <span class="sr">/^\/(.*?)\.php$/</span> <span class="k">do</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span>
+  <span class="n">erb</span> <span class="n">c</span><span class="p">.</span><span class="nf">to_sym</span>
+<span class="k">end</span>
+
+<span class="n">post</span> <span class="sr">/^\/(.*?)\.php$/</span> <span class="k">do</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span>
+  <span class="n">erb</span> <span class="n">c</span><span class="p">.</span><span class="nf">to_sym</span>
+<span class="k">end</span>
+</code></pre></div></div>
+<p>这样，只需要在 <code class="language-plaintext highlighter-rouge">./view</code> 下创建 erb 文件就可以当做 php 来写了，甚至连子目录都可以。
+当然这样有一些小问题，比如，传进 erb 后连 request 来什么请求都不知道了。
+所以我们可以稍作修改。</p>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">require</span> <span class="s1">'sinatra'</span>
+
+<span class="n">get</span> <span class="s1">'/'</span> <span class="k">do</span>
+  <span class="n">redirect</span> <span class="s1">'/index.php'</span>
+<span class="k">end</span>
+
+<span class="n">get</span> <span class="sr">/^\/(.*?)\.php$/</span> <span class="k">do</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span>
+  <span class="n">erb</span> <span class="n">c</span><span class="p">.</span><span class="nf">to_sym</span><span class="p">,</span> <span class="ss">locals: </span><span class="p">{</span><span class="ss">request: </span><span class="n">request</span><span class="p">}</span>
+<span class="k">end</span>
+
+<span class="n">post</span> <span class="sr">/^\/(.*?)\.php$/</span> <span class="k">do</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span>
+  <span class="n">erb</span> <span class="n">c</span><span class="p">.</span><span class="nf">to_sym</span><span class="p">,</span> <span class="ss">locals: </span><span class="p">{</span><span class="ss">request: </span><span class="n">request</span><span class="p">}</span>
+<span class="k">end</span>
+</code></pre></div></div>
+<p>这样我们就有了一切 request 的数据了。自己在里面继续二次处理就是了。</p>
+
+<h2 id="模板渲染">模板渲染</h2>
+<p>erb 模板是有趣的，但是像 PHP 那样一次性插十几行代码就不是很方便了。其实 erb 里也有这样的方法，只是 deprecated 而已。</p>
+<div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;body&gt;</span>
+  <span class="cp">&lt;%</span>
+    <span class="nb">puts</span> <span class="s1">'foo'</span>
+    <span class="nb">puts</span> <span class="s1">'bar'</span>
+  <span class="cp">%&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+</code></pre></div></div>
+<p>然而问题来了，erb 里并不支持 echo 那样的命令。这样我们没法在一坨 Ruby 代码中输出某个东西到网页。
+但是，Rails 里的 ActionView 不是支持 concat 吗？那么我们稍稍用点元编程的技巧，支持一下 echo 咯。
+所以我们得到了最终代码</p>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># This is yet another PHP project</span>
+<span class="nb">require</span> <span class="s1">'sinatra'</span>
+<span class="nb">require</span> <span class="s1">'action_view'</span>
+
+<span class="n">lookup_context</span> <span class="o">=</span> <span class="no">ActionView</span><span class="o">::</span><span class="no">LookupContext</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'./views'</span><span class="p">)</span>
+<span class="n">lookup_context</span><span class="p">.</span><span class="nf">cache</span> <span class="o">=</span> <span class="kp">false</span> <span class="k">if</span> <span class="n">development?</span>
+<span class="n">view_context</span> <span class="o">=</span> <span class="no">ActionView</span><span class="o">::</span><span class="no">Base</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">lookup_context</span><span class="p">)</span>
+
+<span class="k">module</span> <span class="nn">ActionView::Helpers::TextHelper</span>
+  <span class="k">def</span> <span class="nf">echo</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+    <span class="n">output_buffer</span> <span class="o">&lt;&lt;</span> <span class="n">string</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="n">get</span> <span class="s1">'/'</span> <span class="k">do</span>
+  <span class="n">redirect</span> <span class="s1">'/index.php'</span>
+<span class="k">end</span>
+
+<span class="n">get</span> <span class="sr">/^\/(.*?)\.php$/</span> <span class="k">do</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span>
+  <span class="n">view_context</span><span class="p">.</span><span class="nf">render</span><span class="p">(</span><span class="ss">file: </span><span class="n">c</span><span class="p">,</span> <span class="ss">locals: </span><span class="p">{</span><span class="ss">request: </span><span class="n">request</span><span class="p">})</span>
+<span class="k">end</span>
+
+<span class="n">post</span> <span class="sr">/^\/(.*?)\.php$/</span> <span class="k">do</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span>
+  <span class="n">view_context</span><span class="p">.</span><span class="nf">render</span><span class="p">(</span><span class="ss">file: </span><span class="n">c</span><span class="p">,</span> <span class="ss">locals: </span><span class="p">{</span><span class="ss">request: </span><span class="n">request</span><span class="p">})</span>
+<span class="k">end</span>
+</code></pre></div></div>
+<p>我们也能在 erb 里愉快地 echo 了</p>
+<div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;html&gt;</span>
+  <span class="nt">&lt;body&gt;</span>
+    Proudly Powered By 
+    <span class="nt">&lt;br&gt;</span>
+  <span class="cp">&lt;%</span>
+    <span class="n">echo</span> <span class="s1">'PHP'</span>
+  <span class="cp">%&gt;</span>
+  <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</code></pre></div></div>
+
+<h2 id="副作用">副作用</h2>
+<p>根据上面的做法，我们把 Ruby 变成了一门什叶派 PHP 心目中 PHP 本该有的样子了。
+顺便还带来了一点副作用那就是，Wappalyzer 把这个项目完全当做 PHP 项目了。
+假如黑客试图用 PHP 的漏洞来攻击你，就等着看好戏吧。诶嘿~</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/php" class="page__taxonomy-item p-category" rel="tag">PHP</a><span class="sep">, </span>
+    
+      <a href="/tags/ruby" class="page__taxonomy-item p-category" rel="tag">Ruby</a><span class="sep">, </span>
+    
+      <a href="/tags/%E7%BC%96%E7%A8%8B" class="page__taxonomy-item p-category" rel="tag">编程</a>
+    
+    </span>
+  </p>
+
+
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2016-06-10T22:02:06+08:00">June 10, 2016</time></p>
+
+      </footer>
+
+      
+
+      
+    </div>
+
+    
+  </article>
+
+  
+  
+</div>
+
+      
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';" role="search">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2024 <a href="https://coderemixer.com">Coderemixer 代码混音师</a>. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+
+
+  </body>
+</html>

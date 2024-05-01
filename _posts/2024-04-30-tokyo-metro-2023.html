@@ -1,0 +1,465 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.25.1 by Michael Rose
+  Copyright 2013-2024 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>一个熟悉又陌生的解谜游戏 —— 东京地下铁 2023 解谜游戏设计分析 - Coderemixer 代码混音师</title>
+<meta name="description" content="一个用来发牢骚的网站，以至于无法对所说的话负责。">
+
+
+  <meta name="author" content="CodeRemixer">
+  
+  <meta property="article:author" content="CodeRemixer">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Coderemixer 代码混音师">
+<meta property="og:title" content="一个熟悉又陌生的解谜游戏 —— 东京地下铁 2023 解谜游戏设计分析">
+<meta property="og:url" content="https://coderemixer.com/_posts/2024-04-30-tokyo-metro-2023">
+
+
+  <meta property="og:description" content="一个用来发牢骚的网站，以至于无法对所说的话负责。">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2024-04-30T22:39:32+08:00">
+
+
+
+
+
+
+<link rel="canonical" href="https://coderemixer.com/_posts/2024-04-30-tokyo-metro-2023">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": null,
+      "url": "https://coderemixer.com/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Coderemixer 代码混音师 Feed">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css"></noscript>
+
+
+  
+    <script src="/assets/js/mathjax.js"></script>
+  
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          Coderemixer 代码混音师
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/">首页</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about">关于</a>
+            </li><li class="masthead__menu-item">
+              <a href="https://github.com/dsh0416">GitHub</a>
+            </li><li class="masthead__menu-item">
+              <a href="https://twitter.com/DeltonDing">X (Twitter)</a>
+            </li><li class="masthead__menu-item">
+              <a href="/atom.xml">RSS</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+    <div class="author__avatar">
+      <a href="https://coderemixer.com/">
+        <img src="/assets/images/bio-photo.png" alt="CodeRemixer" itemprop="image" class="u-photo">
+      </a>
+    </div>
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="https://coderemixer.com/" itemprop="url">CodeRemixer</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>一个用来发牢骚的网站，以至于无法对所说的话负责。<br /><br /> 文章若无特别声明，皆采用 <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 进行许可。</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">Shanghai ⊕ Tokyo</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="mailto:dsh0416@gmail.com" rel="nofollow noopener noreferrer me"><i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/dsh0416" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-github-square" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://twitter.com/DeltonDing" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-square-x-twitter" aria-hidden="true"></i><span class="label">X (Twitter)</span></a></li>
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="一个熟悉又陌生的解谜游戏 —— 东京地下铁 2023 解谜游戏设计分析">
+    
+    <meta itemprop="datePublished" content="2024-04-30T22:39:32+08:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title p-name" itemprop="headline">
+            <a href="https://coderemixer.com/_posts/2024-04-30-tokyo-metro-2023" class="u-url" itemprop="url">一个熟悉又陌生的解谜游戏 —— 东京地下铁 2023 解谜游戏设计分析
+</a>
+          </h1>
+          
+
+
+        </header>
+      
+
+      <section class="page__content e-content" itemprop="text">
+        
+        <p>2019 年我写过一篇<a href="/2019/01/10/heisei-last-unfinished-game">《平成最后的烂尾游戏——东京地下铁 2018 解谜游戏设计分析》</a>。<del>2020 年因为 COVID-19 的原因，没怎么敢出门错过了 Tokyo Metro 地下谜 2019。</del> 有人说我其实玩过 2019，并且还解得很快… 然后我想起来了，确实玩过，并且谜题极其简单，很快速就过了，以至于我甚至没有回家写 review。而 2021 年的地下谜又被取消了，乘着 2023 年地下谜延长了举办时间，当然是务必来日本玩了这个游戏。</p>
+
+<p>下面的内容不单纯是从玩家的角度在看这款游戏，很多时候是从游戏设计的角度在看问题，因此包含 <strong>大量剧透</strong>，<strong>请没有玩过这款游戏并且想要体验这款游戏的玩家，千万不要继续往下读</strong>。</p>
+
+<h2 id="国际化">国际化</h2>
+
+<p>2018 和 2019 两代的东京地下铁解谜是有英文和中文版本的，然而 2023 版本是只有日本语的。</p>
+
+<p><img src="/assets/images/tokyo-metro-2023-japanese.png" alt="Japanese Only" /></p>
+
+<p>看到这里的我还天真地没有意识到事情的严重性，我想我 <del>也是 JLPT N2</del> 日本语相关的豆知识知道一大堆，想必区区一个解谜游戏那是余裕吧。</p>
+
+<p>我是从新宿歌舞伎町的 Tokyo Mystery Circus 兑换的招待状，第一章的谜题是比较简单的字谜，我大约在门口的小桌子上画了 30 分钟解完的。整体是一个类似 Crosswords 的游戏。其实大多数的谜题答案其实在「車掌さんのコラムシート」里已经给出了，我还在那里疯狂查 Google。很明显，我犯了和 2018 年一样的错误，忘记在教学关仔细查看袋子里的东西。</p>
+
+<p>然后我们进入到第二章，第二章 Group A 由于 3 月 18 日后两个车站无法在现地进行游戏，于是改成了纯的字谜，也就是噩梦的开始。</p>
+
+<p><img src="/assets/images/tokyo-metro-2023-chapter-2-group-a.jpg" alt="Chapter 2 Group A" /></p>
+
+<p>从一上来的 A=幸 B=踊 C=祝，到下面一排的提示，根据音节的数量的暗示，很明显是要填某种词性变形。虽然我直观上第一反应就是填入「幸せ、踊り、祝い」因为感觉这是最常用的搭配。但不知为何，我的文法小雷达就开始响。「第一个怎么是个形容动词（な类形容词），但第二个是动词，第三个又是名词？」「如果形容动词可以的话幸い（さいわい）不也符合要求吗？」「踊る是五段动词诶，为什么在这里要用连用形？」在脑子里噼里啪啦想了半天… 最后发现一开始的想法就是对的。我觉得反而对于日本人来说我上面这些想法才是很奇怪的，因为语言本身是从上下文中学习的，而不是从语法规则中学习的。但是对于一个日语作为我第四语言的外国人来说，确实是有点难受了。</p>
+
+<p>我们先跳过 Group B 的谜题，聊一聊第三章的谜题。这个谜题简直是上面这个谜题的升级，真的是把我折腾到身心俱疲。</p>
+
+<p><img src="/assets/images/tokyo-metro-2023-chapter-3.jpg" alt="Chapter 3" /></p>
+
+<p>第三章的舞台发生在根津神社。从 Metro 的地铁站出来，首先会经过一个大约高度差 8 米的坂道。STEP1 是比较简单的，就是逛一遍神社，根据内容把神社内的一些贴纸贴上。STEP2 让我从一个词推断出另一个词，我对着这玩意看了至少五分钟，才意识到其实是日语的词语接龙游戏。虽然汉语也会有类似成语接龙之类的东西，但日语的词语接龙还是有不太一样的规则的。上一次看到日语的词语接龙游戏还是在看《小林さんちのメイドラゴン》的时候。这我们バカ外人怎么能很快反应过来啊。</p>
+
+<p>游戏设定在这里，希望你找个餐厅坐下来慢慢搞，但说句实话，由于我是中午 11 点开始的游戏，这个时候不是饭点，即使是书里推荐的合作餐厅好像也只有一家开着。作为国宝・重要文化財（建造物），根津神社那可以说游客是人山人海，完全没有地方能站或者坐下来慢慢想的。想找个星巴克之类的发现好远，那找个麦当劳吧，也要走 1km 并且还是和车站反方向。然后想找个能刷 Suica 的自动贩卖机也没找到，我身上还背着相机电脑，一个包里有 5kg+ 的负重都快脱水了。好不容易看到一个 7-11，硬灌了两瓶宝矿力后开始了这个词语接龙。折腾了半天战绩奇差，只猜出来了四个词语，还有四个都不太确定。尤其那个蝌蚪，我怎么看都像… 孑孓（蚊子的幼虫），结果是蝌蚪… 好消息是这个地方只是想要拼一个鬼脚图（阿弥陀籤），可以通过逻辑推理来弥补掉没猜出来的部分。（怎么又是阿弥陀籤，年年都设计阿弥陀籤吗？）</p>
+
+<p>谁知道，翻到反面让我看这个「①④⑧の成長後」，还是得硬着头皮猜。然而就算你猜出来了，其实和谜题答案关系也不大，需要拿第二章的收尾谜题中用过的纸的一部分和这页拼来拼去，拼完后给你几个抽象的图形，我甚至没反应过来画了这个太阳暗指的是皇居… 这多少对于我们安娜其主义者不太友好了。这地方是我全场唯一一次看 Hint，太离谱了。</p>
+
+<p><img src="/assets/images/tokyo-metro-2023-chapter-3-combination.jpg" alt="Chapter 3 Combination" /></p>
+
+<p>（来，聪明的你告诉我，上面这个图案表示什么车站？）</p>
+
+<p>这其实就是一个国际化陷阱，就是当你写了一些司空见惯的文化符号的时候，其实没有意识到你的语言来自于一个对于上下文（语境）的整体认知。这些设计确实是会在跨文化中非常困境的，也难怪今年谜题没有其它语言，如果让我做这个翻译，我估计会气到脑中风。我不知道这些图形和符号对于以日语为母语的人能有多快的反应速度，但从中其实可以得到一些游戏设计的启示，如果我们要以国际化发行为某种目标的话，应当避免怎么样的设计。</p>
+
+<h2 id="折纸--我最爱的一集">折纸 —— 我最爱的一集</h2>
+
+<p>第二章 Group B 是个中规中矩的内容，和前作一样，第二章的重要目的是聚合，把不同地方开始的玩家，通过不同的引导方式，最终指引到唯一的地方去。</p>
+
+<p>我当时从新宿出发去的最近的「九段下」，做完任务后，我们将 A 和 B 的密码拼起来后得到了一句让你把「千代田线的隔离门打开」的指示。这是个有了很久铺垫的指示，因为第一章中就反复出现了这个「千代田线的隔离门」，你马上就知道要把纸张撕开。比较不方便的是这个中缝订得很牢，我一度以为不需要整张撕下。撕下后比划了一下，发现能折出「金」「空」这样的字，和一开始说「有楽町線」和「東西線」是金色和青空色的。这是一个特别好的模进（Sequentia），我在上一篇文章中也提到过这个设计技巧。然后引入了第一个谷折、山折的概念（我也是第一次学习到这个日语用法）。折完后的形状正好能塞下发的装游戏 Kit 的包，而包上正好有个缺口，把赠的一日票放上去，就得到了下一站的目的地。这套联招下来简直酷死了，当时简直成就感爆棚。和第三章那个诡异的接龙游戏、图像对对乐不知道高到哪里去了。</p>
+
+<p><img src="/assets/images/tokyo-metro-2023-origami.jpg" alt="Origami" /></p>
+
+<p>第四章的谜题相对是比较简单的，由于受到了第三章的折磨，完全知道出题人的思路是什么了。于是我们走向了旅程的终章！</p>
+
+<h2 id="终章--我最最喜欢的一集">终章 —— 我最最喜欢的一集</h2>
+
+<p>我评价 2018 年地下铁谜题是平成最后的烂尾游戏，终章的时候给了极强的气氛渲染，然后莫名其妙就结束了。然而这次的谜题将终章的舞台搬到了东京铁塔，并且是让你一步步推到的东京铁塔！这个心境的变化是难以言说的。</p>
+
+<p>终章中一开始那个字谜，一下子就没有第三章那种缺点了，从「神保町」出来后，一抬头「嘿，这不是到我们学校附近了吗？不会舞台要放到东京铁塔了吧」（结果还真是）。在东京铁塔收集了线索后，完成了线下的全部流程。</p>
+
+<p>但是当你回到家继续完成线上部分的时候，游戏又给你准备了一组渐强的模进。从一个字谜开始，又转向了一个折纸谜题，最后又通过这个折纸又得到了一个东京铁塔！最后终于完成了全部的谜题。这个收尾的感觉太棒了，掩盖了很多游戏中的不足之处，2023 年的结局真的做得比 2018 年的好太多了。</p>
+
+<p><img src="/assets/images/tokyo-metro-2023-tokyo-tower.jpg" alt="Tokyo Tower" /></p>
+
+<h2 id="一些感想">一些感想</h2>
+
+<p>我今天 11:30 兑换的套件，17:50 完成了全部的线下部分，共计 6 小时 20 分钟。线上部分大约又花费了 30 分钟，和 2018 年的游戏时长差不多。</p>
+
+<p><img src="/assets/images/tokyo-metro-2023-congratulations.jpg" alt="Congratulations" /></p>
+
+<p>讨论一下我对这个游戏的整体感想吧。我觉得第二章和终章就是神，第一章和第四章一般，第三章简直就像是因为和根津神社有合作然后胡搞的一样。某种意义上我感觉第一、第二章和终章像是同一个设计师设计的谜题，而第三、第四章是另一个设计师。</p>
+
+<p>其实玩了两把之后还是感觉工业化痕迹挺重的，一些解谜思路在反复出现。作为年货游戏，其实还是能看得出来谜题设计时候的很多思路的。</p>
+
+<p>不过在片尾人员字幕表中再次看到了「堺谷 光」我还是挺震惊的。在上次的文章中我有说过堺谷光的一篇论文中大量围绕动机和模进设计的游戏机制，在今天的游戏中也有不少体现。不过之前看到 Linkedin 上他已经不在 SCRAP 公司工作了，让我对今年的游戏质量多少有点担忧。</p>
+
+<p>还有一个我感觉有点失望的是，在 2018 年游戏的最终谜题中，制作人构造了一个相当精妙的 NP 问题，使得游戏对于玩家试图枚举答案的搜索空间有一个精确的约束，可以极好地控制难度。但这样的数值设计思想没有体现在今年的游戏中。感觉一题这样的东西都没有，很奇怪。</p>
+
+<p>整体感觉今天学到很多，不管是好的方面还是不好的方面。希望明年的游戏可以更好。</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/%E5%9C%B0%E4%B8%8B%E8%AC%8E" class="page__taxonomy-item p-category" rel="tag">地下謎</a><span class="sep">, </span>
+    
+      <a href="/tags/%E6%B7%B7%E5%90%88%E7%8E%B0%E5%AE%9E" class="page__taxonomy-item p-category" rel="tag">混合现实</a><span class="sep">, </span>
+    
+      <a href="/tags/%E6%B8%B8%E6%88%8F" class="page__taxonomy-item p-category" rel="tag">游戏</a><span class="sep">, </span>
+    
+      <a href="/tags/%E8%AE%BE%E8%AE%A1" class="page__taxonomy-item p-category" rel="tag">设计</a>
+    
+    </span>
+  </p>
+
+
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2024-04-30T22:39:32+08:00">April 30, 2024</time></p>
+
+      </footer>
+
+      
+
+      
+    </div>
+
+    
+  </article>
+
+  
+  
+</div>
+
+      
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';" role="search">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2024 <a href="https://coderemixer.com">Coderemixer 代码混音师</a>. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+
+
+  </body>
+</html>

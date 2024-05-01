@@ -1,0 +1,526 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.25.1 by Michael Rose
+  Copyright 2013-2024 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>元胞自动机 101 —— 13 Archetypes: Humanist - Coderemixer 代码混音师</title>
+<meta name="description" content="一个用来发牢骚的网站，以至于无法对所说的话负责。">
+
+
+  <meta name="author" content="CodeRemixer">
+  
+  <meta property="article:author" content="CodeRemixer">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Coderemixer 代码混音师">
+<meta property="og:title" content="元胞自动机 101 —— 13 Archetypes: Humanist">
+<meta property="og:url" content="https://coderemixer.com/_posts/2020-01-14-archetypes-humanity">
+
+
+  <meta property="og:description" content="一个用来发牢骚的网站，以至于无法对所说的话负责。">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2020-01-14T13:22:47+08:00">
+
+
+
+
+
+
+<link rel="canonical" href="https://coderemixer.com/_posts/2020-01-14-archetypes-humanity">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": null,
+      "url": "https://coderemixer.com/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Coderemixer 代码混音师 Feed">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css"></noscript>
+
+
+  
+    <script src="/assets/js/mathjax.js"></script>
+  
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          Coderemixer 代码混音师
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/">首页</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about">关于</a>
+            </li><li class="masthead__menu-item">
+              <a href="https://github.com/dsh0416">GitHub</a>
+            </li><li class="masthead__menu-item">
+              <a href="https://twitter.com/DeltonDing">X (Twitter)</a>
+            </li><li class="masthead__menu-item">
+              <a href="/atom.xml">RSS</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+    <div class="author__avatar">
+      <a href="https://coderemixer.com/">
+        <img src="/assets/images/bio-photo.png" alt="CodeRemixer" itemprop="image" class="u-photo">
+      </a>
+    </div>
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="https://coderemixer.com/" itemprop="url">CodeRemixer</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>一个用来发牢骚的网站，以至于无法对所说的话负责。<br /><br /> 文章若无特别声明，皆采用 <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 进行许可。</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">Shanghai ⊕ Tokyo</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="mailto:dsh0416@gmail.com" rel="nofollow noopener noreferrer me"><i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/dsh0416" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-github-square" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://twitter.com/DeltonDing" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-square-x-twitter" aria-hidden="true"></i><span class="label">X (Twitter)</span></a></li>
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="元胞自动机 101 —— 13 Archetypes: Humanist">
+    
+    <meta itemprop="datePublished" content="2020-01-14T13:22:47+08:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title p-name" itemprop="headline">
+            <a href="https://coderemixer.com/_posts/2020-01-14-archetypes-humanity" class="u-url" itemprop="url">元胞自动机 101 —— 13 Archetypes: Humanist
+</a>
+          </h1>
+          
+
+
+        </header>
+      
+
+      <section class="page__content e-content" itemprop="text">
+        
+        <p>前一晚改论文改睡着了，结果错过了。早上醒来发现题目还挺简单的，来聊一聊谜题的出题思路吧。</p>
+
+<p><img src="https://storage.googleapis.com/ingress-internal-event-data/13archetypes/humanist/humanist2_a6f9854f-6e0c-5050-a10d-91f4aaa4c382.png" alt="题目" /></p>
+
+<h2 id="一种新科学">一种新科学</h2>
+
+<p>元胞自动机是一种由元胞、元胞状态、领域、和状态更新规则构成的一个自动机，其数学表达为：</p>
+
+\[A = (L, d, S, N, f)\]
+
+<p>换成人话就是说，对于一个 d 维度的有限状态矩阵，每次每个格点的状态更新取决于其上一次中周围格点的状态。元胞自动机是研究混沌现象的一个重要模型，在 Wolfram 出版的书籍《一种新科学》（我个人对这是不是一种新科学持保留态度）中被进行了非常深入的探讨。</p>
+
+<p>Wolfram 把初等一维元胞自动机的全部 256 种规则进行了分类，分成了四类：平稳型、周期型、混沌型、复杂型。</p>
+
+<ul>
+  <li>平稳型就是无论初始局面如何，最后终会变成稳定均匀状态。</li>
+  <li>周期性则是无论初始局面如何，最终会变成稳定的震荡结构，随机性会被过滤。</li>
+  <li>混沌型指初始局面会演化成一个伪随机或混沌状状态。</li>
+  <li>复杂型则是上面的一系列组合，可能会出现混沌，而一部分的初始结构会稳定保留，结构于结构会相互作用。（比如像规则 110 被证明是图灵完备的，那么其局面自然会随着初始输入变化有很大变化，可能稳定可能混沌了。）</li>
+</ul>
+
+<p>但这个分类有个很大的问题，就是每一个类别几乎都能找到例外。所以这到底是一种新科学还是一种伪科学还是有点迷幻的。</p>
+
+<h2 id="最有名的元胞自动机">最有名的元胞自动机</h2>
+
+<p>最有名的元胞自动机是 1970 年由英国数学家约翰·何顿·康威提出的康威生命游戏（Conway’s Game of Life）其规则如下：</p>
+
+<ul>
+  <li>元胞自动机的维度是 2（运行在 2 维平面上）</li>
+  <li>状态只有两种，存活和死亡</li>
+  <li>当周围存活元胞是 0 个或 1 个时，其会死亡（太孤独了，无聊死了）</li>
+  <li>当周围存活元胞是 2 个或 3 个时，保持原样</li>
+  <li>当周围存活元胞是 4 个时，该元胞死亡（没饭吃饿死了）</li>
+  <li>当周围存活元胞是 3 个，且当前元胞是死亡状态时，该元胞变成存活（模拟繁殖）</li>
+</ul>
+
+<p>这个游戏按 Wolfram 的分类应该是第四种复杂型。而我们的这个谜题，就是把图输入到这种自动机里，然后跑一下就结束了。</p>
+
+<h2 id="怎么解题">怎么解题</h2>
+
+<p>模拟它应该是要写个程序的，毕竟手推太麻烦了。Game of Life 的实现大概满世界都是吧。打开 <a href="https://leetcode.com/problems/game-of-life/solution/">LeetCode</a> 的题解抄下来稍微改改就有了。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">collections</span>
+
+<span class="k">def</span> <span class="nf">gameOfLifeInfinite</span><span class="p">(</span><span class="n">live</span><span class="p">):</span>
+  <span class="n">ctr</span> <span class="o">=</span> <span class="n">collections</span><span class="p">.</span><span class="nc">Counter</span><span class="p">((</span><span class="n">I</span><span class="p">,</span> <span class="n">J</span><span class="p">)</span>
+                            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">live</span>
+                            <span class="k">for</span> <span class="n">I</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="p">)</span>
+                            <span class="k">for</span> <span class="n">J</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">j</span><span class="o">+</span><span class="mi">2</span><span class="p">)</span>
+                            <span class="k">if</span> <span class="n">I</span> <span class="o">!=</span> <span class="n">i</span> <span class="ow">or</span> <span class="n">J</span> <span class="o">!=</span> <span class="n">j</span><span class="p">)</span>
+  <span class="k">return</span> <span class="p">{</span><span class="n">ij</span>
+    <span class="k">for</span> <span class="n">ij</span> <span class="ow">in</span> <span class="n">ctr</span>
+    <span class="k">if</span> <span class="n">ctr</span><span class="p">[</span><span class="n">ij</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span> <span class="ow">or</span> <span class="n">ctr</span><span class="p">[</span><span class="n">ij</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="n">ij</span> <span class="ow">in</span> <span class="n">live</span><span class="p">}</span>
+
+<span class="k">def</span> <span class="nf">gameOfLife</span><span class="p">(</span><span class="n">board</span><span class="p">):</span>
+  <span class="n">live</span> <span class="o">=</span> <span class="p">{(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="nf">enumerate</span><span class="p">(</span><span class="n">board</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">live</span> <span class="ow">in</span> <span class="nf">enumerate</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="k">if</span> <span class="n">live</span><span class="p">}</span>
+  <span class="n">live</span> <span class="o">=</span> <span class="nf">gameOfLifeInfinite</span><span class="p">(</span><span class="n">live</span><span class="p">)</span>
+  <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="nf">enumerate</span><span class="p">(</span><span class="n">board</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="nf">len</span><span class="p">(</span><span class="n">row</span><span class="p">)):</span>
+      <span class="n">row</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="nf">int</span><span class="p">((</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="ow">in</span> <span class="n">live</span><span class="p">)</span>
+
+<span class="n">board</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]]</span>
+<span class="nf">gameOfLife</span><span class="p">(</span><span class="n">board</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">board</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>比较恶心的是，我们怎么去把图片转换成矩阵。据说大多数人都是手弄的。我觉得有点过分了，毕竟也是一个 27 x 27 的超大矩阵，手抄一抄得抄 729 个数字。咱这也不是庙会的抄数字赢钱的摊，咱还是找个自动化的方法来处理吧。</p>
+
+<p>我们先裁切一下图片，减少一下代码量，变成：</p>
+
+<p><img src="/assets/images/game-of-life-ingress.png" alt="裁切后图像" /></p>
+
+<p>然后我们写点 OpenCV 的代码来做图像处理和转换，简单来说就是二值化，然后压缩成 27x27（因为像素冗余有够大，直接压大概不会被边框影响到），然后直接除以 255 变成 01 矩阵，跑完打印出来。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">collections</span>
+<span class="kn">import</span> <span class="n">cv2</span>
+
+<span class="k">def</span> <span class="nf">gameOfLifeInfinite</span><span class="p">(</span><span class="n">live</span><span class="p">):</span>
+  <span class="n">ctr</span> <span class="o">=</span> <span class="n">collections</span><span class="p">.</span><span class="nc">Counter</span><span class="p">((</span><span class="n">I</span><span class="p">,</span> <span class="n">J</span><span class="p">)</span>
+                            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">live</span>
+                            <span class="k">for</span> <span class="n">I</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="p">)</span>
+                            <span class="k">for</span> <span class="n">J</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">j</span><span class="o">+</span><span class="mi">2</span><span class="p">)</span>
+                            <span class="k">if</span> <span class="n">I</span> <span class="o">!=</span> <span class="n">i</span> <span class="ow">or</span> <span class="n">J</span> <span class="o">!=</span> <span class="n">j</span><span class="p">)</span>
+  <span class="k">return</span> <span class="p">{</span><span class="n">ij</span>
+    <span class="k">for</span> <span class="n">ij</span> <span class="ow">in</span> <span class="n">ctr</span>
+    <span class="k">if</span> <span class="n">ctr</span><span class="p">[</span><span class="n">ij</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span> <span class="ow">or</span> <span class="n">ctr</span><span class="p">[</span><span class="n">ij</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="n">ij</span> <span class="ow">in</span> <span class="n">live</span><span class="p">}</span>
+
+<span class="k">def</span> <span class="nf">gameOfLife</span><span class="p">(</span><span class="n">board</span><span class="p">):</span>
+  <span class="n">live</span> <span class="o">=</span> <span class="p">{(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="nf">enumerate</span><span class="p">(</span><span class="n">board</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">live</span> <span class="ow">in</span> <span class="nf">enumerate</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="k">if</span> <span class="n">live</span><span class="p">}</span>
+  <span class="n">live</span> <span class="o">=</span> <span class="nf">gameOfLifeInfinite</span><span class="p">(</span><span class="n">live</span><span class="p">)</span>
+  <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="nf">enumerate</span><span class="p">(</span><span class="n">board</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="nf">len</span><span class="p">(</span><span class="n">row</span><span class="p">)):</span>
+      <span class="n">row</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="nf">int</span><span class="p">((</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="ow">in</span> <span class="n">live</span><span class="p">)</span>
+
+<span class="n">img</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="nf">imread</span><span class="p">(</span><span class="sh">'</span><span class="s">/Users/delton/Desktop/game-of-life-ingress.png</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="c1"># Convert RGB to Binary Image
+</span><span class="n">ret</span><span class="p">,</span> <span class="n">bw_img</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="nf">threshold</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="mi">127</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="n">cv2</span><span class="p">.</span><span class="n">THRESH_BINARY</span><span class="p">)</span>
+
+<span class="c1"># Convert to 27x27
+# 反正像素冗余那么大，直接转换多半不会出问题
+</span><span class="n">resized_image</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="nf">resize</span><span class="p">(</span><span class="n">bw_img</span><span class="p">,</span> <span class="p">(</span><span class="mi">27</span><span class="p">,</span> <span class="mi">27</span><span class="p">))</span>
+
+<span class="c1"># Pick Channel 0 only
+</span><span class="n">board</span> <span class="o">=</span> <span class="n">resized_image</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="mi">255</span>
+<span class="nf">gameOfLife</span><span class="p">(</span><span class="n">board</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">board</span><span class="p">)</span>
+
+<span class="c1"># Revert Black and White
+</span><span class="n">cv2</span><span class="p">.</span><span class="nf">imshow</span><span class="p">(</span><span class="sh">"</span><span class="s">Result</span><span class="sh">"</span><span class="p">,</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">board</span><span class="p">)</span>
+<span class="n">cv2</span><span class="p">.</span><span class="nf">waitKey</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">cv2</span><span class="p">.</span><span class="nf">destroyAllWindows</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>结果：</p>
+
+<p><img src="/assets/images/humanity-result.png" alt="解码结果" /></p>
+
+<p>扫码：</p>
+
+<p><img src="/assets/images/humanity-scan.jpg" alt="扫码结果" /></p>
+
+<p>结束。</p>
+
+<h2 id="扩展阅读">扩展阅读</h2>
+
+<ul>
+  <li><a href="https://youtu.be/GQNREcMVPHY">生命游戏：另一种计算机 —— 混乱博物馆</a></li>
+  <li><a href="https://www.youtube.com/watch?v=2lfVFOXzonY">混沌与分形 —— MommyTalk</a></li>
+</ul>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/ingress" class="page__taxonomy-item p-category" rel="tag">Ingress</a><span class="sep">, </span>
+    
+      <a href="/tags/%E5%85%83%E8%83%9E%E8%87%AA%E5%8A%A8%E6%9C%BA" class="page__taxonomy-item p-category" rel="tag">元胞自动机</a><span class="sep">, </span>
+    
+      <a href="/tags/%E6%B7%B7%E6%B2%8C" class="page__taxonomy-item p-category" rel="tag">混沌</a><span class="sep">, </span>
+    
+      <a href="/tags/%E6%B8%B8%E6%88%8F" class="page__taxonomy-item p-category" rel="tag">游戏</a><span class="sep">, </span>
+    
+      <a href="/tags/%E8%AE%BE%E8%AE%A1" class="page__taxonomy-item p-category" rel="tag">设计</a>
+    
+    </span>
+  </p>
+
+
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2020-01-14T13:22:47+08:00">January 14, 2020</time></p>
+
+      </footer>
+
+      
+
+      
+    </div>
+
+    
+  </article>
+
+  
+  
+</div>
+
+      
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';" role="search">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2024 <a href="https://coderemixer.com">Coderemixer 代码混音师</a>. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+
+
+  </body>
+</html>

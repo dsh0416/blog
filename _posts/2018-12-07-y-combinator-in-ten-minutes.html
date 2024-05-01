@@ -1,0 +1,590 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.25.1 by Michael Rose
+  Copyright 2013-2024 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>十分钟速通 Y Combinator - Coderemixer 代码混音师</title>
+<meta name="description" content="一个用来发牢骚的网站，以至于无法对所说的话负责。">
+
+
+  <meta name="author" content="CodeRemixer">
+  
+  <meta property="article:author" content="CodeRemixer">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Coderemixer 代码混音师">
+<meta property="og:title" content="十分钟速通 Y Combinator">
+<meta property="og:url" content="https://coderemixer.com/_posts/2018-12-07-y-combinator-in-ten-minutes">
+
+
+  <meta property="og:description" content="一个用来发牢骚的网站，以至于无法对所说的话负责。">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2018-12-07T15:44:33+08:00">
+
+
+
+
+
+
+<link rel="canonical" href="https://coderemixer.com/_posts/2018-12-07-y-combinator-in-ten-minutes">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": null,
+      "url": "https://coderemixer.com/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Coderemixer 代码混音师 Feed">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css"></noscript>
+
+
+  
+    <script src="/assets/js/mathjax.js"></script>
+  
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          Coderemixer 代码混音师
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/">首页</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about">关于</a>
+            </li><li class="masthead__menu-item">
+              <a href="https://github.com/dsh0416">GitHub</a>
+            </li><li class="masthead__menu-item">
+              <a href="https://twitter.com/DeltonDing">X (Twitter)</a>
+            </li><li class="masthead__menu-item">
+              <a href="/atom.xml">RSS</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+    <div class="author__avatar">
+      <a href="https://coderemixer.com/">
+        <img src="/assets/images/bio-photo.png" alt="CodeRemixer" itemprop="image" class="u-photo">
+      </a>
+    </div>
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="https://coderemixer.com/" itemprop="url">CodeRemixer</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>一个用来发牢骚的网站，以至于无法对所说的话负责。<br /><br /> 文章若无特别声明，皆采用 <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 进行许可。</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">Shanghai ⊕ Tokyo</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="mailto:dsh0416@gmail.com" rel="nofollow noopener noreferrer me"><i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/dsh0416" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-github-square" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://twitter.com/DeltonDing" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-square-x-twitter" aria-hidden="true"></i><span class="label">X (Twitter)</span></a></li>
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="十分钟速通 Y Combinator">
+    
+    <meta itemprop="datePublished" content="2018-12-07T15:44:33+08:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title p-name" itemprop="headline">
+            <a href="https://coderemixer.com/_posts/2018-12-07-y-combinator-in-ten-minutes" class="u-url" itemprop="url">十分钟速通 Y Combinator
+</a>
+          </h1>
+          
+
+
+        </header>
+      
+
+      <section class="page__content e-content" itemprop="text">
+        
+        <h2 id="引">引</h2>
+
+<p>这学期在学校选了一门讲可计算性（Computability）的计算机科学基础课程。过程中也把很多概念给自己重新复习了一下，不过从这课课堂的反馈来看，可以说同学都听得非常吃力。我想到几年前我有尝试写过一篇通过 Y 组合子来讨论 Lambda 演算的文章，考虑到当时写得很不完善，我打算拿出来重新炒一下冷饭。顺便改使用傻子都能看懂的 JavaScript 来描述这个问题。顺便调试一下我博客系统 Markdown 引入 $\LaTeX$ 后会遇到的坑。</p>
+
+<h2 id="循环---递归">循环 -&gt; 递归</h2>
+
+<p>我们还是从下面这个简单的循环问题开始探讨。通过写一个循环（不使用等差数列的情况下），求自然数列 1 到 n 的和（即 $1+2+3+…+n$）。一个最容易想到的实现可能如下：</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nf">sum</span><span class="p">(</span><span class="nx">n</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">let</span> <span class="nx">result</span> <span class="o">=</span> <span class="mi">0</span>
+  <span class="k">for </span><span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;=</span> <span class="nx">n</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">result</span> <span class="o">+=</span> <span class="nx">i</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="nx">result</span>
+<span class="p">}</span>
+
+<span class="nf">sum</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="c1">// =&gt; 55</span>
+</code></pre></div></div>
+
+<p>我们现在对这个问题稍作变形，如果在这个程序中不得使用 <code class="language-plaintext highlighter-rouge">for</code> 循环，我们还能实现这个程序吗？显然这也是非常简单的，因为我们还可以用 <code class="language-plaintext highlighter-rouge">while</code> 循环。</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nf">sum</span><span class="p">(</span><span class="nx">n</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">let</span> <span class="nx">result</span> <span class="o">=</span> <span class="mi">0</span>
+  <span class="kd">let</span> <span class="nx">counter</span> <span class="o">=</span> <span class="mi">1</span>
+  <span class="k">while </span><span class="p">(</span><span class="nx">counter</span> <span class="o">&lt;=</span> <span class="nx">n</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">result</span> <span class="o">+=</span> <span class="nx">counter</span>
+    <span class="nx">counter</span><span class="o">++</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="nx">result</span>
+<span class="p">}</span>
+
+<span class="nf">sum</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="c1">// =&gt; 55</span>
+</code></pre></div></div>
+
+<p>或者进一步地，我们可以写成：</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nf">sum</span><span class="p">(</span><span class="nx">n</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">let</span> <span class="nx">result</span> <span class="o">=</span> <span class="mi">0</span>
+  <span class="kd">let</span> <span class="nx">counter</span> <span class="o">=</span> <span class="mi">1</span>
+  <span class="k">while </span><span class="p">(</span><span class="kc">true</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if </span><span class="p">(</span><span class="nx">counter</span> <span class="o">&gt;</span> <span class="nx">n</span><span class="p">)</span> <span class="k">break</span>
+    <span class="nx">result</span> <span class="o">+=</span> <span class="nx">counter</span>
+    <span class="nx">counter</span><span class="o">++</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="nx">result</span>
+<span class="p">}</span>
+
+<span class="nf">sum</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="c1">// =&gt; 55</span>
+</code></pre></div></div>
+
+<p>抽象地来看，我们这里使用到的 <code class="language-plaintext highlighter-rouge">counter</code> 变量，既可以看成是循环变量，更可以看成是一个程序计数器。也就是从一个状态转移到下一个状态的过程，而 <code class="language-plaintext highlighter-rouge">break</code> 则是指出了终止状态发生的位置。我们现在对这个题目进行进一步地变形，如果我们不允许在这里使用包括 <code class="language-plaintext highlighter-rouge">while</code> 在内的任何循环，我们还能实现这个程序吗？</p>
+
+<p>我们不但能，而且程序写起来更简单了。</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nf">sum</span><span class="p">(</span><span class="nx">n</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if </span><span class="p">(</span><span class="nx">n</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="k">return</span> <span class="mi">0</span>
+  <span class="k">return</span> <span class="nf">sum</span><span class="p">(</span><span class="nx">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="nx">n</span>
+<span class="p">}</span>
+
+<span class="nf">sum</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="c1">// =&gt; 55</span>
+</code></pre></div></div>
+
+<p>这个写法可以优雅地由数学形式表示：</p>
+
+\[sum(x)=
+\begin{cases}
+  0 &amp;x = 0 \cr
+  sum(x-1) + x &amp;otherwise
+\end{cases}\]
+
+<p>也就是我们只需要定义 $sum(0) = 0$，然后无论求什么的和，都是其之前所有数的和加上当前这个数。计算机会一次一次向下找，直到找到 0 为止，最后把找到的数全部加起来。解决！当然你可能会觉得这么做的效率很低，计算机不停递归会影响性能，我们会在之后讨论这个问题，我们目前暂时先只讨论「可计算性」上的等价。</p>
+
+<h2 id="匿名函数化">匿名函数化</h2>
+
+<p>「$\lambda$ 演算」和我们刚刚那个例子很接近，但是又稍有不同。我们先抛开「$\lambda$ 演算」本身复杂的定义，从其性质入手，就可以简单对「$\lambda$ 演算」有直观的认识。</p>
+
+<ul>
+  <li>如果有这么一个式子 $\lambda x.x$，那么 <code class="language-plaintext highlighter-rouge">x</code> 就是一个变量。对于一个变量，我们可以任意更换其名字，比如可以从 <code class="language-plaintext highlighter-rouge">x</code> 改成 <code class="language-plaintext highlighter-rouge">y</code>，得到 $\lambda y.y$，这一步称作「$\alpha$ 等价」。</li>
+  <li>如果有形如一个式子 $(\lambda x.x+1)(1)$，我们可以把后面的 <code class="language-plaintext highlighter-rouge">1</code> 替代掉前面的 <code class="language-plaintext highlighter-rouge">x</code>，即 $(\lambda x.x+1)(1) = 1+1 = 2$，这一步称作「$\beta$ 规约」。</li>
+</ul>
+
+<p>如果你对符号不敏感，可能看到这里有点晕。但如果你敏感一点的话，就会发现这里其实只不过是换了一个说法的「匿名函数」而已。像我们之前的例子里，我们定义函数都要起一个函数名。但如果我们一次性使用这个函数，我们完全可以不命名，定义完接受的参数和运算方法直接执行即可，这就是所谓的「匿名函数」。用 JavaScript 的语言来描述的话如下：</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// alpha 等价</span>
+<span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">x</span>
+<span class="p">(</span><span class="nx">y</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">y</span>
+<span class="c1">// 这两个东西是等价的</span>
+
+<span class="c1">// beta 规约</span>
+<span class="p">((</span><span class="nx">x</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)(</span><span class="mi">1</span><span class="p">)</span> <span class="c1">// =&gt; 1 + 1 =&gt; 2</span>
+</code></pre></div></div>
+
+<p>如果你不熟悉 ES6 的箭头函数，用 ES5 写的话如下：</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// alpha 等价</span>
+<span class="nf">function </span><span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">x</span> <span class="p">}</span>
+<span class="nf">function </span><span class="p">(</span><span class="nx">y</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">y</span> <span class="p">}</span>
+<span class="c1">// 这两个东西是等价的</span>
+
+<span class="c1">// beta 规约</span>
+<span class="p">(</span><span class="nf">function </span><span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">x</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">})(</span><span class="mi">1</span><span class="p">)</span> <span class="c1">// =&gt; 1 + 1 =&gt; 2</span>
+</code></pre></div></div>
+
+<p>换句话说，也就是说「$\alpha$ 等价」说明了匿名函数中的变量名不会影响运算结果，而「$\beta$ 规约」就是去执行这个匿名函数而已。</p>
+
+<h2 id="为什么">为什么？</h2>
+
+<p>我们之前讨论了一个递归和循环的例子，这和「匿名函数」有什么关系呢？我们可以看到，我们现在的匿名函数看起来很方便，但是实际上用来实现递归和循环听起来就很奇怪。首先，纯「$\lambda$ 演算」并没有像是 <code class="language-plaintext highlighter-rouge">while</code> 或 <code class="language-plaintext highlighter-rouge">for</code> 这样的循环命令。不过好在我们刚刚发现，所有的循环都可以被我们转换成递归</p>
+
+<p>递归听起来就和函数更相关一些，不过我们又产生了一个新问题：递归时，我们需要具名地指定我们递归调用那个函数。而我们现在的函数，没有名字。我们还能实现递归吗？</p>
+
+<h3 id="尝试">尝试</h3>
+
+<p>我们先大致写一个类似递归的匿名函数：</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">((</span><span class="nx">n</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">if </span><span class="p">(</span><span class="nx">n</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="k">return</span> <span class="mi">0</span>
+  <span class="k">return</span> <span class="nx">n</span> <span class="o">+</span> <span class="c1">// 我不知道这里要加什么东西</span>
+<span class="p">})(</span><span class="mi">10</span><span class="p">)</span> <span class="c1">// 应该要输出 55</span>
+</code></pre></div></div>
+
+<p>不过既然递归要调用一个函数，我们先假设我们存在这个函数，将其命名为 <code class="language-plaintext highlighter-rouge">f</code>：</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">((</span><span class="nx">n</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">if </span><span class="p">(</span><span class="nx">n</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="k">return</span> <span class="mi">0</span>
+  <span class="k">return</span> <span class="nx">n</span> <span class="o">+</span> <span class="nf">f</span><span class="p">(</span><span class="nx">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+<span class="p">})(</span><span class="mi">10</span><span class="p">)</span> <span class="c1">// 应该要输出 55</span>
+</code></pre></div></div>
+
+<p>我们可以想象，对于匿名函数，如果没有全局变量，那么其获取数据的来源是唯一的，那就是参数。那我们为什么不把我们想要的函数 <code class="language-plaintext highlighter-rouge">f</code> 作为参数呢？</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">((</span><span class="nx">f</span><span class="p">,</span> <span class="nx">n</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">if </span><span class="p">(</span><span class="nx">n</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="k">return</span> <span class="mi">0</span>
+  <span class="k">return</span> <span class="nx">n</span> <span class="o">+</span> <span class="nf">f</span><span class="p">(</span><span class="nx">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+<span class="p">})(</span><span class="mi">10</span><span class="p">)</span> <span class="c1">// 应该要输出 55</span>
+</code></pre></div></div>
+
+<p>这样似乎已经快到我们想要的结果了，既然我们加了一个参数 <code class="language-plaintext highlighter-rouge">f</code>，那么在执行的时候，这个 <code class="language-plaintext highlighter-rouge">f</code> 又是多少呢？答案很简单，就是这个匿名函数自己。匿名函数不能起名字，但其本身还是可以作为参数传递啊，于是我们得到了：</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">((</span><span class="nx">f</span><span class="p">,</span> <span class="nx">n</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">if </span><span class="p">(</span><span class="nx">n</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="k">return</span> <span class="mi">0</span>
+  <span class="k">return</span> <span class="nx">n</span> <span class="o">+</span> <span class="nf">f</span><span class="p">(</span><span class="nx">f</span><span class="p">,</span> <span class="nx">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+<span class="p">})(((</span><span class="nx">f</span><span class="p">,</span> <span class="nx">n</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">if </span><span class="p">(</span><span class="nx">n</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="k">return</span> <span class="mi">0</span>
+  <span class="k">return</span> <span class="nx">n</span> <span class="o">+</span> <span class="nf">f</span><span class="p">(</span><span class="nx">f</span><span class="p">,</span> <span class="nx">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+<span class="p">}),</span> <span class="mi">10</span><span class="p">)</span> <span class="c1">// # =&gt; 55</span>
+</code></pre></div></div>
+
+<p>解决！我们使用了纯匿名函数解决了这个问题。</p>
+
+<h3 id="y-组合子">Y 组合子</h3>
+
+<p>那什么是 Y 组合子（Y Combinator）呢？Y 组合子不过是解决这一类问题的通用方案而已。Y 组合子的定义是</p>
+
+\[Y := \lambda f.(\lambda x.(f (x\ x)) \lambda x.(f (x\ x)))\]
+
+<p>听起来挺搞脑子的，不过如果我们代入任何一个东西算一下的话，就会发现其实很简单。如果我们存在一个函数 <code class="language-plaintext highlighter-rouge">g</code>，那么：</p>
+
+\[\begin{align}
+  Y\ g &amp; = \lambda f.(\lambda x.(f (x\ x)) \lambda x.(f (x\ x))) g \\\\
+  &amp; = \lambda x.(g (x\ x)) \lambda x.(g (x\ x)) \\\\
+  &amp; = \lambda y.(g (y\ y)) \lambda x.(g (x\ x)) \\\\
+  &amp; = (g (\lambda x.(g (x\ x)) \lambda x.(g (x\ x)))) \\\\
+\end{align}\]
+
+<p>而同时：</p>
+
+\[\begin{align}
+  g (Y\ g) &amp; = g (\lambda f.(\lambda x.(f (x\ x)) \lambda x.(f (x\ x))) g) \\\\
+  &amp; = (g (\lambda x.(g (x\ x)) \lambda x.(g (x\ x)))) \\\\
+\end{align}\]
+
+<p>故 $Y g = g (Y\ g) = g (g (Y\ g)) = g (g (g (Y\ g))) $，也就是对于任意函数都能实现递归。</p>
+
+<p>这里我们再使用 JavaScript 来实现一下 Y 组合子版的自然数列 1 到 n 的和：</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// \lambda f.(\lambda x.(f (x x)) \lambda x.(f (x x)))</span>
+<span class="kd">const</span> <span class="nx">Y</span> <span class="o">=</span> <span class="nx">fn</span> <span class="o">=&gt;</span> <span class="p">(</span><span class="nx">f</span> <span class="o">=&gt;</span> <span class="nf">fn</span><span class="p">(</span><span class="nx">x</span> <span class="o">=&gt;</span> <span class="nf">f</span><span class="p">(</span><span class="nx">f</span><span class="p">)(</span><span class="nx">x</span><span class="p">)))(</span><span class="nx">f</span> <span class="o">=&gt;</span> <span class="nf">fn</span><span class="p">(</span><span class="nx">x</span> <span class="o">=&gt;</span> <span class="nf">f</span><span class="p">(</span><span class="nx">f</span><span class="p">)(</span><span class="nx">x</span><span class="p">)))</span>
+
+<span class="nx">g</span> <span class="o">=</span> <span class="nx">f</span> <span class="o">=&gt;</span> <span class="nx">n</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">if </span><span class="p">(</span><span class="nx">n</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="k">return</span> <span class="mi">0</span>
+  <span class="k">return</span> <span class="nx">n</span> <span class="o">+</span> <span class="nf">f</span><span class="p">(</span><span class="nx">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="nc">Y</span><span class="p">(</span><span class="nx">g</span><span class="p">)(</span><span class="mi">10</span><span class="p">)</span> <span class="c1">// =&gt; 55</span>
+</code></pre></div></div>
+
+<h3 id="不动点组合子">不动点组合子</h3>
+
+<p>你也许听过 Y 组合子是一类不动点组合子。不动点组合子究竟是什么意思呢？组合子是一种消除变量的函数。在 Y 组合子中你可以看到并没有用任何 <code class="language-plaintext highlighter-rouge">let</code> <code class="language-plaintext highlighter-rouge">var</code> <code class="language-plaintext highlighter-rouge">const</code> 之类的变量定义，而是通过一系列参数传递消除了这一过程。而至于不动点，你可能在初中的代数课本上学习过「不动点」的概念，这在这里几乎是一样的。通常我们眼中的不动点，即在函数 $f(x) = y$ 上找到一个值 <code class="language-plaintext highlighter-rouge">x</code> 使得 $x = f(x)$。比如对于函数 $f(x) = x^2 - 1$，不动点是 1 和 -1。</p>
+
+<p>但是初中的代数中的这个不动点的定义其实是一个简化版本。事实上所谓找到一个「值」<code class="language-plaintext highlighter-rouge">x</code>，也可以被表述成「找到一个『函数』」<code class="language-plaintext highlighter-rouge">g(x)</code>，使得 $g(x) = f(g(x))$。而值 <code class="language-plaintext highlighter-rouge">x</code> 是这个 <code class="language-plaintext highlighter-rouge">g(x)</code> 的一个特例，即常值函数 <code class="language-plaintext highlighter-rouge">g(x) = c</code>（c 是一个常数）。</p>
+
+<p>这样我们就不难理解不动点组合子的意义了。我们找到一个函数 <code class="language-plaintext highlighter-rouge">Y</code>，使得 $Y\ g = g(Y\ g)$。这就是所谓的不动点组合子。</p>
+
+<h2 id="结论">结论</h2>
+
+<p>费了那么大劲到底干什么？因为图灵机、递归和 $\lambda$ 演算被证明在可计算性上是等价的，如果存在一个问题（比如递归或者循环）在其中一种可计算，在另一种不可计算。这是有悖于数学原理的。而更重要的是，我们基于 Y 组合子这个例子，可以一次性将图灵机、递归和 $\lambda$ 演算的知识一次性串联起来，建立一个对可计算性的直观系统的理解。</p>
+
+<p>岂不是很好吗？</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/javascript" class="page__taxonomy-item p-category" rel="tag">JavaScript</a><span class="sep">, </span>
+    
+      <a href="/tags/lambda-%E6%BC%94%E7%AE%97" class="page__taxonomy-item p-category" rel="tag">Lambda 演算</a>
+    
+    </span>
+  </p>
+
+
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2018-12-07T15:44:33+08:00">December 7, 2018</time></p>
+
+      </footer>
+
+      
+
+      
+    </div>
+
+    
+  </article>
+
+  
+  
+</div>
+
+      
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';" role="search">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2024 <a href="https://coderemixer.com">Coderemixer 代码混音师</a>. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+
+
+  </body>
+</html>

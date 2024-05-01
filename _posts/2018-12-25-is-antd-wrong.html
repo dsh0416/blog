@@ -1,0 +1,466 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.25.1 by Michael Rose
+  Copyright 2013-2024 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Ant Design 错了吗？ - Coderemixer 代码混音师</title>
+<meta name="description" content="一个用来发牢骚的网站，以至于无法对所说的话负责。">
+
+
+  <meta name="author" content="CodeRemixer">
+  
+  <meta property="article:author" content="CodeRemixer">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Coderemixer 代码混音师">
+<meta property="og:title" content="Ant Design 错了吗？">
+<meta property="og:url" content="https://coderemixer.com/_posts/2018-12-25-is-antd-wrong">
+
+
+  <meta property="og:description" content="一个用来发牢骚的网站，以至于无法对所说的话负责。">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2018-12-25T21:43:54+08:00">
+
+
+
+
+
+
+<link rel="canonical" href="https://coderemixer.com/_posts/2018-12-25-is-antd-wrong">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": null,
+      "url": "https://coderemixer.com/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Coderemixer 代码混音师 Feed">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css"></noscript>
+
+
+  
+    <script src="/assets/js/mathjax.js"></script>
+  
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          Coderemixer 代码混音师
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/">首页</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about">关于</a>
+            </li><li class="masthead__menu-item">
+              <a href="https://github.com/dsh0416">GitHub</a>
+            </li><li class="masthead__menu-item">
+              <a href="https://twitter.com/DeltonDing">X (Twitter)</a>
+            </li><li class="masthead__menu-item">
+              <a href="/atom.xml">RSS</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+    <div class="author__avatar">
+      <a href="https://coderemixer.com/">
+        <img src="/assets/images/bio-photo.png" alt="CodeRemixer" itemprop="image" class="u-photo">
+      </a>
+    </div>
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="https://coderemixer.com/" itemprop="url">CodeRemixer</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>一个用来发牢骚的网站，以至于无法对所说的话负责。<br /><br /> 文章若无特别声明，皆采用 <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 进行许可。</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">Shanghai ⊕ Tokyo</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="mailto:dsh0416@gmail.com" rel="nofollow noopener noreferrer me"><i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/dsh0416" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-github-square" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://twitter.com/DeltonDing" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-square-x-twitter" aria-hidden="true"></i><span class="label">X (Twitter)</span></a></li>
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Ant Design 错了吗？">
+    
+    <meta itemprop="datePublished" content="2018-12-25T21:43:54+08:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title p-name" itemprop="headline">
+            <a href="https://coderemixer.com/_posts/2018-12-25-is-antd-wrong" class="u-url" itemprop="url">Ant Design 错了吗？
+</a>
+          </h1>
+          
+
+
+        </header>
+      
+
+      <section class="page__content e-content" itemprop="text">
+        
+        <p>Ant Design 今天的<a href="https://github.com/ant-design/ant-design/issues/13848">圣诞门</a>闹得沸沸扬扬，Ant Design 内建的圣诞彩蛋在各个使用 antd 的产品中被「强制」弹出，令许多人措手不及，造成了很大的社会影响。但事实上，Ant Design 使用的是 MIT LICENSE，完全是一个使用者「后果自负」的协议。然而，Issue 里哭天喊地要开发者「负责」的舆论却又一面倒。</p>
+
+<p>在此，我要问一个问题：「Ant Design 错了吗？」</p>
+
+<p>​<img src="/assets/images/is-ali-wrong.jpg" alt="is-ali-wronh" /></p>
+
+<p>就我来看，毋庸置疑，错了。</p>
+
+<p>但这篇文章讨论的是以下几点：</p>
+
+<ul>
+  <li>Ant Design 犯了什么错？</li>
+  <li>开源的权利与责任的界限在哪里？</li>
+  <li>我们应当怎么从这个事件中获取教训？</li>
+</ul>
+
+<h2 id="ant-design-犯了什么错">Ant Design 犯了什么错？</h2>
+
+<p>从产品的角度来看，这个彩蛋，连彩蛋的定义都不符合。彩蛋（Easter Eggs）是一个隐藏在程序中的信息，而不是突然糊在你脸上的定时炸弹。所以从想出这个问题的那个人就已经不太对劲了。但我们抛开这个产品的问题，从实现上，这个 <code class="language-plaintext highlighter-rouge">Santa.jsx</code> 文件也同样是非常糟糕。作为一个组件级项目，很多人会对组件样式做二次开发，这一坨硬编码（Hardcoded）并没有起到它彩蛋的作用，相反还把很多网站弄得一团糟。如果你试图阅读过 Ruby 的代码，你往往会发现 Ruby 有那么多错误命名的 C API 为什么一直不把它改对呢？因为这种语言级别的东西，你无法确定用户是怎么使用的时候，就必须保持最低限度的兼容。Ant Design 也是如此。</p>
+
+<p>然而「人主之患在莫之应，故曰：一手独拍，虽疾无声。」导致 Ant Design 问题的，不单单是彩蛋本身的错，更大的是 Ant Design 开源社区开发流程的问题。或者换一句话说：是软件工程的问题。</p>
+
+<p>如果我们现在要往一个开源项目中加入一个不合适的东西，其实并不那么容易。Ant Design 有基于 GitHub Pull Request 系统的 Code Review 机制。一个并非紧急的代码，为什么可以直接跳过 Code Review 直接推上去？Ant Design 作为一个组件级的基础项目，到底应该怎么设计测试？</p>
+
+<p>这个 <a href="https://github.com/ant-design/ant-design/commit/f706e2554f706b4e47f0c0cb3bcada1fe24dc32d">2017 年 12 月 25 日</a> 写下的代码，写入到发作的这一年中，暴露的并不是谁的错，而是这个项目本身就是一个错误。</p>
+
+<h2 id="如何运行一个开源项目">如何运行一个开源项目？</h2>
+
+<p>Ant Design 错了，需要检讨，需要反省，需要道歉。但另一方面，在 Issue 下大骂「要阿里负责，要阿里赔偿」的则是走向了另一个极端。今天的开源项目，在使用常见的 Copyleft 许可证的情况下，大多数（包含且不止包含 MIT、BSD、GPLv2、GPLv3、AGPLv3、LGPLv3、MPL 2.0、Apache License 2.0、The Unlicensed）都在许可证中明确写了，不包括任何保修的条款，使用者自行负责。这让很多人听起来匪夷所思，觉得 Ant Design 一个阿里的产品，怎么也是阿里在背书。然而事实上，可能除了信誉，没有规定任何东西是实质的背书。前几天有人在 Ruby China 上开了个<a href="https://ruby-china.org/topics/37902">帖子</a>问：</p>
+
+<blockquote>
+  <p>到某某网站上浏览时，发现上面说，以上版本均需获取商业授权，方可做商业运营使用，既然是开源的，咋还涉及到商业授权啊，不理解，请指教。谢谢！</p>
+</blockquote>
+
+<p>然而版权的实际情况却恰恰相反。源代码放出来只是让你看，并不能让你用。就像别人放在那里的芒果，你不能寻思是别人不要了吧。代码是不是开源，需要取决于使用什么授权协议。哪怕是 GPL 的 RedHat 也有卖商业服务的。如果人家没有设定任何授权协议的话，那就只能默认是 Copyright 私有了。而只有签了具体包含保修责任的条款的协议后，对方才有保修的义务。不然，我自己写着玩开源出来，你用的时候也已经同意免责了。你用出问题了为什么要来找我呢？有问题你自己 fork 了改不就好了？</p>
+
+<p>这就牵扯到了另一个问题：开源的社会价值。当一个开源产品，比如 Ant Design，有大量的用户在使用的时候，对于这个开源社区的期待是完全不同的。这也是为什么世界上大多数的大型开源项目，都有一个庞大的组织在维护着。其目的很大程度上，就是要维护代码的可靠性，担负起其社会价值。<del>你觉得阿里价值观能担负起社会价值吗？</del></p>
+
+<p>有人在我微博下呛：</p>
+
+<blockquote>
+  <p>照右边这个逻辑的话，广大 MIT 框架作者应该纷纷往自己代码加挖矿，这世界不需要开源，人与人也不需要信任。别人写好的高级语言也别用啊，一起汇编起来。</p>
+</blockquote>
+
+<p>然而事实上，如果你愿意找一下，GitHub 上许多 MIT 项目是有暗藏挖矿的，甚至还有暗藏后门的。至于「别人写好的高级语言也别用啊」也是如此，UNIX 创始人 Ken Thompson 在 30 年前获得图灵奖的获奖演说中，就有提到这种类似的暗藏在 C 语言编译器中的手段实现攻击。这也是为什么一方面 C 语言编译器也有一套复杂的自举发布流程，像 gcc 还会有严格的代码审查机制来避免这种问题的发生。然而甚至硬件本身，也不是 100% 可信的。这不是「人与人的信任」问题，相反，就算 100% 相信别人不去做坏事，但是由于人都会犯错，总会做出错误的东西，我们需要的是通过机制来避免它发生。</p>
+
+<p>在以前一个非常有名的 NVIDIA 开源驱动的维护项目 <a href="https://github.com/MrMEEE/bumblebee-Old-and-abbandoned/issues/123">bumblebee</a> 中就有出现过开发者疏失，导致更新的用户直接把所有的 <code class="language-plaintext highlighter-rouge">/usr</code> 用户文件不小心删了个精光。甚至<a href="https://www.omgubuntu.co.uk/2013/11/nsa-ask-linus-torvalds-include-backdoors-linux-father-says-yes">有人</a>曾试图通过给 Linux 项目提交 patch 的形式，将后门埋入操作系统中。并且这些看起来不经意的错误，甚至会使得一些人为的 Code Review 失效，所以 Linux 还有复杂的安全性和回归测试来保证其可靠性。</p>
+
+<p>如果这不是无意的行为，而是有意的。那么对于开源世界，我们有个更简单的方法：fork。我们只要分叉一个自己的版本，自己维护自己负责就可以了。MySQL 被 Oracle 收购后，虽然 Oracle 暂时还没有做什么坏事，大家为了谨防这种情况发生，就有一些开发者 fork 出了 MariaDB。</p>
+
+<p>但是，我也反过来问一句：你 fork 后的项目，你真的能维护得更好吗？</p>
+
+<p>软件工程是一个复杂而庞大的东西，把七个积木搭在一起，和把七千万块积木堆在一起是完全不同的系统工程问题。开源软件的管理看起来松散，于是更需要设计合理的制度防范于未然。在挑选开源项目的时候，并不只是挑一个能用的就行了，对于其质量、维护能力、开源协议都必须是评估的内容。我不是在说「用开源的东西不审查代码，出了问题活该」，但是什么都不看，不出问题才奇怪吧？</p>
+
+<h2 id="教训">教训</h2>
+
+<p>为什么包括谷歌微软在内的大公司，在使用别人的开源项目时，都要经过内部审查。虽然不至于精确到每行代码，但也要大致确认一下这个项目的状况。这也是为什么，Facebook 之前内部许可证事件沸沸扬扬，因为这真的很重要。就好像，警察在努力阻止盗窃案的发生，但我们自身平时就要做好防范，而不能大门敞开，出了事去骂警察吧。</p>
+
+<p>然而现实的情况却是，用 Ant Design 的本来就是一群想用个组件库草草了事的人，根本没有可能去参与到开源项目的审查中。而 Ant Design 目前草率的开发流程，确实也无法承担如此大的社会责任。如果今天不是「偏右」的圣诞节代码出了问题，明天后天一样会出别的问题。如果今天是「偏右」辞退就来平息风波，那么明天后天 Ant Design 还是会继续出问题（<del>毕竟是阿里嘛</del>）。</p>
+
+<p>​<img src="/assets/images/judge.png" alt="judge" /></p>
+
+<p>今天 Ant Design 的问题是一个典型的软件工程问题，让任何一个个人来负责，都只是息事宁人的策略，并不能从根本上解决问题。对于一个「开发公司 HR 工具的离职谈话功能推到开发者头上；匿名表达对老员工，特别是对彭姓员工不满，大老板可能含沙射影地让你滚；用脚本在公司网站抢月饼，可能违反价值观」的公司，你指望它在软件工程上有秩序吗？</p>
+
+<p>我觉得你在做梦。</p>
+
+<p>总结一下：</p>
+
+<ul>
+  <li>开源项目本身并没有所谓的「责任」的概念，你要有自己评估其可靠性的能力，并承担风险。</li>
+  <li>评估可靠性不在于其背后是多大的公司，更在于其是否有健全的开发流程，因为人为疏失不可避免。</li>
+  <li>越是底层、组件级的项目对于可靠性的要求越高。</li>
+  <li>只要不是主观上故意犯错误，我们更应该检讨我们的系统工程，而不单单是检讨个人。</li>
+</ul>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/%E5%89%8D%E7%AB%AF" class="page__taxonomy-item p-category" rel="tag">前端</a><span class="sep">, </span>
+    
+      <a href="/tags/%E5%BC%80%E6%BA%90" class="page__taxonomy-item p-category" rel="tag">开源</a><span class="sep">, </span>
+    
+      <a href="/tags/%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4" class="page__taxonomy-item p-category" rel="tag">阿里巴巴</a>
+    
+    </span>
+  </p>
+
+
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2018-12-25T21:43:54+08:00">December 25, 2018</time></p>
+
+      </footer>
+
+      
+
+      
+    </div>
+
+    
+  </article>
+
+  
+  
+</div>
+
+      
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';" role="search">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2024 <a href="https://coderemixer.com">Coderemixer 代码混音师</a>. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+
+
+  </body>
+</html>

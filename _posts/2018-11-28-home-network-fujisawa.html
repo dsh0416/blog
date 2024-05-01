@@ -1,0 +1,475 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.25.1 by Michael Rose
+  Copyright 2013-2024 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>部署家中网络的流水帐 - Coderemixer 代码混音师</title>
+<meta name="description" content="一个用来发牢骚的网站，以至于无法对所说的话负责。">
+
+
+  <meta name="author" content="CodeRemixer">
+  
+  <meta property="article:author" content="CodeRemixer">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Coderemixer 代码混音师">
+<meta property="og:title" content="部署家中网络的流水帐">
+<meta property="og:url" content="https://coderemixer.com/_posts/2018-11-28-home-network-fujisawa">
+
+
+  <meta property="og:description" content="一个用来发牢骚的网站，以至于无法对所说的话负责。">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2018-11-26T18:37:47+08:00">
+
+
+
+
+
+
+<link rel="canonical" href="https://coderemixer.com/_posts/2018-11-28-home-network-fujisawa">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": null,
+      "url": "https://coderemixer.com/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Coderemixer 代码混音师 Feed">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css"></noscript>
+
+
+  
+    <script src="/assets/js/mathjax.js"></script>
+  
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          Coderemixer 代码混音师
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/">首页</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about">关于</a>
+            </li><li class="masthead__menu-item">
+              <a href="https://github.com/dsh0416">GitHub</a>
+            </li><li class="masthead__menu-item">
+              <a href="https://twitter.com/DeltonDing">X (Twitter)</a>
+            </li><li class="masthead__menu-item">
+              <a href="/atom.xml">RSS</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+    <div class="author__avatar">
+      <a href="https://coderemixer.com/">
+        <img src="/assets/images/bio-photo.png" alt="CodeRemixer" itemprop="image" class="u-photo">
+      </a>
+    </div>
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="https://coderemixer.com/" itemprop="url">CodeRemixer</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>一个用来发牢骚的网站，以至于无法对所说的话负责。<br /><br /> 文章若无特别声明，皆采用 <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 进行许可。</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">Shanghai ⊕ Tokyo</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="mailto:dsh0416@gmail.com" rel="nofollow noopener noreferrer me"><i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/dsh0416" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-github-square" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://twitter.com/DeltonDing" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-square-x-twitter" aria-hidden="true"></i><span class="label">X (Twitter)</span></a></li>
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="部署家中网络的流水帐">
+    
+    <meta itemprop="datePublished" content="2018-11-26T18:37:47+08:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title p-name" itemprop="headline">
+            <a href="https://coderemixer.com/_posts/2018-11-28-home-network-fujisawa" class="u-url" itemprop="url">部署家中网络的流水帐
+</a>
+          </h1>
+          
+
+
+        </header>
+      
+
+      <section class="page__content e-content" itemprop="text">
+        
+        <p>我今年 9 月搬家到了藤泽，签了一个非常恶心人的 Softbank 的网络合约之后，花了大半个月才搞清楚这个网络的状况。于是就基于自己的需求，在家中部署了多项服务。今天写这篇文章就是来分享一下部署过程中遇到的困难以及解决的方案。</p>
+
+<h2 id="需求">需求</h2>
+
+<ol>
+  <li>能够有稳定的有线、无线网络</li>
+  <li>每个设备都有 IPv6 支持</li>
+  <li>访问学校资源时自动通过 VPN 连接学校内网</li>
+  <li>在局域网内提供 NAS 服务</li>
+  <li>在局域网内提供私有 git 服务来维护代码</li>
+  <li>支持通过 VPN 访问家中网络</li>
+  <li>对外提供 Web 网络服务</li>
+</ol>
+
+<p>之所以定成这样有几个理由。一个是我从来不相信所谓的云网盘，一定要自己存文件才是安全的。其次是经过测试，我的网络基于 IPv6 的传输速度比 IPv4 快不少，上下行都能稳定在 600Mbps 左右。这也使得家中不止要有无线网络，千兆有线网络对于压榨性能也是必不可少的。</p>
+
+<p>为了达成这个网络部署，前后也是经历了两三个月时间细心打磨方案，下面就是具体的过程。</p>
+
+<h2 id="网络拓扑">网络拓扑</h2>
+
+<p><img src="/assets/images/home-network.jpg" alt="Home Network" /></p>
+
+<p>光纤自 NTT 的 GPON 接入 Softbank 的路由。之所以要接入 Softbank 的路由而不是直接接在自己的路由上，是因为 Softbank 使用了一个非常诡异的 IPoE + IPv6 的网络分配形式。其 IPv4 的地址是基于 IPoE 下发的，而其鉴权过程写死在了其定制的路由器中。如果使用 PPPoE 进行拨号，没有办法达到最高的网速，经过实测，PPPoE 只能达到 30Mbps 上下行对等的速度。</p>
+
+<h2 id="路由系统">路由系统</h2>
+
+<p>路由进来后就需要考虑自己的路由系统了，由于这个 Softbank 富士康路由器能调的选项实在是太少，有必要弄一个自己的路由器。考虑到我还打算部署服务，于是就决定弄一个服务器，通过虚拟化的方式来实现。既然说到虚拟化，那么面向个人免费的 ESXi 就是个不错的选择，挑一个对 ESXi 兼容性比较好的，适合放在家里的服务器就可以。</p>
+
+<p>我最终的选择是 HP MicroServer Gen8，</p>
+<ol>
+  <li>首先 HP 这款设备虽然有点老，但是性能还是勉强够用，在二手市场上价格非常便宜。新版本甚至不支持 iLO，算什么服务器？</li>
+  <li>其次就是 HP 对这款设备在其官网上就有 ESXi 的配套驱动，不需要担心兼容性的问题</li>
+  <li>再者由于存储了文件，需要有 RAID 支持来保障文件的可靠性，而这款设备有原生的 RAID 1 支持</li>
+  <li>然后就是自带了三个网口，去掉一个 iLO 管理口，剩下两个还能做上下行，满足我们对路由设备的需求</li>
+  <li>最后就是这款机器定位家庭服务器、小型公司服务器，所以是静音且不需要机柜的，这可太适合我们这个项目了</li>
+</ol>
+
+<p><img src="/assets/images/hp-microserver.jpg" alt="HP MicroServer" /></p>
+
+<p>最终，我在 Yahoo 拍卖上以 35,000 日元（折合人民币 2200 元）的价格买到了一台 Xeon CPU E3-1220L V2 2.3GHz CPU，8GB 内存，没有硬盘的设备。然后单独购买了两块 4TB 的硬盘做 RAID 1。</p>
+
+<p>在 BIOS 中配置好 RAID 选项，直接从 HP 官网上下载相应的 ESXi 镜像，通过 iLO 连接远程安装系统，这一过程非常轻松。另一个网口自然就是要来接交换机的，我在日本亚马逊上以 3,180 日元（折合人民币 200 元）买了一台 NETGEAR GS308-100JPS 的交换机，一共 8 个千兆口，基本够家里使用了。</p>
+
+<p>操作系统选了 OpenWRT 18.06.1，直接 img 拉下来转成 vmdk 塞进 ESXi 里，就可以直接运行了。在 ESXi 中虚拟两个交换机 vSwtich0 接路由器虚拟机、外网网口、管理网；vSwitch1 接路由器、交换机网口以及之后的各种服务。</p>
+
+<p>启动后把外网 IPv4 做成 DHCP，IPv6 做成接力模式。配置内网的 DNS 服务为 ESXi 和 OpenWRT 设置好便于访问的别名，第一阶段完工。</p>
+
+<h2 id="外网服务">外网服务</h2>
+
+<p>接下来来说这个外网服务的问题，这个问题是导致这个项目的网络拓扑变得如此复杂的直接原因。尽管 Softbank 宣称只要打开 DMZ 和防火墙，就可以从公网 IP 访问到设备。经过我将近一个星期的调试，我只想讲一句 fnndp。</p>
+
+<p>在网上找了半天，找到一篇 <a href="https://nashippe.blog/network/rtx/ipv6-hybrid/">博客</a>，讲了它是通过开启路由的 PPPoE 穿透，在内网拨号，从而让家中上网走 IPoE + IPv6 的快速网络，而提供服务走的是 PPPoE 的较慢的网络。于是我也打算按照这个方法实施。</p>
+
+<p>我在 ESXi 上安装了一个新的 Debian 虚拟机，也同时接入 vSwitch0 和 vSwitch1 两个虚拟交换机。在 vSwitch0 上进行 PPPoE 拨号，同时从 vSwitch1 上做 DHCP 客户端。然后通过手写 ip rules 的方法实现路由分流。从而让这台设备成为网关 (gateway) 设备，其它服务可以通过这台的端口代理完成部署。</p>
+
+<p>接下来就是比较简单的，配置 StrongSwan 做了一个 IKEv2 的 VPN；安装 GitLab 做了一个私有的 Git 服务。为了方便更多的 Web 服务部署，我使用了 OpenResty，并在上面运行 <a href="https://github.com/GUI/lua-resty-auto-ssl">lua-resty-auto-ssl</a> 的方式自动签发 HTTPS 证书。有关安全的 HTTPS 配置，可以使用 <a href="https://mozilla.github.io/server-side-tls/ssl-config-generator/">Mozilla SSL Configuration Generator</a> 生成。</p>
+
+<h2 id="内网服务">内网服务</h2>
+
+<p>一个单独拿出来讲的是 NAS。我的选型是 OpenMediaVault。这个系统开源，而且基于 Debian，非常稳定。之所以没有选 FreeNAS，因为我一共只有 8GB 内存，跑 ZFS 还是太吃力了一些。我在 ESXi 上单独虚拟了一个 OpenMediaVault，需要虚拟两块硬盘出来，一块系统盘，一块存储盘，这样管理起来比较容易。</p>
+
+<p>WiFi 的部分是个坑，我一开始觉得这个 Softbank 富士康自带的 WiFi 质量还挺好的，5GHz 能跑上 300Mbps。但后来发现一个严重问题，就是会莫名其妙断流，这个在比如联机玩个马里奥赛车的时候会抓狂。</p>
+
+<p><img src="/assets/images/cisco-ap.jpg" alt="Cisco AP" /></p>
+
+<p>这时候某好友送了我一台 Cisco CAP-3502i。虽然这设备 5GHz 连 802.11ac 都不支持，只支持 n。但是却非常稳定。可惜这玩意使用 PoE 供电，如果换成 PoE 的交换机的话，实在是太浪费钱了。于是我就趁着回国间隙从京东买了一个 TP-LINK TL-POE150S PoE 供电模块（99 元）。TP-LINK 这设备又便宜又稳定，<strong>但是</strong>  赠品的 RJ45 网线还不如不送，送的竟然是 CAT-5 规格的线。我到现在都没搞清，在藤泽，扔网线属于哪一类垃圾，怎么才能扔出去。</p>
+
+<h2 id="杂项">杂项</h2>
+
+<p>除了上面说到这些，还做了一些小的东西。首先有一个台风天的晚上，我的房间断电了 1 秒不到，我感受到是因为我的服务器重启了。为了应对这种情况，我花了 5,980 日元（折合人民币 366 元）买了一台 255W 的 <a href="https://www.amazon.co.jp/gp/product/B01MY53XVO/ref=oh_aui_detailpage_o05_s00?ie=UTF8&amp;psc=1">家用 UPS</a> 以应对突发情况。（长时间的断电我也不防了，毕竟是家用。）</p>
+
+<p><img src="/assets/images/switch-desktop.jpg" alt="Switch Desktop" /></p>
+
+<p>另外我给我的桌面上单独配了 Type-C 到以太网的网口，和电源一起接在适配器上，随时把 Macbook Pro 插上去就可以比较好地工作。另外给 Nintendo Switch 也单独配了网线和 USB 网口。<strong>千万</strong> 不要买任天堂官方的 USB 网口，那玩意甚至是 USB 2.0 的。随便在 Amazon 上都可以买到，比官方的又便宜，速度又快的网口转接器。</p>
+
+<p>最后就是为了访问方便，还是搞一个 DDNS 服务来为家里配一个固定的域名。虽然这 Namecheap 的官方 Guidelines 里讲的花里胡哨的，结果连个 Debian 的例子都没有。我用的是 ddclient 客户端，反正配置还挺简单的。</p>
+
+<h2 id="结论">结论</h2>
+
+<ol>
+  <li>别签 Softbank</li>
+  <li>我不确定这套玩意跑两年加上电费和云主机哪个便宜</li>
+  <li>要是来个地震直接把硬盘砸穿了啥 RAID 都没用</li>
+  <li>手写过 iptables 和 ip rules，才知道里面有多少坑</li>
+</ol>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/%E7%94%9F%E6%B4%BB" class="page__taxonomy-item p-category" rel="tag">生活</a><span class="sep">, </span>
+    
+      <a href="/tags/%E7%BD%91%E7%BB%9C" class="page__taxonomy-item p-category" rel="tag">网络</a>
+    
+    </span>
+  </p>
+
+
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2018-11-26T18:37:47+08:00">November 26, 2018</time></p>
+
+      </footer>
+
+      
+
+      
+    </div>
+
+    
+  </article>
+
+  
+  
+</div>
+
+      
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';" role="search">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2024 <a href="https://coderemixer.com">Coderemixer 代码混音师</a>. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+
+
+  </body>
+</html>
