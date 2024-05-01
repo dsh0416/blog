@@ -1,6 +1,6 @@
 ---
 title: Safari is Fast, but So What?
-date: 2020-10-21 11:52:13
+date: 2020-10-21 11:52:13 +0900
 tags: [Safari, Apple, Web, W3C, JavaScript]
 ---
 

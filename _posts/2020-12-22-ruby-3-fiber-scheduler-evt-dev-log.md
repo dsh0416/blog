@@ -1,7 +1,7 @@
 ---
 title: 为 Ruby 3 Fiber 调度器设计事件库 Evt
-date: 2020-12-22 17:41:41
-tags: [编程, Ruby]
+date: 2020-12-22 17:41:41 +0900
+tags: [编程, Ruby, Fiber]
 ---
 
 [For English Readers](https://coderemixer.com/2020/12/22/ruby-3-fiber-scheduler-evt-dev-log-en/)

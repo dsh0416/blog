@@ -1,6 +1,6 @@
 ---
 title: 拯救老婆 —— MacBook Pro 维修计划
-date: 2020-08-12 18:19:58
+date: 2020-08-12 18:19:58 +0900
 tags: [Macbook Pro, 散热, 维修]
 ---
 

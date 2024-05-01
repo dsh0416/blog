@@ -1,6 +1,6 @@
 ---
 title: 从零开始 Ruby on PHP
-date: 2016-06-10 22:02:06
+date: 2016-06-10 22:02:06 +0800
 tags: [编程, Ruby, PHP]
 ---
 

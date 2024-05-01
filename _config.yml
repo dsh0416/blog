@@ -9,30 +9,37 @@ head_scripts:
   - /assets/js/mathjax.js
   - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
 
+timezone: Asia/Shanghai
+
+markdown: kramdown
+
 author:
   name: CodeRemixer
   avatar: "/assets/images/bio-photo.png"
   bio: >-
     一个用来发牢骚的网站，以至于无法对所说的话负责。<br><br>
     文章若无特别声明，皆采用 <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 进行许可。
+  location: "Shanghai ⊕ Tokyo"
   links:
     - label: "Email"
       icon: "fas fa-fw fa-envelope-square"
       url: "mailto:dsh0416@gmail.com"
     - label: "GitHub"
-      icon: "fab fa-fw fa-github"
+      icon: "fab fa-fw fa-github-square"
       url: "https://github.com/dsh0416"
-    - label: "X"
-      icon: "fab fa-fw fa-twitter-square"
+    - label: "X (Twitter)"
+      icon: "fab fa-fw fa-square-x-twitter"
       url: "https://twitter.com/DeltonDing"
 
 
 # Build settings
 theme: minimal-mistakes-jekyll
-minimal_mistakes_skin: "dark"
+minimal_mistakes_skin: dark
 plugins:
   - jekyll-feed
   - jekyll-archives
+  - jekyll-include-cache
+  - jekyll-sitemap
 feed:
   path: /atom.xml
 tag_archive:
@@ -53,7 +60,7 @@ defaults:
     values:
       layout: single
       author_profile: true
-      read_time: true
+      read_time: false
       comments: true
       share: true
       related: true
@@ -70,12 +77,14 @@ defaults:
     values:
       author_profile: true
 
-include: ["_pages"]
+include: ["_pages", "_posts"]
 
 comments:
   provider: "disqus"
   disqus:
     shortname: "coderemixer"
+
+search: true
 
 # Exclude from processing.
 # The following items will not be processed, by default.

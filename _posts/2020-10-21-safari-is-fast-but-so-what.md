@@ -1,6 +1,6 @@
 ---
 title: 如果 Safari 做不到对，快有何用？
-date: 2020-10-21 11:52:12
+date: 2020-10-21 11:52:12 +0900
 tags: [Safari, Apple, Web, W3C, JavaScript]
 ---
 

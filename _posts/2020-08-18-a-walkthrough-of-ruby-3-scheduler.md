@@ -1,7 +1,7 @@
 ---
 title: A Walkthrough of Ruby 3 Scheduler
-date: 2020-08-18 21:40:14
-tags: [Ruby, 编程]
+date: 2020-08-18 21:40:14 +0900
+tags: [Ruby, Programming]
 ---
 
 ## A Failed Proposal

@@ -1,7 +1,7 @@
 ---
 title: Developing Fiber Scheduler for Ruby 3
-date: 2020-12-22 17:41:41
-tags: [编程, Ruby]
+date: 2020-12-22 17:41:41 +0900
+tags: [Programming, Ruby, Fiber]
 ---
 
 [中文版本](https://coderemixer.com/2020/12/22/ruby-3-fiber-scheduler-evt-dev-log/)

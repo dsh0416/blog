@@ -1,6 +1,6 @@
 ---
 title: 十分钟速通 Y Combinator
-date: 2018-12-07 16:44:33
+date: 2018-12-07 16:44:33 +0900
 tags: [JavaScript, Lambda 演算]
 ---
 

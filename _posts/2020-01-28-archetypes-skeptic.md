@@ -1,6 +1,6 @@
 ---
 title: "硬核解谜 Prolog 入门 —— 13 Archetypes: Skeptic"
-date: 2020-01-18 22:29:29
+date: 2020-01-18 22:29:29 +0900
 tags: [Prolog, 逻辑学, 游戏, 设计, Ingress]
 ---
 

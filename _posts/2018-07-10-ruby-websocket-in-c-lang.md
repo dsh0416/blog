@@ -1,6 +1,6 @@
 ---
 title: 在 Ruby 中实现一个 WebSocket 掩码
-date: 2018-7-10 21:47:45
+date: 2018-7-10 21:47:45 +0800
 tags: [编程, Ruby]
 ---
 

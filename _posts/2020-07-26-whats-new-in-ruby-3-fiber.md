@@ -1,6 +1,6 @@
 ---
 title: Ruby 3 Fiber 变化前瞻
-date: 2020-07-26 18:16:43
+date: 2020-07-26 18:16:43 +0900
 tags: [Fiber, Ruby]
 ---
 
