@@ -15,6 +15,16 @@ author:
   bio: >-
     一个用来发牢骚的网站，以至于无法对所说的话负责。<br><br>
     文章若无特别声明，皆采用 <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 进行许可。
+  links:
+    - label: "Email"
+      icon: "fas fa-fw fa-envelope-square"
+      url: "mailto:dsh0416@gmail.com"
+    - label: "GitHub"
+      icon: "fab fa-fw fa-github"
+      url: "https://github.com/dsh0416"
+    - label: "X"
+      icon: "fab fa-fw fa-twitter-square"
+      url: "https://twitter.com/DeltonDing"
 
 
 # Build settings
