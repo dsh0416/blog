@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://coderemixer.com/atom.xml" rel="self" type="application/atom+xml" /><link href="https://coderemixer.com/" rel="alternate" type="text/html" /><updated>2024-05-20T02:41:36+08:00</updated><id>https://coderemixer.com/atom.xml</id><title type="html">Coderemixer 代码混音师</title><subtitle>一个用来发牢骚的网站，以至于无法对所说的话负责。</subtitle><author><name>CodeRemixer</name></author><entry><title type="html">柯洁能成为九冠王吗？</title><link href="https://coderemixer.com/2024/05/20/kejie-championship" rel="alternate" type="text/html" title="柯洁能成为九冠王吗？" /><published>2024-05-20T02:40:00+08:00</published><updated>2024-05-20T02:40:00+08:00</updated><id>https://coderemixer.com/2024/05/20/kejie-championship</id><content type="html" xml:base="https://coderemixer.com/2024/05/20/kejie-championship"><![CDATA[<p>柯洁（九段）的上一个世界冠军可以追溯到 2020 年三星杯 2-0 胜申真谞（九段），连续两年没有获得世界冠军，上一次和世界冠军失之交臂是 2023 年亚运会负許皓鋐（九段）。不由让人疑问，柯洁在职业生涯再拿一个世界冠军的概率有多少？为了回答这个问题，我们需要一个衡量棋手水平的模型。一个比较简单的方法就是通过 Elo 等级分。</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://coderemixer.com/atom.xml" rel="self" type="application/atom+xml" /><link href="https://coderemixer.com/" rel="alternate" type="text/html" /><updated>2024-05-20T04:29:47+08:00</updated><id>https://coderemixer.com/atom.xml</id><title type="html">Coderemixer 代码混音师</title><subtitle>一个用来发牢骚的网站，以至于无法对所说的话负责。</subtitle><author><name>CodeRemixer</name></author><entry><title type="html">柯洁能成为九冠王吗？</title><link href="https://coderemixer.com/2024/05/20/kejie-championship" rel="alternate" type="text/html" title="柯洁能成为九冠王吗？" /><published>2024-05-20T02:40:00+08:00</published><updated>2024-05-20T02:40:00+08:00</updated><id>https://coderemixer.com/2024/05/20/kejie-championship</id><content type="html" xml:base="https://coderemixer.com/2024/05/20/kejie-championship"><![CDATA[<p>柯洁（九段）的上一个世界冠军可以追溯到 2020 年三星杯 2-0 胜申真谞（九段），连续两年没有获得世界冠军，上一次和世界冠军失之交臂是 2023 年亚运会负許皓鋐（九段）。不由让人疑问，柯洁在职业生涯再拿一个世界冠军的概率有多少？为了回答这个问题，我们需要一个衡量棋手水平的模型。一个比较简单的方法就是通过 Elo 等级分。</p>
 
 <h2 id="bradley-terry-模型">Bradley-Terry 模型</h2>
 
@@ -6,13 +6,13 @@
 \(P(A&gt;B)=\frac{10^\frac{R(A)}{400}}{10^\frac{R(A)}{400}+10^\frac{R(B)}{400}}\)
 然而当两位选手下完一盘棋后，后验的结果如何反馈到 elo 分的修正上是一个比较大的问题。一个比较好的算法是 <a href="https://www.remi-coulom.fr/WHR/">WHR Algorithm</a>，也就是 <a href="https://goratings.org">Go Ratings</a> 使用的算法。</p>
 
-<p>举个例子来说，我们以截止到 2024 年 5 月 10 日数据的最新等级分来看的话，如果我们比较柯洁和战鹰（二段）的等级分的话，战鹰的等级分是 2824 分，那么战鹰战胜柯洁的概率是 0.66%，从中可以看出顶尖职业棋手间微妙的差距。</p>
+<p>举个例子来说，我们以截止到 2024 年 5 月 10 日数据的最新等级分来看的话，如果我们比较柯洁和战鹰（二段）的等级分的话，柯洁的等级分是 3694 分，而战鹰的等级分是 2824 分。如果明天就有一盘柯洁和申真谞的比赛的话，那么战鹰战胜柯洁的概率是 0.66%，从中可以看出顶尖职业棋手间微妙的差距。</p>
 
-<p>申真谞的等级分是 3877 分，而柯洁的等级分是 3694 分。如果明天就有一盘柯洁和申真谞的比赛的话，柯洁胜出的概率是 25.86%。而柯洁前两天爆冷负刘宇航（六段），刘宇航的等级分是 3536 分，发生这样爆冷的概率是 28.70%。从这个角度来看，柯洁能赢申真谞本身也属于一种爆冷了。</p>
+<p>申真谞的等级分是 3877 分，所以柯洁对战申真谞胜出的概率是 25.86%。而柯洁前两天爆冷负刘宇航（六段），刘宇航的等级分是 3536 分，发生这样爆冷的概率是 28.70%。从这个角度来看，柯洁能赢申真谞本身也属于一种爆冷了。</p>
 
 <h2 id="建模">建模</h2>
 
-<p>然而锦标赛并不是单纯地胜率对比，一名棋手在淘汰赛中需要进行多轮比赛，即使胜率总是 90%，连续赢 8 轮的概率也只有 43%。本着「量子力学量力学，随机过程随机过」的原则，我们不如使用蒙特卡洛方法来模拟这些锦标赛的规则，从而能更好估计夺冠的分布。</p>
+<p>然而锦标赛并不是单纯的胜率对比，一名棋手在淘汰赛中需要进行多轮比赛，即使胜率总是 90%，连续赢 8 轮的概率也只有 43%。本着「量子力学量力学，随机过程随机过」的原则，我们不如使用蒙特卡洛方法来模拟这些锦标赛的规则，从而能更好估计夺冠的分布。</p>
 
 <p>我们考虑下面的个人世界围棋赛事：应式杯、春兰杯、三星杯、LG 杯、梦百合杯、烂柯杯。应式杯每四年举办一次，而亚运会下一届是不是正式项目不确定。北海新绎杯由于今年第一年办，不确定之后的赛制以及会不会继续办，先不纳入计算。</p>
 
