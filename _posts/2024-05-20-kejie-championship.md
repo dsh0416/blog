@@ -8,10 +8,13 @@ tags: [统计学, Elo]
 
 ## Bradley-Terry 模型
 
-今天的 Elo 等级分和 Arpad Elo 的原始假设有比较大的差异，尤其是在选择的分布上。一般我们会假设使用 Bradley-Terry 模型构造 elo 等级分模型，即对于两个选手 A 和 B，A 获胜的概率是
+今天的 Elo 等级分和 Arpad Elo 的原始假设有比较大的差异，尤其是在选择的分布上。一般我们会假设使用 Bradley-Terry 模型构造 elo 等级分模型，假设 $$R(i,t)$$ 是 $$i$$ 选手在 $$t$$ 时刻的 Elo 分，即对于两个选手 $$\alpha$$ 和 $$\beta$$ 在 $$t$$ 时刻 $$\alpha$$ 获胜的概率是
 
 $$
-P(A>B)=\frac{10^\frac{R(A)}{400}}{10^\frac{R(A)}{400}+10^\frac{R(B)}{400}}
+\begin{align}
+\gamma(i,t)&=10^\frac{R(i,t)}{400}\\
+P(\alpha\gt\beta,t)&=\frac{\gamma(\alpha,t)}{\gamma(\alpha,t)+\gamma(\beta,t)}
+\end{align}
 $$
 
 然而当两位选手下完一盘棋后，后验的结果如何反馈到 elo 分的修正上是一个比较大的问题。一个比较好的算法是 [WHR Algorithm](https://www.remi-coulom.fr/WHR/)，也就是 [Go Ratings](https://goratings.org) 使用的算法。
