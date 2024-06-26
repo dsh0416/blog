@@ -10,8 +10,8 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>浮点数如何导致了 4.92000008 级地震？ - Coderemixer 代码混音师</title>
-<meta name="description" content="">
+<!-- begin _includes/seo.html --><title>为什么没有三面体？ - Coderemixer 代码混音师</title>
+<meta name="description" content="前几天我在桌子上放了一个骰塔，塔里放了一组 DnD 骰子。有个同事走过来看到一个正四面体的骰子问：「你这是三面骰吗？」我一愣，第一反应是，这世界上不应该存在三面体啊。不过一细想，为什么没有三面体确实是一个值得思考的好问题。">
 
 
   <meta name="author" content="CodeRemixer">
@@ -23,26 +23,26 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="Coderemixer 代码混音师">
-<meta property="og:title" content="浮点数如何导致了 4.92000008 级地震？">
-<meta property="og:url" content="https://coderemixer.com/2020/05/22/how-floating-number-caused-strange-earthquake">
+<meta property="og:title" content="为什么没有三面体？">
+<meta property="og:url" content="https://coderemixer.com/2024/06/26/trihedron">
 
 
-  <meta property="og:description" content="">
-
-
-
-
-
-
-
-  <meta property="article:published_time" content="2020-05-22T00:28:59+08:00">
+  <meta property="og:description" content="前几天我在桌子上放了一个骰塔，塔里放了一组 DnD 骰子。有个同事走过来看到一个正四面体的骰子问：「你这是三面骰吗？」我一愣，第一反应是，这世界上不应该存在三面体啊。不过一细想，为什么没有三面体确实是一个值得思考的好问题。">
 
 
 
 
 
 
-<link rel="canonical" href="https://coderemixer.com/2020/05/22/how-floating-number-caused-strange-earthquake">
+
+  <meta property="article:published_time" content="2024-06-26T09:22:00+08:00">
+
+
+
+
+
+
+<link rel="canonical" href="https://coderemixer.com/2024/06/26/trihedron">
 
 
 
@@ -271,16 +271,16 @@
 
 
   <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="浮点数如何导致了 4.92000008 级地震？">
-    <meta itemprop="description" content="">
-    <meta itemprop="datePublished" content="2020-05-22T00:28:59+08:00">
+    <meta itemprop="headline" content="为什么没有三面体？">
+    <meta itemprop="description" content="前几天我在桌子上放了一个骰塔，塔里放了一组 DnD 骰子。有个同事走过来看到一个正四面体的骰子问：「你这是三面骰吗？」我一愣，第一反应是，这世界上不应该存在三面体啊。不过一细想，为什么没有三面体确实是一个值得思考的好问题。">
+    <meta itemprop="datePublished" content="2024-06-26T09:22:00+08:00">
     
 
     <div class="page__inner-wrap">
       
         <header>
           <h1 id="page-title" class="page__title p-name" itemprop="headline">
-            <a href="https://coderemixer.com/2020/05/22/how-floating-number-caused-strange-earthquake" class="u-url" itemprop="url">浮点数如何导致了 4.92000008 级地震？
+            <a href="https://coderemixer.com/2024/06/26/trihedron" class="u-url" itemprop="url">为什么没有三面体？
 </a>
           </h1>
           
@@ -291,7 +291,7 @@
       <span class="page__meta-date">
         <i class="far fa-calendar-alt" aria-hidden="true"></i>
         
-        <time datetime="2020-05-22T00:28:59+08:00">May 22, 2020</time>
+        <time datetime="2024-06-26T09:22:00+08:00">June 26, 2024</time>
       </span>
     
 
@@ -306,136 +306,82 @@
 
       <section class="page__content e-content" itemprop="text">
         
-        <p><img src="/assets/images/strange-earthquake.png" alt="Strange Earthquake" /></p>
+        <p>前几天我在桌子上放了一个骰塔，塔里放了一组 DnD 骰子。有个同事走过来看到一个正四面体的骰子问：「你这是三面骰吗？」我一愣，第一反应是，这世界上不应该存在三面体啊。不过一细想，为什么没有三面体确实是一个值得思考的好问题。</p>
 
-<p>刚收到一个地震速报，说美国发生了一场 M4.92000008 级地震。这个数字实在太过于微妙，我们很少见到精确到小数点后那么多位的地震级数。News Digest 网站迅速删除了这篇报道，并且补上了一篇 M4.9 级的报道。</p>
+<h2 id="欧拉示性数">欧拉示性数</h2>
 
-<p>然而，这么奇怪的地震级数是怎么发生的？</p>
+<p>考虑到我们这需要讨论面的数量，第一个会想要用的公式显然是欧拉示性数公式，即：</p>
 
-<h2 id="计算机如何表达小数">计算机如何表达小数？</h2>
+\[V-E+F=2\]
 
-<p>要想理解这个问题，我们还是要从计算机表达数字的方法开始说起。如果要在计算机里表达小数，有两个主流方法，定点数和浮点数。</p>
+<p>欧拉示性数是一个拓扑不变量，即对于所有和一个球面同胚的多面体（三维空间中的凸多面体），都适用于这个公式。其中 \(V,E,F\) 分别是顶点、棱、面的个数。带入 \(F\) 的数字我们得到：</p>
 
-<p>定点数很好理解，对于一个二进制，我们人为规定其某几位是整数部分，而另外某几位是小数部分。例如我们对于下面一个 8 位无符号的数字，定义第四位是分割点。</p>
+\[V-E=-1\]
 
-<table>
-  <thead>
-    <tr>
-      <th>$2^3$</th>
-      <th>$2^2$</th>
-      <th>$2^1$</th>
-      <th>$2^0$</th>
-      <th>$2^{-1}$</th>
-      <th>$2^{-2}$</th>
-      <th>$2^{-3}$</th>
-      <th>$2^{-4}$</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-    </tr>
-  </tbody>
-</table>
+<p>不过光有这一个公式似乎不足以解释我们的问题。</p>
 
-<p>那么这么一个 10011001 就代表十进制的 9.5625。</p>
+<h2 id="凸正多面体">凸正多面体</h2>
 
-<p>我们很容易看出，这个数字里能表达的最大的数字是 11111111，即十进制的 15.9375。</p>
+<p>如果我们简化一下这个问题，由于是骰子，我们可以先考虑三维空间中的凸正多面体。这个问题古希腊人就有所研究。由于每条棱有两个顶点，且在两个面上。我们定义每个面有 \(p\) 条棱，经过每个顶点会有 \(q\) 条棱，围绕棱可以得到下面的式子：</p>
 
-<p>定点数的点点在哪里是非常关键的，如果点在最后，那么其实就只是整数，不能表达小数，但是能表达的数字最大；如果点在太前面，那么虽然表达小数的能力很强，但是却不能表达大数。</p>
+\[pF=2E=qV\]
 
-<p>然而浮点数小数点的位置是浮动的。我们可以根据数据的情况来调整浮点的位置。实际的浮点数还有规约和特殊值的问题，不过我们可以暂且简化一下这个问题。</p>
+<p>带入数字 3，得到：</p>
 
-<p>比如对于下面的一个八位数字。前四位表示指数即 $2^{8-x}$ 次方，后面部分表示小数即 $1+y$。</p>
+\[3p=2E=qV\]
 
-<table>
-  <thead>
-    <tr>
-      <th>x</th>
-      <th> </th>
-      <th> </th>
-      <th> </th>
-      <th>y</th>
-      <th> </th>
-      <th> </th>
-      <th> </th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-    </tr>
-  </tbody>
-</table>
+<p>我们有三个方程，但是有四个未知数，显然这个问题还是不太好解。好消息是我们知道 \(p,q,E,V\) 都需要是正整数这个条件。我们将 \(V\) 用 \(q\) 代换，能得到：</p>
 
-<p>我们可以知道，这里 $x = 5, y = 0.5625$，所以结果是 $(1+0.5625) \times 2^{8-5} = 12.5$。这个数字能表达的最大值是</p>
+\[\frac{2E}{q}=-1+E\]
 
-<table>
-  <thead>
-    <tr>
-      <th>x</th>
-      <th> </th>
-      <th> </th>
-      <th> </th>
-      <th>y</th>
-      <th> </th>
-      <th> </th>
-      <th> </th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>1</td>
-      <td>1</td>
-      <td>1</td>
-    </tr>
-  </tbody>
-</table>
+<p>将等式两边同处以 \(2E\)，得到：</p>
 
-<p>结果是 $(1+0.9375) \times 2^8 = 496$，比定点数大很多。浮点数在大数字时能显示的位数更多，而在小数时能显示更高的精度，这在我们不确定精度的时候是一个很好的选择。</p>
+\[\frac{1}{q}=-\frac{1}{2E}+\frac{1}{2}\]
 
-<h2 id="浮点数与定点数之争">浮点数与定点数之争</h2>
+<p>不妨将 \(2E\) 用 \(3p\) 替代，我们会得到：</p>
 
-<p>这两个方法谁更好，在历史上有过一段时间的争斗。</p>
+\[\frac{1}{q}+\frac{1}{3p}=\frac{1}{2}\]
 
-<p>一个失败的定点数的应用就是在 Sony PlayStation 游戏机上。Sony PS 的处理器不支持浮点数计算，只支持定点数计算。Sony PS 的定点数是一个 16.16 定点数，即使用一个 32 位的数据结构，将前 16 位表示整数，而后 16 位表示小数。包括 PS 3D 坐标的顶点变换运算也不得不使用这套定点数系统。在表达小数字时计算就会出现精度不足的情况，这使得 PlayStation 在渲染 3D 图形时经常会出现模型抖动的问题。</p>
+<p>由于，\(p\) 和 \(q\) 都是正整数，显然地，\(p\) 越大，\(q\) 越小。我们取 \(p\) 最小值 1，有 \(q = 6\) ，此时 \(V = 1/2\) 不满足。同理，我们依次枚举调大 \(p\) 的值，直到 \(q &lt; 1\) 时，都找不到满足条件的整数解。因此不存在正三面体。</p>
 
-<p>在一般的计算中你通常会需要浮点数，因为当数字小的时候我们更关心精度，而大了之后我们更希望能存储大数。所以在大多数编程语言中，都会提供浮点数作为最常用的小数数据类型。不过定点数在一些场合仍在使用，比如说在一些 NPU（Neural-network Processing Unit）处理器中，会使用定点数来消除浮点数导致的精度抖动。而大多数神经网络中都会由于归一化的存在而很好控制住数据的范围，不会出现大数的情况。</p>
+<h2 id="凸多面体">凸多面体</h2>
 
-<h2 id="回到-492000008-级地震">回到 4.92000008 级地震</h2>
+<p>然而我们一开始想讨论的问题是是否存在三面体，而不是加上限定条件的凸正多面体，好像是答非所问了。而且并非所有的骰子都需要是凸正多面体，比如 d10 骰子就不是凸正多面体：</p>
 
-<p>我们通常所说的浮点数，指 IEEE 754。即由电机电子工程师学会 (IEEE) 规范的一套浮点数算法。对于一个 32 位（单精度）浮点数，第 1 位表示正负号，后面 8 位表示指数（即 2 的多少次方），然后接下来 23 位是偏正值，并且还对规约、零、无穷、NaN 进行了特别的定义，是目前最常用的浮点数。</p>
+<p><img src="/assets/images/dice-d10.png" alt="D10 骰子怎么看也不是正多面体" /></p>
 
-<p>让我们来看看如何用 IEEE 754 浮点数表达 4.92 级地震。</p>
+<p>D10 骰子怎么看也不是正多面体</p>
 
-<p><img src="/assets/images/ieee754-earthquake.png" alt="IEEE 754 Representation of 4.92" /></p>
+<p>我们应该有一个更一般的处理三面体问题的结论。</p>
 
-<p>我们可以看到，表达成二进制后产生了一个 0.0000000762939453125 的误差，也就是变成了 4.9200000762939453125，如果我们精确到小数点后 8 位，就变成了 4.92000008。</p>
+<p>和二维图形至少需要 3 个顶点类似，面为平面的多面体，至少需要 4 个顶点才能够形成有体积的三维图形。 而 4 个顶点构成的凸多边形就是凸四面体。只考虑这个问题实际上比上面的正凸多面体反而更简单了。</p>
 
-<p>啊，原来不是测了个那么精确的地震，是浮点数弄出了一点误差，而发布的时候忘记精确到小数点后 2 位了啊。</p>
+<h2 id="多面体">多面体</h2>
 
-<h2 id="举一反三">举一反三</h2>
+<p>等等，好像我们也没有说我们的三面体得是凸的吧？我们知道所有和一个球面同胚的多面体（三维空间中的凸多面体）的欧拉示性数都是 2，但我们并没有说我们需要和球面同胚吧？比如马克杯和甜甜圈的欧拉示性数就是 0。</p>
 
-<p>那么聪明的你，能告诉我，为什么在很多语言里 0.1 + 0.2 等于 0.30000000000000004 吗？</p>
+<p><img src="/assets/images/mug-donuts.jpg" alt="拓扑学家常常分不清马克杯和甜甜圈" /></p>
+
+<p>拓扑学家常常分不清马克杯和甜甜圈</p>
+
+<p>我们能找到更一般地结论证明三面体不存在吧？不能，因为三面体可以存在，下面给出一个反例：</p>
+
+<p><strong>一个截面为三角形的甜甜圈，它是不是一个三面体？</strong></p>
+
+<p>很可惜的是「需要 4 个顶点才能够形成有体积的三维图形」的结论并没有发生改变，通过马克杯构造出来的三面体需要环面的参与才能够完成。但如果我们可以接受环面，我们能不能进一步接受曲面？也许问题可以变得更简单一些，比如圆柱体是否可以看成一个三面体？</p>
+
+<h2 id="结论">结论</h2>
+
+<p>好吧，其实我一开始的想法想当然了，我们可以有三面体，只是… 可能不那么容易做成骰子。</p>
+
+<p>另外如果我们只从做骰子的角度来考虑的话，我们也并不需要三面体，比如我们将两个正四面体贴合在一起，将对称的两侧都标记为相同的数字的话，也是可以实现三面效果的骰子的。但脱离骰子本身而去重新考虑多面体的意义是一个非常不错的拓扑学训练。</p>
+
+<h2 id="扩展阅读">扩展阅读</h2>
+
+<ul>
+  <li>https://youtu.be/YtkIWDE36qU?si=3dZG91P4wCDEgMsE</li>
+  <li>https://youtu.be/VvCytJvd4H0?si=7QxzQuQHg2EvHFGj</li>
+</ul>
 
         
       </section>
@@ -452,7 +398,11 @@
     <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
     <span itemprop="keywords">
     
-      <a href="/tags/%E7%AE%97%E6%B3%95" class="page__taxonomy-item p-category" rel="tag">算法</a>
+      <a href="/tags/%E6%8B%93%E6%89%91%E5%AD%A6" class="page__taxonomy-item p-category" rel="tag">拓扑学</a><span class="sep">, </span>
+    
+      <a href="/tags/%E6%AC%A7%E6%8B%89" class="page__taxonomy-item p-category" rel="tag">欧拉</a><span class="sep">, </span>
+    
+      <a href="/tags/%E6%AC%A7%E6%8B%89%E7%A4%BA%E6%80%A7%E6%95%B0" class="page__taxonomy-item p-category" rel="tag">欧拉示性数</a>
     
     </span>
   </p>
@@ -462,30 +412,29 @@
 
         
 
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2020-05-22T00:28:59+08:00">May 22, 2020</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2024-06-26T09:22:00+08:00">June 26, 2024</time></p>
 
       </footer>
 
       <section class="page__share">
   
 
-  <a href="https://twitter.com/intent/tweet?text=%E6%B5%AE%E7%82%B9%E6%95%B0%E5%A6%82%E4%BD%95%E5%AF%BC%E8%87%B4%E4%BA%86+4.92000008+%E7%BA%A7%E5%9C%B0%E9%9C%87%EF%BC%9F%20https%3A%2F%2Fcoderemixer.com%2F2020%2F05%2F22%2Fhow-floating-number-caused-strange-earthquake" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+  <a href="https://twitter.com/intent/tweet?text=%E4%B8%BA%E4%BB%80%E4%B9%88%E6%B2%A1%E6%9C%89%E4%B8%89%E9%9D%A2%E4%BD%93%EF%BC%9F%20https%3A%2F%2Fcoderemixer.com%2F2024%2F06%2F26%2Ftrihedron" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
 
-  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fcoderemixer.com%2F2020%2F05%2F22%2Fhow-floating-number-caused-strange-earthquake" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fcoderemixer.com%2F2024%2F06%2F26%2Ftrihedron" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
 
-  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://coderemixer.com/2020/05/22/how-floating-number-caused-strange-earthquake" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://coderemixer.com/2024/06/26/trihedron" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
 </section>
 
 
       
   <nav class="pagination">
     
-      <a href="/2020/05/21/whos-the-most-beautiful-woman-in-the-world" class="pagination--pager" title="女朋友问你「我是不是世界上最好看的女人？」怎么办
+      <a href="/2024/05/20/kejie-championship" class="pagination--pager" title="柯洁能成为九冠王吗？
 ">Previous</a>
     
     
-      <a href="/2020/05/24/bcd-cobol-showa-100-years-problem" class="pagination--pager" title="BCD、COBOL、千年虫和昭和 100 年问题
-">Next</a>
+      <a href="#" class="pagination--pager disabled">Next</a>
     
   </nav>
 
@@ -511,47 +460,6 @@
   <div class="grid__wrapper">
     
     
-    
-      
-      
-      
-      
-      
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/2024/06/26/trihedron" rel="permalink">为什么没有三面体？
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-      
-      <span class="page__meta-date">
-        <i class="far fa-calendar-alt" aria-hidden="true"></i>
-        
-        <time datetime="2024-06-26T09:22:00+08:00">June 26, 2024</time>
-      </span>
-    
-
-    
-
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">前几天我在桌子上放了一个骰塔，塔里放了一组 DnD 骰子。有个同事走过来看到一个正四面体的骰子问：「你这是三面骰吗？」我一愣，第一反应是，这世界上不应该存在三面体啊。不过一细想，为什么没有三面体确实是一个值得思考的好问题。
-</p>
-  </article>
-</div>
-
     
       
       
@@ -677,6 +585,46 @@
       
       
       
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/2021/01/08/autopilot-with-ruby" rel="permalink">用 Ruby 实现飞机自动驾驶仪
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2021-01-08T13:03:32+08:00">January 8, 2021</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">krpc 是一个砍巴拉太空计划（Kerbel Space Program）中的插件。可以通过 RPC 来控制游戏。同时有第三方的 Ruby 客户端：krpc-rb。和真实飞机不同的是，在砍巴拉游戏中驾驶飞机是非常痛苦的，在没有插件辅助的情况下，你看不到具体的 GPS 坐标，很多时候看到的都是和飞机驾驶无关的轨道参...</p>
+  </article>
+</div>
+
+    
+      
+      
+      
   </div>
 </div>
 
@@ -753,8 +701,8 @@
     
   <script>
     var disqus_config = function () {
-      this.page.url = "https://coderemixer.com/2020/05/22/how-floating-number-caused-strange-earthquake";  /* Replace PAGE_URL with your page's canonical URL variable */
-      this.page.identifier = "/2020/05/22/how-floating-number-caused-strange-earthquake"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+      this.page.url = "https://coderemixer.com/2024/06/26/trihedron";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/2024/06/26/trihedron"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
     };
     (function() { /* DON'T EDIT BELOW THIS LINE */
       var d = document, s = d.createElement('script');
