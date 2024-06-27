@@ -4,12 +4,12 @@ date: 2020-12-22 17:41:41 +0900
 tags: [Programming, Ruby, Fiber]
 ---
 
-[中文版本](https://coderemixer.com/2020/12/22/ruby-3-fiber-scheduler-evt-dev-log/)
+[中文版本](https://coderemixer.com/2020/12/22/ruby-3-fiber-scheduler-evt-dev-log)
 
 ## Ruby 3 Fiber Scheduler
 
-I wrote an article in July 2020, [*Ruby 3 Fiber changes preview (in Chinese)*](https://coderemixer.com/2020/07/26/whats-new-in-ruby-3-fiber/),
-and followed up by another post in August [*A Walkthrough of Ruby 3 Scheduler*](https://coderemixer.com/2020/08/18/a-walkthrough-of-ruby-3-scheduler/).
+I wrote an article in July 2020, [*Ruby 3 Fiber changes preview (in Chinese)*](https://coderemixer.com/2020/07/26/whats-new-in-ruby-3-fiber),
+and followed up by another post in August [*A Walkthrough of Ruby 3 Scheduler*](https://coderemixer.com/2020/08/18/a-walkthrough-of-ruby-3-scheduler).
 Ruby 3 has updated lots of versions during these months, including `ruby-3.0.0-preview1` `ruby-3.0.0-preview2` and `ruby-3.0.0-rc1`,
 which makes lots of improvements to the Fiber Scheduler API.
 
@@ -509,7 +509,7 @@ The `wrk` results are very error-sensitive. All of these things makes our perfor
 
 ## Combining with Ractor
 
-I also wrote a post on November about Ractor  [*Ruby 3 Ractor Dev Guide (in Chinese)*](https://coderemixer.com/2020/11/17/ruby-3-ractor-guide/)
+I also wrote a post on November about Ractor  [*Ruby 3 Ractor Dev Guide (in Chinese)*](https://coderemixer.com/2020/11/17/ruby-3-ractor-guide)
 Combining Fiber with Ractor is always a interesting thing. We have two routes for that:
 
 1. Receive accpets in the main Ractor, and dispatch the request to sub-Ractors. After transferring the results back, return it from the main Ractor with scheduler.

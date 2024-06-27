@@ -4,7 +4,7 @@ date: 2020-10-21 11:52:12 +0900
 tags: [Safari, Apple, Web, W3C, JavaScript]
 ---
 
-For English version, click [here](/2020/10/21/safari-is-fast-but-so-what-english/)
+For English version, click [here](/2020/10/21/safari-is-fast-but-so-what-english)
 
 ## 一个困扰了一周的 bug
 

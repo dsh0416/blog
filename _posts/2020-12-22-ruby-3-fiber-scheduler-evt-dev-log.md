@@ -4,11 +4,11 @@ date: 2020-12-22 17:41:41 +0900
 tags: [编程, Ruby, Fiber]
 ---
 
-[For English Readers](https://coderemixer.com/2020/12/22/ruby-3-fiber-scheduler-evt-dev-log-en/)
+[For English Readers](https://coderemixer.com/2020/12/22/ruby-3-fiber-scheduler-evt-dev-log-en)
 
 ## Ruby 3 Fiber 调度器
 
-我在 2020 年 7 月写过一篇文章 [《Ruby 3 Fiber 变化前瞻》](https://coderemixer.com/2020/07/26/whats-new-in-ruby-3-fiber/)，以及后来 8 月又写过一篇文章 [《尝试使用 Ruby 3 调度器》](https://coderemixer.com/2020/08/18/a-walkthrough-of-ruby-3-scheduler-cn/)，简单介绍了 Fiber 调度器。Ruby 3 在这几个月中更新了数个版本，包括 `ruby-3.0.0-preview1` `ruby-3.0.0-preview2` 和 `ruby-3.0.0-rc1`，其对于 Fiber 调度器的 API 做了更多的改进。
+我在 2020 年 7 月写过一篇文章 [《Ruby 3 Fiber 变化前瞻》](https://coderemixer.com/2020/07/26/whats-new-in-ruby-3-fiber)，以及后来 8 月又写过一篇文章 [《尝试使用 Ruby 3 调度器》](https://coderemixer.com/2020/08/18/a-walkthrough-of-ruby-3-scheduler-cn)，简单介绍了 Fiber 调度器。Ruby 3 在这几个月中更新了数个版本，包括 `ruby-3.0.0-preview1` `ruby-3.0.0-preview2` 和 `ruby-3.0.0-rc1`，其对于 Fiber 调度器的 API 做了更多的改进。
 
 不过正如我之前所说，Ruby 3 调度器实现的只有接口，如果没有配套的接口实现，默认是不会启动的。最近四个月工作实在很忙，抽出了点时间来跟上 API 更新的脚步。这个项目得以进一步更新。
 
@@ -467,7 +467,7 @@ VALUE method_scheduler_register(VALUE self, VALUE io, VALUE interest) {
 
 ## 与 Ractor 结合
 
-我在 2020 年 11 月 17 日写过一篇关于 Ractor 的扫盲贴 [《Ractor 下多线程 Ruby 程序指南》](https://coderemixer.com/2020/11/17/ruby-3-ractor-guide/)，Ractor 和 Fiber 的结合始终是一个有意思的话题。目前情况下 Fiber 与 Ractor 结合来实现 Web 服务器有两个可能的路径：
+我在 2020 年 11 月 17 日写过一篇关于 Ractor 的扫盲贴 [《Ractor 下多线程 Ruby 程序指南》](https://coderemixer.com/2020/11/17/ruby-3-ractor-guide)，Ractor 和 Fiber 的结合始终是一个有意思的话题。目前情况下 Fiber 与 Ractor 结合来实现 Web 服务器有两个可能的路径：
 
 1. 在主 Ractor 部署一个调度器，用来处理请求的 accept。将请求派发到子 Ractor 中，由子线程进行处理后将返回值传回主 Ractor 中进行请求返回。
 2. 利用 Linux 内核 `SO_REUSEPORT` 特性让多个 Ractor 同时监听请求，即可直接将单线程服务器扩展成多线程服务器。

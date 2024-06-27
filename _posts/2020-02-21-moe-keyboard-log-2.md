@@ -6,7 +6,7 @@ tags: 键盘
 
 ## 前情回顾
 
-- [「Keyboard Moe」从零开始自制键盘（一）：硬件设计](https://coderemixer.com/2020/02/16/moe-keyboard-log-1/)
+- [「Keyboard Moe」从零开始自制键盘（一）：硬件设计](https://coderemixer.com/2020/02/16/moe-keyboard-log-1)
 
 ## 开发板
 

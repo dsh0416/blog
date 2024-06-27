@@ -4,7 +4,7 @@ date: 2020-10-21 11:52:13 +0900
 tags: [Safari, Apple, Web, W3C, JavaScript]
 ---
 
-中文版本[见此](/2020/10/21/safari-is-fast-but-so-what/)
+中文版本[见此](/2020/10/21/safari-is-fast-but-so-what)
 
 ## A Mysterious Bug
 
