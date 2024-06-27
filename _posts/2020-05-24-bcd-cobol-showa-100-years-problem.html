@@ -291,7 +291,7 @@
 
       <section class="page__content e-content" itemprop="text">
         
-        <p><a href="https://coderemixer.com/2020/05/22/how-floating-number-caused-strange-earthquake/">上篇文章</a> 里我们讲到了定点数和浮点数的区别，我们认识到这两个数字在精度对待上的差异。但是这两个类型的数字都是二进制数，而有些数字本身就是很难用二进制表达的。</p>
+        <p><a href="https://coderemixer.com/2020/05/22/how-floating-number-caused-strange-earthquake">上篇文章</a> 里我们讲到了定点数和浮点数的区别，我们认识到这两个数字在精度对待上的差异。但是这两个类型的数字都是二进制数，而有些数字本身就是很难用二进制表达的。</p>
 
 <p>比如我们有一个十进制数 $0.1234$，要将其转换成二进制。如果我们采用 32 位 IEEE 754，其结果是 $00111101111111001011100100100100$，转换回十进制是 $0.1234000027179718017578125$ 造成了一个 $2.717 \times 10^{-9}$ 的误差。而如果我们定点数，我们先尝试直接转换：</p>
 
