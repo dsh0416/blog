@@ -291,11 +291,11 @@
 
       <section class="page__content e-content" itemprop="text">
         
-        <p><a href="https://coderemixer.com/2020/12/22/ruby-3-fiber-scheduler-evt-dev-log-en/">For English Readers</a></p>
+        <p><a href="https://coderemixer.com/2020/12/22/ruby-3-fiber-scheduler-evt-dev-log-en">For English Readers</a></p>
 
 <h2 id="ruby-3-fiber-调度器">Ruby 3 Fiber 调度器</h2>
 
-<p>我在 2020 年 7 月写过一篇文章 <a href="https://coderemixer.com/2020/07/26/whats-new-in-ruby-3-fiber/">《Ruby 3 Fiber 变化前瞻》</a>，以及后来 8 月又写过一篇文章 <a href="https://coderemixer.com/2020/08/18/a-walkthrough-of-ruby-3-scheduler-cn/">《尝试使用 Ruby 3 调度器》</a>，简单介绍了 Fiber 调度器。Ruby 3 在这几个月中更新了数个版本，包括 <code class="language-plaintext highlighter-rouge">ruby-3.0.0-preview1</code> <code class="language-plaintext highlighter-rouge">ruby-3.0.0-preview2</code> 和 <code class="language-plaintext highlighter-rouge">ruby-3.0.0-rc1</code>，其对于 Fiber 调度器的 API 做了更多的改进。</p>
+<p>我在 2020 年 7 月写过一篇文章 <a href="https://coderemixer.com/2020/07/26/whats-new-in-ruby-3-fiber">《Ruby 3 Fiber 变化前瞻》</a>，以及后来 8 月又写过一篇文章 <a href="https://coderemixer.com/2020/08/18/a-walkthrough-of-ruby-3-scheduler-cn">《尝试使用 Ruby 3 调度器》</a>，简单介绍了 Fiber 调度器。Ruby 3 在这几个月中更新了数个版本，包括 <code class="language-plaintext highlighter-rouge">ruby-3.0.0-preview1</code> <code class="language-plaintext highlighter-rouge">ruby-3.0.0-preview2</code> 和 <code class="language-plaintext highlighter-rouge">ruby-3.0.0-rc1</code>，其对于 Fiber 调度器的 API 做了更多的改进。</p>
 
 <p>不过正如我之前所说，Ruby 3 调度器实现的只有接口，如果没有配套的接口实现，默认是不会启动的。最近四个月工作实在很忙，抽出了点时间来跟上 API 更新的脚步。这个项目得以进一步更新。</p>
 
@@ -830,7 +830,7 @@
 
 <h2 id="与-ractor-结合">与 Ractor 结合</h2>
 
-<p>我在 2020 年 11 月 17 日写过一篇关于 Ractor 的扫盲贴 <a href="https://coderemixer.com/2020/11/17/ruby-3-ractor-guide/">《Ractor 下多线程 Ruby 程序指南》</a>，Ractor 和 Fiber 的结合始终是一个有意思的话题。目前情况下 Fiber 与 Ractor 结合来实现 Web 服务器有两个可能的路径：</p>
+<p>我在 2020 年 11 月 17 日写过一篇关于 Ractor 的扫盲贴 <a href="https://coderemixer.com/2020/11/17/ruby-3-ractor-guide">《Ractor 下多线程 Ruby 程序指南》</a>，Ractor 和 Fiber 的结合始终是一个有意思的话题。目前情况下 Fiber 与 Ractor 结合来实现 Web 服务器有两个可能的路径：</p>
 
 <ol>
   <li>在主 Ractor 部署一个调度器，用来处理请求的 accept。将请求派发到子 Ractor 中，由子线程进行处理后将返回值传回主 Ractor 中进行请求返回。</li>
