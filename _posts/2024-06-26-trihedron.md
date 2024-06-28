@@ -90,5 +90,5 @@ D10 骰子怎么看也不是正多面体
 
 ## 扩展阅读
 
-- https://youtu.be/YtkIWDE36qU?si=3dZG91P4wCDEgMsE
-- https://youtu.be/VvCytJvd4H0?si=7QxzQuQHg2EvHFGj
+- [This pattern breaks, but for a good reason | Moser's circle problem - 3Blue1Brown](https://youtu.be/YtkIWDE36qU?si=3dZG91P4wCDEgMsE)
+- [Why this puzzle is impossible - 3Blue1Brown](https://youtu.be/VvCytJvd4H0?si=7QxzQuQHg2EvHFGj)
