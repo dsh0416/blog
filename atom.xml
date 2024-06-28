@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://coderemixer.com/atom.xml" rel="self" type="application/atom+xml" /><link href="https://coderemixer.com/" rel="alternate" type="text/html" /><updated>2024-06-27T08:46:11+08:00</updated><id>https://coderemixer.com/atom.xml</id><title type="html">Coderemixer 代码混音师</title><subtitle>一个用来发牢骚的网站，以至于无法对所说的话负责。</subtitle><author><name>CodeRemixer</name></author><entry><title type="html">为什么没有三面体？</title><link href="https://coderemixer.com/2024/06/26/trihedron" rel="alternate" type="text/html" title="为什么没有三面体？" /><published>2024-06-26T09:22:00+08:00</published><updated>2024-06-26T09:22:00+08:00</updated><id>https://coderemixer.com/2024/06/26/trihedron</id><content type="html" xml:base="https://coderemixer.com/2024/06/26/trihedron"><![CDATA[<p>前几天我在桌子上放了一个骰塔，塔里放了一组 DnD 骰子。有个同事走过来看到一个正四面体的骰子问：「你这是三面骰吗？」我一愣，第一反应是，这世界上不应该存在三面体啊。不过一细想，为什么没有三面体确实是一个值得思考的好问题。</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://coderemixer.com/atom.xml" rel="self" type="application/atom+xml" /><link href="https://coderemixer.com/" rel="alternate" type="text/html" /><updated>2024-06-28T08:45:59+08:00</updated><id>https://coderemixer.com/atom.xml</id><title type="html">Coderemixer 代码混音师</title><subtitle>一个用来发牢骚的网站，以至于无法对所说的话负责。</subtitle><author><name>CodeRemixer</name></author><entry><title type="html">为什么没有三面体？</title><link href="https://coderemixer.com/2024/06/26/trihedron" rel="alternate" type="text/html" title="为什么没有三面体？" /><published>2024-06-26T09:22:00+08:00</published><updated>2024-06-26T09:22:00+08:00</updated><id>https://coderemixer.com/2024/06/26/trihedron</id><content type="html" xml:base="https://coderemixer.com/2024/06/26/trihedron"><![CDATA[<p>前几天我在桌子上放了一个骰塔，塔里放了一组 DnD 骰子。有个同事走过来看到一个正四面体的骰子问：「你这是三面骰吗？」我一愣，第一反应是，这世界上不应该存在三面体啊。不过一细想，为什么没有三面体确实是一个值得思考的好问题。</p>
 
 <h2 id="欧拉示性数">欧拉示性数</h2>
 
@@ -71,8 +71,17 @@
 <h2 id="扩展阅读">扩展阅读</h2>
 
 <ul>
-  <li>https://youtu.be/YtkIWDE36qU?si=3dZG91P4wCDEgMsE</li>
-  <li>https://youtu.be/VvCytJvd4H0?si=7QxzQuQHg2EvHFGj</li>
+  <li>
+    <table>
+      <tbody>
+        <tr>
+          <td>[This pattern breaks, but for a good reason</td>
+          <td>Moser’s circle problem - 3Blue1Brown](https://youtu.be/YtkIWDE36qU?si=3dZG91P4wCDEgMsE)</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li><a href="https://youtu.be/VvCytJvd4H0?si=7QxzQuQHg2EvHFGj">Why this puzzle is impossible - 3Blue1Brown</a></li>
 </ul>]]></content><author><name>CodeRemixer</name></author><category term="拓扑学" /><category term="欧拉" /><category term="欧拉示性数" /><summary type="html"><![CDATA[前几天我在桌子上放了一个骰塔，塔里放了一组 DnD 骰子。有个同事走过来看到一个正四面体的骰子问：「你这是三面骰吗？」我一愣，第一反应是，这世界上不应该存在三面体啊。不过一细想，为什么没有三面体确实是一个值得思考的好问题。]]></summary></entry><entry><title type="html">柯洁能成为九冠王吗？</title><link href="https://coderemixer.com/2024/05/20/kejie-championship" rel="alternate" type="text/html" title="柯洁能成为九冠王吗？" /><published>2024-05-20T02:40:00+08:00</published><updated>2024-05-20T02:40:00+08:00</updated><id>https://coderemixer.com/2024/05/20/kejie-championship</id><content type="html" xml:base="https://coderemixer.com/2024/05/20/kejie-championship"><![CDATA[<p>柯洁（九段）的上一个世界冠军可以追溯到 2020 年三星杯 2-0 胜申真谞（九段），连续三年没有获得世界冠军，上一次和世界冠军失之交臂是 2023 年亚运会负許皓鋐（九段）。不由让人疑问，柯洁在职业生涯再拿一个世界冠军的概率有多少？为了回答这个问题，我们需要一个衡量棋手水平的模型。一个比较简单的方法就是通过 Elo 等级分。</p>
 
 <h2 id="bradley-terry-模型">Bradley-Terry 模型</h2>
