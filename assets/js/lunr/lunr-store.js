@@ -352,4 +352,10 @@ var store = [{
         "tags": ["拓扑学","欧拉","欧拉示性数"],
         "url": "/2024/06/26/trihedron",
         "teaser": null
+      },{
+        "title": "基于 Prolog 的 SATB 四部和声生成器",
+        "excerpt":"最近在研究 SATB 四部和声，然后感觉如果完全按照和声学教材里的内容，尤其是 18 世纪的和声学概念，几乎就是给了一大堆规则，然后写的是有把人当成一个栈机 (stack machine) 不停搜索不要违背这些规则。既然如此，为什么我们不能设计一个搜索程序，直接将四部和声的配法规约出来呢？ Prolog 很多年前，我写过一篇关于 Prolog 的博客，Prolog 是一个非常方便的，给定一系列逻辑，然后让它从中规约出结果的一门语言。一开始其实我想和之前某篇博客 一样使用 Ruby 和 Sonic Pi 来实现，因为可以所见即所得的获得但发现随着规则越写越多，搜索的实现变得越来越麻烦。这时候就轮到我们 Prolog 出场了。 和弦 如果我们只考虑单个和弦，不处理和弦之间连接的话，我们先定义一个音符，是由其音名、升降调符号和所在的八度构成的，为了方便比较，我们不妨把这个音对应的 MIDI 调值算出来，于是我们可以先写一个这样的代码： % Notes key_note(c). key_note(d). key_note(e). key_note(g). key_note(a). key_note(b). semitone_offset(c, 0). semitone_offset(d, 2). semitone_offset(e, 4). semitone_offset(f, 5). semitone_offset(g, 7). semitone_offset(a, 9). semitone_offset(b, 11). note_offset(-2). note_offset(-1). note_offset(0)....","categories": [],
+        "tags": ["Prolog","逻辑学","音乐","乐理","合唱"],
+        "url": "/2024/07/21/satb-generator",
+        "teaser": null
       }]

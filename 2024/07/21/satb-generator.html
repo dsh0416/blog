@@ -1,0 +1,932 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.25.1 by Michael Rose
+  Copyright 2013-2024 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>基于 Prolog 的 SATB 四部和声生成器 - Coderemixer 代码混音师</title>
+<meta name="description" content="最近在研究 SATB 四部和声，然后感觉如果完全按照和声学教材里的内容，尤其是 18 世纪的和声学概念，几乎就是给了一大堆规则，然后写的是有把人当成一个栈机 (stack machine) 不停搜索不要违背这些规则。既然如此，为什么我们不能设计一个搜索程序，直接将四部和声的配法规约出来呢？">
+
+
+  <meta name="author" content="CodeRemixer">
+  
+  <meta property="article:author" content="CodeRemixer">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Coderemixer 代码混音师">
+<meta property="og:title" content="基于 Prolog 的 SATB 四部和声生成器">
+<meta property="og:url" content="https://coderemixer.com/2024/07/21/satb-generator">
+
+
+  <meta property="og:description" content="最近在研究 SATB 四部和声，然后感觉如果完全按照和声学教材里的内容，尤其是 18 世纪的和声学概念，几乎就是给了一大堆规则，然后写的是有把人当成一个栈机 (stack machine) 不停搜索不要违背这些规则。既然如此，为什么我们不能设计一个搜索程序，直接将四部和声的配法规约出来呢？">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2024-07-21T17:30:00+08:00">
+
+
+
+
+
+
+<link rel="canonical" href="https://coderemixer.com/2024/07/21/satb-generator">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": null,
+      "url": "https://coderemixer.com/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Coderemixer 代码混音师 Feed">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css"></noscript>
+
+
+  
+    <script src="/assets/js/mathjax.js"></script>
+  
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          Coderemixer 代码混音师
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/">首页</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about">关于</a>
+            </li><li class="masthead__menu-item">
+              <a href="https://github.com/dsh0416">GitHub</a>
+            </li><li class="masthead__menu-item">
+              <a href="/atom.xml">RSS</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+    <div class="author__avatar">
+      <a href="https://coderemixer.com/">
+        <img src="/assets/images/bio-photo.png" alt="CodeRemixer" itemprop="image" class="u-photo">
+      </a>
+    </div>
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="https://coderemixer.com/" itemprop="url">CodeRemixer</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>一个用来发牢骚的网站，以至于无法对所说的话负责。<br /><br /> 文章若无特别声明，皆采用 <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 进行许可。</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">Shanghai ⊕ Tokyo</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="mailto:dsh0416@gmail.com" rel="nofollow noopener noreferrer me"><i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/dsh0416" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-github-square" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://twitter.com/DeltonDing" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-square-x-twitter" aria-hidden="true"></i><span class="label">X (Twitter)</span></a></li>
+          
+        
+          
+            <li><a href="https://www.xiaohongshu.com/user/profile/6030b59300000000010044d5" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-heart" aria-hidden="true"></i><span class="label">小红书</span></a></li>
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="基于 Prolog 的 SATB 四部和声生成器">
+    <meta itemprop="description" content="最近在研究 SATB 四部和声，然后感觉如果完全按照和声学教材里的内容，尤其是 18 世纪的和声学概念，几乎就是给了一大堆规则，然后写的是有把人当成一个栈机 (stack machine) 不停搜索不要违背这些规则。既然如此，为什么我们不能设计一个搜索程序，直接将四部和声的配法规约出来呢？">
+    <meta itemprop="datePublished" content="2024-07-21T17:30:00+08:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title p-name" itemprop="headline">
+            <a href="https://coderemixer.com/2024/07/21/satb-generator" class="u-url" itemprop="url">基于 Prolog 的 SATB 四部和声生成器
+</a>
+          </h1>
+          
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2024-07-21T17:30:00+08:00">July 21, 2024</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content e-content" itemprop="text">
+        
+        <p>最近在研究 SATB 四部和声，然后感觉如果完全按照和声学教材里的内容，尤其是 18 世纪的和声学概念，几乎就是给了一大堆规则，然后写的是有把人当成一个栈机 (stack machine) 不停搜索不要违背这些规则。既然如此，为什么我们不能设计一个搜索程序，直接将四部和声的配法规约出来呢？</p>
+
+<h2 id="prolog">Prolog</h2>
+
+<p>很多年前，我写过一篇关于 Prolog 的<a href="/2020/01/18/archetypes-skeptic">博客</a>，Prolog 是一个非常方便的，给定一系列逻辑，然后让它从中规约出结果的一门语言。一开始其实我想和之前<a href="/2020/04/23/auto-blues-generator">某篇博客</a> 一样使用 Ruby 和 Sonic Pi 来实现，因为可以所见即所得的获得但发现随着规则越写越多，搜索的实现变得越来越麻烦。这时候就轮到我们 Prolog 出场了。</p>
+
+<h2 id="和弦">和弦</h2>
+
+<p>如果我们只考虑单个和弦，不处理和弦之间连接的话，我们先定义一个音符，是由其音名、升降调符号和所在的八度构成的，为了方便比较，我们不妨把这个音对应的 MIDI 调值算出来，于是我们可以先写一个这样的代码：</p>
+
+<div class="language-prolog highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">% Notes</span>
+<span class="ss">key_note</span><span class="p">(</span><span class="ss">c</span><span class="p">).</span> <span class="ss">key_note</span><span class="p">(</span><span class="ss">d</span><span class="p">).</span> <span class="ss">key_note</span><span class="p">(</span><span class="ss">e</span><span class="p">).</span> <span class="ss">key_note</span><span class="p">(</span><span class="ss">g</span><span class="p">).</span> <span class="ss">key_note</span><span class="p">(</span><span class="ss">a</span><span class="p">).</span> <span class="ss">key_note</span><span class="p">(</span><span class="ss">b</span><span class="p">).</span>
+<span class="ss">semitone_offset</span><span class="p">(</span><span class="ss">c</span><span class="p">,</span> <span class="m">0</span><span class="p">).</span> <span class="ss">semitone_offset</span><span class="p">(</span><span class="ss">d</span><span class="p">,</span> <span class="m">2</span><span class="p">).</span> <span class="ss">semitone_offset</span><span class="p">(</span><span class="ss">e</span><span class="p">,</span> <span class="m">4</span><span class="p">).</span> <span class="ss">semitone_offset</span><span class="p">(</span><span class="ss">f</span><span class="p">,</span> <span class="m">5</span><span class="p">).</span>
+<span class="ss">semitone_offset</span><span class="p">(</span><span class="ss">g</span><span class="p">,</span> <span class="m">7</span><span class="p">).</span> <span class="ss">semitone_offset</span><span class="p">(</span><span class="ss">a</span><span class="p">,</span> <span class="m">9</span><span class="p">).</span> <span class="ss">semitone_offset</span><span class="p">(</span><span class="ss">b</span><span class="p">,</span> <span class="m">11</span><span class="p">).</span>
+<span class="ss">note_offset</span><span class="p">(</span><span class="o">-</span><span class="m">2</span><span class="p">).</span> <span class="ss">note_offset</span><span class="p">(</span><span class="o">-</span><span class="m">1</span><span class="p">).</span> <span class="ss">note_offset</span><span class="p">(</span><span class="m">0</span><span class="p">).</span> <span class="ss">note_offset</span><span class="p">(</span><span class="m">1</span><span class="p">).</span> <span class="ss">note_offset</span><span class="p">(</span><span class="m">2</span><span class="p">).</span>
+<span class="ss">octave</span><span class="p">(</span><span class="o">-</span><span class="m">2</span><span class="p">).</span> <span class="ss">octave</span><span class="p">(</span><span class="o">-</span><span class="m">1</span><span class="p">).</span> <span class="ss">octave</span><span class="p">(</span><span class="m">0</span><span class="p">).</span> <span class="ss">octave</span><span class="p">(</span><span class="m">1</span><span class="p">).</span> <span class="ss">octave</span><span class="p">(</span><span class="m">2</span><span class="p">).</span> <span class="ss">octave</span><span class="p">(</span><span class="m">3</span><span class="p">).</span> <span class="ss">octave</span><span class="p">(</span><span class="m">4</span><span class="p">).</span> <span class="ss">octave</span><span class="p">(</span><span class="m">5</span><span class="p">).</span> <span class="ss">octave</span><span class="p">(</span><span class="m">6</span><span class="p">).</span> <span class="ss">octave</span><span class="p">(</span><span class="m">7</span><span class="p">).</span> <span class="ss">octave</span><span class="p">(</span><span class="m">8</span><span class="p">).</span> <span class="ss">octave</span><span class="p">(</span><span class="m">9</span><span class="p">).</span>
+
+<span class="c1">% Define note/3 predicate to check if a given Key, Offset, and Octave form a valid note</span>
+<span class="ss">note</span><span class="p">(</span><span class="nv">Key</span><span class="p">,</span> <span class="nv">Offset</span><span class="p">,</span> <span class="nv">Octave</span><span class="p">)</span> <span class="p">:-</span> <span class="ss">key_note</span><span class="p">(</span><span class="nv">Key</span><span class="p">),</span> <span class="ss">note_offset</span><span class="p">(</span><span class="nv">Offset</span><span class="p">),</span> <span class="ss">octave</span><span class="p">(</span><span class="nv">Octave</span><span class="p">).</span>
+
+<span class="c1">% Define note_value/4 predicate to calculate the MIDI value for a given Key, Offset, and Octave</span>
+<span class="ss">note_value</span><span class="p">(</span><span class="nv">Key</span><span class="p">,</span> <span class="nv">Offset</span><span class="p">,</span> <span class="nv">Octave</span><span class="p">,</span> <span class="nv">Value</span><span class="p">)</span> <span class="p">:-</span>
+  <span class="ss">note</span><span class="p">(</span><span class="nv">Key</span><span class="p">,</span> <span class="nv">Offset</span><span class="p">,</span> <span class="nv">Octave</span><span class="p">),</span>
+  <span class="ss">semitone_offset</span><span class="p">(</span><span class="nv">Key</span><span class="p">,</span> <span class="nv">KeyOffset</span><span class="p">),</span>
+  <span class="nv">Value</span> <span class="ss">is</span> <span class="m">12</span> <span class="o">*</span> <span class="p">(</span><span class="nv">Octave</span> <span class="o">+</span> <span class="m">1</span><span class="p">)</span> <span class="o">+</span> <span class="nv">KeyOffset</span> <span class="o">+</span> <span class="nv">Offset</span><span class="p">.</span>
+
+<span class="c1">% Define note_value/2 predicate to calculate the MIDI value for a given note</span>
+<span class="ss">note_value</span><span class="p">([</span><span class="nv">Key</span><span class="p">,</span> <span class="nv">Offset</span><span class="p">,</span> <span class="nv">Octave</span><span class="p">],</span> <span class="nv">Value</span><span class="p">)</span> <span class="p">:-</span> <span class="ss">note_value</span><span class="p">(</span><span class="nv">Key</span><span class="p">,</span> <span class="nv">Offset</span><span class="p">,</span> <span class="nv">Octave</span><span class="p">,</span> <span class="nv">Value</span><span class="p">).</span>
+</code></pre></div></div>
+
+<p>围绕这个系统，我们可以开始定义音域，我这里所使用的音域规则如下（括号之中的是 MIDI 调值）：</p>
+<ol>
+  <li>Soprano: C4 (60) - A5 (81)</li>
+  <li>Alto: F3 (53) - D5 (74)</li>
+  <li>Tenor: C3 (48) - A4 (69)</li>
+  <li>Bass: F2 (41) - D4 (62)</li>
+</ol>
+
+<p>围绕这个机制，我们可以写出这样的规则：</p>
+
+<div class="language-prolog highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="ss">voice</span><span class="p">(</span><span class="ss">soprano</span><span class="p">).</span> <span class="ss">voice</span><span class="p">(</span><span class="ss">alto</span><span class="p">).</span> <span class="ss">voice</span><span class="p">(</span><span class="ss">tenor</span><span class="p">).</span> <span class="ss">voice</span><span class="p">(</span><span class="ss">bass</span><span class="p">).</span>
+<span class="ss">voice_range</span><span class="p">(</span><span class="ss">soprano</span><span class="p">,</span> <span class="m">60</span><span class="p">,</span> <span class="m">81</span><span class="p">).</span>
+<span class="ss">voice_range</span><span class="p">(</span><span class="ss">alto</span><span class="p">,</span> <span class="m">53</span><span class="p">,</span> <span class="m">74</span><span class="p">).</span>
+<span class="ss">voice_range</span><span class="p">(</span><span class="ss">tenor</span><span class="p">,</span> <span class="m">48</span><span class="p">,</span> <span class="m">69</span><span class="p">).</span>
+<span class="ss">voice_range</span><span class="p">(</span><span class="ss">bass</span><span class="p">,</span> <span class="m">41</span><span class="p">,</span> <span class="m">62</span><span class="p">).</span>
+
+<span class="c1">% Define legal_note_range/4 predicate to check if a note is within the range for a given voice</span>
+<span class="ss">legal_note_range</span><span class="p">(</span><span class="nv">Voice</span><span class="p">,</span> <span class="nv">Key</span><span class="p">,</span> <span class="nv">Offset</span><span class="p">,</span> <span class="nv">Octave</span><span class="p">)</span> <span class="p">:-</span>
+  <span class="ss">voice</span><span class="p">(</span><span class="nv">Voice</span><span class="p">),</span> <span class="ss">note</span><span class="p">(</span><span class="nv">Key</span><span class="p">,</span> <span class="nv">Offset</span><span class="p">,</span> <span class="nv">Octave</span><span class="p">),</span>
+  <span class="ss">voice_range</span><span class="p">(</span><span class="nv">Voice</span><span class="p">,</span> <span class="nv">Min</span><span class="p">,</span> <span class="nv">Max</span><span class="p">),</span> <span class="ss">note_value</span><span class="p">(</span><span class="nv">Key</span><span class="p">,</span> <span class="nv">Offset</span><span class="p">,</span> <span class="nv">Octave</span><span class="p">,</span> <span class="nv">Value</span><span class="p">),</span> <span class="nv">Value</span> <span class="o">&gt;=</span> <span class="nv">Min</span><span class="p">,</span> <span class="nv">Value</span> <span class="o">=&lt;</span> <span class="nv">Max</span><span class="p">.</span>
+</code></pre></div></div>
+
+<p>除了各个声部本身能支持的音高，我们还需要处理两个问题：SATB 四部必须是严格地，S 的音高大于 A 的音高大于 T 的音高大于 B 的音高，以及女高和女低音、女低音和男高音之间不能超过一个完全八度，男高音和男低音之间不能超过完全十二度，这时候我们计算的 MIDI 调值可以很方便于我们构建这个规则：</p>
+
+<div class="language-prolog highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">% Define legal_chord_range/4 predicate to check if a chord is within the ranges and respects voice leading</span>
+<span class="ss">legal_chord_range</span><span class="p">(</span><span class="nv">Soprano</span><span class="p">,</span> <span class="nv">Alto</span><span class="p">,</span> <span class="nv">Tenor</span><span class="p">,</span> <span class="nv">Bass</span><span class="p">)</span> <span class="p">:-</span>
+  <span class="nv">Soprano</span> <span class="o">=</span> <span class="p">[</span><span class="nv">SopranoKey</span><span class="p">,</span> <span class="nv">SopranoOffset</span><span class="p">,</span> <span class="nv">SopranoOctave</span><span class="p">],</span>
+  <span class="nv">Alto</span> <span class="o">=</span> <span class="p">[</span><span class="nv">AltoKey</span><span class="p">,</span> <span class="nv">AltoOffset</span><span class="p">,</span> <span class="nv">AltoOctave</span><span class="p">],</span>
+  <span class="nv">Tenor</span> <span class="o">=</span> <span class="p">[</span><span class="nv">TenorKey</span><span class="p">,</span> <span class="nv">TenorOffset</span><span class="p">,</span> <span class="nv">TenorOctave</span><span class="p">],</span>
+  <span class="nv">Bass</span> <span class="o">=</span> <span class="p">[</span><span class="nv">BassKey</span><span class="p">,</span> <span class="nv">BassOffset</span><span class="p">,</span> <span class="nv">BassOctave</span><span class="p">],</span>
+  <span class="ss">legal_note_range</span><span class="p">(</span><span class="ss">soprano</span><span class="p">,</span> <span class="nv">SopranoKey</span><span class="p">,</span> <span class="nv">SopranoOffset</span><span class="p">,</span> <span class="nv">SopranoOctave</span><span class="p">),</span>
+  <span class="ss">legal_note_range</span><span class="p">(</span><span class="ss">alto</span><span class="p">,</span> <span class="nv">AltoKey</span><span class="p">,</span> <span class="nv">AltoOffset</span><span class="p">,</span> <span class="nv">AltoOctave</span><span class="p">),</span>
+  <span class="ss">legal_note_range</span><span class="p">(</span><span class="ss">tenor</span><span class="p">,</span> <span class="nv">TenorKey</span><span class="p">,</span> <span class="nv">TenorOffset</span><span class="p">,</span> <span class="nv">TenorOctave</span><span class="p">),</span>
+  <span class="ss">legal_note_range</span><span class="p">(</span><span class="ss">bass</span><span class="p">,</span> <span class="nv">BassKey</span><span class="p">,</span> <span class="nv">BassOffset</span><span class="p">,</span> <span class="nv">BassOctave</span><span class="p">),</span>
+  <span class="ss">note_value</span><span class="p">(</span><span class="nv">SopranoKey</span><span class="p">,</span> <span class="nv">SopranoOffset</span><span class="p">,</span> <span class="nv">SopranoOctave</span><span class="p">,</span> <span class="nv">SopranoValue</span><span class="p">),</span>
+  <span class="ss">note_value</span><span class="p">(</span><span class="nv">AltoKey</span><span class="p">,</span> <span class="nv">AltoOffset</span><span class="p">,</span> <span class="nv">AltoOctave</span><span class="p">,</span> <span class="nv">AltoValue</span><span class="p">),</span>
+  <span class="ss">note_value</span><span class="p">(</span><span class="nv">TenorKey</span><span class="p">,</span> <span class="nv">TenorOffset</span><span class="p">,</span> <span class="nv">TenorOctave</span><span class="p">,</span> <span class="nv">TenorValue</span><span class="p">),</span>
+  <span class="ss">note_value</span><span class="p">(</span><span class="nv">BassKey</span><span class="p">,</span> <span class="nv">BassOffset</span><span class="p">,</span> <span class="nv">BassOctave</span><span class="p">,</span> <span class="nv">BassValue</span><span class="p">),</span>
+  <span class="c1">% Check for proper voice leading</span>
+  <span class="nv">SopranoValue</span> <span class="o">&gt;</span> <span class="nv">AltoValue</span><span class="p">,</span> <span class="nv">AltoValue</span> <span class="o">&gt;</span> <span class="nv">TenorValue</span><span class="p">,</span> <span class="nv">TenorValue</span> <span class="o">&gt;</span> <span class="nv">BassValue</span><span class="p">,</span>
+  <span class="c1">% Check for proper voice spacing</span>
+  <span class="nv">SopranoValue</span> <span class="o">-</span> <span class="nv">AltoValue</span> <span class="o">=&lt;</span> <span class="m">12</span><span class="p">,</span>
+  <span class="nv">AltoValue</span> <span class="o">-</span> <span class="nv">TenorValue</span> <span class="o">=&lt;</span> <span class="m">12</span><span class="p">,</span>
+  <span class="nv">TenorValue</span> <span class="o">-</span> <span class="nv">BassValue</span> <span class="o">=&lt;</span> <span class="m">19</span><span class="p">.</span>
+</code></pre></div></div>
+
+<p>写到这里我们需要处理一下重复音的问题，写四部和声的时候，当给定一个三和弦，至少会出现一个重复音，在一些情况下，我们也会跳过某个三度或者五度。而七和弦比较特殊，一般七和弦的七音是一定要出现的，但是不能重复出现。另外，三全音（增四度或减五度）只能出现一次，调中的七音也不能重复出现，于是我们需要处理一下这几种情况：</p>
+
+<div class="language-prolog highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">% Sclaes</span>
+<span class="ss">scale</span><span class="p">(</span><span class="ss">cmaj</span><span class="p">,</span> <span class="p">[(</span><span class="ss">c</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span> <span class="p">(</span><span class="ss">d</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span> <span class="p">(</span><span class="ss">e</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span> <span class="p">(</span><span class="ss">f</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span> <span class="p">(</span><span class="ss">g</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span> <span class="p">(</span><span class="ss">a</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span> <span class="p">(</span><span class="ss">b</span><span class="p">,</span> <span class="m">0</span><span class="p">)]).</span>
+<span class="ss">scale</span><span class="p">(</span><span class="ss">dmaj</span><span class="p">,</span> <span class="p">[(</span><span class="ss">d</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span> <span class="p">(</span><span class="ss">e</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span> <span class="p">(</span><span class="ss">f</span><span class="p">,</span> <span class="m">1</span><span class="p">),</span> <span class="p">(</span><span class="ss">g</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span> <span class="p">(</span><span class="ss">a</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span> <span class="p">(</span><span class="ss">b</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span> <span class="p">(</span><span class="ss">c</span><span class="p">,</span> <span class="m">1</span><span class="p">)]).</span>
+<span class="ss">scale</span><span class="p">(</span><span class="ss">emaj</span><span class="p">,</span> <span class="p">[(</span><span class="ss">e</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span> <span class="p">(</span><span class="ss">f</span><span class="p">,</span> <span class="m">1</span><span class="p">),</span> <span class="p">(</span><span class="ss">g</span><span class="p">,</span> <span class="m">1</span><span class="p">),</span> <span class="p">(</span><span class="ss">a</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span> <span class="p">(</span><span class="ss">b</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span> <span class="p">(</span><span class="ss">c</span><span class="p">,</span> <span class="m">1</span><span class="p">),</span> <span class="p">(</span><span class="ss">d</span><span class="p">,</span> <span class="m">1</span><span class="p">)]).</span>
+<span class="ss">scale</span><span class="p">(</span><span class="ss">fmaj</span><span class="p">,</span> <span class="p">[(</span><span class="ss">f</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span> <span class="p">(</span><span class="ss">g</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span> <span class="p">(</span><span class="ss">a</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span> <span class="p">(</span><span class="ss">b</span><span class="p">,</span> <span class="o">-</span><span class="m">1</span><span class="p">),</span> <span class="p">(</span><span class="ss">c</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span> <span class="p">(</span><span class="ss">d</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span> <span class="p">(</span><span class="ss">e</span><span class="p">,</span> <span class="m">0</span><span class="p">)]).</span>
+<span class="ss">scale</span><span class="p">(</span><span class="ss">gmaj</span><span class="p">,</span> <span class="p">[(</span><span class="ss">g</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span> <span class="p">(</span><span class="ss">a</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span> <span class="p">(</span><span class="ss">b</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span> <span class="p">(</span><span class="ss">c</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span> <span class="p">(</span><span class="ss">d</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span> <span class="p">(</span><span class="ss">e</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span> <span class="p">(</span><span class="ss">f</span><span class="p">,</span> <span class="m">1</span><span class="p">)]).</span>
+<span class="ss">scale</span><span class="p">(</span><span class="ss">amaj</span><span class="p">,</span> <span class="p">[(</span><span class="ss">a</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span> <span class="p">(</span><span class="ss">b</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span> <span class="p">(</span><span class="ss">c</span><span class="p">,</span> <span class="m">1</span><span class="p">),</span> <span class="p">(</span><span class="ss">d</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span> <span class="p">(</span><span class="ss">e</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span> <span class="p">(</span><span class="ss">f</span><span class="p">,</span> <span class="m">1</span><span class="p">),</span> <span class="p">(</span><span class="ss">g</span><span class="p">,</span> <span class="m">1</span><span class="p">)]).</span>
+<span class="ss">scale</span><span class="p">(</span><span class="ss">bmaj</span><span class="p">,</span> <span class="p">[(</span><span class="ss">b</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span> <span class="p">(</span><span class="ss">c</span><span class="p">,</span> <span class="m">1</span><span class="p">),</span> <span class="p">(</span><span class="ss">d</span><span class="p">,</span> <span class="m">1</span><span class="p">),</span> <span class="p">(</span><span class="ss">e</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span> <span class="p">(</span><span class="ss">f</span><span class="p">,</span> <span class="m">1</span><span class="p">),</span> <span class="p">(</span><span class="ss">g</span><span class="p">,</span> <span class="m">1</span><span class="p">),</span> <span class="p">(</span><span class="ss">a</span><span class="p">,</span> <span class="m">1</span><span class="p">)]).</span>
+<span class="ss">scale</span><span class="p">(</span><span class="ss">cmin</span><span class="p">,</span> <span class="p">[(</span><span class="ss">c</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span> <span class="p">(</span><span class="ss">d</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span> <span class="p">(</span><span class="ss">e</span><span class="p">,</span> <span class="o">-</span><span class="m">1</span><span class="p">),</span> <span class="p">(</span><span class="ss">f</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span> <span class="p">(</span><span class="ss">g</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span> <span class="p">(</span><span class="ss">a</span><span class="p">,</span> <span class="o">-</span><span class="m">1</span><span class="p">),</span> <span class="p">(</span><span class="ss">b</span><span class="p">,</span> <span class="o">-</span><span class="m">1</span><span class="p">)]).</span>
+<span class="ss">scale</span><span class="p">(</span><span class="ss">dmin</span><span class="p">,</span> <span class="p">[(</span><span class="ss">d</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span> <span class="p">(</span><span class="ss">e</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span> <span class="p">(</span><span class="ss">f</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span> <span class="p">(</span><span class="ss">g</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span> <span class="p">(</span><span class="ss">a</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span> <span class="p">(</span><span class="ss">b</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span> <span class="p">(</span><span class="ss">c</span><span class="p">,</span> <span class="m">1</span><span class="p">)]).</span>
+<span class="ss">scale</span><span class="p">(</span><span class="ss">emin</span><span class="p">,</span> <span class="p">[(</span><span class="ss">e</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span> <span class="p">(</span><span class="ss">f</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span> <span class="p">(</span><span class="ss">g</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span> <span class="p">(</span><span class="ss">a</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span> <span class="p">(</span><span class="ss">b</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span> <span class="p">(</span><span class="ss">c</span><span class="p">,</span> <span class="m">1</span><span class="p">),</span> <span class="p">(</span><span class="ss">d</span><span class="p">,</span> <span class="m">1</span><span class="p">)]).</span>
+<span class="ss">scale</span><span class="p">(</span><span class="ss">fmin</span><span class="p">,</span> <span class="p">[(</span><span class="ss">f</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span> <span class="p">(</span><span class="ss">g</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span> <span class="p">(</span><span class="ss">a</span><span class="p">,</span> <span class="o">-</span><span class="m">1</span><span class="p">),</span> <span class="p">(</span><span class="ss">b</span><span class="p">,</span> <span class="o">-</span><span class="m">1</span><span class="p">),</span> <span class="p">(</span><span class="ss">c</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span> <span class="p">(</span><span class="ss">d</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span> <span class="p">(</span><span class="ss">e</span><span class="p">,</span> <span class="o">-</span><span class="m">1</span><span class="p">)]).</span>
+<span class="ss">scale</span><span class="p">(</span><span class="ss">gmin</span><span class="p">,</span> <span class="p">[(</span><span class="ss">g</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span> <span class="p">(</span><span class="ss">a</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span> <span class="p">(</span><span class="ss">b</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span> <span class="p">(</span><span class="ss">c</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span> <span class="p">(</span><span class="ss">d</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span> <span class="p">(</span><span class="ss">e</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span> <span class="p">(</span><span class="ss">f</span><span class="p">,</span> <span class="m">1</span><span class="p">)]).</span>
+<span class="ss">scale</span><span class="p">(</span><span class="ss">amin</span><span class="p">,</span> <span class="p">[(</span><span class="ss">a</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span> <span class="p">(</span><span class="ss">b</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span> <span class="p">(</span><span class="ss">c</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span> <span class="p">(</span><span class="ss">d</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span> <span class="p">(</span><span class="ss">e</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span> <span class="p">(</span><span class="ss">f</span><span class="p">,</span> <span class="m">1</span><span class="p">),</span> <span class="p">(</span><span class="ss">g</span><span class="p">,</span> <span class="m">1</span><span class="p">)]).</span>
+<span class="ss">scale</span><span class="p">(</span><span class="ss">bmin</span><span class="p">,</span> <span class="p">[(</span><span class="ss">b</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span> <span class="p">(</span><span class="ss">c</span><span class="p">,</span> <span class="m">1</span><span class="p">),</span> <span class="p">(</span><span class="ss">d</span><span class="p">,</span> <span class="m">1</span><span class="p">),</span> <span class="p">(</span><span class="ss">e</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span> <span class="p">(</span><span class="ss">f</span><span class="p">,</span> <span class="m">1</span><span class="p">),</span> <span class="p">(</span><span class="ss">g</span><span class="p">,</span> <span class="m">1</span><span class="p">),</span> <span class="p">(</span><span class="ss">a</span><span class="p">,</span> <span class="m">1</span><span class="p">)]).</span>
+
+<span class="c1">% Define is_augmented_fourth/2 predicate to check if two notes are an augmented fourth apart</span>
+<span class="ss">is_augmented_fourth</span><span class="p">(</span><span class="ss">note_value</span><span class="p">(</span><span class="nv">Value1</span><span class="p">),</span> <span class="ss">note_value</span><span class="p">(</span><span class="nv">Value2</span><span class="p">))</span> <span class="p">:-</span>
+  <span class="nv">Interval</span> <span class="ss">is</span> <span class="ss">abs</span><span class="p">(</span><span class="nv">Value1</span> <span class="o">-</span> <span class="nv">Value2</span><span class="p">),</span>
+  <span class="nv">Interval</span> <span class="o">=:=</span> <span class="m">6</span><span class="p">.</span>
+
+<span class="ss">is_seventh_note_of_scale</span><span class="p">(</span><span class="nv">Key</span><span class="p">,</span> <span class="nv">Offset</span><span class="p">,</span> <span class="nv">Scale</span><span class="p">)</span> <span class="p">:-</span>
+  <span class="ss">scale</span><span class="p">(</span><span class="nv">Scale</span><span class="p">,</span> <span class="nv">Notes</span><span class="p">),</span>
+  <span class="ss">last</span><span class="p">(</span><span class="nv">Notes</span><span class="p">,</span> <span class="p">(</span><span class="nv">Key</span><span class="p">,</span> <span class="nv">Offset</span><span class="p">)).</span>
+
+<span class="c1">% Define is_same_note_value/2 predicate to check if two notes have the same MIDI value</span>
+<span class="ss">is_same_note_value</span><span class="p">(</span><span class="nv">Value1</span><span class="p">,</span> <span class="nv">Value2</span><span class="p">)</span> <span class="p">:-</span>
+  <span class="nv">Value1</span> <span class="o">//</span> <span class="m">12</span> <span class="o">=:=</span> <span class="nv">Value2</span> <span class="o">//</span> <span class="m">12</span><span class="p">.</span>
+
+<span class="c1">% Define legal_chord_repeat/4 predicate to check if a chord has repeated notes</span>
+<span class="ss">legal_chord_repeat</span><span class="p">(</span><span class="nv">Scale</span><span class="p">,</span> <span class="nv">Soprano</span><span class="p">,</span> <span class="nv">Alto</span><span class="p">,</span> <span class="nv">Tenor</span><span class="p">,</span> <span class="nv">Bass</span><span class="p">)</span> <span class="p">:-</span>
+  <span class="nv">Soprano</span> <span class="o">=</span> <span class="p">[</span><span class="nv">SopranoKey</span><span class="p">,</span> <span class="nv">SopranoOffset</span><span class="p">,</span> <span class="nv">SopranoOctave</span><span class="p">],</span>
+  <span class="nv">Alto</span> <span class="o">=</span> <span class="p">[</span><span class="nv">AltoKey</span><span class="p">,</span> <span class="nv">AltoOffset</span><span class="p">,</span> <span class="nv">AltoOctave</span><span class="p">],</span>
+  <span class="nv">Tenor</span> <span class="o">=</span> <span class="p">[</span><span class="nv">TenorKey</span><span class="p">,</span> <span class="nv">TenorOffset</span><span class="p">,</span> <span class="nv">TenorOctave</span><span class="p">],</span>
+  <span class="nv">Bass</span> <span class="o">=</span> <span class="p">[</span><span class="nv">BassKey</span><span class="p">,</span> <span class="nv">BassOffset</span><span class="p">,</span> <span class="nv">BassOctave</span><span class="p">],</span>
+  <span class="ss">note_value</span><span class="p">(</span><span class="nv">SopranoKey</span><span class="p">,</span> <span class="nv">SopranoOffset</span><span class="p">,</span> <span class="nv">SopranoOctave</span><span class="p">,</span> <span class="nv">SopranoValue</span><span class="p">),</span>
+  <span class="ss">note_value</span><span class="p">(</span><span class="nv">AltoKey</span><span class="p">,</span> <span class="nv">AltoOffset</span><span class="p">,</span> <span class="nv">AltoOctave</span><span class="p">,</span> <span class="nv">AltoValue</span><span class="p">),</span>
+  <span class="ss">note_value</span><span class="p">(</span><span class="nv">TenorKey</span><span class="p">,</span> <span class="nv">TenorOffset</span><span class="p">,</span> <span class="nv">TenorOctave</span><span class="p">,</span> <span class="nv">TenorValue</span><span class="p">),</span>
+  <span class="ss">note_value</span><span class="p">(</span><span class="nv">BassKey</span><span class="p">,</span> <span class="nv">BassOffset</span><span class="p">,</span> <span class="nv">BassOctave</span><span class="p">,</span> <span class="nv">BassValue</span><span class="p">),</span>
+  <span class="c1">% Check for argumented fourth</span>
+  <span class="c1">% if the Soprano and Alto are argumented fourth apart, then the Tenor and Base should not use the same note</span>
+  <span class="err">\</span><span class="o">+</span> <span class="p">(</span><span class="ss">is_augmented_fourth</span><span class="p">(</span><span class="nv">SopranoValue</span><span class="p">,</span> <span class="nv">AltoValue</span><span class="p">),</span> <span class="p">(</span><span class="ss">is_same_note_value</span><span class="p">(</span><span class="nv">SopranoValue</span><span class="p">,</span> <span class="nv">TenorValue</span><span class="p">);</span> <span class="ss">is_same_note_value</span><span class="p">(</span><span class="nv">SopranoValue</span><span class="p">,</span> <span class="nv">BassValue</span><span class="p">);</span> <span class="ss">is_same_note_value</span><span class="p">(</span><span class="nv">AltoValue</span><span class="p">,</span> <span class="nv">TenorValue</span><span class="p">);</span> <span class="ss">is_same_note_value</span><span class="p">(</span><span class="nv">AltoValue</span><span class="p">,</span> <span class="nv">BassValue</span><span class="p">))),</span>
+  <span class="c1">% if the Soporano and Tenor are argumented fourth apart, then the Alto and Base should not use the same note</span>
+  <span class="err">\</span><span class="o">+</span> <span class="p">(</span><span class="ss">is_augmented_fourth</span><span class="p">(</span><span class="nv">SopranoValue</span><span class="p">,</span> <span class="nv">TenorValue</span><span class="p">),</span> <span class="p">(</span><span class="ss">is_same_note_value</span><span class="p">(</span><span class="nv">SopranoValue</span><span class="p">,</span> <span class="nv">AltoValue</span><span class="p">);</span> <span class="ss">is_same_note_value</span><span class="p">(</span><span class="nv">SopranoValue</span><span class="p">,</span> <span class="nv">BassValue</span><span class="p">);</span> <span class="ss">is_same_note_value</span><span class="p">(</span><span class="nv">TenorValue</span><span class="p">,</span> <span class="nv">AltoValue</span><span class="p">);</span> <span class="ss">is_same_note_value</span><span class="p">(</span><span class="nv">TenorValue</span><span class="p">,</span> <span class="nv">BassValue</span><span class="p">))),</span>
+  <span class="c1">% if the Soprano and Bass are argumented fourth apart, then the Alto and Tenor should not use the same note</span>
+  <span class="err">\</span><span class="o">+</span> <span class="p">(</span><span class="ss">is_augmented_fourth</span><span class="p">(</span><span class="nv">SopranoValue</span><span class="p">,</span> <span class="nv">BassValue</span><span class="p">),</span> <span class="p">(</span><span class="ss">is_same_note_value</span><span class="p">(</span><span class="nv">SopranoValue</span><span class="p">,</span> <span class="nv">AltoValue</span><span class="p">);</span> <span class="ss">is_same_note_value</span><span class="p">(</span><span class="nv">SopranoValue</span><span class="p">,</span> <span class="nv">TenorValue</span><span class="p">);</span> <span class="ss">is_same_note_value</span><span class="p">(</span><span class="nv">BassValue</span><span class="p">,</span> <span class="nv">AltoValue</span><span class="p">);</span> <span class="ss">is_same_note_value</span><span class="p">(</span><span class="nv">BassValue</span><span class="p">,</span> <span class="nv">TenorValue</span><span class="p">))),</span>
+  <span class="c1">% if the Alto and Tenor are argumented fourth apart, then the Soprano and Bass should not use the same note</span>
+  <span class="err">\</span><span class="o">+</span> <span class="p">(</span><span class="ss">is_augmented_fourth</span><span class="p">(</span><span class="nv">AltoValue</span><span class="p">,</span> <span class="nv">TenorValue</span><span class="p">),</span> <span class="p">(</span><span class="ss">is_same_note_value</span><span class="p">(</span><span class="nv">SopranoValue</span><span class="p">,</span> <span class="nv">AltoValue</span><span class="p">);</span> <span class="ss">is_same_note_value</span><span class="p">(</span><span class="nv">SopranoValue</span><span class="p">,</span> <span class="nv">BassValue</span><span class="p">);</span> <span class="ss">is_same_note_value</span><span class="p">(</span><span class="nv">AltoValue</span><span class="p">,</span> <span class="nv">TenorValue</span><span class="p">);</span> <span class="ss">is_same_note_value</span><span class="p">(</span><span class="nv">BassValue</span><span class="p">,</span> <span class="nv">TenorValue</span><span class="p">))),</span>
+  <span class="c1">% if the Alto and Bass are argumented fourth apart, then the Soprano and Tenor should not use the same note</span>
+  <span class="err">\</span><span class="o">+</span> <span class="p">(</span><span class="ss">is_augmented_fourth</span><span class="p">(</span><span class="nv">AltoValue</span><span class="p">,</span> <span class="nv">BassValue</span><span class="p">),</span> <span class="p">(</span><span class="ss">is_same_note_value</span><span class="p">(</span><span class="nv">SopranoValue</span><span class="p">,</span> <span class="nv">AltoValue</span><span class="p">);</span> <span class="ss">is_same_note_value</span><span class="p">(</span><span class="nv">SopranoValue</span><span class="p">,</span> <span class="nv">TenorValue</span><span class="p">);</span> <span class="ss">is_same_note_value</span><span class="p">(</span><span class="nv">AltoValue</span><span class="p">,</span> <span class="nv">TenorValue</span><span class="p">);</span> <span class="ss">is_same_note_value</span><span class="p">(</span><span class="nv">BassValue</span><span class="p">,</span> <span class="nv">TenorValue</span><span class="p">))),</span>
+  <span class="c1">% if the Tenor and Bass are argumented fourth apart, then the Soprano and Alto should not use the same note</span>
+  <span class="err">\</span><span class="o">+</span> <span class="p">(</span><span class="ss">is_augmented_fourth</span><span class="p">(</span><span class="nv">TenorValue</span><span class="p">,</span> <span class="nv">BassValue</span><span class="p">),</span> <span class="p">(</span><span class="ss">is_same_note_value</span><span class="p">(</span><span class="nv">SopranoValue</span><span class="p">,</span> <span class="nv">TenorValue</span><span class="p">);</span> <span class="ss">is_same_note_value</span><span class="p">(</span><span class="nv">SopranoValue</span><span class="p">,</span> <span class="nv">BassValue</span><span class="p">);</span> <span class="ss">is_same_note_value</span><span class="p">(</span><span class="nv">AltoValue</span><span class="p">,</span> <span class="nv">TenorValue</span><span class="p">);</span> <span class="ss">is_same_note_value</span><span class="p">(</span><span class="nv">AltoValue</span><span class="p">,</span> <span class="nv">BassValue</span><span class="p">))),</span>
+  <span class="c1">% Check for if it is the seventh note of the scale</span>
+  <span class="c1">% if the Soprano is the seventh note of the scale, then the Alto, Tenor, and Bass should not use the same note</span>
+  <span class="err">\</span><span class="o">+</span> <span class="p">(</span><span class="ss">is_seventh_note_of_scale</span><span class="p">(</span><span class="nv">SopranoKey</span><span class="p">,</span> <span class="nv">SopranoOffset</span><span class="p">,</span> <span class="nv">Scale</span><span class="p">),</span> <span class="p">(</span><span class="ss">is_same_note_value</span><span class="p">(</span><span class="nv">SopranoValue</span><span class="p">,</span> <span class="nv">AltoValue</span><span class="p">);</span> <span class="ss">is_same_note_value</span><span class="p">(</span><span class="nv">SopranoValue</span><span class="p">,</span> <span class="nv">TenorValue</span><span class="p">);</span> <span class="ss">is_same_note_value</span><span class="p">(</span><span class="nv">SopranoValue</span><span class="p">,</span> <span class="nv">BassValue</span><span class="p">))),</span>
+  <span class="c1">% if the Alto is the seventh note of the scale, then the Soprano, Tenor, and Bass should not use the same note</span>
+  <span class="err">\</span><span class="o">+</span> <span class="p">(</span><span class="ss">is_seventh_note_of_scale</span><span class="p">(</span><span class="nv">AltoKey</span><span class="p">,</span> <span class="nv">AltoOffset</span><span class="p">,</span> <span class="nv">Scale</span><span class="p">),</span> <span class="p">(</span><span class="ss">is_same_note_value</span><span class="p">(</span><span class="nv">AltoValue</span><span class="p">,</span> <span class="nv">SopranoValue</span><span class="p">);</span> <span class="ss">is_same_note_value</span><span class="p">(</span><span class="nv">AltoValue</span><span class="p">,</span> <span class="nv">TenorValue</span><span class="p">);</span> <span class="ss">is_same_note_value</span><span class="p">(</span><span class="nv">AltoValue</span><span class="p">,</span> <span class="nv">BassValue</span><span class="p">))),</span>
+  <span class="c1">% if the Tenor is the seventh note of the scale, then the Soprano, Alto, and Bass should not use the same note</span>
+  <span class="err">\</span><span class="o">+</span> <span class="p">(</span><span class="ss">is_seventh_note_of_scale</span><span class="p">(</span><span class="nv">TenorKey</span><span class="p">,</span> <span class="nv">TenorOffset</span><span class="p">,</span> <span class="nv">Scale</span><span class="p">),</span> <span class="p">(</span><span class="ss">is_same_note_value</span><span class="p">(</span><span class="nv">TenorValue</span><span class="p">,</span> <span class="nv">SopranoValue</span><span class="p">);</span> <span class="ss">is_same_note_value</span><span class="p">(</span><span class="nv">TenorValue</span><span class="p">,</span> <span class="nv">AltoValue</span><span class="p">);</span> <span class="ss">is_same_note_value</span><span class="p">(</span><span class="nv">TenorValue</span><span class="p">,</span> <span class="nv">BassValue</span><span class="p">))),</span>
+  <span class="c1">% if the Bass is the seventh note of the scale, then the Soprano, Alto, and Tenor should not use the same note</span>
+  <span class="err">\</span><span class="o">+</span> <span class="p">(</span><span class="ss">is_seventh_note_of_scale</span><span class="p">(</span><span class="nv">BassKey</span><span class="p">,</span> <span class="nv">BassOffset</span><span class="p">,</span> <span class="nv">Scale</span><span class="p">),</span> <span class="p">(</span><span class="ss">is_same_note_value</span><span class="p">(</span><span class="nv">BassValue</span><span class="p">,</span> <span class="nv">SopranoValue</span><span class="p">);</span> <span class="ss">is_same_note_value</span><span class="p">(</span><span class="nv">BassValue</span><span class="p">,</span> <span class="nv">AltoValue</span><span class="p">);</span> <span class="ss">is_same_note_value</span><span class="p">(</span><span class="nv">BassValue</span><span class="p">,</span> <span class="nv">TenorValue</span><span class="p">))).</span>  
+
+<span class="ss">legal_chord_contents</span><span class="p">(</span><span class="nv">Chord</span><span class="p">,</span> <span class="nv">Soprano</span><span class="p">,</span> <span class="nv">Alto</span><span class="p">,</span> <span class="nv">Tenor</span><span class="p">,</span> <span class="nv">Bass</span><span class="p">)</span> <span class="p">:-</span>
+  <span class="nv">Soprano</span> <span class="o">=</span> <span class="p">[</span><span class="nv">SopranoKey</span><span class="p">,</span> <span class="nv">SopranoOffset</span><span class="p">,</span> <span class="nv">_</span><span class="p">],</span>
+  <span class="nv">Alto</span> <span class="o">=</span> <span class="p">[</span><span class="nv">AltoKey</span><span class="p">,</span> <span class="nv">AltoOffset</span><span class="p">,</span> <span class="nv">_</span><span class="p">],</span>
+  <span class="nv">Tenor</span> <span class="o">=</span> <span class="p">[</span><span class="nv">TenorKey</span><span class="p">,</span> <span class="nv">TenorOffset</span><span class="p">,</span> <span class="nv">_</span><span class="p">],</span>
+  <span class="nv">Bass</span> <span class="o">=</span> <span class="p">[</span><span class="nv">BassKey</span><span class="p">,</span> <span class="nv">BassOffset</span><span class="p">,</span> <span class="nv">_</span><span class="p">],</span>
+  <span class="nv">SopranoSignature</span> <span class="o">=</span> <span class="p">(</span><span class="nv">SopranoKey</span><span class="p">,</span> <span class="nv">SopranoOffset</span><span class="p">),</span>
+  <span class="nv">AltoSignature</span> <span class="o">=</span> <span class="p">(</span><span class="nv">AltoKey</span><span class="p">,</span> <span class="nv">AltoOffset</span><span class="p">),</span>
+  <span class="nv">TenorSignature</span> <span class="o">=</span> <span class="p">(</span><span class="nv">TenorKey</span><span class="p">,</span> <span class="nv">TenorOffset</span><span class="p">),</span>
+  <span class="nv">BassSignature</span> <span class="o">=</span> <span class="p">(</span><span class="nv">BassKey</span><span class="p">,</span> <span class="nv">BassOffset</span><span class="p">),</span>
+  <span class="c1">% all four parts should be in the chord</span>
+  <span class="ss">member</span><span class="p">(</span><span class="nv">SopranoSignature</span><span class="p">,</span> <span class="nv">Chord</span><span class="p">),</span> <span class="ss">member</span><span class="p">(</span><span class="nv">AltoSignature</span><span class="p">,</span> <span class="nv">Chord</span><span class="p">),</span> <span class="ss">member</span><span class="p">(</span><span class="nv">TenorSignature</span><span class="p">,</span> <span class="nv">Chord</span><span class="p">),</span> <span class="ss">member</span><span class="p">(</span><span class="nv">BassSignature</span><span class="p">,</span> <span class="nv">Chord</span><span class="p">),</span>
+  <span class="c1">% if the chord is a seventh chord (four members), do not repeat the seventh note</span>
+  <span class="p">(</span><span class="ss">length</span><span class="p">(</span><span class="nv">Chord</span><span class="p">,</span> <span class="nv">ChordSize</span><span class="p">),</span> <span class="p">(</span><span class="nv">ChordSize</span> <span class="o">=</span><span class="err">\</span><span class="o">=</span> <span class="m">4</span><span class="p">;</span> <span class="p">(</span>
+    <span class="p">(</span><span class="ss">last</span><span class="p">(</span><span class="nv">Chord</span><span class="p">,</span> <span class="nv">SecenthNote</span><span class="p">),</span>
+    <span class="c1">% length [SopranoSignature, AltoSignature, TenorSignature, BassSignature] whose note is the same as the seventh note</span>
+    <span class="ss">exclude</span><span class="p">(</span><span class="o">=</span><span class="p">(</span><span class="nv">SecenthNote</span><span class="p">),</span> <span class="p">[</span><span class="nv">SopranoSignature</span><span class="p">,</span> <span class="nv">AltoSignature</span><span class="p">,</span> <span class="nv">TenorSignature</span><span class="p">,</span> <span class="nv">BassSignature</span><span class="p">],</span> <span class="nv">FilteredSeventhNote</span><span class="p">),</span>
+    <span class="ss">length</span><span class="p">(</span><span class="nv">FilteredSeventhNote</span><span class="p">,</span> <span class="nv">FilteredSeventhNoteSize</span><span class="p">),</span> <span class="m">4</span> <span class="o">-</span> <span class="nv">FilteredSeventhNoteSize</span> <span class="o">=:=</span> <span class="m">1</span><span class="p">)))).</span>
+</code></pre></div></div>
+
+<p>现在我们把这些东西组合起来，不妨来试试效果：</p>
+
+<div class="language-prolog highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">% Combination of all predicates to check if a chord is legal</span>
+<span class="ss">legal_chord</span><span class="p">(</span><span class="nv">Scale</span><span class="p">,</span> <span class="nv">Chord</span><span class="p">,</span> <span class="nv">Soprano</span><span class="p">,</span> <span class="nv">Alto</span><span class="p">,</span> <span class="nv">Tenor</span><span class="p">,</span> <span class="nv">Bass</span><span class="p">)</span> <span class="p">:-</span>
+  <span class="ss">legal_chord_range</span><span class="p">(</span><span class="nv">Soprano</span><span class="p">,</span> <span class="nv">Alto</span><span class="p">,</span> <span class="nv">Tenor</span><span class="p">,</span> <span class="nv">Bass</span><span class="p">),</span>
+  <span class="ss">legal_chord_repeat</span><span class="p">(</span><span class="nv">Scale</span><span class="p">,</span> <span class="nv">Soprano</span><span class="p">,</span> <span class="nv">Alto</span><span class="p">,</span> <span class="nv">Tenor</span><span class="p">,</span> <span class="nv">Bass</span><span class="p">),</span>
+  <span class="ss">legal_chord_contents</span><span class="p">(</span><span class="nv">Chord</span><span class="p">,</span> <span class="nv">Soprano</span><span class="p">,</span> <span class="nv">Alto</span><span class="p">,</span> <span class="nv">Tenor</span><span class="p">,</span> <span class="nv">Bass</span><span class="p">).</span>
+</code></pre></div></div>
+
+<p>我们给定一个 G 大调下的一组 G 和弦，让它判断这是不是非法的：</p>
+
+<div class="language-prolog highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">?-</span> <span class="ss">legal_chord</span><span class="p">(</span><span class="ss">gmaj</span><span class="p">,</span> <span class="p">[(</span><span class="ss">g</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span> <span class="p">(</span><span class="ss">b</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span> <span class="p">(</span><span class="ss">d</span><span class="p">,</span> <span class="m">0</span><span class="p">)],</span> <span class="p">[</span><span class="ss">g</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">5</span><span class="p">],</span> <span class="p">[</span><span class="ss">b</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">4</span><span class="p">],</span> <span class="p">[</span><span class="ss">d</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">4</span><span class="p">],</span> <span class="p">[</span><span class="ss">g</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">2</span><span class="p">]).</span>
+<span class="ss">true</span><span class="p">.</span>
+</code></pre></div></div>
+
+<p>非常好！</p>
+
+<h2 id="连接">连接</h2>
+
+<p>连接的问题比和弦本身更麻烦，我们有六个问题需要解决：</p>
+<ol>
+  <li>避免四个声部沿着完全相同方向移动</li>
+  <li>避免声部超越（也就是两个连续的、包含至少两个独立声部的和音，当后和音中较低的声部的音比前和音中较高的声部的音要高时，或者当后和音中较高的声部的音比前和音中较低的声部的音要低）</li>
+  <li>避免出现方向相同的平行八度</li>
+  <li>避免出现方向相同的平行五度</li>
+  <li>避免出现隐伏八度</li>
+  <li>避免出现隐伏五度</li>
+</ol>
+
+<p>写出来大概是这样的：</p>
+
+<div class="language-prolog highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="ss">legal_connection</span><span class="p">(</span><span class="nv">Chord1</span><span class="p">,</span> <span class="nv">Chord2</span><span class="p">)</span> <span class="p">:-</span>
+  <span class="nv">Chord1</span> <span class="o">=</span> <span class="p">[</span><span class="nv">Soprano1</span><span class="p">,</span> <span class="nv">Alto1</span><span class="p">,</span> <span class="nv">Tenor1</span><span class="p">,</span> <span class="nv">Bass1</span><span class="p">],</span>
+  <span class="nv">Chord2</span> <span class="o">=</span> <span class="p">[</span><span class="nv">Soprano2</span><span class="p">,</span> <span class="nv">Alto2</span><span class="p">,</span> <span class="nv">Tenor2</span><span class="p">,</span> <span class="nv">Bass2</span><span class="p">],</span>
+  <span class="ss">note_value</span><span class="p">(</span><span class="nv">Soprano1</span><span class="p">,</span> <span class="nv">SopranoValue1</span><span class="p">),</span> <span class="ss">note_value</span><span class="p">(</span><span class="nv">Alto1</span><span class="p">,</span> <span class="nv">AltoValue1</span><span class="p">),</span> <span class="ss">note_value</span><span class="p">(</span><span class="nv">Tenor1</span><span class="p">,</span> <span class="nv">TenorValue1</span><span class="p">),</span> <span class="ss">note_value</span><span class="p">(</span><span class="nv">Bass1</span><span class="p">,</span> <span class="nv">BassValue1</span><span class="p">),</span>
+  <span class="ss">note_value</span><span class="p">(</span><span class="nv">Soprano2</span><span class="p">,</span> <span class="nv">SopranoValue2</span><span class="p">),</span> <span class="ss">note_value</span><span class="p">(</span><span class="nv">Alto2</span><span class="p">,</span> <span class="nv">AltoValue2</span><span class="p">),</span> <span class="ss">note_value</span><span class="p">(</span><span class="nv">Tenor2</span><span class="p">,</span> <span class="nv">TenorValue2</span><span class="p">),</span> <span class="ss">note_value</span><span class="p">(</span><span class="nv">Bass2</span><span class="p">,</span> <span class="nv">BassValue2</span><span class="p">),</span>
+  <span class="c1">% all four parts should not move in parallel motion</span>
+  <span class="err">\</span><span class="o">+</span> <span class="p">(</span><span class="nv">SopranoValue1</span> <span class="o">&gt;</span> <span class="nv">SopranoValue2</span><span class="p">,</span> <span class="nv">AltoValue1</span> <span class="o">&gt;</span> <span class="nv">AltoValue2</span><span class="p">,</span> <span class="nv">TenorValue1</span> <span class="o">&gt;</span> <span class="nv">TenorValue2</span><span class="p">,</span> <span class="nv">BassValue1</span> <span class="o">&gt;</span> <span class="nv">BassValue2</span><span class="p">),</span>
+  <span class="err">\</span><span class="o">+</span> <span class="p">(</span><span class="nv">SopranoValue1</span> <span class="o">&lt;</span> <span class="nv">SopranoValue2</span><span class="p">,</span> <span class="nv">AltoValue1</span> <span class="o">&lt;</span> <span class="nv">AltoValue2</span><span class="p">,</span> <span class="nv">TenorValue1</span> <span class="o">&lt;</span> <span class="nv">TenorValue2</span><span class="p">,</span> <span class="nv">BassValue1</span> <span class="o">&lt;</span> <span class="nv">BassValue2</span><span class="p">),</span>
+  <span class="err">\</span><span class="o">+</span> <span class="p">(</span><span class="nv">SopranoValue1</span> <span class="o">=</span> <span class="nv">SopranoValue2</span><span class="p">,</span> <span class="nv">AltoValue1</span> <span class="o">=</span> <span class="nv">AltoValue2</span><span class="p">,</span> <span class="nv">TenorValue1</span> <span class="o">=</span> <span class="nv">TenorValue2</span><span class="p">,</span> <span class="nv">BassValue1</span> <span class="o">=</span> <span class="nv">BassValue2</span><span class="p">),</span>
+  <span class="c1">% avoid voice overlapping</span>
+  <span class="nv">SopranoValue2</span> <span class="o">&gt;=</span> <span class="nv">AltoValue1</span><span class="p">,</span>
+  <span class="nv">AltoValue2</span> <span class="o">&gt;=</span> <span class="nv">TenorValue1</span><span class="p">,</span> <span class="nv">AltoValue2</span> <span class="o">=&lt;</span> <span class="nv">SopranoValue1</span><span class="p">,</span>
+  <span class="nv">TenorValue2</span> <span class="o">&gt;=</span> <span class="nv">BassValue1</span><span class="p">,</span> <span class="nv">TenorValue2</span> <span class="o">=&lt;</span> <span class="nv">AltoValue1</span><span class="p">,</span>
+  <span class="nv">BassValue2</span> <span class="o">=&lt;</span> <span class="nv">TenorValue1</span><span class="p">,</span>
+  <span class="c1">% no parallel 8th</span>
+  <span class="err">\</span><span class="o">+</span> <span class="p">((</span><span class="nv">SopranoValue1</span> <span class="o">-</span> <span class="nv">AltoValue1</span><span class="p">)</span> <span class="o">//</span> <span class="m">12</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">,</span> <span class="p">(</span><span class="nv">SopranoValue2</span> <span class="o">-</span> <span class="nv">AltoValue2</span><span class="p">)</span> <span class="o">//</span> <span class="m">12</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">,</span> <span class="nv">SopranoValue2</span> <span class="o">&gt;</span> <span class="nv">SopranoValue1</span><span class="p">,</span> <span class="nv">AltoValue2</span> <span class="o">&gt;</span> <span class="nv">AltoValue1</span><span class="p">),</span>
+  <span class="err">\</span><span class="o">+</span> <span class="p">((</span><span class="nv">SopranoValue1</span> <span class="o">-</span> <span class="nv">AltoValue1</span><span class="p">)</span> <span class="o">//</span> <span class="m">12</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">,</span> <span class="p">(</span><span class="nv">SopranoValue2</span> <span class="o">-</span> <span class="nv">AltoValue2</span><span class="p">)</span> <span class="o">//</span> <span class="m">12</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">,</span> <span class="nv">SopranoValue2</span> <span class="o">&lt;</span> <span class="nv">SopranoValue1</span><span class="p">,</span> <span class="nv">AltoValue2</span> <span class="o">&lt;</span> <span class="nv">AltoValue1</span><span class="p">),</span>
+  <span class="err">\</span><span class="o">+</span> <span class="p">((</span><span class="nv">SopranoValue1</span> <span class="o">-</span> <span class="nv">AltoValue1</span><span class="p">)</span> <span class="o">//</span> <span class="m">12</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">,</span> <span class="p">(</span><span class="nv">SopranoValue2</span> <span class="o">-</span> <span class="nv">AltoValue2</span><span class="p">)</span> <span class="o">//</span> <span class="m">12</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">,</span> <span class="nv">SopranoValue2</span> <span class="o">=</span> <span class="nv">SopranoValue1</span><span class="p">,</span> <span class="nv">AltoValue2</span> <span class="o">=</span> <span class="nv">AltoValue1</span><span class="p">),</span>
+  <span class="err">\</span><span class="o">+</span> <span class="p">((</span><span class="nv">SopranoValue1</span> <span class="o">-</span> <span class="nv">TenorValue1</span><span class="p">)</span> <span class="o">//</span> <span class="m">12</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">,</span> <span class="p">(</span><span class="nv">SopranoValue2</span> <span class="o">-</span> <span class="nv">TenorValue2</span><span class="p">)</span> <span class="o">//</span> <span class="m">12</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">,</span> <span class="nv">SopranoValue2</span> <span class="o">&gt;</span> <span class="nv">SopranoValue1</span><span class="p">,</span> <span class="nv">TenorValue2</span> <span class="o">&gt;</span> <span class="nv">TenorValue1</span><span class="p">),</span>
+  <span class="err">\</span><span class="o">+</span> <span class="p">((</span><span class="nv">SopranoValue1</span> <span class="o">-</span> <span class="nv">TenorValue1</span><span class="p">)</span> <span class="o">//</span> <span class="m">12</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">,</span> <span class="p">(</span><span class="nv">SopranoValue2</span> <span class="o">-</span> <span class="nv">TenorValue2</span><span class="p">)</span> <span class="o">//</span> <span class="m">12</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">,</span> <span class="nv">SopranoValue2</span> <span class="o">&lt;</span> <span class="nv">SopranoValue1</span><span class="p">,</span> <span class="nv">TenorValue2</span> <span class="o">&lt;</span> <span class="nv">TenorValue1</span><span class="p">),</span>
+  <span class="err">\</span><span class="o">+</span> <span class="p">((</span><span class="nv">SopranoValue1</span> <span class="o">-</span> <span class="nv">TenorValue1</span><span class="p">)</span> <span class="o">//</span> <span class="m">12</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">,</span> <span class="p">(</span><span class="nv">SopranoValue2</span> <span class="o">-</span> <span class="nv">TenorValue2</span><span class="p">)</span> <span class="o">//</span> <span class="m">12</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">,</span> <span class="nv">SopranoValue2</span> <span class="o">=</span> <span class="nv">SopranoValue1</span><span class="p">,</span> <span class="nv">TenorValue2</span> <span class="o">=</span> <span class="nv">TenorValue1</span><span class="p">),</span>
+  <span class="err">\</span><span class="o">+</span> <span class="p">((</span><span class="nv">SopranoValue1</span> <span class="o">-</span> <span class="nv">BassValue1</span><span class="p">)</span> <span class="o">//</span> <span class="m">12</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">,</span> <span class="p">(</span><span class="nv">SopranoValue2</span> <span class="o">-</span> <span class="nv">BassValue2</span><span class="p">)</span> <span class="o">//</span> <span class="m">12</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">,</span> <span class="nv">SopranoValue2</span> <span class="o">&gt;</span> <span class="nv">SopranoValue1</span><span class="p">,</span> <span class="nv">BassValue2</span> <span class="o">&gt;</span> <span class="nv">BassValue1</span><span class="p">),</span>
+  <span class="err">\</span><span class="o">+</span> <span class="p">((</span><span class="nv">SopranoValue1</span> <span class="o">-</span> <span class="nv">BassValue1</span><span class="p">)</span> <span class="o">//</span> <span class="m">12</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">,</span> <span class="p">(</span><span class="nv">SopranoValue2</span> <span class="o">-</span> <span class="nv">BassValue2</span><span class="p">)</span> <span class="o">//</span> <span class="m">12</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">,</span> <span class="nv">SopranoValue2</span> <span class="o">&lt;</span> <span class="nv">SopranoValue1</span><span class="p">,</span> <span class="nv">BassValue2</span> <span class="o">&lt;</span> <span class="nv">BassValue1</span><span class="p">),</span>
+  <span class="err">\</span><span class="o">+</span> <span class="p">((</span><span class="nv">SopranoValue1</span> <span class="o">-</span> <span class="nv">BassValue1</span><span class="p">)</span> <span class="o">//</span> <span class="m">12</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">,</span> <span class="p">(</span><span class="nv">SopranoValue2</span> <span class="o">-</span> <span class="nv">BassValue2</span><span class="p">)</span> <span class="o">//</span> <span class="m">12</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">,</span> <span class="nv">SopranoValue2</span> <span class="o">=</span> <span class="nv">SopranoValue1</span><span class="p">,</span> <span class="nv">BassValue2</span> <span class="o">=</span> <span class="nv">BassValue1</span><span class="p">),</span>
+  <span class="err">\</span><span class="o">+</span> <span class="p">((</span><span class="nv">AltoValue1</span> <span class="o">-</span> <span class="nv">TenorValue1</span><span class="p">)</span> <span class="o">//</span> <span class="m">12</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">,</span> <span class="p">(</span><span class="nv">AltoValue2</span> <span class="o">-</span> <span class="nv">TenorValue2</span><span class="p">)</span> <span class="o">//</span> <span class="m">12</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">,</span> <span class="nv">AltoValue2</span> <span class="o">&gt;</span> <span class="nv">AltoValue1</span><span class="p">,</span> <span class="nv">TenorValue2</span> <span class="o">&gt;</span> <span class="nv">TenorValue1</span><span class="p">),</span>
+  <span class="err">\</span><span class="o">+</span> <span class="p">((</span><span class="nv">AltoValue1</span> <span class="o">-</span> <span class="nv">TenorValue1</span><span class="p">)</span> <span class="o">//</span> <span class="m">12</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">,</span> <span class="p">(</span><span class="nv">AltoValue2</span> <span class="o">-</span> <span class="nv">TenorValue2</span><span class="p">)</span> <span class="o">//</span> <span class="m">12</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">,</span> <span class="nv">AltoValue2</span> <span class="o">&lt;</span> <span class="nv">AltoValue1</span><span class="p">,</span> <span class="nv">TenorValue2</span> <span class="o">&lt;</span> <span class="nv">TenorValue1</span><span class="p">),</span>
+  <span class="err">\</span><span class="o">+</span> <span class="p">((</span><span class="nv">AltoValue1</span> <span class="o">-</span> <span class="nv">TenorValue1</span><span class="p">)</span> <span class="o">//</span> <span class="m">12</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">,</span> <span class="p">(</span><span class="nv">AltoValue2</span> <span class="o">-</span> <span class="nv">TenorValue2</span><span class="p">)</span> <span class="o">//</span> <span class="m">12</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">,</span> <span class="nv">AltoValue2</span> <span class="o">=</span> <span class="nv">AltoValue1</span><span class="p">,</span> <span class="nv">TenorValue2</span> <span class="o">=</span> <span class="nv">TenorValue1</span><span class="p">),</span>
+  <span class="err">\</span><span class="o">+</span> <span class="p">((</span><span class="nv">AltoValue1</span> <span class="o">-</span> <span class="nv">BassValue1</span><span class="p">)</span> <span class="o">//</span> <span class="m">12</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">,</span> <span class="p">(</span><span class="nv">AltoValue2</span> <span class="o">-</span> <span class="nv">BassValue2</span><span class="p">)</span> <span class="o">//</span> <span class="m">12</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">,</span> <span class="nv">AltoValue2</span> <span class="o">&gt;</span> <span class="nv">AltoValue1</span><span class="p">,</span> <span class="nv">BassValue2</span> <span class="o">&gt;</span> <span class="nv">BassValue1</span><span class="p">),</span>
+  <span class="err">\</span><span class="o">+</span> <span class="p">((</span><span class="nv">AltoValue1</span> <span class="o">-</span> <span class="nv">BassValue1</span><span class="p">)</span> <span class="o">//</span> <span class="m">12</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">,</span> <span class="p">(</span><span class="nv">AltoValue2</span> <span class="o">-</span> <span class="nv">BassValue2</span><span class="p">)</span> <span class="o">//</span> <span class="m">12</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">,</span> <span class="nv">AltoValue2</span> <span class="o">&lt;</span> <span class="nv">AltoValue1</span><span class="p">,</span> <span class="nv">BassValue2</span> <span class="o">&lt;</span> <span class="nv">BassValue1</span><span class="p">),</span>
+  <span class="err">\</span><span class="o">+</span> <span class="p">((</span><span class="nv">AltoValue1</span> <span class="o">-</span> <span class="nv">BassValue1</span><span class="p">)</span> <span class="o">//</span> <span class="m">12</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">,</span> <span class="p">(</span><span class="nv">AltoValue2</span> <span class="o">-</span> <span class="nv">BassValue2</span><span class="p">)</span> <span class="o">//</span> <span class="m">12</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">,</span> <span class="nv">AltoValue2</span> <span class="o">=</span> <span class="nv">AltoValue1</span><span class="p">,</span> <span class="nv">BassValue2</span> <span class="o">=</span> <span class="nv">BassValue1</span><span class="p">),</span>
+  <span class="err">\</span><span class="o">+</span> <span class="p">((</span><span class="nv">TenorValue1</span> <span class="o">-</span> <span class="nv">BassValue1</span><span class="p">)</span> <span class="o">//</span> <span class="m">12</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">,</span> <span class="p">(</span><span class="nv">TenorValue2</span> <span class="o">-</span> <span class="nv">BassValue2</span><span class="p">)</span> <span class="o">//</span> <span class="m">12</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">,</span> <span class="nv">TenorValue2</span> <span class="o">&gt;</span> <span class="nv">TenorValue1</span><span class="p">,</span> <span class="nv">BassValue2</span> <span class="o">&gt;</span> <span class="nv">BassValue1</span><span class="p">),</span>
+  <span class="err">\</span><span class="o">+</span> <span class="p">((</span><span class="nv">TenorValue1</span> <span class="o">-</span> <span class="nv">BassValue1</span><span class="p">)</span> <span class="o">//</span> <span class="m">12</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">,</span> <span class="p">(</span><span class="nv">TenorValue2</span> <span class="o">-</span> <span class="nv">BassValue2</span><span class="p">)</span> <span class="o">//</span> <span class="m">12</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">,</span> <span class="nv">TenorValue2</span> <span class="o">&lt;</span> <span class="nv">TenorValue1</span><span class="p">,</span> <span class="nv">BassValue2</span> <span class="o">&lt;</span> <span class="nv">BassValue1</span><span class="p">),</span>
+  <span class="err">\</span><span class="o">+</span> <span class="p">((</span><span class="nv">TenorValue1</span> <span class="o">-</span> <span class="nv">BassValue1</span><span class="p">)</span> <span class="o">//</span> <span class="m">12</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">,</span> <span class="p">(</span><span class="nv">TenorValue2</span> <span class="o">-</span> <span class="nv">BassValue2</span><span class="p">)</span> <span class="o">//</span> <span class="m">12</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">,</span> <span class="nv">TenorValue2</span> <span class="o">=</span> <span class="nv">TenorValue1</span><span class="p">,</span> <span class="nv">BassValue2</span> <span class="o">=</span> <span class="nv">BassValue1</span><span class="p">),</span>
+  <span class="c1">% % no parallel 5th</span>
+  <span class="err">\</span><span class="o">+</span> <span class="p">((</span><span class="nv">SopranoValue1</span> <span class="o">-</span> <span class="nv">AltoValue1</span><span class="p">)</span> <span class="o">//</span> <span class="m">7</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">,</span> <span class="p">(</span><span class="nv">SopranoValue2</span> <span class="o">-</span> <span class="nv">AltoValue2</span><span class="p">)</span> <span class="o">//</span> <span class="m">7</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">,</span> <span class="nv">SopranoValue2</span> <span class="o">&gt;</span> <span class="nv">SopranoValue1</span><span class="p">,</span> <span class="nv">AltoValue2</span> <span class="o">&gt;</span> <span class="nv">AltoValue1</span><span class="p">),</span>
+  <span class="err">\</span><span class="o">+</span> <span class="p">((</span><span class="nv">SopranoValue1</span> <span class="o">-</span> <span class="nv">AltoValue1</span><span class="p">)</span> <span class="o">//</span> <span class="m">7</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">,</span> <span class="p">(</span><span class="nv">SopranoValue2</span> <span class="o">-</span> <span class="nv">AltoValue2</span><span class="p">)</span> <span class="o">//</span> <span class="m">7</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">,</span> <span class="nv">SopranoValue2</span> <span class="o">&lt;</span> <span class="nv">SopranoValue1</span><span class="p">,</span> <span class="nv">AltoValue2</span> <span class="o">&lt;</span> <span class="nv">AltoValue1</span><span class="p">),</span>
+  <span class="err">\</span><span class="o">+</span> <span class="p">((</span><span class="nv">SopranoValue1</span> <span class="o">-</span> <span class="nv">AltoValue1</span><span class="p">)</span> <span class="o">//</span> <span class="m">7</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">,</span> <span class="p">(</span><span class="nv">SopranoValue2</span> <span class="o">-</span> <span class="nv">AltoValue2</span><span class="p">)</span> <span class="o">//</span> <span class="m">7</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">,</span> <span class="nv">SopranoValue2</span> <span class="o">=</span> <span class="nv">SopranoValue1</span><span class="p">,</span> <span class="nv">AltoValue2</span> <span class="o">=</span> <span class="nv">AltoValue1</span><span class="p">),</span>
+  <span class="err">\</span><span class="o">+</span> <span class="p">((</span><span class="nv">SopranoValue1</span> <span class="o">-</span> <span class="nv">TenorValue1</span><span class="p">)</span> <span class="o">//</span> <span class="m">7</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">,</span> <span class="p">(</span><span class="nv">SopranoValue2</span> <span class="o">-</span> <span class="nv">TenorValue2</span><span class="p">)</span> <span class="o">//</span> <span class="m">7</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">,</span> <span class="nv">SopranoValue2</span> <span class="o">&gt;</span> <span class="nv">SopranoValue1</span><span class="p">,</span> <span class="nv">TenorValue2</span> <span class="o">&gt;</span> <span class="nv">TenorValue1</span><span class="p">),</span>
+  <span class="err">\</span><span class="o">+</span> <span class="p">((</span><span class="nv">SopranoValue1</span> <span class="o">-</span> <span class="nv">TenorValue1</span><span class="p">)</span> <span class="o">//</span> <span class="m">7</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">,</span> <span class="p">(</span><span class="nv">SopranoValue2</span> <span class="o">-</span> <span class="nv">TenorValue2</span><span class="p">)</span> <span class="o">//</span> <span class="m">7</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">,</span> <span class="nv">SopranoValue2</span> <span class="o">&lt;</span> <span class="nv">SopranoValue1</span><span class="p">,</span> <span class="nv">TenorValue2</span> <span class="o">&lt;</span> <span class="nv">TenorValue1</span><span class="p">),</span>
+  <span class="err">\</span><span class="o">+</span> <span class="p">((</span><span class="nv">SopranoValue1</span> <span class="o">-</span> <span class="nv">TenorValue1</span><span class="p">)</span> <span class="o">//</span> <span class="m">7</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">,</span> <span class="p">(</span><span class="nv">SopranoValue2</span> <span class="o">-</span> <span class="nv">TenorValue2</span><span class="p">)</span> <span class="o">//</span> <span class="m">7</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">,</span> <span class="nv">SopranoValue2</span> <span class="o">=</span> <span class="nv">SopranoValue1</span><span class="p">,</span> <span class="nv">TenorValue2</span> <span class="o">=</span> <span class="nv">TenorValue1</span><span class="p">),</span>
+  <span class="err">\</span><span class="o">+</span> <span class="p">((</span><span class="nv">SopranoValue1</span> <span class="o">-</span> <span class="nv">BassValue1</span><span class="p">)</span> <span class="o">//</span> <span class="m">7</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">,</span> <span class="p">(</span><span class="nv">SopranoValue2</span> <span class="o">-</span> <span class="nv">BassValue2</span><span class="p">)</span> <span class="o">//</span> <span class="m">7</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">,</span> <span class="nv">SopranoValue2</span> <span class="o">&gt;</span> <span class="nv">SopranoValue1</span><span class="p">,</span> <span class="nv">BassValue2</span> <span class="o">&gt;</span> <span class="nv">BassValue1</span><span class="p">),</span>
+  <span class="err">\</span><span class="o">+</span> <span class="p">((</span><span class="nv">SopranoValue1</span> <span class="o">-</span> <span class="nv">BassValue1</span><span class="p">)</span> <span class="o">//</span> <span class="m">7</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">,</span> <span class="p">(</span><span class="nv">SopranoValue2</span> <span class="o">-</span> <span class="nv">BassValue2</span><span class="p">)</span> <span class="o">//</span> <span class="m">7</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">,</span> <span class="nv">SopranoValue2</span> <span class="o">&lt;</span> <span class="nv">SopranoValue1</span><span class="p">,</span> <span class="nv">BassValue2</span> <span class="o">&lt;</span> <span class="nv">BassValue1</span><span class="p">),</span>
+  <span class="err">\</span><span class="o">+</span> <span class="p">((</span><span class="nv">SopranoValue1</span> <span class="o">-</span> <span class="nv">BassValue1</span><span class="p">)</span> <span class="o">//</span> <span class="m">7</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">,</span> <span class="p">(</span><span class="nv">SopranoValue2</span> <span class="o">-</span> <span class="nv">BassValue2</span><span class="p">)</span> <span class="o">//</span> <span class="m">7</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">,</span> <span class="nv">SopranoValue2</span> <span class="o">=</span> <span class="nv">SopranoValue1</span><span class="p">,</span> <span class="nv">BassValue2</span> <span class="o">=</span> <span class="nv">BassValue1</span><span class="p">),</span>
+  <span class="err">\</span><span class="o">+</span> <span class="p">((</span><span class="nv">AltoValue1</span> <span class="o">-</span> <span class="nv">TenorValue1</span><span class="p">)</span> <span class="o">//</span> <span class="m">7</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">,</span> <span class="p">(</span><span class="nv">AltoValue2</span> <span class="o">-</span> <span class="nv">TenorValue2</span><span class="p">)</span> <span class="o">//</span> <span class="m">7</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">,</span> <span class="nv">AltoValue2</span> <span class="o">&gt;</span> <span class="nv">AltoValue1</span><span class="p">,</span> <span class="nv">TenorValue2</span> <span class="o">&gt;</span> <span class="nv">TenorValue1</span><span class="p">),</span>
+  <span class="err">\</span><span class="o">+</span> <span class="p">((</span><span class="nv">AltoValue1</span> <span class="o">-</span> <span class="nv">TenorValue1</span><span class="p">)</span> <span class="o">//</span> <span class="m">7</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">,</span> <span class="p">(</span><span class="nv">AltoValue2</span> <span class="o">-</span> <span class="nv">TenorValue2</span><span class="p">)</span> <span class="o">//</span> <span class="m">7</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">,</span> <span class="nv">AltoValue2</span> <span class="o">&lt;</span> <span class="nv">AltoValue1</span><span class="p">,</span> <span class="nv">TenorValue2</span> <span class="o">&lt;</span> <span class="nv">TenorValue1</span><span class="p">),</span>
+  <span class="err">\</span><span class="o">+</span> <span class="p">((</span><span class="nv">AltoValue1</span> <span class="o">-</span> <span class="nv">TenorValue1</span><span class="p">)</span> <span class="o">//</span> <span class="m">7</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">,</span> <span class="p">(</span><span class="nv">AltoValue2</span> <span class="o">-</span> <span class="nv">TenorValue2</span><span class="p">)</span> <span class="o">//</span> <span class="m">7</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">,</span> <span class="nv">AltoValue2</span> <span class="o">=</span> <span class="nv">AltoValue1</span><span class="p">,</span> <span class="nv">TenorValue2</span> <span class="o">=</span> <span class="nv">TenorValue1</span><span class="p">),</span>
+  <span class="err">\</span><span class="o">+</span> <span class="p">((</span><span class="nv">AltoValue1</span> <span class="o">-</span> <span class="nv">BassValue1</span><span class="p">)</span> <span class="o">//</span> <span class="m">7</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">,</span> <span class="p">(</span><span class="nv">AltoValue2</span> <span class="o">-</span> <span class="nv">BassValue2</span><span class="p">)</span> <span class="o">//</span> <span class="m">7</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">,</span> <span class="nv">AltoValue2</span> <span class="o">&gt;</span> <span class="nv">AltoValue1</span><span class="p">,</span> <span class="nv">BassValue2</span> <span class="o">&gt;</span> <span class="nv">BassValue1</span><span class="p">),</span>
+  <span class="err">\</span><span class="o">+</span> <span class="p">((</span><span class="nv">AltoValue1</span> <span class="o">-</span> <span class="nv">BassValue1</span><span class="p">)</span> <span class="o">//</span> <span class="m">7</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">,</span> <span class="p">(</span><span class="nv">AltoValue2</span> <span class="o">-</span> <span class="nv">BassValue2</span><span class="p">)</span> <span class="o">//</span> <span class="m">7</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">,</span> <span class="nv">AltoValue2</span> <span class="o">&lt;</span> <span class="nv">AltoValue1</span><span class="p">,</span> <span class="nv">BassValue2</span> <span class="o">&lt;</span> <span class="nv">BassValue1</span><span class="p">),</span>
+  <span class="err">\</span><span class="o">+</span> <span class="p">((</span><span class="nv">AltoValue1</span> <span class="o">-</span> <span class="nv">BassValue1</span><span class="p">)</span> <span class="o">//</span> <span class="m">7</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">,</span> <span class="p">(</span><span class="nv">AltoValue2</span> <span class="o">-</span> <span class="nv">BassValue2</span><span class="p">)</span> <span class="o">//</span> <span class="m">7</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">,</span> <span class="nv">AltoValue2</span> <span class="o">=</span> <span class="nv">AltoValue1</span><span class="p">,</span> <span class="nv">BassValue2</span> <span class="o">=</span> <span class="nv">BassValue1</span><span class="p">),</span>
+  <span class="err">\</span><span class="o">+</span> <span class="p">((</span><span class="nv">TenorValue1</span> <span class="o">-</span> <span class="nv">BassValue1</span><span class="p">)</span> <span class="o">//</span> <span class="m">7</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">,</span> <span class="p">(</span><span class="nv">TenorValue2</span> <span class="o">-</span> <span class="nv">BassValue2</span><span class="p">)</span> <span class="o">//</span> <span class="m">7</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">,</span> <span class="nv">TenorValue2</span> <span class="o">&gt;</span> <span class="nv">TenorValue1</span><span class="p">,</span> <span class="nv">BassValue2</span> <span class="o">&gt;</span> <span class="nv">BassValue1</span><span class="p">),</span>
+  <span class="err">\</span><span class="o">+</span> <span class="p">((</span><span class="nv">TenorValue1</span> <span class="o">-</span> <span class="nv">BassValue1</span><span class="p">)</span> <span class="o">//</span> <span class="m">7</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">,</span> <span class="p">(</span><span class="nv">TenorValue2</span> <span class="o">-</span> <span class="nv">BassValue2</span><span class="p">)</span> <span class="o">//</span> <span class="m">7</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">,</span> <span class="nv">TenorValue2</span> <span class="o">&lt;</span> <span class="nv">TenorValue1</span><span class="p">,</span> <span class="nv">BassValue2</span> <span class="o">&lt;</span> <span class="nv">BassValue1</span><span class="p">),</span>
+  <span class="err">\</span><span class="o">+</span> <span class="p">((</span><span class="nv">TenorValue1</span> <span class="o">-</span> <span class="nv">BassValue1</span><span class="p">)</span> <span class="o">//</span> <span class="m">7</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">,</span> <span class="p">(</span><span class="nv">TenorValue2</span> <span class="o">-</span> <span class="nv">BassValue2</span><span class="p">)</span> <span class="o">//</span> <span class="m">7</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">,</span> <span class="nv">TenorValue2</span> <span class="o">=</span> <span class="nv">TenorValue1</span><span class="p">,</span> <span class="nv">BassValue2</span> <span class="o">=</span> <span class="nv">BassValue1</span><span class="p">),</span>
+  <span class="c1">% % no hidden 8th</span>
+  <span class="err">\</span><span class="o">+</span> <span class="p">(</span><span class="nv">SopranoValue2</span> <span class="o">-</span> <span class="nv">SopranoValue1</span> <span class="o">&gt;</span> <span class="m">5</span><span class="p">,</span> <span class="nv">BassValue2</span> <span class="o">&gt;</span> <span class="nv">BassValue1</span><span class="p">,</span> <span class="p">(</span><span class="nv">SopranoValue2</span> <span class="o">-</span> <span class="nv">BassValue2</span><span class="p">)</span> <span class="o">//</span> <span class="m">12</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">),</span>
+  <span class="err">\</span><span class="o">+</span> <span class="p">(</span><span class="nv">SopranoValue1</span> <span class="o">-</span> <span class="nv">SopranoValue2</span> <span class="o">&gt;</span> <span class="m">5</span><span class="p">,</span> <span class="nv">BassValue1</span> <span class="o">&gt;</span> <span class="nv">BassValue2</span><span class="p">,</span> <span class="p">(</span><span class="nv">SopranoValue2</span> <span class="o">-</span> <span class="nv">BassValue2</span><span class="p">)</span> <span class="o">//</span> <span class="m">12</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">),</span>
+  <span class="c1">% % no hidden 5th</span>
+  <span class="err">\</span><span class="o">+</span> <span class="p">(</span><span class="nv">SopranoValue2</span> <span class="o">-</span> <span class="nv">SopranoValue1</span> <span class="o">&gt;</span> <span class="m">5</span><span class="p">,</span> <span class="nv">BassValue2</span> <span class="o">&gt;</span> <span class="nv">BassValue1</span><span class="p">,</span> <span class="p">(</span><span class="nv">SopranoValue2</span> <span class="o">-</span> <span class="nv">BassValue2</span><span class="p">)</span> <span class="o">//</span> <span class="m">7</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">),</span>
+  <span class="err">\</span><span class="o">+</span> <span class="p">(</span><span class="nv">SopranoValue1</span> <span class="o">-</span> <span class="nv">SopranoValue2</span> <span class="o">&gt;</span> <span class="m">5</span><span class="p">,</span> <span class="nv">BassValue1</span> <span class="o">&gt;</span> <span class="nv">BassValue2</span><span class="p">,</span> <span class="p">(</span><span class="nv">SopranoValue2</span> <span class="o">-</span> <span class="nv">BassValue2</span><span class="p">)</span> <span class="o">//</span> <span class="m">7</span> <span class="o">=:=</span> <span class="m">0</span><span class="p">).</span>
+</code></pre></div></div>
+
+<h2 id="尝试生成">尝试生成</h2>
+
+<p>现在我们有了判断连接和和弦的东西，我们只需要给出低音声部和和弦，接下来就可以让 Prolog 全自动生成四部和声了，</p>
+
+<div class="language-prolog highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="ss">generate_chord</span><span class="p">(</span><span class="nv">_</span><span class="p">,</span> <span class="p">[]).</span>
+<span class="ss">generate_chord</span><span class="p">(</span><span class="nv">Scale</span><span class="p">,</span> <span class="p">[</span><span class="nv">Ans1</span><span class="p">,</span> <span class="nv">Ans2</span> <span class="p">|</span> <span class="nv">Rest</span><span class="p">])</span> <span class="p">:-</span>
+  <span class="nv">Ans1</span> <span class="o">=</span> <span class="p">[</span><span class="nv">Chord1</span><span class="p">,</span> <span class="nv">Soprano1</span><span class="p">,</span> <span class="nv">Alto1</span><span class="p">,</span> <span class="nv">Tenor1</span><span class="p">,</span> <span class="nv">Bass1</span><span class="p">],</span>
+  <span class="nv">Ans2</span> <span class="o">=</span> <span class="p">[</span><span class="nv">Chord2</span><span class="p">,</span> <span class="nv">Soprano2</span><span class="p">,</span> <span class="nv">Alto2</span><span class="p">,</span> <span class="nv">Tenor2</span><span class="p">,</span> <span class="nv">Bass2</span><span class="p">],</span>
+  <span class="ss">legal_chord</span><span class="p">(</span><span class="nv">Scale</span><span class="p">,</span> <span class="nv">Chord1</span><span class="p">,</span> <span class="nv">Soprano1</span><span class="p">,</span> <span class="nv">Alto1</span><span class="p">,</span> <span class="nv">Tenor1</span><span class="p">,</span> <span class="nv">Bass1</span><span class="p">),</span>
+  <span class="ss">legal_chord</span><span class="p">(</span><span class="nv">Scale</span><span class="p">,</span> <span class="nv">Chord2</span><span class="p">,</span> <span class="nv">Soprano2</span><span class="p">,</span> <span class="nv">Alto2</span><span class="p">,</span> <span class="nv">Tenor2</span><span class="p">,</span> <span class="nv">Bass2</span><span class="p">),</span>
+  <span class="ss">legal_connection</span><span class="p">([</span><span class="nv">Soprano1</span><span class="p">,</span> <span class="nv">Alto1</span><span class="p">,</span> <span class="nv">Tenor1</span><span class="p">,</span> <span class="nv">Bass1</span><span class="p">],</span> <span class="p">[</span><span class="nv">Soprano2</span><span class="p">,</span> <span class="nv">Alto2</span><span class="p">,</span> <span class="nv">Tenor2</span><span class="p">,</span> <span class="nv">Bass2</span><span class="p">]),</span>
+  <span class="ss">generate_chord</span><span class="p">(</span><span class="nv">Scale</span><span class="p">,</span> <span class="p">[</span><span class="nv">Ans2</span> <span class="p">|</span> <span class="nv">Rest</span><span class="p">]).</span>
+<span class="ss">generate_chord</span><span class="p">(</span><span class="nv">Scale</span><span class="p">,</span> <span class="p">[</span><span class="nv">Ans</span><span class="p">])</span> <span class="p">:-</span>
+  <span class="nv">Ans</span> <span class="o">=</span> <span class="p">[</span><span class="nv">Chord</span><span class="p">,</span> <span class="nv">Soprano</span><span class="p">,</span> <span class="nv">Alto</span><span class="p">,</span> <span class="nv">Tenor</span><span class="p">,</span> <span class="nv">Bass</span><span class="p">],</span>
+  <span class="ss">legal_chord</span><span class="p">(</span><span class="nv">Scale</span><span class="p">,</span> <span class="nv">Chord</span><span class="p">,</span> <span class="nv">Soprano</span><span class="p">,</span> <span class="nv">Alto</span><span class="p">,</span> <span class="nv">Tenor</span><span class="p">,</span> <span class="nv">Bass</span><span class="p">).</span>
+</code></pre></div></div>
+
+<p>我从网上找了个例题，题目如下：</p>
+
+<p><img src="/assets/images/satb-example-question.png" alt="SATB 样例题目" /></p>
+
+<p>Prolog 这么做还是有一些缺陷，比如它不会总是选那个离自己最近的音来过渡，其实可以让 Prolog 把可能性都生成出来，然后在外面写一个某种评估函数进行排序其实就能解决问题，我这里就直接手动挑选了比较正常的结果，确实也不累。</p>
+
+<p>下面请欣赏 Prolog 生成的四部和声：</p>
+
+<p><img src="/assets/images/satb-example-answer.png" alt="SATB 生成答案" /></p>
+
+<audio src="/assets/audio/satb-generated.mp3" controls=""></audio>
+
+<p>您还别说，还别说，真的还行其实。</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/prolog" class="page__taxonomy-item p-category" rel="tag">Prolog</a><span class="sep">, </span>
+    
+      <a href="/tags/%E4%B9%90%E7%90%86" class="page__taxonomy-item p-category" rel="tag">乐理</a><span class="sep">, </span>
+    
+      <a href="/tags/%E5%90%88%E5%94%B1" class="page__taxonomy-item p-category" rel="tag">合唱</a><span class="sep">, </span>
+    
+      <a href="/tags/%E9%80%BB%E8%BE%91%E5%AD%A6" class="page__taxonomy-item p-category" rel="tag">逻辑学</a><span class="sep">, </span>
+    
+      <a href="/tags/%E9%9F%B3%E4%B9%90" class="page__taxonomy-item p-category" rel="tag">音乐</a>
+    
+    </span>
+  </p>
+
+
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2024-07-21T17:30:00+08:00">July 21, 2024</time></p>
+
+      </footer>
+
+      <section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?text=%E5%9F%BA%E4%BA%8E+Prolog+%E7%9A%84+SATB+%E5%9B%9B%E9%83%A8%E5%92%8C%E5%A3%B0%E7%94%9F%E6%88%90%E5%99%A8%20https%3A%2F%2Fcoderemixer.com%2F2024%2F07%2F21%2Fsatb-generator" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fcoderemixer.com%2F2024%2F07%2F21%2Fsatb-generator" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://coderemixer.com/2024/07/21/satb-generator" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/2024/06/26/trihedron" class="pagination--pager" title="为什么没有三面体？
+">Previous</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+      <div class="page__comments">
+  
+  
+      <h4 class="page__comments-title">Comments</h4>
+      <section id="disqus_thread"></section>
+    
+</div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+  
+  <h2 class="page__related-title">You May Also Enjoy</h2>
+  <div class="grid__wrapper">
+    
+    
+    
+      
+      
+      
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/2024/06/26/trihedron" rel="permalink">为什么没有三面体？
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2024-06-26T09:22:00+08:00">June 26, 2024</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">前几天我在桌子上放了一个骰塔，塔里放了一组 DnD 骰子。有个同事走过来看到一个正四面体的骰子问：「你这是三面骰吗？」我一愣，第一反应是，这世界上不应该存在三面体啊。不过一细想，为什么没有三面体确实是一个值得思考的好问题。
+</p>
+  </article>
+</div>
+
+    
+      
+      
+      
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/2024/05/20/kejie-championship" rel="permalink">柯洁能成为九冠王吗？
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2024-05-20T02:40:00+08:00">May 20, 2024</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">柯洁（九段）的上一个世界冠军可以追溯到 2020 年三星杯 2-0 胜申真谞（九段），连续三年没有获得世界冠军，上一次和世界冠军失之交臂是 2023 年亚运会负許皓鋐（九段）。不由让人疑问，柯洁在职业生涯再拿一个世界冠军的概率有多少？为了回答这个问题，我们需要一个衡量棋手水平的模型。一个比较简单的方法就是通过 E...</p>
+  </article>
+</div>
+
+    
+      
+      
+      
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/2024/04/30/tokyo-metro-2023" rel="permalink">一个熟悉又陌生的解谜游戏 —— 东京地下铁 2023 解谜游戏设计分析
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2024-04-30T22:39:32+08:00">April 30, 2024</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">2019 年我写过一篇《平成最后的烂尾游戏——东京地下铁 2018 解谜游戏设计分析》。2020 年因为 COVID-19 的原因，没怎么敢出门错过了 Tokyo Metro 地下谜 2019。 有人说我其实玩过 2019，并且还解得很快… 然后我想起来了，确实玩过，并且谜题极其简单，很快速就过了，以至于我甚至没...</p>
+  </article>
+</div>
+
+    
+      
+      
+      
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/2021/07/05/compile-malay-tea-name" rel="permalink">三点几嚟，饮茶先啦 —— 将大马饮料名编译成汉语
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2021-07-05T12:44:49+08:00">July 5, 2021</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">近几日马来西亚网友 Gurdip Singh 在 Facebook 发的这个「三点几嚟，饮茶先啦」非常流行。
+</p>
+  </article>
+</div>
+
+    
+      
+      
+      
+  </div>
+</div>
+
+  
+  
+</div>
+
+      
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';" role="search">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2024 <a href="https://coderemixer.com">Coderemixer 代码混音师</a>. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FHQPM1YDDJ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-FHQPM1YDDJ', { 'anonymize_ip': false});
+</script>
+
+
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "https://coderemixer.com/2024/07/21/satb-generator";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/2024/07/21/satb-generator"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://coderemixer.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+  </body>
+</html>
