@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://coderemixer.com/atom.xml" rel="self" type="application/atom+xml" /><link href="https://coderemixer.com/" rel="alternate" type="text/html" /><updated>2024-07-21T18:41:46+08:00</updated><id>https://coderemixer.com/atom.xml</id><title type="html">Coderemixer 代码混音师</title><subtitle>一个用来发牢骚的网站，以至于无法对所说的话负责。</subtitle><author><name>CodeRemixer</name></author><entry><title type="html">基于 Prolog 的 SATB 四部和声生成器</title><link href="https://coderemixer.com/2024/07/21/satb-generator" rel="alternate" type="text/html" title="基于 Prolog 的 SATB 四部和声生成器" /><published>2024-07-21T17:30:00+08:00</published><updated>2024-07-21T17:30:00+08:00</updated><id>https://coderemixer.com/2024/07/21/satb-generator</id><content type="html" xml:base="https://coderemixer.com/2024/07/21/satb-generator"><![CDATA[<p>最近在研究 SATB 四部和声，然后感觉如果完全按照和声学教材里的内容，尤其是 18 世纪的和声学概念，几乎就是给了一大堆规则，然后写的是有把人当成一个栈机 (stack machine) 不停搜索不要违背这些规则。既然如此，为什么我们不能设计一个搜索程序，直接将四部和声的配法规约出来呢？</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://coderemixer.com/atom.xml" rel="self" type="application/atom+xml" /><link href="https://coderemixer.com/" rel="alternate" type="text/html" /><updated>2024-07-21T18:42:49+08:00</updated><id>https://coderemixer.com/atom.xml</id><title type="html">Coderemixer 代码混音师</title><subtitle>一个用来发牢骚的网站，以至于无法对所说的话负责。</subtitle><author><name>CodeRemixer</name></author><entry><title type="html">基于 Prolog 的 SATB 四部和声生成器</title><link href="https://coderemixer.com/2024/07/21/satb-generator" rel="alternate" type="text/html" title="基于 Prolog 的 SATB 四部和声生成器" /><published>2024-07-21T17:30:00+08:00</published><updated>2024-07-21T17:30:00+08:00</updated><id>https://coderemixer.com/2024/07/21/satb-generator</id><content type="html" xml:base="https://coderemixer.com/2024/07/21/satb-generator"><![CDATA[<p>最近在研究 SATB 四部和声，然后感觉如果完全按照和声学教材里的内容，尤其是 18 世纪的和声学概念，几乎就是给了一大堆规则，然后写的是有把人当成一个栈机 (stack machine) 不停搜索不要违背这些规则。既然如此，为什么我们不能设计一个搜索程序，直接将四部和声的配法规约出来呢？</p>
 
 <h2 id="prolog">Prolog</h2>
 
@@ -179,7 +179,7 @@
 <p>连接的问题比和弦本身更麻烦，我们有六个问题需要解决：</p>
 <ol>
   <li>避免四个声部沿着完全相同方向移动</li>
-  <li>避免声部超越（也就是两个连续的、包含至少两个独立声部的和音，当后和音中较低的声部的音比前和音中较高的声部的音要高时，或者当后和音中较高的声部的音比前和音中较低的声部的音要低）</li>
+  <li>避免声部超越（也就是两个连续的、包含至少两个独立声部的和音，当后和音中较低的声部的音比前和音中较高的声部的音要高，或者当后和音中较高的声部的音比前和音中较低的声部的音要低）</li>
   <li>避免出现方向相同的平行八度</li>
   <li>避免出现方向相同的平行五度</li>
   <li>避免出现隐伏八度</li>
