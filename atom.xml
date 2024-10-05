@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://coderemixer.com/atom.xml" rel="self" type="application/atom+xml" /><link href="https://coderemixer.com/" rel="alternate" type="text/html" /><updated>2024-10-05T23:22:31+08:00</updated><id>https://coderemixer.com/atom.xml</id><title type="html">Coderemixer 代码混音师</title><subtitle>一个用来发牢骚的网站，以至于无法对所说的话负责。</subtitle><author><name>CodeRemixer</name></author><entry><title type="html">半导体从入门到放弃（中）—— 局域性原理与芯片设计</title><link href="https://coderemixer.com/2024/10/05/semiconductor-02" rel="alternate" type="text/html" title="半导体从入门到放弃（中）—— 局域性原理与芯片设计" /><published>2024-10-05T17:30:00+08:00</published><updated>2024-10-05T17:30:00+08:00</updated><id>https://coderemixer.com/2024/10/05/semiconductor-02</id><content type="html" xml:base="https://coderemixer.com/2024/10/05/semiconductor-02"><![CDATA[<p>半导体芯片是现代电子设备的核心，从电视遥控器到超级计算机，无不依赖于这些微小的硅片。然而，芯片设计和制造是一个复杂的过程，涉及深厚的物理、化学知识和精密的工程技术。本篇文章旨在为读者提供一个全景式的了解，涵盖从半导体材料的基本原理到数字电路设计，以及从芯片体系结构到生产工艺的各个环节。</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://coderemixer.com/atom.xml" rel="self" type="application/atom+xml" /><link href="https://coderemixer.com/" rel="alternate" type="text/html" /><updated>2024-10-05T23:24:42+08:00</updated><id>https://coderemixer.com/atom.xml</id><title type="html">Coderemixer 代码混音师</title><subtitle>一个用来发牢骚的网站，以至于无法对所说的话负责。</subtitle><author><name>CodeRemixer</name></author><entry><title type="html">半导体从入门到放弃（中）—— 局域性原理与芯片设计</title><link href="https://coderemixer.com/2024/10/05/semiconductor-02" rel="alternate" type="text/html" title="半导体从入门到放弃（中）—— 局域性原理与芯片设计" /><published>2024-10-05T17:30:00+08:00</published><updated>2024-10-05T17:30:00+08:00</updated><id>https://coderemixer.com/2024/10/05/semiconductor-02</id><content type="html" xml:base="https://coderemixer.com/2024/10/05/semiconductor-02"><![CDATA[<p>半导体芯片是现代电子设备的核心，从电视遥控器到超级计算机，无不依赖于这些微小的硅片。然而，芯片设计和制造是一个复杂的过程，涉及深厚的物理、化学知识和精密的工程技术。本篇文章旨在为读者提供一个全景式的了解，涵盖从半导体材料的基本原理到数字电路设计，以及从芯片体系结构到生产工艺的各个环节。</p>
 
 <p>需要注意的是，本篇文章并不会深入探讨具体的设计方法或实现手段，除非特别举例说明。本文的目标是帮助读者理解半导体行业的核心概念，让你在面对与芯片相关的新闻或话题时，能够辨别出无良媒体的误解或错误。然而，读完这篇文章后，读者可能不会成为半导体行业的专家，甚至连入门都谈不上。但会对芯片设计背后的原理有更清晰的认识。</p>
 
@@ -231,7 +231,7 @@
 
 <p>我们以 NMOS 为例（图左），当在 <strong>栅极施加电压</strong> 时，栅极下方的 P 型衬底中的空穴被正电场排斥，电子被吸引到栅极下方，这使得电子组成了两个 N 型半导体之间的通道，使得源极和漏极之间可以被导通。PMOS（图右）则是相反，它需要通过给栅极施加负电压，排斥 N 型衬底的电子，使得源极和漏极导通。</p>
 
-<p><img src="/assets/images/cmos.jpg" alt="CMOS" /></p>
+<p><img src="/assets/images/cmos.png" alt="CMOS" /></p>
 
 <p>CMOS 是芯片设计中最基础的单元，它由一个 NMOS 和一个 PMOS 共同组成。在 CMOS 中，当输入信号为高电平时，NMOS 导通，而 PMOS 关闭；当输入信号为低电平时，PMOS 导通，而 NMOS 关闭。</p>
 
