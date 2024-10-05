@@ -1,4 +1,323 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://coderemixer.com/atom.xml" rel="self" type="application/atom+xml" /><link href="https://coderemixer.com/" rel="alternate" type="text/html" /><updated>2024-07-21T18:42:49+08:00</updated><id>https://coderemixer.com/atom.xml</id><title type="html">Coderemixer 代码混音师</title><subtitle>一个用来发牢骚的网站，以至于无法对所说的话负责。</subtitle><author><name>CodeRemixer</name></author><entry><title type="html">基于 Prolog 的 SATB 四部和声生成器</title><link href="https://coderemixer.com/2024/07/21/satb-generator" rel="alternate" type="text/html" title="基于 Prolog 的 SATB 四部和声生成器" /><published>2024-07-21T17:30:00+08:00</published><updated>2024-07-21T17:30:00+08:00</updated><id>https://coderemixer.com/2024/07/21/satb-generator</id><content type="html" xml:base="https://coderemixer.com/2024/07/21/satb-generator"><![CDATA[<p>最近在研究 SATB 四部和声，然后感觉如果完全按照和声学教材里的内容，尤其是 18 世纪的和声学概念，几乎就是给了一大堆规则，然后写的是有把人当成一个栈机 (stack machine) 不停搜索不要违背这些规则。既然如此，为什么我们不能设计一个搜索程序，直接将四部和声的配法规约出来呢？</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://coderemixer.com/atom.xml" rel="self" type="application/atom+xml" /><link href="https://coderemixer.com/" rel="alternate" type="text/html" /><updated>2024-10-05T23:22:31+08:00</updated><id>https://coderemixer.com/atom.xml</id><title type="html">Coderemixer 代码混音师</title><subtitle>一个用来发牢骚的网站，以至于无法对所说的话负责。</subtitle><author><name>CodeRemixer</name></author><entry><title type="html">半导体从入门到放弃（中）—— 局域性原理与芯片设计</title><link href="https://coderemixer.com/2024/10/05/semiconductor-02" rel="alternate" type="text/html" title="半导体从入门到放弃（中）—— 局域性原理与芯片设计" /><published>2024-10-05T17:30:00+08:00</published><updated>2024-10-05T17:30:00+08:00</updated><id>https://coderemixer.com/2024/10/05/semiconductor-02</id><content type="html" xml:base="https://coderemixer.com/2024/10/05/semiconductor-02"><![CDATA[<p>半导体芯片是现代电子设备的核心，从电视遥控器到超级计算机，无不依赖于这些微小的硅片。然而，芯片设计和制造是一个复杂的过程，涉及深厚的物理、化学知识和精密的工程技术。本篇文章旨在为读者提供一个全景式的了解，涵盖从半导体材料的基本原理到数字电路设计，以及从芯片体系结构到生产工艺的各个环节。</p>
+
+<p>需要注意的是，本篇文章并不会深入探讨具体的设计方法或实现手段，除非特别举例说明。本文的目标是帮助读者理解半导体行业的核心概念，让你在面对与芯片相关的新闻或话题时，能够辨别出无良媒体的误解或错误。然而，读完这篇文章后，读者可能不会成为半导体行业的专家，甚至连入门都谈不上。但会对芯片设计背后的原理有更清晰的认识。</p>
+
+<h2 id="目录导航">目录导航</h2>
+
+<ul>
+  <li><a href="/2024/10/05/semiconductor-01">半导体从入门到放弃（上）—— 半导体和数字电路</a></li>
+  <li><a href="/2024/10/05/semiconductor-02">半导体从入门到放弃（中）—— 局域性原理与芯片设计</a></li>
+  <li>半导体从入门到放弃（下）—— 量产技术（未完成）</li>
+</ul>
+
+<h2 id="局域性原理">局域性原理</h2>
+
+<h3 id="物理学家眼中">物理学家眼中</h3>
+
+<p>在经典电磁场理论中，电场和磁场通过 <strong>麦克斯韦方程组</strong> 描述。电磁相互作用并不是瞬时传播的，而是通过电磁波以 **有限的光速 **进行传播。电磁波的传播速度直接体现了局域性原理：一个物体在某个时刻产生的电磁波只会在光速允许的范围内影响其他物体，超出该范围的物体无法感知到这一相互作用。</p>
+
+<p><strong>坡印亭矢量</strong>（Poynting vector）是电磁场中描述能量传递的向量，它定义了电磁能量在空间中如何随时间传播。其公式为：
+\(\mathbf{S} = \mathbf{E} \times \mathbf{H}\)
+其中 E 是电场强度，H 是磁场强度。坡印亭矢量的方向代表能量流动的方向，大小表示电磁能量的传输速率（能流密度）。电磁能量流的传播是局域的，即能量传递遵循空间中的场和场之间的相互作用，并且传递 <strong>不会超越光速</strong>。电磁场的这种 <strong>局域性</strong> 反映了能量与作用力无法瞬时传递到无限远处，而是有速度限制的，这也是因果律的体现。</p>
+
+<p>在 <strong>广义相对论</strong> 中，时空中的事件只能影响位于其 <strong>光锥</strong> 内的事件。光锥定义了从某个时刻出发，光以光速传播能够到达的所有点的范围。光锥以外的区域是无法被该事件影响的，体现了相对论中的局域性。</p>
+
+<p>在 <strong>量子场论</strong> 中，电磁场是一个 <strong>规范场</strong>，其量子化后的激发对应于 <strong>光子</strong>。光子是电磁力的传递者，即任何带电粒子之间的相互作用是通过光子交换来实现的。量子场论通过光子与带电粒子的相互作用解释了电磁现象。</p>
+
+<p>根据量子场论的原则，电磁场的量子化意味着电磁相互作用是由光子的场量子在特定的时空点中以<strong>局域的</strong>方式激发、传播和相互作用的。也就是说，电磁场只在它所作用的局部时空区域内起作用，并且光子只能在 <strong>有限的范围内</strong> 进行传播，受 <strong>光速的限制</strong>。</p>
+
+<h3 id="在计算机科学家眼中">在计算机科学家眼中</h3>
+
+<p>根据物理学中的局域性原理，信号和信息的传播速度是有限的，特别是受光速限制。这意味着在计算机系统中，<strong>处理器、内存和存储设备</strong> 之间的通信速度不能超越这些物理限制。如果处理器频繁访问远距离的存储单元（如主存或磁盘），由于信号传输时间长，系统性能将受到严重影响。因此，设计计算机系统时，必须依赖局域性原理将常用数据尽可能存储在靠近处理器的高速缓存中。</p>
+
+<p>计算机的局域性原理主要体现在两个方面：</p>
+
+<ul>
+  <li>时间局域性</li>
+  <li>空间局域性</li>
+</ul>
+
+<p>时间局域性指的是，如果某个数据或指令在某一时间点被访问过，那么它很可能在不久之后再次被访问。这意味着 <strong>最近使用的数据更有可能再次被使用</strong>。在现代计算机架构中，我们可以利用缓存存储最近访问过的数据，以便快速再次访问。</p>
+
+<p>空间局域性指的是，如果某个地址的数据被访问，那么它附近的地址也很有可能在不久后被访问。这种访问模式通常表现为 <strong>相邻的数据或指令被连续访问</strong>。这使得系统可以通过预取机制或批量加载数据来提高性能。</p>
+
+<p><img src="/assets/images/memory-hierarchy.png" alt="内存层级" /></p>
+
+<p><strong>为了让处理器不会被存储设备的性能拖累，我们不能让所有的电路都运行在相同的时钟频率上。</strong> 否则我们必须向最慢的设备妥协。而这是 <strong>物理性质决定的</strong>，不随人的意志所转移。</p>
+
+<p>我们可以看到像规模巨大的超级计算机，虽然吞吐量很大，但是延迟通常也很大，无法满足实时计算的需求。即使超级计算机的设计者，花了非常大的力气，从缓存和网络拓扑角度在优化它的延迟，物理限制依然明显地存在。因此并不存在一个 <strong>银色子弹将算力完全量化</strong>。我们必须深入分析我们所要运行的计算的特点，再根据它去权衡我们如何设计电路，才能达到最高的执行性能或效率。</p>
+
+<h2 id="cpu-入门">CPU 入门</h2>
+
+<h3 id="流水线设计">流水线设计</h3>
+
+<p><img src="/assets/images/pipeline-mips.png" alt="Pipeline MIPS" /></p>
+
+<p><strong>流水线设计</strong> 是一种在处理器中用于提高性能的关键技术，它通过将指令的执行过程分解为多个阶段，并在这些阶段之间并行处理多条指令，从而提高处理器的整体吞吐量。通过这种方式，流水线能够在每个时钟周期内处理多个指令，最大化资源的利用率。我们可以通过 <strong>MIPS 5 阶流水线</strong> 的例子来简单介绍流水线的工作原理，以及它如何提高性能。</p>
+
+<p>MIPS处理器是一种经典的精简指令集（RISC）架构，它使用了5级的指令流水线来提高性能。MIPS处理器的5个流水线阶段包括：</p>
+
+<ol>
+  <li><strong>取指阶段（IF, Instruction Fetch）</strong>：从内存中取出当前要执行的指令，并存入指令寄存器。</li>
+  <li><strong>译码阶段（ID, Instruction Decode）</strong>：对取出的指令进行译码，识别指令的操作码，并读取相应的操作数。</li>
+  <li><strong>执行阶段（EX, Execute）</strong>：对指令进行具体的算术运算或逻辑运算。如果是访存指令，则计算出存储地址。</li>
+  <li><strong>存储访问阶段（MEM, Memory Access）</strong>：如果是读/写内存操作，在此阶段完成数据的加载或存储。</li>
+  <li><strong>写回阶段（WB, Write Back）</strong>：将运算结果或从内存中读取的数据写回寄存器。</li>
+</ol>
+
+<p>每条指令必须依次经过这五个阶段才能完成执行。</p>
+
+<p>在传统的非流水线处理器中，一条指令必须执行完所有的 5 个步骤，才能执行下一条指令。换句话说，处理器每次只能执行一条指令，这会导致大量的资源浪费。例如，当处理器在内存中读取数据时，运算单元处于闲置状态。</p>
+
+<p>由于每个单元的规模都变小了，其能支持的运行频率也在提升，使用多阶流水线的处理器往往能达到更高的运行频率，从而实现更高的处理器性能。</p>
+
+<h3 id="数据竞争">数据竞争</h3>
+
+<p><img src="/assets/images/intel-10g.jpg" alt="Intel 10GHz" /></p>
+
+<p>然而，流水线并不是越深越好的。当一条指令的执行依赖于前一条指令的结果时，如果两条指令同时处于流水线中，可能会 <strong>导致数据错误</strong>。这被称为<strong>「数据冒险 (Data Hazard)」</strong>。</p>
+
+<p><img src="/assets/images/intel-p4-diag.gif" alt="Intel Pentium 4 Processor Architectural Block Diagram" /></p>
+
+<p>Intel 的 Pentium 4 处理器采用了一个超深流水线设计，称为 NetBurst 微架构，其流水线深度达到了 20 阶以上。这种设计目的是允许处理器以更高的频率运行，从而提升性能。理论上，通过将每个流水线阶段的任务分解为更小的子任务，处理器可以在更短的时钟周期内完成每个步骤，使得时钟频率得以提升。然而，这种过于深的流水线设计带来了 <strong>数据冒险</strong> 问题的严重加剧。</p>
+
+<p>流水线的深度直接影响到数据冒险问题的严重程度。在更深的流水线中，由于每条指令的执行分解得更加细致，每条指令所需的处理时间（即从取指到写回的时长）增加，指令之间的数据依赖性可能会跨越更多的时钟周期。这会导致指令之间的依赖关系更加复杂，从而加剧数据冒险问题的发生。</p>
+
+<p>为了降低数据冒险问题带来的影响，寄存器重命名技术被提了出来。</p>
+
+<p>寄存器重命名的核心思想是，将程序中虚拟寄存器与物理寄存器分开。在现代处理器中，虽然架构中定义的寄存器数量有限，但物理上处理器通常有 <strong>比架构寄存器更多的物理寄存器</strong>。寄存器重命名通过将虚拟寄存器映射到这些额外的物理寄存器，从而消除虚拟寄存器之间的假依赖关系。</p>
+
+<p>假设有以下指令序列：</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1. ADD R1, R2, R3   ; R1 = R2 + R3
+2. SUB R1, R4, R5   ; R1 = R4 - R5
+3. MUL R6, R1, R7   ; R6 = R1 * R7
+</code></pre></div></div>
+
+<ul>
+  <li>第 1 条和第 2 条指令都写入寄存器 R1，理论上会导致 <strong>写后写冒险（WAW）</strong>，因为它们都尝试写入相同的虚拟寄存器 R1。</li>
+  <li>第 3 条指令依赖于第 2 条指令的 R1 值，可能导致 <strong>写后读冒险（RAW）</strong>。</li>
+</ul>
+
+<p>传统上，为了防止这两种问题，我们必须等待前一条指令完全执行完才能恢复流水线执行。如果使用寄存器重命名，处理器可能会为每条指令分配不同的物理寄存器：</p>
+
+<ul>
+  <li>第 1 条指令的 R1 被重命名为物理寄存器 P1。</li>
+  <li>第 2 条指令的 R1 被重命名为物理寄存器 P2。</li>
+  <li>第 3 条指令的 R1 操作数从 P2 读取，而不是从 P1 读取。</li>
+</ul>
+
+<h3 id="并行执行">并行执行</h3>
+
+<p><strong>超标量</strong>（Superscalar）和 <strong>SIMD</strong>（Single Instruction, Multiple Data，单指令多数据）是现代处理器中两种关键的并行执行技术，它们通过不同的方式提升处理器的计算性能。</p>
+
+<p><img src="/assets/images/superscalar.png" alt="Superscalar Architecture" /></p>
+
+<p>超标量技术允许处理器在每个时钟周期内同时发射和执行多条指令，而不是每个周期只执行一条指令。由于一些指令例如乘法可能需要多个周期才能执行完成，而这时候如果再来一条加法指令，会认为流水线中 EX 阶段已经满载需要等待才能继续执行。但是如果我们在 EX 阶段引入多个计算单元，可以并行处理多个独立的指令，从而增加处理器的吞吐量。</p>
+
+<p><img src="/assets/images/simd.png" alt="Single instruction, multiple data" /></p>
+
+<p>进一步地，图像处理、视频解码、科学计算中大量计算（比如向量和矩阵），是对一组数据进行相同的加法或乘法运算。SIMD 技术使得处理器能够同时存储多个数据，通过一条 SIMD 指令可以同时对这些向量数据进行并行操作，从而增加处理器的吞吐量。</p>
+
+<p>这些指令的本质其实是利用了局域性原理中的空间局域性，因为我们可以用吞吐量换延迟，先成批成批地将内存中的数据搬运到缓存中，当我们要进行批量运算时，就不需要考虑 DRAM 读取的延迟，从而提升了处理器的性能。</p>
+
+<h2 id="gpu-入门">GPU 入门</h2>
+
+<h3 id="硬件-tl">硬件 T&amp;L</h3>
+
+<p>在图形计算中，一个里程碑式的发明就是硬件 T&amp;L（Transform &amp; Lighting，变换和光照）。</p>
+
+<p>其中变换指的是对几何体的位置、旋转、缩放等操作，将三维坐标转换为二维屏幕坐标，通常是一个矩阵乘加运算。而光照计算是指根据场景中的光源、材质以及视角来计算物体表面的光照强度和颜色，通常是一系列的向量运算。</p>
+
+<p><img src="/assets/images/geforce-256.jpg" alt="GeForce 256" /></p>
+
+<p>在传统的图形渲染管线中，这些计算通常由 CPU 执行，然而这些计算算法非常单一，要处理的坐标数量非常多，并不适合 CPU 的串行执行模式。1999 年 NVIDIA 推出了 GeForce 256，其将硬件 T&amp;L 引入了 GPU 的概念，这使得图形性能得到了飞速的提升。</p>
+
+<p>由于 T&amp;L 算法是固定的，我们只需要堆叠大量的矩阵乘加和向量运算单元，就可以提升其处理的吞吐量。它使得 GPU 从一个仅仅负责绘图的设备，变为一个可以处理复杂几何和光照任务的高效并行计算设备。这为后来的 <strong>可编程着色器</strong> 和 <strong>通用计算</strong> 打下了基础。</p>
+
+<h3 id="可编程着色器">可编程着色器</h3>
+
+<p>然而随着图形技术的演化，大家对 3D 图形的处理愈发复杂。2001年，随着 DirectX 8 和 OpenGL 标准的更新，可编程着色器第一次被引入消费级图形处理器。可编程着色器的出现使得开发者可以通过编写自己的小程序，来控制顶点和像素的渲染方式，从而创建复杂的视觉效果。于是 GPU 变成了一种 <strong>适合批量执行小程序</strong> 的硬件结构。</p>
+
+<p><img src="/assets/images/gpu-microarch.png" alt="GPU Microarch" /></p>
+
+<p>GPU 的架构与 CPU 相比，显著的不同在于其强调并行计算。GPU设计了大量简单的计算单元（流处理器），每个单元负责执行多个线程，从而可以同时处理大量的小任务（如着色器程序）。GPU 的这种并行性使其在大规模数据处理任务中能够保持极高的吞吐量。</p>
+
+<p>同时，GPU 的缓存设计与 CPU 不同，它更注重支持大规模数据的批量传输和并行访问。GPU 处理的数据量巨大，尤其是在图形渲染中，需要处理成千上万个像素、顶点和纹理。因此，GPU 的缓存架构专注于高带宽的批量数据处理，能够最大化数据传输的吞吐量。</p>
+
+<h3 id="gpgpu">GPGPU</h3>
+
+<p>在早期的图形渲染管线中，像素着色器主要用于处理每个像素的颜色、纹理、光照等视觉效果。随着可编程着色器的引入，开发者逐渐意识到，像素着色器不仅可以用于图形渲染，还可以执行其他类型的并行计算任务，尤其是在需要处理大量数据的场景下。例如，洋流、大气仿真作为一种复杂的科学运算，涉及大量的浮点运算和向量场计算，开发者发现这些任务的计算模式与图形渲染中的像素处理非常相似。于是开始尝试通过构造一个简单的大于屏幕尺寸的三角形，并在里面填充像素的形式，来进行这些科学运算的模拟。</p>
+
+<p>这推动了计算着色器（Compute Shader）和 GPGPU 的诞生。这也使得后续基于 GPU 进行神经网络深度学习等任务变得可能。</p>
+
+<h2 id="小结">小结</h2>
+
+<p><img src="/assets/images/systolic-array.png" alt="Systolic Array" /></p>
+
+<p>GPGPU 虽然显著提升了神经网络等并行计算任务的性能，但它并不是执行这些任务的最优手段。为了适应深度学习等领域中对矩阵运算的极高需求，今天的 GPU 架构进行了进一步的优化，尤其是引入了像脉动阵列 (Systolic Array) 这样的硬件结构，以提升对矩阵乘加运算的性能。这种架构的变化代表了 GPU 在满足更广泛任务时的一种体系结构的取舍。甚至我们有进一步舍弃 GPU 架构，完全为了神经网络架构优化的 NPU 或 TPU 芯片。这些微架构的差异极大显示了芯片设计上的差异对性能的巨大影响。在下个章节我们会讨论如何通过芯片的生产工艺对芯片又有哪些巨大的影响。</p>]]></content><author><name>CodeRemixer</name></author><category term="半导体" /><category term="数字电路" /><category term="芯片" /><category term="电路" /><summary type="html"><![CDATA[半导体芯片是现代电子设备的核心，从电视遥控器到超级计算机，无不依赖于这些微小的硅片。然而，芯片设计和制造是一个复杂的过程，涉及深厚的物理、化学知识和精密的工程技术。本篇文章旨在为读者提供一个全景式的了解，涵盖从半导体材料的基本原理到数字电路设计，以及从芯片体系结构到生产工艺的各个环节。]]></summary></entry><entry><title type="html">半导体从入门到放弃（上）—— 半导体和数字电路</title><link href="https://coderemixer.com/2024/10/05/semiconductor-01" rel="alternate" type="text/html" title="半导体从入门到放弃（上）—— 半导体和数字电路" /><published>2024-10-05T15:30:00+08:00</published><updated>2024-10-05T15:30:00+08:00</updated><id>https://coderemixer.com/2024/10/05/semiconductor-01</id><content type="html" xml:base="https://coderemixer.com/2024/10/05/semiconductor-01"><![CDATA[<p>半导体芯片是现代电子设备的核心，从电视遥控器到超级计算机，无不依赖于这些微小的硅片。然而，芯片设计和制造是一个复杂的过程，涉及深厚的物理、化学知识和精密的工程技术。本篇文章旨在为读者提供一个全景式的了解，涵盖从半导体材料的基本原理到数字电路设计，以及从芯片体系结构到生产工艺的各个环节。</p>
+
+<p>需要注意的是，本篇文章并不会深入探讨具体的设计方法或实现手段，除非特别举例说明。本文的目标是帮助读者理解半导体行业的核心概念，让你在面对与芯片相关的新闻或话题时，能够辨别出无良媒体的误解或错误。然而，读完这篇文章后，读者可能不会成为半导体行业的专家，甚至连入门都谈不上。但会对芯片设计背后的原理有更清晰的认识。</p>
+
+<h2 id="目录导航">目录导航</h2>
+
+<ul>
+  <li><a href="/2024/10/05/semiconductor-01">半导体从入门到放弃（上）—— 半导体和数字电路</a></li>
+  <li><a href="/2024/10/05/semiconductor-02">半导体从入门到放弃（中）—— 局域性原理与芯片设计</a></li>
+  <li>半导体从入门到放弃（下）—— 量产技术（未完成）</li>
+</ul>
+
+<h2 id="半导体">半导体</h2>
+
+<p>在讨论芯片设计的物理基础时，我们首先要了解半导体材料，尤其是硅（Si）。硅是最常用的半导体材料之一，其电子结构对于理解它的电学性质至关重要。但在理解以硅为基础材料的半导体是什么之前，我们先要对「导电」这件事情本身进行一些基础知识的理解。</p>
+
+<h3 id="能带理论">能带理论</h3>
+
+<p>在单个原子中，电子只能处在特定的能量水平（称为能级），而当许多原子紧密排列形成固体材料时，这些能级会相互作用，形成连续的能量带。</p>
+
+<p>我们可以将能量带想象成一座楼梯，每个台阶代表不同的能量水平。电子处在这些台阶上，它们可以在不同的台阶（能量水平）之间跳跃。当你爬得越高，你的能量就会越大（如同现实中的重力势能），反之则越小。这时候我们需要引入三个概念：</p>
+
+<ul>
+  <li>
+    <p><strong>价带</strong>：相当于楼梯的底部，是电子「站立」的稳定位置。这里的电子与原子核紧密结合，能量较低，移动自由度较小。电子在价带中往往是处于相对稳定的状态，无法自由移动。</p>
+  </li>
+  <li><strong>导带</strong>：相当于楼梯的上方，是电子可以自由「行走」的地方。电子一旦到达导带，它们就获得了足够的能量，可以在晶体中自由移动，从而形成电流。</li>
+  <li><strong>带隙</strong>：价带和导带之间有一段「空隙」，称为 <strong>带隙</strong>（band gap），相当于楼梯上的一大步。这一步（能量差）决定了电子从价带跃迁到导带的难易程度。材料的导电性主要取决于这个带隙的大小。</li>
+</ul>
+
+<h4 id="导体没有带隙的楼梯">导体：没有带隙的楼梯</h4>
+
+<p>在导体中，导带和价带是重叠的，或是非常接近，没有明显的带隙。因此，电子不需要“跨越”任何能量差即可进入导带。例如铜的电子在最外层很容易进入导带，因为它的价带和导带几乎重叠。可以想象在铜中，电子就像是在平坦的地板上行走，不需要额外的能量跃迁到导带，因而铜能够很好地导电。</p>
+
+<h4 id="绝缘体巨大带隙的楼梯">绝缘体：巨大带隙的楼梯</h4>
+
+<p>与导体不同，绝缘体（如玻璃、橡胶）具有非常大的带隙，这意味着电子要从价带跃迁到导带需要非常高的能量。在正常条件下，电子几乎不可能跨越这个巨大的能量差。例如石英的带隙非常大。电子被牢牢困在价带中，几乎无法进入导带。这就好像电子被困在楼梯的底部，无法跃过楼梯的高台阶，导致它无法传导电流。</p>
+
+<h4 id="半导体微妙的中间状态">半导体：微妙的中间状态</h4>
+
+<p>半导体位于导体和绝缘体之间，其带隙较小，因此电子在某些条件下能够跃迁到导带，产生导电现象。硅（Si）作为一种典型的半导体材料，它的价带和导带之间有一个适中的能隙，这个能隙的大小允许我们通过外部手段（如加热或施加电场）让电子越过这个「台阶」进入导带。</p>
+
+<p>硅的带隙约为 1.12 电子伏特（eV），比导体的重叠带大，但比绝缘体的小。通过适当的能量输入（如施加电场或光照），硅中的电子能够从价带跃迁到导带。这使得硅在不同条件下既可以作为绝缘体使用，也可以作为导体使用，这正是半导体材料的独特之处。</p>
+
+<h3 id="掺杂">掺杂</h3>
+
+<p>硅原子在元素周期表中位于第十四族，其最外层有 4 个价电子。这些电子通过 <strong>共价键</strong> 与邻近的其他 4 个硅原子形成强力的化学键。硅的晶体结构被称为 <strong>钻石结构</strong>，是一种立体网状结构，在这个结构中，每个硅原子与周围 4 个硅原子通过共价键相连，没有任何自由电子，形成非常稳定的结构。</p>
+
+<p><img src="/assets/images/silicon-structure.png" alt="钻石结构" /></p>
+
+<p>在纯净的硅晶体中，这些共价键牢牢束缚着硅原子的价电子，使它们无法自由移动，因此在低温或常温下，硅的导电性较弱。但硅可以通过 <strong>掺杂（doping）</strong>，即引入微量的杂质原子，来改变它的电学性质。掺杂可以显著影响硅的 <strong>能带结构</strong>，从而使其导电性能发生变化。</p>
+
+<p>当硅晶体中引入 <strong>五价元素</strong>（如磷、砷）时，这些原子带有 5 个价电子，比硅的 4 个价电子多一个。这个多余的电子并不参与共价键的形成，因此成为一个<strong>自由电子</strong>，可以很容易地跃迁到导带中。由于多了一个自由电子，这样的掺杂后的半导体被称为 <strong>「N 型半导体」</strong>。</p>
+
+<p>当硅晶体中引入 <strong>三价元素</strong>（如硼、铝）时，这些原子带有 3 个价电子，比硅原子少 1 个，因此它们无法与周围的四个硅原子形成完整的共价键，结果在晶体结构中留下一个 <strong>空穴</strong>（hole）。这种掺杂产生了正电荷的载流子，即空穴，因此称为 <strong>「P 型半导体」</strong>。</p>
+
+<h3 id="二极管">二极管</h3>
+
+<p><img src="/assets/images/pn-junction.png" alt="PN Junction" /></p>
+
+<p>二极管由 <strong>P 型半导体</strong> 和 <strong>N 型半导体</strong> 相互结合形成，这个接合区域被称为 <strong>PN 结</strong> 。在 P 型区域，主要载流子是 <strong>空穴</strong>（带正电的缺少电子的状态），而在 N 型区域，主要载流子是 <strong>自由电子</strong>（带负电的电子）。这两种材料结合在一起时，会在它们的交界处形成独特的电荷分布，进而影响二极管的导电行为。</p>
+
+<p>当对二极管施加 <strong>正向</strong> 电压时，自由电子能够从 N 型半导体流动到缺少电子的 P 型半导体上，从而形成回路。 然而当给二极管施加 <strong>反向</strong> 电压时，P 型半导体少掉的电子和 N 型半导体多出来的自由电子极大阻止了自由电子从 P 型半导体向 N 型半导体传播，二极管表现为绝缘体，阻止电流通过。</p>
+
+<h3 id="mosfet">MOSFET</h3>
+
+<p>在理解了二极管的基本原理后，我们需要理解数字电路中非常重要的一种半导体器件 MOS 管（MOSFET）。</p>
+
+<p><img src="/assets/images/mosfet.jpg" alt="MOSFET" /></p>
+
+<p>MOS 管由三个关键部分组成：源极（Source）、漏极（Drain）、栅极（Gate）。</p>
+
+<p>当栅极没有施加电压时，源极和漏极之间 <strong>没有形成导电通道</strong>。这意味着即使在源极和漏极之间施加电压，电流也无法通过。</p>
+
+<p>我们以 NMOS 为例（图左），当在 <strong>栅极施加电压</strong> 时，栅极下方的 P 型衬底中的空穴被正电场排斥，电子被吸引到栅极下方，这使得电子组成了两个 N 型半导体之间的通道，使得源极和漏极之间可以被导通。PMOS（图右）则是相反，它需要通过给栅极施加负电压，排斥 N 型衬底的电子，使得源极和漏极导通。</p>
+
+<p><img src="/assets/images/cmos.jpg" alt="CMOS" /></p>
+
+<p>CMOS 是芯片设计中最基础的单元，它由一个 NMOS 和一个 PMOS 共同组成。在 CMOS 中，当输入信号为高电平时，NMOS 导通，而 PMOS 关闭；当输入信号为低电平时，PMOS 导通，而 NMOS 关闭。</p>
+
+<p>在单独的 NMOS / PMOS 电路中，电路会有持续的电流流过，导致较高的静态功耗。相比之下，CMOS 电路在稳态时几乎没有静态功耗。在一个典型的 CMOS 电路中，NMOS 和 PMOS 交替工作，只有在状态切换时才会有电容充放电的功耗。这意味着在无切换时，功耗接近为零。这使得 CMOS 成为了现代芯片设计中最基础的单元。</p>
+
+<p>我们会发现由 CMOS 管构成的电路相当于一种 <strong>「电子的开关」</strong>，我们可以通过控制栅极来控制电路是不是导通。但是读到这里的你可能还是非常困惑，为什么我们要使用这么复杂的方式来控制电路的开关？现代芯片是如何使用 CMOS 的组合实现各种复杂的计算、存储以及各种工作的？于是我们需要讨论 <strong>「数字电路」</strong> 这个概念。</p>
+
+<h2 id="数字电路基础">数字电路基础</h2>
+
+<p><strong>数字电路</strong> 的核心思想是将电流的流动（通/断）映射为 <strong>二进制</strong> 系统中的 1 和 0 这两种状态。这种映射让我们可以通过简单的电路组合，处理复杂的数据计算和逻辑操作。</p>
+
+<h3 id="基础门电路">基础门电路</h3>
+
+<p>我们不妨试着用 CMOS 搭建一下最基础的几种门电路：非门、与门和或门。</p>
+
+<p><img src="/assets/images/not-gate-off.png" alt="Not Gate Off" /></p>
+
+<p><img src="/assets/images/not-gate-on.png" alt="Note Gate On" /></p>
+
+<p>在上面这个电路图中，当左侧给定一个高电平的信号时，PMOS 管截止，NMOS 管导通，右侧输出低电平；当左侧给定一个低电平的信号时，PMOS 管导通，NMOS 管截止，右侧输出高电平。从而我们实现了一个将 <strong>信号反转</strong> 的功能，这样的逻辑电路被称为 <strong>「非门（NOT）」</strong>。可以点击<a href="https://falstad.com/circuit/circuitjs.html?ctz=CQAgjCAMB0l3BWcMBMcUHYMGZIA4UA2ATmIxAUgpABZsKBTAWjDACgxCURtC8QUKGrWzdBw7gBMGAMwCGAVwA2AFyZKGk8FB0xI7AOYixQ4wISFdbAO480A0737ioNu1UzdRH05DffwDEsAlz9bTwE8ZyjI-jCBDBMJRNjXcIsHZKS0hO5ODxTQtxQY-NzwQip4tGdTMGJsvwBnAXxM80tQ7XklJoY2ACVwBvayrqoaKiQqqGgEf3tcYQCA+ICwEvdwGmE-GVSy9cqeejA52cgUNn2S6P4QmNFwc70rofXNgOJLGcnqGZg8yMK0Wi14ViAA">这个链接</a>在线看一下非门的实现。</p>
+
+<p><img src="/assets/images/and-gate.png" alt="And Gate" /></p>
+
+<p><img src="/assets/images/or-gate.png" alt="Or Gate" /></p>
+
+<p>类似地，我们还可以得到<a href="https://falstad.com/circuit/circuitjs.html?ctz=CQAgjCAMB0l3BWcMBMcUHYMGZIA4UA2ATmIxAUgpABZsKBTAWjDACgxCULCqwNCILjXACQ3ACYMAZgEMArgBsALk0UMJ4KNpiR2AcyEoR-QcPH4dbAO6jBKY+F7jHkNgGc7LkQ5+utcoruDGwASk5UvuAoeN46tFRIVMnQCDYguCJ4VJkgxIJu0uIY3GA0IrllFfRgqVCwKGEZkFk5LbSxyQnUXTBp4ZyRJdGxmNxdNInxfR5eY3HzfCCBwemmxaXOi2xF2Ail5Rl4JofYNXW6jba5+c0mMVDpN4LYx3kFT2+3r-edOxn7CyxH5AjKlC4Nf57bjzEGw8FJSG2FAIezDFGCKqPa7YTGnQFYtw4+yOM72SxEjK40HQ0GUsk06mEp7tQZ3Lz01licqxdb0t5snkRbG0Gi85xCvmfEzEbiS2Ui+VysUc6XiVFHPwiNyGOF4YFvbBoKzIjVY+bM5GOKIMqKUqLzDEbEVO2GA7aGBBgGHDL0w-VWcJ+kDZCjejrxSY9HSpf5iyJR4PGHII+qQRpFePgcPB1jcM7gCHp9LB0PB26UpMapPDSlZvO0QgmcN1pvZuVtqW2SXcztiVsmXs+KMD8RRrPJkW5h65-sl8NRWcfWxLnh8OdAA">与门</a>和<a href="https://falstad.com/circuit/circuitjs.html?ctz=CQAgjCAMB0l3BWcMBMcUHYMGZIA4UA2ATmIxAUgpABZsKBTAWjDACgxCUKU8QUaVBMW4Cq3ACYMAZgEMArgBsALk0UMJ4KNpiR2Acwoj+go6IzcqkNgHdwGQuBo1whKmGdQ2AZ3uOPLigCTi7uIHKK3gxsAEqu7p5gvCE6tEKpMAix8eDGSXxgxlZp1MWZPn65osGFlloRUbaVtTkt1oY0eFTY2I6d3Qh11nH9KaOsQyVIZdBZ0rSdILguo8tL3GCzULAobPPOBQ60XZU94Fu6u3bjnuNuXtcn2GjH3b0PC4d9z5XW1z9gI50USmP60H5icHcNZg4FLSArRYwprjYyjSGwk68Pjo0EorGmQZ8DF7JZ4FwBWicFJnTbTHak7DkqpU-zGWkXBnXamcKg0HlHazzTCiPB8NbY9bnemQXbzHqOSW9YliqV07aytiGZXrbqEcXvKxNNYmhG6j4ml4655GuzWs3Wl5goIUzwoBD+TzOj005mU72ewI+yUB-iqkVhvjOmrsl5tY1x2PiVVgm2RpbvEPGv1JlnDVkgE78vpR7SEjKzFHUos85Kw6loHENvF2s0RiUt+GBUzFky2pb6-gWAsR+uK4e9kncxU9iF4oA">或门</a>，有了与、或、非门，我们就可以围绕这三者构造大量的计算。我们不妨来看一下，我们如何使用这三个的组合来实现加法运算。</p>
+
+<h3 id="加法器">加法器</h3>
+
+<p><img src="/assets/images/half-adder.png" alt="Half Adder" /></p>
+
+<p>如上图的<a href="https://falstad.com/circuit/circuitjs.html?ctz=CQAgjCAMB0l3BWcMBMcUHYMGZIA4UA2ATmIxAUgpABZsKBTAWjDACgAZcQqtPcMChB8o4EADMAhgBsAzg2qQ2YSiFw1uVbAiFgeooVQSdNwhIQFCU50VSlyFSJQHdTIvVTA0NL0143q4N5QbK4eZhYi1ha+UTbuGDGhwvjgiWqQGmDpvtq6+jR6pkoAshT64Tz84bzQxgAe5RBeVIRgxEH0GigaAMKSAE4DAJ7KOhndPWrjKFO81MZh+iKBIrGp0cI0vDax2xFbvPt7R1qZhyEqVDR4vFM6-LM+wgvJhRbh7yn8uTNTeRdflZ9t5Hsc2ABJWhFEQ0QjdVJUGBIRa0eHfWi3DG+UEXG6nEKuB7Ce7LOZsRoIBAdNAWQjYCBoDrdDQAeQArgAXAAOXLeRXC5k8+lK5TuGiqJOeKDqbCAA">电路</a>通过逻辑门的组合，实现了两个一位二进制数的相加，被称为一个<strong>「半加法器」</strong>。可以想象，</p>
+
+<p><img src="/assets/images/full-adder.png" alt="Full Adder" /></p>
+
+<p>如果我们将半加法器串接，就可以处理两个二进制数和一个上一位计算是否要进位的加法器。这样的<a href="https://falstad.com/circuit/circuitjs.html?ctz=CQAgjCAMB0l3BWcMBMcUHYMGZIA4UA2ATmIxAUgpABZsKBTAWjDACgAZcQqtPcMChB8o4EADMAhgBsAzg2qQ2YSiFw1uVbAiFgeooUgSdNwhIQFCU50RClyFSJQHdTIvVTA0NL0143q4N5QbK4eZhYi1ha+UTbuGDGhwvjgiWqQGmDpvtq6+jR6pkoqQoEoKAE6wpUG1MZh+iLlqbGp0cI0vDaxXRGdvH29g1qZAyEqVDR4vLU6-BU+wqINtEXhhZGtyXk1VVZDO9WVU9PjSgCSa1v8NIQaIlQwRsl3D6nTvNuu3gt9n+dkvM9hQmrUlABZZB4fiCWFgbAWOEGaDGAAe0PIrE8KmIAnoDw0AHkAK4AFwADuTkmBIDZkbSYeAUPxfGQkcFaal-CFXKRdIJkNzBZcQMROYL+ZZRM8KMkYZ5guygj55TNmfwFSreWLgvddVkRcpVFzYSzkPTzbwVslErDgnhsLpgr47aY3TzXYj3YRYfpfL74UJHQKhCVqiGNSAtcjrVRVlr9eKNPqvRZ1ZH1Wn3d6s8lA7RNU7CzqC6whAWzuGqJH9YmlmG5Vwy4L7jjG1R7PJFGwMToa0hCLho7dOiAOJJZGSADqyADCkgATouAJ5AsEaHCRcG272LEBb4rGoTEfQsJFwfjnuovPl6jTJmXJR9UU9PHWbUyfpjF3zf4tviAP5hjSl5Aes+BXkUSgYoyeJMH0rA0OQP7kISIALsua5QoyUFIgiFjXrwqJsEAA">电路</a>被称为<strong>「全加法器」</strong>。我们只需要堆叠这样的电路就可以实现 <strong>任意位数的整数加法</strong>。</p>
+
+<p><img src="/assets/images/von-neumann-architecture.png" alt="Von Neumann Architecture" /></p>
+
+<p>使用类似的技术，你可以实现各种计算、分支判断、控制等电路。然而这还缺少一个非常关键的部分，对于冯诺依曼架构而言，我们还没有解决<strong>「存储」</strong>这个问题。例如我们想要先算加法，再算乘法之类的，我们总是希望程序能自动执行这些步骤，并且存储中间结果，而不是我们认为每次都重新输入。</p>
+
+<h3 id="锁存器">锁存器</h3>
+
+<p><img src="/assets/images/latch.png" alt="Latch" /></p>
+
+<p>在这个<a href="https://falstad.com/circuit/circuitjs.html?ctz=CQAgjCAMB0l3BWcMBMcUHYMGZIA4UA2ATmIxAUgpABZsKBTAWjDACgxKRs8apa8VISBT8EHLjz5o8AqjP6iq4zvUL4BIDJD41Z86ioRqNYdVp3hzB5WwDu3BKJQo+Uka6hsASo9HFCbjQQAPARZHloJBQo-hhxB2wnEMCk0TMvROSM9wzIez8UwrBiJQK08FLuXkqyhz1hdX1MkCb+Nuw6uRENNoV8hz7e0wxAgYs+Myo2wj5xtrAaPm1dfTYAWQmrKgwaqcUotgAZQpc3SzO4kAAzAEMAGwBnBmp8k-cWVMtPq7unl6Q+QAHtxWCAmDxqrIIUhpHwAMoAFwA9gAnBgAHUe7BB2DBRHIPFkmCocJASLRmMe+SAA">电路</a>中，你可以通过在 <strong>时钟高电平</strong> 时，设置 0 或者 1，使得电路保存下来你的状态。即使之后设置 0 或 1 的信号不在了，也不影响输出。这是我们第一次引入<strong>「时钟」</strong>这个概念，并且只让这个电路在时钟高电平时（也就是时钟上升沿执行后面的逻辑），因为在后面的电路中，我们将 <strong>逻辑门的输出接在了逻辑门的输入</strong> 上，这意味着本质上是<strong>「上个时刻的输出是下个时刻的输入」</strong>，而这个步骤如果执行地过快，可能会由于电路本身的延迟（我们会在之后很具体地讨论这个问题）导致来不及存储，从而导致程序执行的错误。为了避免这个问题，我们引入了时钟。</p>
+
+<p>这种时钟边沿触发机制和时钟速率的管理，是现代芯片设计中实现稳定、可靠、高速运算的关键。如果没有时钟信号的精确控制，复杂电路的同步工作将变得难以保障，而时序错误会导致不可预测的计算结果。</p>
+
+<h3 id="时钟电路">时钟电路</h3>
+
+<h4 id="晶振">晶振</h4>
+
+<p>石英晶体（晶振）是一种压电材料，当对其施加电压时，石英晶体会发生形变，反过来，它也能够在外力作用下产生电压。当晶体振荡器工作时，石英晶体能够在特定的自然频率下发生机械振荡，称为 <strong>谐振</strong>。这意味着当我们将一个噪声信号传给晶振时，其谐振频率附近的频率会被放大和保留，而其它频率会被抑制。在这些噪声源的作用下，晶振可以获得启动所需的初始扰动，进而利用自身的谐振特性生成稳定的时钟信号。</p>
+
+<h4 id="锁相环-pll">锁相环 (PLL)</h4>
+
+<p><img src="/assets/images/pll-circuit.png" alt="PLL 基本原理" /></p>
+
+<p><strong>晶振</strong> 提供的频率通常较低，无法直接满足现代处理器和其他高速电路的需求。因此，设计中常常采用 <strong>PLL 电路</strong>（Phase-Locked Loop，锁相环）对晶振的频率进行放大，从而得到更高的工作频率。</p>
+
+<p>一个典型的PLL电路由以下几个主要模块组成：</p>
+
+<ol>
+  <li><strong>相位检测器（Phase Detector，PD）</strong>：检测输入参考信号（例如来自晶振）的相位与PLL反馈信号的相位之间的差异，并输出一个代表相位误差的信号。</li>
+  <li><strong>环路滤波器（Loop Filter，LF）</strong>：对相位检测器输出的误差信号进行滤波，去除高频噪声，并将其转化为一个相对平滑的控制电压信号。</li>
+  <li><strong>压控振荡器（Voltage-Controlled Oscillator，VCO）</strong>：将滤波器输出的控制电压转换为相应频率的振荡信号。VCO的输出频率随着控制电压的变化而变化。</li>
+  <li><strong>分频器（Frequency Divider，FD）</strong>：将VCO输出的高频信号进行分频，生成与输入参考信号相近的低频信号，作为反馈信号输入给相位检测器。</li>
+</ol>
+
+<p>PLL 的核心在于<strong>相位检测器</strong>，它对输入的参考信号（晶振提供的频率较低的信号）与<strong>反馈信号</strong>（来自 VCO 输出的信号经过分频器处理后的信号）进行比较，输出一个与相位差成正比的信号。这个相位差会引发控制电压的变化，进而调节 VCO 的输出频率。</p>
+
+<ul>
+  <li>如果 VCO 输出的频率过低，控制电压会升高，从而使 VCO 频率增加；</li>
+  <li>如果 VCO 输出的频率过高，控制电压会降低，降低 VCO 的输出频率。</li>
+</ul>
+
+<p><strong>分频器</strong> 用于将 VCO 输出的高频信号按比例降低，使其与参考信号的频率接近。分频器通常会将 VCO 的输出频率除以一个特定的整数值（N），然后将这一频率反馈给相位检测器。这使得 PLL 电路可以通过控制 VCO 的高频输出与低频的参考信号进行比对，从而调节 VCO 的输出频率。例如晶振的频率是 10MHz，而我们希望得到 100MHz 的输出时钟信号。通过将 VCO 输出的 100MHz 信号分频 10 倍，得到一个 10MHz 的信号，然后与晶振的 10MHz 信号进行相位比较。这种设计使得 VCO 的输出频率被锁定在晶振频率的整数倍上。</p>
+
+<p>现代 PLL 电路中，通常会采用一些更加复杂的技术来实现更精确的频率控制和调节。这包括分数倍频和多级 PLL 串接。这些技术可以生成更加灵活、精确的时钟信号，但它们的原理和上文其实没有本质区别，因此在本文中我们不深入讨论它们。</p>
+
+<h3 id="小结">小结</h3>
+
+<p><img src="/assets/images/mos6502.jpeg" alt="MOS 6502" /></p>
+
+<p>结合上面的知识，你已经几乎可以设计出类似于 1971 年的 Intel 4004 或者 1975 年的 MOS 6502 这样的经典芯片了。不过这样的芯片性能非常慢。在<a href="/2024/10/05/semiconductor-02">下个章节</a>我们会讨论如何通过改进芯片设计来改善运行性能。</p>]]></content><author><name>CodeRemixer</name></author><category term="半导体" /><category term="数字电路" /><category term="芯片" /><category term="电路" /><summary type="html"><![CDATA[半导体芯片是现代电子设备的核心，从电视遥控器到超级计算机，无不依赖于这些微小的硅片。然而，芯片设计和制造是一个复杂的过程，涉及深厚的物理、化学知识和精密的工程技术。本篇文章旨在为读者提供一个全景式的了解，涵盖从半导体材料的基本原理到数字电路设计，以及从芯片体系结构到生产工艺的各个环节。]]></summary></entry><entry><title type="html">基于 Prolog 的 SATB 四部和声生成器</title><link href="https://coderemixer.com/2024/07/21/satb-generator" rel="alternate" type="text/html" title="基于 Prolog 的 SATB 四部和声生成器" /><published>2024-07-21T17:30:00+08:00</published><updated>2024-07-21T17:30:00+08:00</updated><id>https://coderemixer.com/2024/07/21/satb-generator</id><content type="html" xml:base="https://coderemixer.com/2024/07/21/satb-generator"><![CDATA[<p>最近在研究 SATB 四部和声，然后感觉如果完全按照和声学教材里的内容，尤其是 18 世纪的和声学概念，几乎就是给了一大堆规则，然后写的是有把人当成一个栈机 (stack machine) 不停搜索不要违背这些规则。既然如此，为什么我们不能设计一个搜索程序，直接将四部和声的配法规约出来呢？</p>
 
 <h2 id="prolog">Prolog</h2>
 
@@ -2364,222 +2683,4 @@ you don’t have to do anything about your business code to get dozens of times 
 
 <p>这比起 preview1 10 倍的性能提升，和比起以前阻塞 I/O 近 36 倍的性能提升足以证明 Ruby 目前<strong>服务器的性能</strong>问题的本质是 I/O 阻塞问题，而不是 Ruby CPU 执行慢的问题。而随着 I/O 调度器的引入，Ruby 3 的 I/O 性能能更上一个台阶。接下来我们要等待的就是一些使用 C 原生组件的，比如数据库驱动和 Redis 驱动的更新。然后使用一个基于 Fiber 的 Web 服务器，例如 <a href="https://github.com/socketry/falcon">Falcon</a>。无需任何业务上代码的变化，就能得到数倍甚至数十倍的性能提升。</p>
 
-<p>让我们继续享受 Ruby 的快乐编程。</p>]]></content><author><name>CodeRemixer</name></author><category term="编程" /><category term="Ruby" /><category term="Fiber" /><summary type="html"><![CDATA[For English Readers]]></summary></entry><entry><title type="html">Ractor 下多线程 Ruby 程序指南</title><link href="https://coderemixer.com/2020/11/17/ruby-3-ractor-guide" rel="alternate" type="text/html" title="Ractor 下多线程 Ruby 程序指南" /><published>2020-11-17T15:30:24+08:00</published><updated>2020-11-17T15:30:24+08:00</updated><id>https://coderemixer.com/2020/11/17/ruby-3-ractor-guide</id><content type="html" xml:base="https://coderemixer.com/2020/11/17/ruby-3-ractor-guide"><![CDATA[<h2 id="什么是-ractor">什么是 Ractor?</h2>
-
-<p>Ractor 是 Ruby 3 新引入的特性。Ractor 顾名思义是 Ruby 和 Actor 的组合词。Actor 模型是一个基于通讯的、非锁同步的并发模型。基于 Actor 的并发模型在 Ruby 中有很多应用，比如 <code class="language-plaintext highlighter-rouge">concurrent-ruby</code> 中的 <code class="language-plaintext highlighter-rouge">Concurrent::Actor</code>。Concurrent Ruby 虽然引入了大量的抽象模型，允许开发高并发的应用，但是它并不能摆脱 Ruby 的 GIL (Global Interpreter Lock)，这使得同一时间，只有一个线程是活跃的。所以通常 <code class="language-plaintext highlighter-rouge">concurrent-ruby</code> 需要搭配无锁的 JRuby 解释器使用。然而，直接解除 GIL 锁会导致大量默认 GIL 可用的依赖出现问题，在多线程开发中会产生难以预料的线程竞争问题。</p>
-
-<p>去年在 RubyConf China 的时候，我问 matz 说 90 年代多核的小型机以及超级计算机已经变得非常普遍了，为什么会把 Ruby 的多线程设计成这样呢？matz 表示，他当时还在用装着 Windows 95 的 PC，如果他知道以后多核会那么普遍，他也不会把 Ruby 设计成这样。</p>
-
-<h2 id="什么数据可以在-ractor-间共享">什么数据可以在 Ractor 间共享？</h2>
-
-<p>但是，历史遗留问题依然需要解决。随着 Fiber Scheduler 在 Ruby 3 引入来提高 I/O 密集场景下单一线程利用率极低的问题；我们需要进一步解决，计算密集场景下，多线程的利用率。</p>
-
-<p>为了解决这一问题，Ruby 3 引入了 Ractor 模型。Ractor 本质来说还是 Thread 线程，但是 Ractor 做了一系列的限制。首先，锁是不会在 Ractor 之间共享的；也就是说，不可能有两个线程争抢同一个锁。Ractor 和 Ractor 之间可以传递消息。Ractor 内部具有全局锁，确保 Ractor 内的行为和原先 Thread 是一致的。传递消息必须是值类型的，这意味着不会有指针跨 Ractor 生存，也会避免数据竞争问题。简而言之，Ractor 把每个 Thread 当作一个 Actor。</p>
-
-<p>但 Ruby 没有真正的值类型。但值类型的本质就是用拷贝来替代引用。我们要做的就是确保 Ruby 对象的可拷贝性。我们查看 Ractor 的文档，我们可以看到这个的严格描述：</p>
-
-<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Ractors don't share everything, unlike threads.
-<span class="p">
-*</span> Most objects are <span class="ge">*Unshareable objects*</span>, so you don't need to care about thread-safety problem which is caused by sharing.
-<span class="p">*</span> Some objects are <span class="ge">*Shareable objects*</span>.
-<span class="p">  *</span> Immutable objects: frozen objects which don't refer to unshareable-objects.
-<span class="p">    *</span> <span class="sb">`i = 123`</span>: <span class="sb">`i`</span> is an immutable object.
-<span class="p">    *</span> <span class="sb">`s = "str".freeze`</span>: <span class="sb">`s`</span> is an immutable object.
-<span class="p">    *</span> <span class="sb">`a = [1, [2], 3].freeze`</span>: <span class="sb">`a`</span> is not an immutable object because <span class="sb">`a`</span> refer unshareable-object <span class="sb">`[2]`</span> (which is not frozen).
-<span class="p">  *</span> Class/Module objects
-<span class="p">  *</span> Special shareable objects
-<span class="p">    *</span> Ractor object itself.
-<span class="p">    *</span> And more...
-</code></pre></div></div>
-
-<h2 id="ractor-性能提升测试">Ractor 性能提升测试</h2>
-
-<p>为了测试出 Ractor 的效果，我们需要一个计算密集的场景。最计算密集的场景，当然就是做数学计算本身。比如我们有下面一个程序：</p>
-
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="no">DAT</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="o">...</span><span class="mi">72072000</span><span class="p">).</span><span class="nf">to_a</span>
-<span class="nb">p</span> <span class="no">DAT</span><span class="p">.</span><span class="nf">map</span> <span class="p">{</span> <span class="o">|</span><span class="n">a</span><span class="o">|</span> <span class="n">a</span><span class="o">**</span><span class="mi">2</span> <span class="p">}.</span><span class="nf">reduce</span><span class="p">(:</span><span class="o">+</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p>这个程序计算 0 到 72072000 的平方和。我们运行一下这个程序，得到运行时间是 8.17s。</p>
-
-<p>如果我们用传统的多线程来写，我们可以把程序写成这样：</p>
-
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="no">THREADS</span> <span class="o">=</span> <span class="mi">8</span>
-<span class="no">LCM</span> <span class="o">=</span> <span class="mi">72072000</span>
-<span class="n">t</span> <span class="o">=</span> <span class="p">[]</span>
-
-<span class="n">res</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="p">(</span><span class="mi">0</span><span class="o">...</span><span class="no">THREADS</span><span class="p">).</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span>
-  <span class="n">r</span> <span class="o">=</span> <span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span>
-    <span class="n">dat</span> <span class="o">=</span> <span class="p">(((</span><span class="no">LCM</span><span class="o">/</span><span class="no">THREADS</span><span class="p">)</span><span class="o">*</span><span class="n">i</span><span class="p">)</span><span class="o">...</span><span class="p">((</span><span class="no">LCM</span><span class="o">/</span><span class="no">THREADS</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">))).</span><span class="nf">to_a</span>
-    <span class="n">res</span> <span class="o">&lt;&lt;</span> <span class="n">dat</span><span class="p">.</span><span class="nf">map</span><span class="p">{</span> <span class="o">|</span><span class="n">a</span><span class="o">|</span> <span class="n">a</span> <span class="o">**</span> <span class="mi">2</span> <span class="p">}.</span><span class="nf">reduce</span><span class="p">(:</span><span class="o">+</span><span class="p">)</span>
-  <span class="k">end</span>
-  <span class="n">t</span> <span class="o">&lt;&lt;</span> <span class="n">r</span>
-<span class="k">end</span>
-
-<span class="n">t</span><span class="p">.</span><span class="nf">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">t</span><span class="o">|</span> <span class="n">t</span><span class="p">.</span><span class="nf">join</span> <span class="p">}</span>
-<span class="nb">p</span> <span class="n">res</span><span class="p">.</span><span class="nf">reduce</span><span class="p">(:</span><span class="o">+</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p>运行后，我们发现，虽然确实创建了 8 个系统线程，但是总运行时间变成了 8.21s。没有显著的性能提升。</p>
-
-<p>使用 Ractor 重写程序，主要需要改变我们子线程内需要访问外面的 <code class="language-plaintext highlighter-rouge">i</code> 变量，我们用消息的方法传递进去，改进后的代码会变成这样：</p>
-
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="no">THREADS</span> <span class="o">=</span> <span class="mi">8</span>
-<span class="no">LCM</span> <span class="o">=</span> <span class="mi">72072000</span>
-<span class="n">t</span> <span class="o">=</span> <span class="p">[]</span>
-
-<span class="p">(</span><span class="mi">0</span><span class="o">...</span><span class="no">THREADS</span><span class="p">).</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span>
-  <span class="n">r</span> <span class="o">=</span> <span class="no">Ractor</span><span class="p">.</span><span class="nf">new</span> <span class="n">i</span> <span class="k">do</span> <span class="o">|</span><span class="n">j</span><span class="o">|</span>
-    <span class="n">dat</span> <span class="o">=</span> <span class="p">(((</span><span class="no">LCM</span><span class="o">/</span><span class="no">THREADS</span><span class="p">)</span><span class="o">*</span><span class="n">j</span><span class="p">)</span><span class="o">...</span><span class="p">((</span><span class="no">LCM</span><span class="o">/</span><span class="no">THREADS</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">))).</span><span class="nf">to_a</span>
-    <span class="n">dat</span><span class="p">.</span><span class="nf">map</span><span class="p">{</span> <span class="o">|</span><span class="n">a</span><span class="o">|</span> <span class="n">a</span> <span class="o">**</span> <span class="mi">2</span> <span class="p">}.</span><span class="nf">reduce</span><span class="p">(:</span><span class="o">+</span><span class="p">)</span>
-  <span class="k">end</span>
-  <span class="n">t</span> <span class="o">&lt;&lt;</span> <span class="n">r</span>
-<span class="k">end</span>
-
-<span class="nb">p</span> <span class="n">t</span><span class="p">.</span><span class="nf">map</span> <span class="p">{</span> <span class="o">|</span><span class="n">t</span><span class="o">|</span> <span class="n">t</span><span class="p">.</span><span class="nf">take</span> <span class="p">}.</span><span class="nf">reduce</span><span class="p">(:</span><span class="o">+</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p>其结果如何呢？我们根据不同的线程数量进行了测试。</p>
-
-<table>
-  <thead>
-    <tr>
-      <th><strong>Threads</strong></th>
-      <th><strong>AMD Ryzen 7 2700x</strong></th>
-      <th><strong>Intel i7-6820HQ</strong></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><strong>1</strong></td>
-      <td>8.171</td>
-      <td>12.027</td>
-    </tr>
-    <tr>
-      <td><strong>2</strong></td>
-      <td>4.483</td>
-      <td>6.913</td>
-    </tr>
-    <tr>
-      <td><strong>3</strong></td>
-      <td>4.874</td>
-      <td>6.755</td>
-    </tr>
-    <tr>
-      <td><strong>4</strong></td>
-      <td>2.353</td>
-      <td>6.188</td>
-    </tr>
-    <tr>
-      <td><strong>5</strong></td>
-      <td>2.429</td>
-      <td>5.154</td>
-    </tr>
-    <tr>
-      <td><strong>6</strong></td>
-      <td>2.259</td>
-      <td>5.320</td>
-    </tr>
-    <tr>
-      <td><strong>7</strong></td>
-      <td>1.908</td>
-      <td>5.368</td>
-    </tr>
-    <tr>
-      <td><strong>8</strong></td>
-      <td>2.156</td>
-      <td>5.754</td>
-    </tr>
-    <tr>
-      <td><strong>9</strong></td>
-      <td>2.136</td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td><strong>10</strong></td>
-      <td>3.159</td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td><strong>11</strong></td>
-      <td>2.577</td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td><strong>12</strong></td>
-      <td>2.679</td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td><strong>13</strong></td>
-      <td>2.787</td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td><strong>14</strong></td>
-      <td>2.615</td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td><strong>15</strong></td>
-      <td>2.197</td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td><strong>16</strong></td>
-      <td>2.303</td>
-      <td> </td>
-    </tr>
-  </tbody>
-</table>
-
-<p><img src="/assets/images/ractor-benchmark.png" alt="Ractor Benchmark" /></p>
-
-<p>Ractor 确实改善了多线程全局解释锁的问题。</p>
-
-<h2 id="显微镜下的-ractor">显微镜下的 Ractor</h2>
-
-<p>我使用了 AMD uProf（对于 Intel CPU，可以使用 Intel VTune）进行 CPU 运算情况的统计。为了降低睿频对单线程性能的影响，我将 AMD Ryzen 7 2700x 全核心锁死 4.2GHz。</p>
-
-<p><img src="/assets/images/ractor-uprof.png" alt="uProf Results" /></p>
-
-<p>对于 AMD Ryzen 7 2700x，4 线程比单一线程快了 3 倍多。到 4 线程，比单一线程快了约 4 倍。AMD Ryzen 7 2700x 是一款 8 核心 16 线程的 CPU。同时，每 4 个核心组成一个 CCX，跨 CCX 的内存访问有额外的代价。这使得 4 线程内性能提升很显著，超过 4 线程后受限于 CCX 和 SMT，性能提升变得比较有限。其表现是随着线程数的增加，IPC（每时钟周期指令数）开始下降。在单线程运算时，每时钟周期 CPU 可以执行 2.42 个指令；但到了 16 线程运算时，每时钟周期 CPU 只能执行 1.40 个指令。同时，更多的线程意味着更复杂的操作系统的线程调度，使得多核的利用率越来越低。</p>
-
-<p>同样，对于 Intel i7-6820HQ，我们得到了类似的结论。这是一款 4 核 8 线程的 CPU，由于第 5 个线程开始需要使用 HT，从而提升变得很有限。</p>
-
-<h2 id="ractor-如何改善现有-ruby-程序的性能">Ractor 如何改善现有 Ruby 程序的性能？</h2>
-
-<p>Ractor 的引入除了可以改善计算密集场景下的运算效率，对于现有大型 Ruby Web 程序的内存占用也是有积极意义的。现有 Web 服务器，比如 puma，由于 I/O 多路复用性能极其低下，通常会使用多线程 + 多进程的形式来提升性能。由于 Web 服务器可以自由水平扩展，使用多进程的形式来管理，可以完全解开 GIL 锁的问题。</p>
-
-<p>但是 fork 指令效率低下。微软在 2019 年 HOTOS 上给出了一篇论文：<a href="https://www.microsoft.com/en-us/research/uploads/prod/2019/04/fork-hotos19.pdf">A fork() in the road</a>，和 spawn 相比，fork 模式会导致启动速度变得非常慢。为了缓解这一问题，在 Ruby 2.7 引入 <code class="language-plaintext highlighter-rouge">GC.compact</code> 后，通常需要执行多次 <code class="language-plaintext highlighter-rouge">compact</code> 来降低 fork 启动的消耗。进一步地，使用 Ractor 来替代多进程管理，可以更容易地传递消息，复用可冻结的常量，从而降低内存占用。</p>
-
-<h2 id="总结">总结</h2>
-
-<p>Ruby 3 打开了多线程的潘多拉盒子。我们可以更好利用多线程来改善性能。但是看着 CPU Profiler 下不同线程调用会导致 CPU IPC 下降和缓存命中下降，对程序调优也提出了更高的要求。</p>
-
-<p>我们边走边看吧。</p>]]></content><author><name>CodeRemixer</name></author><category term="编程" /><category term="Ruby" /><summary type="html"><![CDATA[什么是 Ractor?]]></summary></entry><entry><title type="html">真的存在没有反光的眼镜吗？</title><link href="https://coderemixer.com/2020/11/10/how-anti-reflective-coating-works" rel="alternate" type="text/html" title="真的存在没有反光的眼镜吗？" /><published>2020-11-10T23:48:24+08:00</published><updated>2020-11-10T23:48:24+08:00</updated><id>https://coderemixer.com/2020/11/10/how-anti-reflective-coating-works</id><content type="html" xml:base="https://coderemixer.com/2020/11/10/how-anti-reflective-coating-works"><![CDATA[<p>前几天看某个 YouTuber 说因为眼镜反射很厉害，导致很难打光，想去眼睛店配一副新的眼镜，能减少反光。眼睛店老板号称富士的某款镜片可以「几乎」解决所有反光，花了好几万新台币，买回来发现除了反射从绿色变成了紫色，没有明显差异。</p>
-
-<h2 id="原理">原理</h2>
-
-<p>眼镜镜片减少反射的主要原理是利用镀膜。为什么镀膜可以减少反射呢？我们需要一些简单易懂的物理课。我们将光看成一束波（这里就先不讲量子力学里光的特性，太复杂了），当光打在镜片上时，大部分的光会透过去，少部分会发生反射。如果现在在镜片前还有一层镀膜，由于这是两个不同介质的物质，光线会先发生折射，再发生刚刚的透过和反射的过程。同时在镀膜的表面，还有可能再发生一次反射。于是我们得到了两束平行的反射光，反射 1 和反射 2，这两束光有一个相位差 φ，如果这个相位差恰好能使两束光线的波峰和波谷叠加（发生干涉），那么这部分能量就会被抵消，反射光减小；但是又由于能量守恒，所以透过镜片的光线就会增加。所以这一类镀膜也称为「增透膜」。</p>
-
-<p><img src="/assets/images/ar-coating.jpg" alt="AR Coating" /></p>
-
-<p>我们现在从原理上了解了增透膜如何减少反光，接下来的问题是，镀膜减少的反射光由什么决定？基本上就是膜层的折射率乘以厚度（即光学厚度）。因为这个光学厚度的两倍是光线 2 比光线 1 多走的路程，如果这个厚度恰好是半波长的一半（或者半波长的整倍数加 1/4 波长），那么这束光线就能被完全抵消。</p>
-
-<h2 id="实践分析">实践分析</h2>
-
-<p>那么问题来了，最常见的摄影灯光是白光，白光不是单一波长的光，显然不可能由一层增透膜抵消掉。事实上镜片会使用多层镀膜，多层镀膜的效果比较难计算，但要想抵消掉全部白光里各种波长的光也是困难重重。</p>
-
-<p>那么为什么配了这个减少反光的眼镜后，反光从绿色变成了紫色呢？其实也很好理解，因为 400nm 波长的紫光，比 550nm 左右的绿光半波长更短，这要求镀膜材料的厚度和反射率都要更低。波长越短的光对于材料和镀膜的技术要求都更高，自然就更难处理。</p>
-
-<p>事实上，像是相机镜头中，由于通常需要多组镜片，问题会叠加，提高透光率的要求更高。但随便拿哪个再贵的相机镜头出来，放在太阳地下还是能看到绿色、紫色或者红色的反光，没有能完全抵消掉反光的镜片。</p>
-
-<h2 id="总结">总结</h2>
-
-<p>不过平心而论，各个镜片厂商对于这个镀膜减反射特性的描述都是很详细的。比如说我随便找了一下蔡司的镀膜规格，说的是主要和传统镀膜比起来降低了 1% 左右的绿光反射率，由于人眼对绿光更敏感，所以比较有效果。但是看着这张图就知道在紫色光的 400nm 部分，反射率还是高达 5%，和传统镀膜并没有明显差异。</p>
-
-<p><img src="/assets/images/zeiss-coating.jpg" alt="Zeiss Coating Sample" /></p>
-
-<p>所以这个问题的最后，为什么这个几万元的眼镜明明只是降低了 1% 绿光反射，会让人觉得能降低大部分反射，最后花了冤枉钱呢？其实镜片厂没有骗人，详细的资料列得很清楚，但买镜片的客户并不是从镜片厂直接获取的资讯，经过了一层眼镜店老板。眼镜店老板又不用学习光学，他的职责就是怎么卖出更大的利润，结果就是被眼镜店老板骗了。</p>]]></content><author><name>CodeRemixer</name></author><category term="光学" /><category term="物理" /><summary type="html"><![CDATA[前几天看某个 YouTuber 说因为眼镜反射很厉害，导致很难打光，想去眼睛店配一副新的眼镜，能减少反光。眼睛店老板号称富士的某款镜片可以「几乎」解决所有反光，花了好几万新台币，买回来发现除了反射从绿色变成了紫色，没有明显差异。]]></summary></entry></feed>
+<p>让我们继续享受 Ruby 的快乐编程。</p>]]></content><author><name>CodeRemixer</name></author><category term="编程" /><category term="Ruby" /><category term="Fiber" /><summary type="html"><![CDATA[For English Readers]]></summary></entry></feed>

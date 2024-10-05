@@ -1,0 +1,809 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.25.1 by Michael Rose
+  Copyright 2013-2024 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>半导体从入门到放弃（中）—— 局域性原理与芯片设计 - Coderemixer 代码混音师</title>
+<meta name="description" content="半导体芯片是现代电子设备的核心，从电视遥控器到超级计算机，无不依赖于这些微小的硅片。然而，芯片设计和制造是一个复杂的过程，涉及深厚的物理、化学知识和精密的工程技术。本篇文章旨在为读者提供一个全景式的了解，涵盖从半导体材料的基本原理到数字电路设计，以及从芯片体系结构到生产工艺的各个环节。">
+
+
+  <meta name="author" content="CodeRemixer">
+  
+  <meta property="article:author" content="CodeRemixer">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Coderemixer 代码混音师">
+<meta property="og:title" content="半导体从入门到放弃（中）—— 局域性原理与芯片设计">
+<meta property="og:url" content="https://coderemixer.com/2024/10/05/semiconductor-02">
+
+
+  <meta property="og:description" content="半导体芯片是现代电子设备的核心，从电视遥控器到超级计算机，无不依赖于这些微小的硅片。然而，芯片设计和制造是一个复杂的过程，涉及深厚的物理、化学知识和精密的工程技术。本篇文章旨在为读者提供一个全景式的了解，涵盖从半导体材料的基本原理到数字电路设计，以及从芯片体系结构到生产工艺的各个环节。">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2024-10-05T17:30:00+08:00">
+
+
+
+
+
+
+<link rel="canonical" href="https://coderemixer.com/2024/10/05/semiconductor-02">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": null,
+      "url": "https://coderemixer.com/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Coderemixer 代码混音师 Feed">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css"></noscript>
+
+
+  
+    <script src="/assets/js/mathjax.js"></script>
+  
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          Coderemixer 代码混音师
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/">首页</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about">关于</a>
+            </li><li class="masthead__menu-item">
+              <a href="https://github.com/dsh0416">GitHub</a>
+            </li><li class="masthead__menu-item">
+              <a href="/atom.xml">RSS</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+    <div class="author__avatar">
+      <a href="https://coderemixer.com/">
+        <img src="/assets/images/bio-photo.png" alt="CodeRemixer" itemprop="image" class="u-photo">
+      </a>
+    </div>
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="https://coderemixer.com/" itemprop="url">CodeRemixer</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>一个用来发牢骚的网站，以至于无法对所说的话负责。<br /><br /> 文章若无特别声明，皆采用 <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 进行许可。</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">Shanghai ⊕ Tokyo</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="mailto:dsh0416@gmail.com" rel="nofollow noopener noreferrer me"><i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/dsh0416" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-github-square" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://twitter.com/DeltonDing" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-square-x-twitter" aria-hidden="true"></i><span class="label">X (Twitter)</span></a></li>
+          
+        
+          
+            <li><a href="https://www.xiaohongshu.com/user/profile/6030b59300000000010044d5" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-heart" aria-hidden="true"></i><span class="label">小红书</span></a></li>
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="半导体从入门到放弃（中）—— 局域性原理与芯片设计">
+    <meta itemprop="description" content="半导体芯片是现代电子设备的核心，从电视遥控器到超级计算机，无不依赖于这些微小的硅片。然而，芯片设计和制造是一个复杂的过程，涉及深厚的物理、化学知识和精密的工程技术。本篇文章旨在为读者提供一个全景式的了解，涵盖从半导体材料的基本原理到数字电路设计，以及从芯片体系结构到生产工艺的各个环节。">
+    <meta itemprop="datePublished" content="2024-10-05T17:30:00+08:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title p-name" itemprop="headline">
+            <a href="https://coderemixer.com/2024/10/05/semiconductor-02" class="u-url" itemprop="url">半导体从入门到放弃（中）—— 局域性原理与芯片设计
+</a>
+          </h1>
+          
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2024-10-05T17:30:00+08:00">October 5, 2024</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content e-content" itemprop="text">
+        
+        <p>半导体芯片是现代电子设备的核心，从电视遥控器到超级计算机，无不依赖于这些微小的硅片。然而，芯片设计和制造是一个复杂的过程，涉及深厚的物理、化学知识和精密的工程技术。本篇文章旨在为读者提供一个全景式的了解，涵盖从半导体材料的基本原理到数字电路设计，以及从芯片体系结构到生产工艺的各个环节。</p>
+
+<p>需要注意的是，本篇文章并不会深入探讨具体的设计方法或实现手段，除非特别举例说明。本文的目标是帮助读者理解半导体行业的核心概念，让你在面对与芯片相关的新闻或话题时，能够辨别出无良媒体的误解或错误。然而，读完这篇文章后，读者可能不会成为半导体行业的专家，甚至连入门都谈不上。但会对芯片设计背后的原理有更清晰的认识。</p>
+
+<h2 id="目录导航">目录导航</h2>
+
+<ul>
+  <li><a href="/2024/10/05/semiconductor-01">半导体从入门到放弃（上）—— 半导体和数字电路</a></li>
+  <li><a href="/2024/10/05/semiconductor-02">半导体从入门到放弃（中）—— 局域性原理与芯片设计</a></li>
+  <li>半导体从入门到放弃（下）—— 量产技术（未完成）</li>
+</ul>
+
+<h2 id="局域性原理">局域性原理</h2>
+
+<h3 id="物理学家眼中">物理学家眼中</h3>
+
+<p>在经典电磁场理论中，电场和磁场通过 <strong>麦克斯韦方程组</strong> 描述。电磁相互作用并不是瞬时传播的，而是通过电磁波以 **有限的光速 **进行传播。电磁波的传播速度直接体现了局域性原理：一个物体在某个时刻产生的电磁波只会在光速允许的范围内影响其他物体，超出该范围的物体无法感知到这一相互作用。</p>
+
+<p><strong>坡印亭矢量</strong>（Poynting vector）是电磁场中描述能量传递的向量，它定义了电磁能量在空间中如何随时间传播。其公式为：
+\(\mathbf{S} = \mathbf{E} \times \mathbf{H}\)
+其中 E 是电场强度，H 是磁场强度。坡印亭矢量的方向代表能量流动的方向，大小表示电磁能量的传输速率（能流密度）。电磁能量流的传播是局域的，即能量传递遵循空间中的场和场之间的相互作用，并且传递 <strong>不会超越光速</strong>。电磁场的这种 <strong>局域性</strong> 反映了能量与作用力无法瞬时传递到无限远处，而是有速度限制的，这也是因果律的体现。</p>
+
+<p>在 <strong>广义相对论</strong> 中，时空中的事件只能影响位于其 <strong>光锥</strong> 内的事件。光锥定义了从某个时刻出发，光以光速传播能够到达的所有点的范围。光锥以外的区域是无法被该事件影响的，体现了相对论中的局域性。</p>
+
+<p>在 <strong>量子场论</strong> 中，电磁场是一个 <strong>规范场</strong>，其量子化后的激发对应于 <strong>光子</strong>。光子是电磁力的传递者，即任何带电粒子之间的相互作用是通过光子交换来实现的。量子场论通过光子与带电粒子的相互作用解释了电磁现象。</p>
+
+<p>根据量子场论的原则，电磁场的量子化意味着电磁相互作用是由光子的场量子在特定的时空点中以<strong>局域的</strong>方式激发、传播和相互作用的。也就是说，电磁场只在它所作用的局部时空区域内起作用，并且光子只能在 <strong>有限的范围内</strong> 进行传播，受 <strong>光速的限制</strong>。</p>
+
+<h3 id="在计算机科学家眼中">在计算机科学家眼中</h3>
+
+<p>根据物理学中的局域性原理，信号和信息的传播速度是有限的，特别是受光速限制。这意味着在计算机系统中，<strong>处理器、内存和存储设备</strong> 之间的通信速度不能超越这些物理限制。如果处理器频繁访问远距离的存储单元（如主存或磁盘），由于信号传输时间长，系统性能将受到严重影响。因此，设计计算机系统时，必须依赖局域性原理将常用数据尽可能存储在靠近处理器的高速缓存中。</p>
+
+<p>计算机的局域性原理主要体现在两个方面：</p>
+
+<ul>
+  <li>时间局域性</li>
+  <li>空间局域性</li>
+</ul>
+
+<p>时间局域性指的是，如果某个数据或指令在某一时间点被访问过，那么它很可能在不久之后再次被访问。这意味着 <strong>最近使用的数据更有可能再次被使用</strong>。在现代计算机架构中，我们可以利用缓存存储最近访问过的数据，以便快速再次访问。</p>
+
+<p>空间局域性指的是，如果某个地址的数据被访问，那么它附近的地址也很有可能在不久后被访问。这种访问模式通常表现为 <strong>相邻的数据或指令被连续访问</strong>。这使得系统可以通过预取机制或批量加载数据来提高性能。</p>
+
+<p><img src="/assets/images/memory-hierarchy.png" alt="内存层级" /></p>
+
+<p><strong>为了让处理器不会被存储设备的性能拖累，我们不能让所有的电路都运行在相同的时钟频率上。</strong> 否则我们必须向最慢的设备妥协。而这是 <strong>物理性质决定的</strong>，不随人的意志所转移。</p>
+
+<p>我们可以看到像规模巨大的超级计算机，虽然吞吐量很大，但是延迟通常也很大，无法满足实时计算的需求。即使超级计算机的设计者，花了非常大的力气，从缓存和网络拓扑角度在优化它的延迟，物理限制依然明显地存在。因此并不存在一个 <strong>银色子弹将算力完全量化</strong>。我们必须深入分析我们所要运行的计算的特点，再根据它去权衡我们如何设计电路，才能达到最高的执行性能或效率。</p>
+
+<h2 id="cpu-入门">CPU 入门</h2>
+
+<h3 id="流水线设计">流水线设计</h3>
+
+<p><img src="/assets/images/pipeline-mips.png" alt="Pipeline MIPS" /></p>
+
+<p><strong>流水线设计</strong> 是一种在处理器中用于提高性能的关键技术，它通过将指令的执行过程分解为多个阶段，并在这些阶段之间并行处理多条指令，从而提高处理器的整体吞吐量。通过这种方式，流水线能够在每个时钟周期内处理多个指令，最大化资源的利用率。我们可以通过 <strong>MIPS 5 阶流水线</strong> 的例子来简单介绍流水线的工作原理，以及它如何提高性能。</p>
+
+<p>MIPS处理器是一种经典的精简指令集（RISC）架构，它使用了5级的指令流水线来提高性能。MIPS处理器的5个流水线阶段包括：</p>
+
+<ol>
+  <li><strong>取指阶段（IF, Instruction Fetch）</strong>：从内存中取出当前要执行的指令，并存入指令寄存器。</li>
+  <li><strong>译码阶段（ID, Instruction Decode）</strong>：对取出的指令进行译码，识别指令的操作码，并读取相应的操作数。</li>
+  <li><strong>执行阶段（EX, Execute）</strong>：对指令进行具体的算术运算或逻辑运算。如果是访存指令，则计算出存储地址。</li>
+  <li><strong>存储访问阶段（MEM, Memory Access）</strong>：如果是读/写内存操作，在此阶段完成数据的加载或存储。</li>
+  <li><strong>写回阶段（WB, Write Back）</strong>：将运算结果或从内存中读取的数据写回寄存器。</li>
+</ol>
+
+<p>每条指令必须依次经过这五个阶段才能完成执行。</p>
+
+<p>在传统的非流水线处理器中，一条指令必须执行完所有的 5 个步骤，才能执行下一条指令。换句话说，处理器每次只能执行一条指令，这会导致大量的资源浪费。例如，当处理器在内存中读取数据时，运算单元处于闲置状态。</p>
+
+<p>由于每个单元的规模都变小了，其能支持的运行频率也在提升，使用多阶流水线的处理器往往能达到更高的运行频率，从而实现更高的处理器性能。</p>
+
+<h3 id="数据竞争">数据竞争</h3>
+
+<p><img src="/assets/images/intel-10g.jpg" alt="Intel 10GHz" /></p>
+
+<p>然而，流水线并不是越深越好的。当一条指令的执行依赖于前一条指令的结果时，如果两条指令同时处于流水线中，可能会 <strong>导致数据错误</strong>。这被称为<strong>「数据冒险 (Data Hazard)」</strong>。</p>
+
+<p><img src="/assets/images/intel-p4-diag.gif" alt="Intel Pentium 4 Processor Architectural Block Diagram" /></p>
+
+<p>Intel 的 Pentium 4 处理器采用了一个超深流水线设计，称为 NetBurst 微架构，其流水线深度达到了 20 阶以上。这种设计目的是允许处理器以更高的频率运行，从而提升性能。理论上，通过将每个流水线阶段的任务分解为更小的子任务，处理器可以在更短的时钟周期内完成每个步骤，使得时钟频率得以提升。然而，这种过于深的流水线设计带来了 <strong>数据冒险</strong> 问题的严重加剧。</p>
+
+<p>流水线的深度直接影响到数据冒险问题的严重程度。在更深的流水线中，由于每条指令的执行分解得更加细致，每条指令所需的处理时间（即从取指到写回的时长）增加，指令之间的数据依赖性可能会跨越更多的时钟周期。这会导致指令之间的依赖关系更加复杂，从而加剧数据冒险问题的发生。</p>
+
+<p>为了降低数据冒险问题带来的影响，寄存器重命名技术被提了出来。</p>
+
+<p>寄存器重命名的核心思想是，将程序中虚拟寄存器与物理寄存器分开。在现代处理器中，虽然架构中定义的寄存器数量有限，但物理上处理器通常有 <strong>比架构寄存器更多的物理寄存器</strong>。寄存器重命名通过将虚拟寄存器映射到这些额外的物理寄存器，从而消除虚拟寄存器之间的假依赖关系。</p>
+
+<p>假设有以下指令序列：</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1. ADD R1, R2, R3   ; R1 = R2 + R3
+2. SUB R1, R4, R5   ; R1 = R4 - R5
+3. MUL R6, R1, R7   ; R6 = R1 * R7
+</code></pre></div></div>
+
+<ul>
+  <li>第 1 条和第 2 条指令都写入寄存器 R1，理论上会导致 <strong>写后写冒险（WAW）</strong>，因为它们都尝试写入相同的虚拟寄存器 R1。</li>
+  <li>第 3 条指令依赖于第 2 条指令的 R1 值，可能导致 <strong>写后读冒险（RAW）</strong>。</li>
+</ul>
+
+<p>传统上，为了防止这两种问题，我们必须等待前一条指令完全执行完才能恢复流水线执行。如果使用寄存器重命名，处理器可能会为每条指令分配不同的物理寄存器：</p>
+
+<ul>
+  <li>第 1 条指令的 R1 被重命名为物理寄存器 P1。</li>
+  <li>第 2 条指令的 R1 被重命名为物理寄存器 P2。</li>
+  <li>第 3 条指令的 R1 操作数从 P2 读取，而不是从 P1 读取。</li>
+</ul>
+
+<h3 id="并行执行">并行执行</h3>
+
+<p><strong>超标量</strong>（Superscalar）和 <strong>SIMD</strong>（Single Instruction, Multiple Data，单指令多数据）是现代处理器中两种关键的并行执行技术，它们通过不同的方式提升处理器的计算性能。</p>
+
+<p><img src="/assets/images/superscalar.png" alt="Superscalar Architecture" /></p>
+
+<p>超标量技术允许处理器在每个时钟周期内同时发射和执行多条指令，而不是每个周期只执行一条指令。由于一些指令例如乘法可能需要多个周期才能执行完成，而这时候如果再来一条加法指令，会认为流水线中 EX 阶段已经满载需要等待才能继续执行。但是如果我们在 EX 阶段引入多个计算单元，可以并行处理多个独立的指令，从而增加处理器的吞吐量。</p>
+
+<p><img src="/assets/images/simd.png" alt="Single instruction, multiple data" /></p>
+
+<p>进一步地，图像处理、视频解码、科学计算中大量计算（比如向量和矩阵），是对一组数据进行相同的加法或乘法运算。SIMD 技术使得处理器能够同时存储多个数据，通过一条 SIMD 指令可以同时对这些向量数据进行并行操作，从而增加处理器的吞吐量。</p>
+
+<p>这些指令的本质其实是利用了局域性原理中的空间局域性，因为我们可以用吞吐量换延迟，先成批成批地将内存中的数据搬运到缓存中，当我们要进行批量运算时，就不需要考虑 DRAM 读取的延迟，从而提升了处理器的性能。</p>
+
+<h2 id="gpu-入门">GPU 入门</h2>
+
+<h3 id="硬件-tl">硬件 T&amp;L</h3>
+
+<p>在图形计算中，一个里程碑式的发明就是硬件 T&amp;L（Transform &amp; Lighting，变换和光照）。</p>
+
+<p>其中变换指的是对几何体的位置、旋转、缩放等操作，将三维坐标转换为二维屏幕坐标，通常是一个矩阵乘加运算。而光照计算是指根据场景中的光源、材质以及视角来计算物体表面的光照强度和颜色，通常是一系列的向量运算。</p>
+
+<p><img src="/assets/images/geforce-256.jpg" alt="GeForce 256" /></p>
+
+<p>在传统的图形渲染管线中，这些计算通常由 CPU 执行，然而这些计算算法非常单一，要处理的坐标数量非常多，并不适合 CPU 的串行执行模式。1999 年 NVIDIA 推出了 GeForce 256，其将硬件 T&amp;L 引入了 GPU 的概念，这使得图形性能得到了飞速的提升。</p>
+
+<p>由于 T&amp;L 算法是固定的，我们只需要堆叠大量的矩阵乘加和向量运算单元，就可以提升其处理的吞吐量。它使得 GPU 从一个仅仅负责绘图的设备，变为一个可以处理复杂几何和光照任务的高效并行计算设备。这为后来的 <strong>可编程着色器</strong> 和 <strong>通用计算</strong> 打下了基础。</p>
+
+<h3 id="可编程着色器">可编程着色器</h3>
+
+<p>然而随着图形技术的演化，大家对 3D 图形的处理愈发复杂。2001年，随着 DirectX 8 和 OpenGL 标准的更新，可编程着色器第一次被引入消费级图形处理器。可编程着色器的出现使得开发者可以通过编写自己的小程序，来控制顶点和像素的渲染方式，从而创建复杂的视觉效果。于是 GPU 变成了一种 <strong>适合批量执行小程序</strong> 的硬件结构。</p>
+
+<p><img src="/assets/images/gpu-microarch.png" alt="GPU Microarch" /></p>
+
+<p>GPU 的架构与 CPU 相比，显著的不同在于其强调并行计算。GPU设计了大量简单的计算单元（流处理器），每个单元负责执行多个线程，从而可以同时处理大量的小任务（如着色器程序）。GPU 的这种并行性使其在大规模数据处理任务中能够保持极高的吞吐量。</p>
+
+<p>同时，GPU 的缓存设计与 CPU 不同，它更注重支持大规模数据的批量传输和并行访问。GPU 处理的数据量巨大，尤其是在图形渲染中，需要处理成千上万个像素、顶点和纹理。因此，GPU 的缓存架构专注于高带宽的批量数据处理，能够最大化数据传输的吞吐量。</p>
+
+<h3 id="gpgpu">GPGPU</h3>
+
+<p>在早期的图形渲染管线中，像素着色器主要用于处理每个像素的颜色、纹理、光照等视觉效果。随着可编程着色器的引入，开发者逐渐意识到，像素着色器不仅可以用于图形渲染，还可以执行其他类型的并行计算任务，尤其是在需要处理大量数据的场景下。例如，洋流、大气仿真作为一种复杂的科学运算，涉及大量的浮点运算和向量场计算，开发者发现这些任务的计算模式与图形渲染中的像素处理非常相似。于是开始尝试通过构造一个简单的大于屏幕尺寸的三角形，并在里面填充像素的形式，来进行这些科学运算的模拟。</p>
+
+<p>这推动了计算着色器（Compute Shader）和 GPGPU 的诞生。这也使得后续基于 GPU 进行神经网络深度学习等任务变得可能。</p>
+
+<h2 id="小结">小结</h2>
+
+<p><img src="/assets/images/systolic-array.png" alt="Systolic Array" /></p>
+
+<p>GPGPU 虽然显著提升了神经网络等并行计算任务的性能，但它并不是执行这些任务的最优手段。为了适应深度学习等领域中对矩阵运算的极高需求，今天的 GPU 架构进行了进一步的优化，尤其是引入了像脉动阵列 (Systolic Array) 这样的硬件结构，以提升对矩阵乘加运算的性能。这种架构的变化代表了 GPU 在满足更广泛任务时的一种体系结构的取舍。甚至我们有进一步舍弃 GPU 架构，完全为了神经网络架构优化的 NPU 或 TPU 芯片。这些微架构的差异极大显示了芯片设计上的差异对性能的巨大影响。在下个章节我们会讨论如何通过芯片的生产工艺对芯片又有哪些巨大的影响。</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/%E5%8D%8A%E5%AF%BC%E4%BD%93" class="page__taxonomy-item p-category" rel="tag">半导体</a><span class="sep">, </span>
+    
+      <a href="/tags/%E6%95%B0%E5%AD%97%E7%94%B5%E8%B7%AF" class="page__taxonomy-item p-category" rel="tag">数字电路</a><span class="sep">, </span>
+    
+      <a href="/tags/%E7%94%B5%E8%B7%AF" class="page__taxonomy-item p-category" rel="tag">电路</a><span class="sep">, </span>
+    
+      <a href="/tags/%E8%8A%AF%E7%89%87" class="page__taxonomy-item p-category" rel="tag">芯片</a>
+    
+    </span>
+  </p>
+
+
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2024-10-05T17:30:00+08:00">October 5, 2024</time></p>
+
+      </footer>
+
+      <section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?text=%E5%8D%8A%E5%AF%BC%E4%BD%93%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83%EF%BC%88%E4%B8%AD%EF%BC%89%E2%80%94%E2%80%94+%E5%B1%80%E5%9F%9F%E6%80%A7%E5%8E%9F%E7%90%86%E4%B8%8E%E8%8A%AF%E7%89%87%E8%AE%BE%E8%AE%A1%20https%3A%2F%2Fcoderemixer.com%2F2024%2F10%2F05%2Fsemiconductor-02" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fcoderemixer.com%2F2024%2F10%2F05%2Fsemiconductor-02" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://coderemixer.com/2024/10/05/semiconductor-02" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/2024/10/05/semiconductor-01" class="pagination--pager" title="半导体从入门到放弃（上）—— 半导体和数字电路
+">Previous</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+      <div class="page__comments">
+  
+  
+      <h4 class="page__comments-title">Comments</h4>
+      <section id="disqus_thread"></section>
+    
+</div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+  
+  <h2 class="page__related-title">You May Also Enjoy</h2>
+  <div class="grid__wrapper">
+    
+    
+    
+      
+      
+      
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/2024/10/05/semiconductor-01" rel="permalink">半导体从入门到放弃（上）—— 半导体和数字电路
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2024-10-05T15:30:00+08:00">October 5, 2024</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">半导体芯片是现代电子设备的核心，从电视遥控器到超级计算机，无不依赖于这些微小的硅片。然而，芯片设计和制造是一个复杂的过程，涉及深厚的物理、化学知识和精密的工程技术。本篇文章旨在为读者提供一个全景式的了解，涵盖从半导体材料的基本原理到数字电路设计，以及从芯片体系结构到生产工艺的各个环节。
+</p>
+  </article>
+</div>
+
+    
+      
+      
+      
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/2024/07/21/satb-generator" rel="permalink">基于 Prolog 的 SATB 四部和声生成器
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2024-07-21T17:30:00+08:00">July 21, 2024</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">最近在研究 SATB 四部和声，然后感觉如果完全按照和声学教材里的内容，尤其是 18 世纪的和声学概念，几乎就是给了一大堆规则，然后写的是有把人当成一个栈机 (stack machine) 不停搜索不要违背这些规则。既然如此，为什么我们不能设计一个搜索程序，直接将四部和声的配法规约出来呢？
+</p>
+  </article>
+</div>
+
+    
+      
+      
+      
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/2024/06/26/trihedron" rel="permalink">为什么没有三面体？
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2024-06-26T09:22:00+08:00">June 26, 2024</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">前几天我在桌子上放了一个骰塔，塔里放了一组 DnD 骰子。有个同事走过来看到一个正四面体的骰子问：「你这是三面骰吗？」我一愣，第一反应是，这世界上不应该存在三面体啊。不过一细想，为什么没有三面体确实是一个值得思考的好问题。
+</p>
+  </article>
+</div>
+
+    
+      
+      
+      
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/2024/05/20/kejie-championship" rel="permalink">柯洁能成为九冠王吗？
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2024-05-20T02:40:00+08:00">May 20, 2024</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">柯洁（九段）的上一个世界冠军可以追溯到 2020 年三星杯 2-0 胜申真谞（九段），连续三年没有获得世界冠军，上一次和世界冠军失之交臂是 2023 年亚运会负許皓鋐（九段）。不由让人疑问，柯洁在职业生涯再拿一个世界冠军的概率有多少？为了回答这个问题，我们需要一个衡量棋手水平的模型。一个比较简单的方法就是通过 E...</p>
+  </article>
+</div>
+
+    
+      
+      
+      
+  </div>
+</div>
+
+  
+  
+</div>
+
+      
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';" role="search">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2024 <a href="https://coderemixer.com">Coderemixer 代码混音师</a>. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FHQPM1YDDJ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-FHQPM1YDDJ', { 'anonymize_ip': false});
+</script>
+
+
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "https://coderemixer.com/2024/10/05/semiconductor-02";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/2024/10/05/semiconductor-02"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://coderemixer.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+  </body>
+</html>
