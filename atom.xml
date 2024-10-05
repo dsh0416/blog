@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://coderemixer.com/atom.xml" rel="self" type="application/atom+xml" /><link href="https://coderemixer.com/" rel="alternate" type="text/html" /><updated>2024-10-05T23:24:42+08:00</updated><id>https://coderemixer.com/atom.xml</id><title type="html">Coderemixer 代码混音师</title><subtitle>一个用来发牢骚的网站，以至于无法对所说的话负责。</subtitle><author><name>CodeRemixer</name></author><entry><title type="html">半导体从入门到放弃（中）—— 局域性原理与芯片设计</title><link href="https://coderemixer.com/2024/10/05/semiconductor-02" rel="alternate" type="text/html" title="半导体从入门到放弃（中）—— 局域性原理与芯片设计" /><published>2024-10-05T17:30:00+08:00</published><updated>2024-10-05T17:30:00+08:00</updated><id>https://coderemixer.com/2024/10/05/semiconductor-02</id><content type="html" xml:base="https://coderemixer.com/2024/10/05/semiconductor-02"><![CDATA[<p>半导体芯片是现代电子设备的核心，从电视遥控器到超级计算机，无不依赖于这些微小的硅片。然而，芯片设计和制造是一个复杂的过程，涉及深厚的物理、化学知识和精密的工程技术。本篇文章旨在为读者提供一个全景式的了解，涵盖从半导体材料的基本原理到数字电路设计，以及从芯片体系结构到生产工艺的各个环节。</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://coderemixer.com/atom.xml" rel="self" type="application/atom+xml" /><link href="https://coderemixer.com/" rel="alternate" type="text/html" /><updated>2024-10-05T23:27:20+08:00</updated><id>https://coderemixer.com/atom.xml</id><title type="html">Coderemixer 代码混音师</title><subtitle>一个用来发牢骚的网站，以至于无法对所说的话负责。</subtitle><author><name>CodeRemixer</name></author><entry><title type="html">半导体从入门到放弃（中）—— 局域性原理与芯片设计</title><link href="https://coderemixer.com/2024/10/05/semiconductor-02" rel="alternate" type="text/html" title="半导体从入门到放弃（中）—— 局域性原理与芯片设计" /><published>2024-10-05T17:30:00+08:00</published><updated>2024-10-05T17:30:00+08:00</updated><id>https://coderemixer.com/2024/10/05/semiconductor-02</id><content type="html" xml:base="https://coderemixer.com/2024/10/05/semiconductor-02"><![CDATA[<p>半导体芯片是现代电子设备的核心，从电视遥控器到超级计算机，无不依赖于这些微小的硅片。然而，芯片设计和制造是一个复杂的过程，涉及深厚的物理、化学知识和精密的工程技术。本篇文章旨在为读者提供一个全景式的了解，涵盖从半导体材料的基本原理到数字电路设计，以及从芯片体系结构到生产工艺的各个环节。</p>
 
 <p>需要注意的是，本篇文章并不会深入探讨具体的设计方法或实现手段，除非特别举例说明。本文的目标是帮助读者理解半导体行业的核心概念，让你在面对与芯片相关的新闻或话题时，能够辨别出无良媒体的误解或错误。然而，读完这篇文章后，读者可能不会成为半导体行业的专家，甚至连入门都谈不上。但会对芯片设计背后的原理有更清晰的认识。</p>
 
@@ -14,7 +14,7 @@
 
 <h3 id="物理学家眼中">物理学家眼中</h3>
 
-<p>在经典电磁场理论中，电场和磁场通过 <strong>麦克斯韦方程组</strong> 描述。电磁相互作用并不是瞬时传播的，而是通过电磁波以 **有限的光速 **进行传播。电磁波的传播速度直接体现了局域性原理：一个物体在某个时刻产生的电磁波只会在光速允许的范围内影响其他物体，超出该范围的物体无法感知到这一相互作用。</p>
+<p>在经典电磁场理论中，电场和磁场通过 <strong>麦克斯韦方程组</strong> 描述。电磁相互作用并不是瞬时传播的，而是通过电磁波以 <strong>有限的光速</strong> 进行传播。电磁波的传播速度直接体现了局域性原理：一个物体在某个时刻产生的电磁波只会在光速允许的范围内影响其他物体，超出该范围的物体无法感知到这一相互作用。</p>
 
 <p><strong>坡印亭矢量</strong>（Poynting vector）是电磁场中描述能量传递的向量，它定义了电磁能量在空间中如何随时间传播。其公式为：
 \(\mathbf{S} = \mathbf{E} \times \mathbf{H}\)
