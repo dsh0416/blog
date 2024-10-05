@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://coderemixer.com/atom.xml" rel="self" type="application/atom+xml" /><link href="https://coderemixer.com/" rel="alternate" type="text/html" /><updated>2024-10-05T23:27:20+08:00</updated><id>https://coderemixer.com/atom.xml</id><title type="html">Coderemixer 代码混音师</title><subtitle>一个用来发牢骚的网站，以至于无法对所说的话负责。</subtitle><author><name>CodeRemixer</name></author><entry><title type="html">半导体从入门到放弃（中）—— 局域性原理与芯片设计</title><link href="https://coderemixer.com/2024/10/05/semiconductor-02" rel="alternate" type="text/html" title="半导体从入门到放弃（中）—— 局域性原理与芯片设计" /><published>2024-10-05T17:30:00+08:00</published><updated>2024-10-05T17:30:00+08:00</updated><id>https://coderemixer.com/2024/10/05/semiconductor-02</id><content type="html" xml:base="https://coderemixer.com/2024/10/05/semiconductor-02"><![CDATA[<p>半导体芯片是现代电子设备的核心，从电视遥控器到超级计算机，无不依赖于这些微小的硅片。然而，芯片设计和制造是一个复杂的过程，涉及深厚的物理、化学知识和精密的工程技术。本篇文章旨在为读者提供一个全景式的了解，涵盖从半导体材料的基本原理到数字电路设计，以及从芯片体系结构到生产工艺的各个环节。</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://coderemixer.com/atom.xml" rel="self" type="application/atom+xml" /><link href="https://coderemixer.com/" rel="alternate" type="text/html" /><updated>2024-10-05T23:32:42+08:00</updated><id>https://coderemixer.com/atom.xml</id><title type="html">Coderemixer 代码混音师</title><subtitle>一个用来发牢骚的网站，以至于无法对所说的话负责。</subtitle><author><name>CodeRemixer</name></author><entry><title type="html">半导体从入门到放弃（中）—— 局域性原理与芯片设计</title><link href="https://coderemixer.com/2024/10/05/semiconductor-02" rel="alternate" type="text/html" title="半导体从入门到放弃（中）—— 局域性原理与芯片设计" /><published>2024-10-05T17:30:00+08:00</published><updated>2024-10-05T17:30:00+08:00</updated><id>https://coderemixer.com/2024/10/05/semiconductor-02</id><content type="html" xml:base="https://coderemixer.com/2024/10/05/semiconductor-02"><![CDATA[<p>半导体芯片是现代电子设备的核心，从电视遥控器到超级计算机，无不依赖于这些微小的硅片。然而，芯片设计和制造是一个复杂的过程，涉及深厚的物理、化学知识和精密的工程技术。本篇文章旨在为读者提供一个全景式的了解，涵盖从半导体材料的基本原理到数字电路设计，以及从芯片体系结构到生产工艺的各个环节。</p>
 
 <p>需要注意的是，本篇文章并不会深入探讨具体的设计方法或实现手段，除非特别举例说明。本文的目标是帮助读者理解半导体行业的核心概念，让你在面对与芯片相关的新闻或话题时，能够辨别出无良媒体的误解或错误。然而，读完这篇文章后，读者可能不会成为半导体行业的专家，甚至连入门都谈不上。但会对芯片设计背后的原理有更清晰的认识。</p>
 
@@ -55,7 +55,7 @@
 
 <p><strong>流水线设计</strong> 是一种在处理器中用于提高性能的关键技术，它通过将指令的执行过程分解为多个阶段，并在这些阶段之间并行处理多条指令，从而提高处理器的整体吞吐量。通过这种方式，流水线能够在每个时钟周期内处理多个指令，最大化资源的利用率。我们可以通过 <strong>MIPS 5 阶流水线</strong> 的例子来简单介绍流水线的工作原理，以及它如何提高性能。</p>
 
-<p>MIPS处理器是一种经典的精简指令集（RISC）架构，它使用了5级的指令流水线来提高性能。MIPS处理器的5个流水线阶段包括：</p>
+<p>MIPS 处理器是一种经典的精简指令集（RISC）架构，它的常见参考实现使用了 5 级的指令流水线来提高性能。MIPS 处理器的 5 个流水线阶段包括：</p>
 
 <ol>
   <li><strong>取指阶段（IF, Instruction Fetch）</strong>：从内存中取出当前要执行的指令，并存入指令寄存器。</li>
