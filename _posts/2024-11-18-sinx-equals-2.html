@@ -1,0 +1,536 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.25.1 by Michael Rose
+  Copyright 2013-2024 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>sin(x) = 2 的数学对决 - Coderemixer 代码混音师</title>
+<meta name="description" content="一个用来发牢骚的网站，以至于无法对所说的话负责。">
+
+
+  <meta name="author" content="CodeRemixer">
+  
+  <meta property="article:author" content="CodeRemixer">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Coderemixer 代码混音师">
+<meta property="og:title" content="sin(x) = 2 的数学对决">
+<meta property="og:url" content="https://coderemixer.com/_posts/2024-11-18-sinx-equals-2">
+
+
+  <meta property="og:description" content="一个用来发牢骚的网站，以至于无法对所说的话负责。">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2024-11-18T01:00:00+08:00">
+
+
+
+
+
+
+<link rel="canonical" href="https://coderemixer.com/_posts/2024-11-18-sinx-equals-2">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": null,
+      "url": "https://coderemixer.com/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Coderemixer 代码混音师 Feed">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css"></noscript>
+
+
+  
+    <script src="/assets/js/mathjax.js"></script>
+  
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          Coderemixer 代码混音师
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/">首页</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about">关于</a>
+            </li><li class="masthead__menu-item">
+              <a href="https://github.com/dsh0416">GitHub</a>
+            </li><li class="masthead__menu-item">
+              <a href="/atom.xml">RSS</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+    <div class="author__avatar">
+      <a href="https://coderemixer.com/">
+        <img src="/assets/images/bio-photo.png" alt="CodeRemixer" itemprop="image" class="u-photo">
+      </a>
+    </div>
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="https://coderemixer.com/" itemprop="url">CodeRemixer</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>一个用来发牢骚的网站，以至于无法对所说的话负责。<br /><br /> 文章若无特别声明，皆采用 <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 进行许可。</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">Shanghai ⊕ Tokyo</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="mailto:dsh0416@gmail.com" rel="nofollow noopener noreferrer me"><i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/dsh0416" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-github-square" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://twitter.com/DeltonDing" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-square-x-twitter" aria-hidden="true"></i><span class="label">X (Twitter)</span></a></li>
+          
+        
+          
+            <li><a href="https://www.xiaohongshu.com/user/profile/6030b59300000000010044d5" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-heart" aria-hidden="true"></i><span class="label">小红书</span></a></li>
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="sin(x) = 2 的数学对决">
+    
+    <meta itemprop="datePublished" content="2024-11-18T01:00:00+08:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title p-name" itemprop="headline">
+            <a href="https://coderemixer.com/_posts/2024-11-18-sinx-equals-2" class="u-url" itemprop="url">sin(x) = 2 的数学对决
+</a>
+          </h1>
+          
+
+
+        </header>
+      
+
+      <section class="page__content e-content" itemprop="text">
+        
+        <p>这周末我在微信朋友圈搞了个有趣的数学对决。我给 24 小时内所有解出了这个谜题的人都发了 50 元的红包。题目本身其实不算很难，甚至是一道复分析书上的例题。不过试图使用 LLM 来算这道题的人表现出了很神秘的高度一致的错误…</p>
+
+<h2 id="题目">题目</h2>
+
+\[\sin(x) = 2, (x \in \mathbb{C})\]
+
+<h3 id="提示">提示</h3>
+
+<ol>
+  <li>欧拉公式</li>
+  <li>注意解的数量超过 1 个</li>
+  <li>二次方程求根公式</li>
+</ol>
+
+<h2 id="题解">题解</h2>
+
+<p>\(sin(x)\) 在实数范围内的值域是 \([-1,1]\)，等于 2 这种事情想都不用想是复数。如果有背到过的话，可能会知道  \(sin(z)=\frac{1}{2}ie^{-iz}-\frac{1}{2}ie^{iz}\)。但这个式子反正每次我用的时候都背不出来，不过我们可以通过很轻松的方法推出来，并且在这题中不需要把化简都做完反而代入计算的时候更快。</p>
+
+<h3 id="欧拉公式">欧拉公式</h3>
+
+<p>因为欧拉公式 \(e^{i\theta} = cos\theta + isin\theta\)，我们将所有的 \(\theta\) 替换成 \(-\theta\)，我们有 \(e^{-i\theta}=cos(-\theta) + isin(-\theta)\)。这时候我们需要利用一点点的「奇变偶不变，符号看象限」的高中数学三角函数技巧（诱导公式），当然像我连这个都差点忘了，直接画一下函数图看一眼就会了。由诱导公式（函数的奇偶性）得到 \(e^{-i\theta} = cos(\theta) -isin(\theta)\)，将欧拉公式和这个式子相减，我们就可以得到 \(e^{i\theta}-e^{-i\theta}=2isin(\theta)\)，把 \(2i\) 移动一下，就得到了我们想要的关于 \(sin(z)\) 函数的一般式子：</p>
+
+\[sin(z) = \frac{1}{2i}e^{iz} - \frac{1}{2i}e^{-iz}\]
+
+<p>代回原题，我们得到：</p>
+
+\[\begin{aligned}
+sin(x) &amp;= 2 \\
+\frac{1}{2i}e^{ix} - \frac{1}{2i}e^{-ix} &amp;= 2 \\
+e^{ix} - e^{-ix} &amp;= 4i \\
+e^{ix} - (e^{ix})^{-1} &amp;= 4i \\
+e^{ix} - \frac{1}{e^{ix}} &amp;= 4i
+\end{aligned}\]
+
+<h3 id="二次函数">二次函数</h3>
+
+<p>到这里其实我们可以看到一个极其明显的 <strong>二次函数</strong>，我们不妨设 \(m = e^{ix}\)，那么我们有：</p>
+
+\[\begin{aligned}
+m - \frac{1}{m} &amp;= 4i \\
+m^2-1 &amp;= 4mi \\
+m^2 -4im -1 &amp;= 0 \\
+m &amp;= \frac{4i \pm \sqrt{(-4i)^2+4}}{2} \\
+m &amp;= \frac{4i \pm \sqrt{-12}}{2} \\
+m &amp;= \frac{4i \pm 2\sqrt{3}i}{2} \\
+m &amp;= 2i \pm \sqrt{3}i \\
+m &amp;= (2\pm\sqrt{3})i \\
+e^{ix} &amp;= (2\pm\sqrt{3})i
+\end{aligned}\]
+
+<h3 id="巧妙的复数运算">巧妙的复数运算</h3>
+
+\[\begin{aligned}
+e^{ix} &amp;= (2\pm\sqrt{3})i \\
+ln(e^{ix}) &amp;= ln((2\pm\sqrt{3})i) \\
+ix &amp;= ln(i)+ln(2 \pm \sqrt{3}))
+\end{aligned}\]
+
+<p>这里面现在剩下最难懂的东西就是 \(ln(i)\) 了，偷懒的人输入进 Wolfram Alpha，它告诉你答案是 \(\frac{i\pi}{2}\)。但是很可惜，这不是所有的解，我们还是最好想一下这东西是怎么来的。</p>
+
+<p>我们考虑对于所有的 \(z = re^{i\theta}\)，其中 \(r\) 是复数的模长，那么 \(ln(z) = ln(r) + i\theta\)。很可惜同一个 \(z\) 不止能被一个 \(re^{i\theta}\) 描述，因为实际上 \(z = re^{i(\theta + 2\pi n)}, (n \in \mathbb{Z})\) 都成立，于是我们有 \(ln(z) = ln(r) + i\theta + 2\pi ni\)。代入 \(ln(i) = ln1 + \frac{i\pi}{2} + 2\pi ni=\frac{i\pi}{2} + 2\pi ni, (n \in \mathbb{Z})\)。继续代回原式：</p>
+
+\[\begin{aligned}
+ix &amp;= \frac{i\pi}{2} + 2\pi ni + ln(2 \pm \sqrt{3})) \\
+x &amp;= \frac{\frac{i\pi}{2} + 2\pi ni + ln(2 \pm \sqrt{3}))}{i} \\
+x &amp;= \frac{\pi}{2}+\frac{ln(2\pm\sqrt{3})}{i}+ 2\pi n \\
+x &amp;= \frac{\pi}{2}-ln(2\pm\sqrt{3})i+2\pi n, (n\in \mathbb{Z})
+\end{aligned}\]
+
+<h2 id="阅卷过程">阅卷过程</h2>
+
+<p>如果你提交的答案是：</p>
+
+\[x = \frac{\pi}{2} \pm ln(2 + \sqrt{3})i + 2\pi n, (n \in \mathbb{Z})\]
+
+<p>这也是对的，这经过了一步非常精妙的化简，并且是大多数复分析教科书中的标准答案。</p>
+
+<p>化简正确性的证明：</p>
+
+\[\begin{aligned}
+&amp; -ln(2+\sqrt3) - ln(2-\sqrt3)) \\
+&amp;= -(ln(2 + \sqrt{3})+ln(2 - \sqrt{3}))\\
+&amp;= -ln((2 + \sqrt{3})(2 - \sqrt{3})) \\
+&amp;= -ln(2^2-\sqrt3^2) \\
+&amp;= -ln(4-3) \\
+&amp;= -ln1 \\
+&amp;= 0
+\end{aligned}\]
+
+<p>我收到了如下的错误答案：</p>
+
+<ol>
+  <li>\(x =  - \frac{\pi}{2}\pm i \ln\left(2 + \sqrt{3}\right) + 2\pi n, (n \in \mathbb{Z})\)。这个据提交者说是 GPT o1-preview 的答案（原版本的 LaTeX 格式甚至都有错误，我手动做了修正）。粗看差点以为是对的，仔细一看和正确答案正好差了一个 \(\pi\)。我试着上 GPT o1-preview 上复现了一下，发现算法和正确答案几乎是一样的，然后从某个时刻开始突然就想要凑教科书版本的那个答案，然后就错了…</li>
+  <li>\(x=\frac{\pi}{2} - i\ln(2+\sqrt{3})+ 2\pi n\) 。这个答案提交者没有说是什么 AI 算的，但是我怎么看都不像人算的（原版本的 \(\LaTeX\) 错误数量非常多，比上面那个多了一倍，我手动做了修正），而且还少了一半的解，少的位置也很离谱。</li>
+</ol>
+
+<p>在所有声明了是 AI 做的答案中，只有一份是正确的（虽然正确的那份完全没过程，直接背了个答案上来）。我去复现了一下，发现 GPT o1-preview 算法几乎都是对的。但这题教科书版本的答案在最后有一步极其精妙的化简，当然这步不做也不影响正确性。o1-preview 一开始计算过程完全正确，但是从某个时刻开始，就拼了命地想往这个教科书版本的答案凑，然后就凑错了。甚至在凑错前 \(\LaTeX\) 的格式至少还是对的，从凑错开始连 \(\LaTeX\) 的格式都开始胡写了。<del>人工队得分，机器队没得分。</del></p>
+
+<h2 id="偷鸡">偷鸡</h2>
+
+<p>把 \(sin(x) = 2\) 输到 Wolfram Alpha 里，给了两组解：</p>
+
+<ol>
+  <li>
+\[x = 2\pi n + \pi - sin^{-1}(2), n \in \mathbb{Z}\]
+  </li>
+  <li>
+\[x = 2\pi n + sin^{-1}(2), n \in \mathbb{Z}\]
+  </li>
+</ol>
+
+<p>看起来是个基于诱导公式的废话，不过如果我们继续再在 Wolfram Alpha 里搜一下 \(arcsin(2)\)，又得到一种 Alternate form: \(\frac{\pi}{2}-iln(2+\sqrt{3})\)。（我这里把 Wolfram Alpha 用的 \(log\) 换成了 \(ln\) 符号）。</p>
+
+<p>然后代入回去得到两组解：</p>
+
+<ol>
+  <li>
+\[x = 2\pi n +\frac{\pi}{2}+iln(2+\sqrt{3}), n \in \mathbb{Z}\]
+  </li>
+  <li>
+\[x = 2\pi n + \frac{\pi}{2}-iln(2+\sqrt{3}) , n \in \mathbb{Z}\]
+  </li>
+</ol>
+
+<p>简化一下得到：</p>
+
+\[x = 2\pi n + \frac{\pi}{2} \pm iln(2+\sqrt{3}) , n \in \mathbb{Z}\]
+
+<p>偷完了。<del>传统专家模型得一分，大型语言模型没得分。</del></p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/%E6%95%B0%E5%AD%A6" class="page__taxonomy-item p-category" rel="tag">数学</a><span class="sep">, </span>
+    
+      <a href="/tags/%E6%95%B0%E5%AD%A6%E5%88%86%E6%9E%90" class="page__taxonomy-item p-category" rel="tag">数学分析</a>
+    
+    </span>
+  </p>
+
+
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2024-11-18T01:00:00+08:00">November 18, 2024</time></p>
+
+      </footer>
+
+      
+
+      
+    </div>
+
+    
+  </article>
+
+  
+  
+</div>
+
+      
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';" role="search">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2024 <a href="https://coderemixer.com">Coderemixer 代码混音师</a>. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FHQPM1YDDJ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-FHQPM1YDDJ', { 'anonymize_ip': false});
+</script>
+
+
+
+
+
+
+
+
+  </body>
+</html>
