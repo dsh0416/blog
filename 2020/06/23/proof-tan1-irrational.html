@@ -10,8 +10,8 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>BCD、COBOL、千年虫和昭和 100 年问题 - Coderemixer 代码混音师</title>
-<meta name="description" content="上篇文章 里我们讲到了定点数和浮点数的区别，我们认识到这两个数字在精度对待上的差异。但是这两个类型的数字都是二进制数，而有些数字本身就是很难用二进制表达的。">
+<!-- begin _includes/seo.html --><title>证明 tan1° 是无理数 - Coderemixer 代码混音师</title>
+<meta name="description" content="互联网上有一道有名的据说是京都大学的入学题（未经考证），证明 tan1° 是无理数。">
 
 
   <meta name="author" content="CodeRemixer">
@@ -23,26 +23,26 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="Coderemixer 代码混音师">
-<meta property="og:title" content="BCD、COBOL、千年虫和昭和 100 年问题">
-<meta property="og:url" content="https://coderemixer.com/2020/05/24/bcd-cobol-showa-100-years-problem">
+<meta property="og:title" content="证明 tan1° 是无理数">
+<meta property="og:url" content="https://coderemixer.com/2020/06/23/proof-tan1-irrational">
 
 
-  <meta property="og:description" content="上篇文章 里我们讲到了定点数和浮点数的区别，我们认识到这两个数字在精度对待上的差异。但是这两个类型的数字都是二进制数，而有些数字本身就是很难用二进制表达的。">
-
-
-
-
-
-
-
-  <meta property="article:published_time" content="2020-05-24T12:23:23+08:00">
+  <meta property="og:description" content="互联网上有一道有名的据说是京都大学的入学题（未经考证），证明 tan1° 是无理数。">
 
 
 
 
 
 
-<link rel="canonical" href="https://coderemixer.com/2020/05/24/bcd-cobol-showa-100-years-problem">
+
+  <meta property="article:published_time" content="2020-06-23T20:32:00+08:00">
+
+
+
+
+
+
+<link rel="canonical" href="https://coderemixer.com/2020/06/23/proof-tan1-irrational">
 
 
 
@@ -271,16 +271,16 @@
 
 
   <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="BCD、COBOL、千年虫和昭和 100 年问题">
-    <meta itemprop="description" content="上篇文章 里我们讲到了定点数和浮点数的区别，我们认识到这两个数字在精度对待上的差异。但是这两个类型的数字都是二进制数，而有些数字本身就是很难用二进制表达的。">
-    <meta itemprop="datePublished" content="2020-05-24T12:23:23+08:00">
+    <meta itemprop="headline" content="证明 tan1° 是无理数">
+    <meta itemprop="description" content="互联网上有一道有名的据说是京都大学的入学题（未经考证），证明 tan1° 是无理数。">
+    <meta itemprop="datePublished" content="2020-06-23T20:32:00+08:00">
     
 
     <div class="page__inner-wrap">
       
         <header>
           <h1 id="page-title" class="page__title p-name" itemprop="headline">
-            <a href="https://coderemixer.com/2020/05/24/bcd-cobol-showa-100-years-problem" class="u-url" itemprop="url">BCD、COBOL、千年虫和昭和 100 年问题
+            <a href="https://coderemixer.com/2020/06/23/proof-tan1-irrational" class="u-url" itemprop="url">证明 tan1° 是无理数
 </a>
           </h1>
           
@@ -291,7 +291,7 @@
       <span class="page__meta-date">
         <i class="far fa-calendar-alt" aria-hidden="true"></i>
         
-        <time datetime="2020-05-24T12:23:23+08:00">May 24, 2020</time>
+        <time datetime="2020-06-23T20:32:00+08:00">June 23, 2020</time>
       </span>
     
 
@@ -306,196 +306,25 @@
 
       <section class="page__content e-content" itemprop="text">
         
-        <p><a href="https://coderemixer.com/2020/05/22/how-floating-number-caused-strange-earthquake">上篇文章</a> 里我们讲到了定点数和浮点数的区别，我们认识到这两个数字在精度对待上的差异。但是这两个类型的数字都是二进制数，而有些数字本身就是很难用二进制表达的。</p>
+        <p>互联网上有一道有名的据说是京都大学的入学题（未经考证），证明 tan1° 是无理数。</p>
 
-<p>比如我们有一个十进制数 $0.1234$，要将其转换成二进制。如果我们采用 32 位 IEEE 754，其结果是 $00111101111111001011100100100100$，转换回十进制是 $0.1234000027179718017578125$ 造成了一个 $2.717 \times 10^{-9}$ 的误差。而如果我们定点数，我们先尝试直接转换：</p>
+<p>看大多数的解法都是反复用二倍角公式和和角公式推到一个 60° 上，归约过程很长。还不如和角公式加数学归纳法一下直接就能证明对所有正整数 tanx° 都是有理数，然后就矛盾了。</p>
 
-<p><img src="/assets/images/convert-binary.png" alt="二进制转换" /></p>
+<p>特别对于我这种四则运算日常算错的人，少算一个具体数字是一个。</p>
 
-<p>我们至少需要一个 503 位的二进制数才能表达到其开始循环的位数。而且这个在十进制中非常容易表达的数字，在二进制中却变成了非常复杂的循环小数。在一些情况下，我们对于数字在十进制下的精度非常敏感（比如银行），在这种情况下我们应该如何处理数字呢？</p>
+<h2 id="证明过程">证明过程</h2>
 
-<h2 id="bcd-二进码十进数">BCD (二进码十进数)</h2>
+<p>证明 $tan1°$ 是无理数，即证明 $tan1°$ 是有理数这一结论为假。</p>
 
-<p>对于一个 N 位二进制数，我们很容易知道，其能表达的最大数字量是 $2^N$ 个。十进制数的每一位需要能表达 10 个不同的数字。于是我们有方程 $log_{10}2^N = 1, \lceil N \rceil = 4$，我们可以用 4 个二进制数表达 1 个十进制数（忽略多出来的 6 个数字）。也就是如下表的对应关系：</p>
+<p>假设存在一个 $x, x\in \mathbb{Z+}$，使得 $tanx°$ 是有理数；那么 $tan(x+1)° = \frac{tanx° + tan1°}{1 - tanx°tan1°}$ 也是有理数。</p>
 
-<table>
-  <thead>
-    <tr>
-      <th>十进制数</th>
-      <th>8</th>
-      <th>4</th>
-      <th>2</th>
-      <th>1</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <td>2</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <td>3</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <td>4</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <td>5</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <td>6</td>
-      <td>0</td>
-      <td>1</td>
-      <td>1</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <td>7</td>
-      <td>0</td>
-      <td>1</td>
-      <td>1</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <td>8</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <td>9</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <td>忽略</td>
-      <td>1</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <td>忽略</td>
-      <td>1</td>
-      <td>0</td>
-      <td>1</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <td>忽略</td>
-      <td>1</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <td>忽略</td>
-      <td>1</td>
-      <td>1</td>
-      <td>0</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <td>忽略</td>
-      <td>1</td>
-      <td>1</td>
-      <td>1</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <td>忽略</td>
-      <td>1</td>
-      <td>1</td>
-      <td>1</td>
-      <td>1</td>
-    </tr>
-  </tbody>
-</table>
+<p>假如 $tan1°$ 是有理数，由数学归纳法可得，对于所有 $x\in \mathbb{Z+}$，$tanx°$ 都是有理数。</p>
 
-<p>这就是 BCD (二进码十进数) 的核心设计理念。</p>
+<p>我们知道 $tan60° = \sqrt{3}$，而 $\sqrt{3}$ 是无理数，因此 $tan1°$ 是有理数的假设是错误的。</p>
 
-<p>BCD 在计算机中的实现历史悠久。在 Intel 1971 年制造的第一块 CPU Intel 4004 中，其计算系统就是围绕 BCD 设计的（用于驱动计算器）。在之后的 Intel 8008 甚至 x86 架构中都被保留了下来。</p>
+<p>因此 $tan1°$ 是无理数。</p>
 
-<h2 id="cobol">COBOL</h2>
-
-<p>如果我们想在高级语言中使用这一特性，COBOL 是一个很常用的选择。COBOL 出现于 1959 年，是世界上最早实施标准化的计算机语言之一。这门语言在当年是大型商业软件的热门语言。COBOL 支持一种数据类型称为 Comp-3 (Computational-3, Packed Decimal, Packed)，即是我们上面所说的 BCD 数字。</p>
-
-<p>我们来看下面的 COBOL 程序</p>
-
-<pre><code class="language-cobol">      IDENTIFICATION DIVISION.
-      PROGRAM-ID. bcd-check.
-      DATA DIVISION.
-      WORKING-STORAGE SECTION.
-      01 A1 PIC 9(1)V9(17) VALUE 0.1.
-      01 A2 PIC 9(1)V9(17) VALUE 0.2.
-      01 WR PIC 9(1)V9(30).
-      PROCEDURE DIVISION.
-      COMPUTE WR = A1 + A2.
-      IF 0.3 = WR THEN
-      DISPLAY "TRUE"
-      ELSE
-      DISPLAY "FALSE"
-      END-IF.
-      STOP RUN.
-</code></pre>
-
-<p>这个程序会打印 <code class="language-plaintext highlighter-rouge">TRUE</code>，也就是 0.1 + 0.2 精确地等于 0.3，采用 BCD 定点数不会像浮点数一样多出一些二进制误差。高级语言有这样的特性支持，底层的 CPU 有对应的 BCD 指令集直接进行计算，这对于开发来说不能说是不完美。</p>
-
-<p>这使得在开发银行的转账业务之类的时候，可以放心大胆地进行加减了，COBOL 在商业领域大放异彩。</p>
-
-<h2 id="x86_64">x86_64</h2>
-
-<p>然而，事情不是一成不变的。</p>
-
-<p><img src="/assets/images/amd64-logo.png" alt="AMD64" /></p>
-
-<p>1999 年 AMD 扩展了 x86 指令集，提出了新的 amd64 指令集。此后的 Intel 也采用了兼容的指令集。家用计算机从此迈入 64 位时代。并且随着 Intel 在服务器市场的发力，x86_64 也大量取代了原先的小型机、中型机市场。</p>
-
-<p>然而 amd64 真的是 x86 兼容的指令集吗？并不是。比如 BCD 相关的指令就被移除了。BCD 对于现代计算机架构来说过于复杂。而且随着计算机架构的进一步发展，特别是今天的 CPU 大量依靠 SIMD 指令来提高性能，而 BCD 这种无法很好对齐二进制的数据处理方式给 SIMD 带来极大的困难，要想让 BCD 在 CPU 指令级别借尸还魂几乎不可能。</p>
-
-<p>不过这问题不大，毕竟 COBOL 编译器也有在升级，虽然性能上有一定影响但问题不算太大。</p>
-
-<h2 id="千年虫和昭和-100-年问题">千年虫和昭和 100 年问题</h2>
-
-<p><img src="/assets/images/reiwa.jpg" alt="令和" /></p>
-
-<p>昭和虽然在 1989 年就结束了，但是昭和魂却仍大量活在日本的银行系统中。计算机内部需要一套稳定的纪年方法。在 8/16 位机年代，内存寸土寸金。一般纪年都是通过两位数字来表示，为了方便输出通常用的也是 BCD 整数。比如 1919 年就记成 19。然而随着 2000 年的到来，99 变成 00，直接一夜回到 100 年以前，会造成大量系统故障。这就是所谓「千年虫问题」。日本工程师在设计系统时考虑到千年虫问题会在 2000 年到来，如果使用昭和纪年法，要到昭和 100 年才会遇到类似问题，将千年虫问题延后了 25 年，到 2025 年才会被触发。</p>
-
-<p>2025 年就是 5 年后，然而 COBOL 在今天已经是几乎被淘汰的语言了，BCD 在常用 CPU 的指令集中再也找不到了。也就是说当年编译的程序如果没有源码将无法二进制兼容地移到新机器上，更不要说通过二进制修改替换成 32 位或者 64 位 BCD 数来直接避开问题。就算有源码，懂怎么写 COBOL 的人也快变成了珍惜资源。当年决定要用昭和来避开千年虫的人恐怕也早就退休了。</p>
-
-<p>于是五年后的日本将如何应对昭和 100 年问题，让我们继续看下去。</p>
+<p>证明完毕。</p>
 
         
       </section>
@@ -512,13 +341,9 @@
     <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
     <span itemprop="keywords">
     
-      <a href="/tags/cobol" class="page__taxonomy-item p-category" rel="tag">COBOL</a><span class="sep">, </span>
+      <a href="/tags/%E4%B8%89%E8%A7%92%E5%87%BD%E6%95%B0" class="page__taxonomy-item p-category" rel="tag">三角函数</a><span class="sep">, </span>
     
-      <a href="/tags/%E6%97%A5%E6%9C%AC" class="page__taxonomy-item p-category" rel="tag">日本</a><span class="sep">, </span>
-    
-      <a href="/tags/%E6%98%AD%E5%92%8C" class="page__taxonomy-item p-category" rel="tag">昭和</a><span class="sep">, </span>
-    
-      <a href="/tags/%E7%AE%97%E6%B3%95" class="page__taxonomy-item p-category" rel="tag">算法</a>
+      <a href="/tags/%E6%95%B0%E5%AD%A6" class="page__taxonomy-item p-category" rel="tag">数学</a>
     
     </span>
   </p>
@@ -528,29 +353,29 @@
 
         
 
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2020-05-24T12:23:23+08:00">May 24, 2020</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2020-06-23T20:32:00+08:00">June 23, 2020</time></p>
 
       </footer>
 
       <section class="page__share">
   
 
-  <a href="https://twitter.com/intent/tweet?text=BCD%E3%80%81COBOL%E3%80%81%E5%8D%83%E5%B9%B4%E8%99%AB%E5%92%8C%E6%98%AD%E5%92%8C+100+%E5%B9%B4%E9%97%AE%E9%A2%98%20https%3A%2F%2Fcoderemixer.com%2F2020%2F05%2F24%2Fbcd-cobol-showa-100-years-problem" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+  <a href="https://twitter.com/intent/tweet?text=%E8%AF%81%E6%98%8E+tan1%C2%B0+%E6%98%AF%E6%97%A0%E7%90%86%E6%95%B0%20https%3A%2F%2Fcoderemixer.com%2F2020%2F06%2F23%2Fproof-tan1-irrational" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
 
-  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fcoderemixer.com%2F2020%2F05%2F24%2Fbcd-cobol-showa-100-years-problem" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fcoderemixer.com%2F2020%2F06%2F23%2Fproof-tan1-irrational" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
 
-  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://coderemixer.com/2020/05/24/bcd-cobol-showa-100-years-problem" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://coderemixer.com/2020/06/23/proof-tan1-irrational" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
 </section>
 
 
       
   <nav class="pagination">
     
-      <a href="/2020/05/22/how-floating-number-caused-strange-earthquake" class="pagination--pager" title="浮点数如何导致了 4.92000008 级地震？
+      <a href="/2020/05/24/bcd-cobol-showa-100-years-problem" class="pagination--pager" title="BCD、COBOL、千年虫和昭和 100 年问题
 ">Previous</a>
     
     
-      <a href="/2020/06/23/proof-tan1-irrational" class="pagination--pager" title="证明 tan1° 是无理数
+      <a href="/2020/07/26/whats-new-in-ruby-3-fiber" class="pagination--pager" title="Ruby 3 Fiber 变化前瞻
 ">Next</a>
     
   </nav>
@@ -822,8 +647,8 @@
     
   <script>
     var disqus_config = function () {
-      this.page.url = "https://coderemixer.com/2020/05/24/bcd-cobol-showa-100-years-problem";  /* Replace PAGE_URL with your page's canonical URL variable */
-      this.page.identifier = "/2020/05/24/bcd-cobol-showa-100-years-problem"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+      this.page.url = "https://coderemixer.com/2020/06/23/proof-tan1-irrational";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/2020/06/23/proof-tan1-irrational"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
     };
     (function() { /* DON'T EDIT BELOW THIS LINE */
       var d = document, s = d.createElement('script');

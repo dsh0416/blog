@@ -10,19 +10,21 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>数学 - Coderemixer 代码混音师</title>
+<!-- begin _includes/seo.html --><title>证明 tan1° 是无理数 - Coderemixer 代码混音师</title>
 <meta name="description" content="一个用来发牢骚的网站，以至于无法对所说的话负责。">
 
 
   <meta name="author" content="CodeRemixer">
   
+  <meta property="article:author" content="CodeRemixer">
+  
 
 
-<meta property="og:type" content="website">
+<meta property="og:type" content="article">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="Coderemixer 代码混音师">
-<meta property="og:title" content="数学">
-<meta property="og:url" content="https://coderemixer.com/tags/%E6%95%B0%E5%AD%A6/">
+<meta property="og:title" content="证明 tan1° 是无理数">
+<meta property="og:url" content="https://coderemixer.com/_posts/2020-06-03-proof-tan1-irrational">
 
 
   <meta property="og:description" content="一个用来发牢骚的网站，以至于无法对所说的话负责。">
@@ -33,12 +35,14 @@
 
 
 
+  <meta property="article:published_time" content="2020-06-23T20:32:00+08:00">
 
 
 
 
 
-<link rel="canonical" href="https://coderemixer.com/tags/%E6%95%B0%E5%AD%A6/">
+
+<link rel="canonical" href="https://coderemixer.com/_posts/2020-06-03-proof-tan1-irrational">
 
 
 
@@ -92,7 +96,7 @@
 
   </head>
 
-  <body class="layout--archive-taxonomy">
+  <body class="layout--single">
     <nav class="skip-links">
   <ul>
     <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
@@ -140,6 +144,8 @@
 
     <div class="initial-content">
       
+
+
 
 
 
@@ -264,160 +270,88 @@
 
 
 
-  <div class="archive">
+  <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="证明 tan1° 是无理数">
     
-      <h1 id="page-title" class="page__title">数学</h1>
+    <meta itemprop="datePublished" content="2020-06-23T20:32:00+08:00">
     
-    
+
+    <div class="page__inner-wrap">
       
-
-
-
-<div class="list__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/2024/11/18/sinx-equals-2" rel="permalink">sin(x) = 2 的数学对决
+        <header>
+          <h1 id="page-title" class="page__title p-name" itemprop="headline">
+            <a href="https://coderemixer.com/_posts/2020-06-03-proof-tan1-irrational" class="u-url" itemprop="url">证明 tan1° 是无理数
 </a>
-      
-    </h2>
-    
+          </h1>
+          
 
-  <p class="page__meta">
-    
+
+        </header>
       
-      <span class="page__meta-date">
-        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+
+      <section class="page__content e-content" itemprop="text">
         
-        <time datetime="2024-11-18T01:00:00+08:00">November 18, 2024</time>
-      </span>
-    
+        <p>互联网上有一道有名的据说是京都大学的入学题（未经考证），证明 tan1° 是无理数。</p>
 
-    
+<p>看大多数的解法都是反复用二倍角公式和和角公式推到一个 60° 上，归约过程很长。还不如和角公式加数学归纳法一下直接就能证明对所有正整数 tanx° 都是有理数，然后就矛盾了。</p>
 
+<p>特别对于我这种四则运算日常算错的人，少算一个具体数字是一个。</p>
+
+<h2 id="证明过程">证明过程</h2>
+
+<p>证明 $tan1°$ 是无理数，即证明 $tan1°$ 是有理数这一结论为假。</p>
+
+<p>假设存在一个 $x, x\in \mathbb{Z+}$，使得 $tanx°$ 是有理数；那么 $tan(x+1)° = \frac{tanx° + tan1°}{1 - tanx°tan1°}$ 也是有理数。</p>
+
+<p>假如 $tan1°$ 是有理数，由数学归纳法可得，对于所有 $x\in \mathbb{Z+}$，$tanx°$ 都是有理数。</p>
+
+<p>我们知道 $tan60° = \sqrt{3}$，而 $\sqrt{3}$ 是无理数，因此 $tan1°$ 是有理数的假设是错误的。</p>
+
+<p>因此 $tan1°$ 是无理数。</p>
+
+<p>证明完毕。</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
     
+      <a href="/tags/%E4%B8%89%E8%A7%92%E5%87%BD%E6%95%B0" class="page__taxonomy-item p-category" rel="tag">三角函数</a><span class="sep">, </span>
+    
+      <a href="/tags/%E6%95%B0%E5%AD%A6" class="page__taxonomy-item p-category" rel="tag">数学</a>
+    
+    </span>
   </p>
 
 
-    <p class="archive__item-excerpt" itemprop="description">这周末我在微信朋友圈搞了个有趣的数学对决。我给 24 小时内所有解出了这个谜题的人都发了 50 元的红包。题目本身其实不算很难，甚至是一道复分析书上的例题。不过试图使用 LLM 来算这道题的人表现出了很神秘的高度一致的错误…
-</p>
-  </article>
-</div>
-
-    
-      
 
 
-
-<div class="list__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/2020/06/23/proof-tan1-irrational" rel="permalink">证明 tan1° 是无理数
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-      
-      <span class="page__meta-date">
-        <i class="far fa-calendar-alt" aria-hidden="true"></i>
         
-        <time datetime="2020-06-23T20:32:00+08:00">June 23, 2020</time>
-      </span>
-    
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2020-06-23T20:32:00+08:00">June 23, 2020</time></p>
+
+      </footer>
+
+      
+
+      
+    </div>
 
     
-
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">互联网上有一道有名的据说是京都大学的入学题（未经考证），证明 tan1° 是无理数。
-</p>
   </article>
-</div>
 
-    
-      
-
-
-
-<div class="list__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/2020/05/21/whos-the-most-beautiful-woman-in-the-world" rel="permalink">女朋友问你「我是不是世界上最好看的女人？」怎么办
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-      
-      <span class="page__meta-date">
-        <i class="far fa-calendar-alt" aria-hidden="true"></i>
-        
-        <time datetime="2020-05-21T01:07:43+08:00">May 21, 2020</time>
-      </span>
-    
-
-    
-
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">如果你女朋友问你「我是不是世界上最好看的女人？」
-</p>
-  </article>
-</div>
-
-    
-      
-
-
-
-<div class="list__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/2019/03/26/wechat-red-envelope-analyze" rel="permalink">微信红包背后的赌博游戏
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-      
-      <span class="page__meta-date">
-        <i class="far fa-calendar-alt" aria-hidden="true"></i>
-        
-        <time datetime="2019-03-26T23:15:09+08:00">March 26, 2019</time>
-      </span>
-    
-
-    
-
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">序
-</p>
-  </article>
-</div>
-
-    
-  </div>
+  
+  
 </div>
 
       
