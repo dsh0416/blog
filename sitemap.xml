@@ -13,10 +13,6 @@
 <lastmod>2017-02-14T21:51:58+08:00</lastmod>
 </url>
 <url>
-<loc>https://coderemixer.com/2017/05/17/spit-bugs</loc>
-<lastmod>2017-05-17T22:10:50+08:00</lastmod>
-</url>
-<url>
 <loc>https://coderemixer.com/2017/05/22/mass-produced-engineers</loc>
 <lastmod>2017-05-22T17:03:10+08:00</lastmod>
 </url>
@@ -83,6 +79,10 @@
 <url>
 <loc>https://coderemixer.com/2019/03/26/wechat-red-envelope-analyze</loc>
 <lastmod>2019-03-26T23:15:09+08:00</lastmod>
+</url>
+<url>
+<loc>https://coderemixer.com/2019/05/04/donburi-in-chinese</loc>
+<lastmod>2019-05-04T15:32:00+08:00</lastmod>
 </url>
 <url>
 <loc>https://coderemixer.com/2019/08/12/ingress-resistance-shonan-homogeneous-field</loc>
@@ -274,9 +274,6 @@
 <loc>https://coderemixer.com/_posts/2017-02-14-build-up-x79-workstation</loc>
 </url>
 <url>
-<loc>https://coderemixer.com/_posts/2017-05-17-spit-bugs</loc>
-</url>
-<url>
 <loc>https://coderemixer.com/_posts/2017-05-22-mass-produced-engineers</loc>
 </url>
 <url>
@@ -323,6 +320,9 @@
 </url>
 <url>
 <loc>https://coderemixer.com/_posts/2019-03-26-wechat-red-envelope-analyze</loc>
+</url>
+<url>
+<loc>https://coderemixer.com/_posts/2019-05-04-donburi-in-chinese</loc>
 </url>
 <url>
 <loc>https://coderemixer.com/_posts/2019-07-19-why-i-hear-all-ha-into-wa</loc>
@@ -479,12 +479,6 @@
 </url>
 <url>
 <loc>https://coderemixer.com/tags/%E7%94%9F%E6%B4%BB/</loc>
-</url>
-<url>
-<loc>https://coderemixer.com/tags/%E7%9E%8E%E6%89%AF%E8%9B%8B/</loc>
-</url>
-<url>
-<loc>https://coderemixer.com/tags/%E7%9B%B8%E5%A3%B0/</loc>
 </url>
 <url>
 <loc>https://coderemixer.com/tags/%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4/</loc>
