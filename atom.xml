@@ -1,4 +1,32 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://coderemixer.com/atom.xml" rel="self" type="application/atom+xml" /><link href="https://coderemixer.com/" rel="alternate" type="text/html" /><updated>2025-06-10T22:09:44+08:00</updated><id>https://coderemixer.com/atom.xml</id><title type="html">Coderemixer 代码混音师</title><subtitle>一个用来发牢骚的网站，以至于无法对所说的话负责。</subtitle><author><name>CodeRemixer</name></author><entry><title type="html">当我们吹嘘量子并行计算的时候</title><link href="https://coderemixer.com/2025/02/28/how-quantum-computing-works" rel="alternate" type="text/html" title="当我们吹嘘量子并行计算的时候" /><published>2025-02-28T13:00:00+08:00</published><updated>2025-02-28T13:00:00+08:00</updated><id>https://coderemixer.com/2025/02/28/how-quantum-computing-works</id><content type="html" xml:base="https://coderemixer.com/2025/02/28/how-quantum-computing-works"><![CDATA[<p>昨天晚上和老金聊到微软的 Majorana 1 的时候，我说了一段关于量子计算研究的评论。我觉得很有必要再说一次。</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://coderemixer.com/atom.xml" rel="self" type="application/atom+xml" /><link href="https://coderemixer.com/" rel="alternate" type="text/html" /><updated>2025-06-22T17:08:12+08:00</updated><id>https://coderemixer.com/atom.xml</id><title type="html">Coderemixer 代码混音师</title><subtitle>一个用来发牢骚的网站，以至于无法对所说的话负责。</subtitle><author><name>CodeRemixer</name></author><entry><title type="html">上海国际电影节大卫林奇通宵场观影感受</title><link href="https://coderemixer.com/2025/06/22/siff-david-lynch" rel="alternate" type="text/html" title="上海国际电影节大卫林奇通宵场观影感受" /><published>2025-06-22T17:03:00+08:00</published><updated>2025-06-22T17:03:00+08:00</updated><id>https://coderemixer.com/2025/06/22/siff-david-lynch</id><content type="html" xml:base="https://coderemixer.com/2025/06/22/siff-david-lynch"><![CDATA[<p>昨天 11 点看了上海国际电影节 6 个小时的大卫林奇通宵场散场电影连映《橡皮头》、《妖夜慌踪》、《穆赫兰道》（ <em>Eraserhead</em> + <em>Lost Highway</em> + <em>Mulholland Drive</em>）。观影完之后，有一位观众（下面简称 A）在电影院发表了对《橡皮头》放映非常大的意见。A 的核心观点是觉得杜比厅放映这部电影画面大量出现全黑和全白、画面闪烁的对比度实在太大；但是 A 把问题怀疑到了杜比放映技术本身上，排除了 4K 修复的问题。但其实这个问题几乎广泛存在于所有数字放映电影上，尤其是数字修复电影上，我们不妨可以来讨论一下这个问题。</p>
+
+<h2 id="亮度和量化">亮度和量化</h2>
+
+<p>放映对亮度是有严格定义的。如果你购买过电视，我们知道通常我们用 nit（尼特）单位来衡量亮度，1 nit = 1 cd/m²。常见的广电标准中，sRGB 色域中的白点一般描述为一个 100nit 亮度的 6500K 色温的点表示画面中最亮的点。</p>
+
+<p>数字放映下的另一个非常重要的概念是量化。一个 8bit 的量化意味着我们从最暗到最亮能区分出 256 种不同的亮度；HDR 内容通常需要 10bit 的量化，这使得我们可以区分出 1024 种不同的亮度。然而人类对亮度的认知并不是线性的。显而易见地，画面中偏暗的内容人更容易分清它们的亮度区别。这意味着我们对这 256/1024 种亮度的分配也是不均匀的，这需要通过应用 Gamma 曲线来呈现出画面的更多细节。</p>
+
+<p>在今天做得比较好的电影院里，针对 DCI-P3 色域下的颜色和亮度都能给出非常严肃和准确的测量和定义。杜比放映设备的量化支持一般也都有 10bit，这其实提供了很好的色彩科学条件，<strong>只要放映的内容本身是按照这样的条件处理的</strong>。然而这根本做不到。</p>
+
+<h2 id="旧胶片的局限">旧胶片的局限</h2>
+
+<p>然而电影归根究底是艺术，不是准确还原。这件事情在胶片时代更是尤其有难度。</p>
+
+<p>在《橡皮头》拍摄的 1970s，最常用的黑白胶片应该是 Kodak Tri-X，和今天 Kodak Vision 系列惊人的宽容度不同，Kodak Tri-X 的宽容度一般认为是大约 9 档曝光，这个宽容度甚至无法塞满今天 SDR 内容，更不用说电影院的拷贝片不一定能保持这个宽容度。因此导演可以通过在做拍摄时渐层和使用 Contrast Filter 来降低对比度，母带处理时再通过胶片拷贝延长曝光时间或者改变冲印方式来二次调整这条曲线。</p>
+
+<p>考虑到这点，以上海影城（SHO）的杜比厅的放映条件而言，很难说是放映机的硬件条件导致了宽容度不足或暗部细节消失。因为今天的放映设备的硬件能力太强了，而且我们对色彩科学的研究真的可以很好保证数字格式在这些做得比较好的厅中播放出非常相近的效果。</p>
+
+<h2 id="色调映射tone-mapping">色调映射（Tone mapping）</h2>
+
+<p>然而 1970s 也没有 100nit 的亮度标准（其实今天也没有，更像是某种约定俗成）。我们至今也无法知道在大卫林奇拍摄电影的时候，它严重希望这些黑白闪烁是以何种亮度进行的。以我朴素的观察来看，《橡皮头》的 4K 修复版本至少没用使用 HDR 色域内的亮度。而增加对比度可以保留更多的细节（这和上面说到的数字放映的量化有关），自然白色就会顶得过亮了。我甚至合理怀疑 1970s 的大多数放映设备甚至很可能是不满足 100nit 亮度的，这件事情应该是和 1970s 电影放映时候的结果很不一致的。</p>
+
+<p>当然在放映时，需要通过色调映射（Tone mapping）来将 SDR 内容映射到实际的放映亮度上，需要根据内容的实际亮度范围和放映设备的能力来进行调整。对于《橡皮头》这样的黑白电影，色调映射可能会导致画面中某些细节在高对比度下消失，尤其是在全黑和全白之间的过渡。查询 <a href="https://professionalsupport.dolby.com/s/article/The-Dolby-Vision-Trim-Controls?language=en_US">The Dolby Vision Trim Controls</a> 的文档，我们发现是提供工具将 SDR 电影正确映射到以 100nit 为标准的放映亮度上，而不会用到 HDR 支持的那些特别按特别亮的点上。所以应该和杜比本身更高的对比或宽容度支持无关。</p>
+
+<h2 id="问题">问题</h2>
+
+<p>我觉得这个锅超过一半还是要扣在 4K 修复这件事情上的，问题不出在 4K，问题其实出在胶片的数字化上。考虑到历史的局限性，在做胶片数字化时，其实很难将过去的放映效果完全正确科学地量化。这反而让色彩处理越正确的厅越吃亏。当然确实如果现在是个小影厅，屏幕小一点，投影仪够烂亮度不达标可能感知上还好一点，但仰赖设备不佳带来的不确定的放映体验毕竟不是做修复和档案的正常思路。</p>
+
+<p>当然这个放映环境其实是有别的问题的。首先是这个荧幕太大了，这使得视场角非常大。人眼超过 90 度的视场角都被荧幕覆盖了，这在 1970s 简直不敢想象。这使得画面黑白闪烁时，人眼瞳孔根本来不及切换，这反而导致很多细节没法看清。进一步地，环境光反射处理地非常不好，反射光通过照亮了舞台、音响、观众的脸上又二次返回回了荧幕上，导致了更多的细节消失。</p>]]></content><author><name>CodeRemixer</name></author><category term="电影" /><category term="大卫林奇" /><category term="色彩科学" /><summary type="html"><![CDATA[昨天 11 点看了上海国际电影节 6 个小时的大卫林奇通宵场散场电影连映《橡皮头》、《妖夜慌踪》、《穆赫兰道》（ Eraserhead + Lost Highway + Mulholland Drive）。观影完之后，有一位观众（下面简称 A）在电影院发表了对《橡皮头》放映非常大的意见。A 的核心观点是觉得杜比厅放映这部电影画面大量出现全黑和全白、画面闪烁的对比度实在太大；但是 A 把问题怀疑到了杜比放映技术本身上，排除了 4K 修复的问题。但其实这个问题几乎广泛存在于所有数字放映电影上，尤其是数字修复电影上，我们不妨可以来讨论一下这个问题。]]></summary></entry><entry><title type="html">当我们吹嘘量子并行计算的时候</title><link href="https://coderemixer.com/2025/02/28/how-quantum-computing-works" rel="alternate" type="text/html" title="当我们吹嘘量子并行计算的时候" /><published>2025-02-28T13:00:00+08:00</published><updated>2025-02-28T13:00:00+08:00</updated><id>https://coderemixer.com/2025/02/28/how-quantum-computing-works</id><content type="html" xml:base="https://coderemixer.com/2025/02/28/how-quantum-computing-works"><![CDATA[<p>昨天晚上和老金聊到微软的 Majorana 1 的时候，我说了一段关于量子计算研究的评论。我觉得很有必要再说一次。</p>
 
 <p>我想起 2016 年加拿大总理特鲁多给记者解释量子计算的视频在互联网上被疯传[1]。特鲁多对量子计算的解释概括来说是基于「量子并行计算」概念的，也就是说传统的比特只能同时表达 0 或 1，随着位数的增加，为了在一个庞大的搜索空间中寻找到答案，我们需要枚举所有的答案；而量子比特（qubit）可以同时表达 0 和 1，因此一组 qubits 可以同时表达所有可能的答案，并行地找到我们想要的答案。</p>
 
@@ -1165,288 +1193,4 @@ P(\alpha\gt\beta,t)&amp;=\frac{\gamma(\alpha,t)}{\gamma(\alpha,t)+\gamma(\beta,t
 
 <p>还有一个我感觉有点失望的是，在 2018 年游戏的最终谜题中，制作人构造了一个相当精妙的 NP 问题，使得游戏对于玩家试图枚举答案的搜索空间有一个精确的约束，可以极好地控制难度。但这样的数值设计思想没有体现在今年的游戏中。感觉一题这样的东西都没有，很奇怪。</p>
 
-<p>整体感觉今天学到很多，不管是好的方面还是不好的方面。希望明年的游戏可以更好。</p>]]></content><author><name>CodeRemixer</name></author><category term="游戏" /><category term="设计" /><category term="混合现实" /><category term="地下謎" /><summary type="html"><![CDATA[2019 年我写过一篇《平成最后的烂尾游戏——东京地下铁 2018 解谜游戏设计分析》。2020 年因为 COVID-19 的原因，没怎么敢出门错过了 Tokyo Metro 地下谜 2019。 有人说我其实玩过 2019，并且还解得很快… 然后我想起来了，确实玩过，并且谜题极其简单，很快速就过了，以至于我甚至没有回家写 review。而 2021 年的地下谜又被取消了，乘着 2023 年地下谜延长了举办时间，当然是务必来日本玩了这个游戏。]]></summary></entry><entry><title type="html">三点几嚟，饮茶先啦 —— 将大马饮料名编译成汉语</title><link href="https://coderemixer.com/2021/07/05/compile-malay-tea-name" rel="alternate" type="text/html" title="三点几嚟，饮茶先啦 —— 将大马饮料名编译成汉语" /><published>2021-07-05T12:44:49+08:00</published><updated>2021-07-05T12:44:49+08:00</updated><id>https://coderemixer.com/2021/07/05/compile-malay-tea-name</id><content type="html" xml:base="https://coderemixer.com/2021/07/05/compile-malay-tea-name"><![CDATA[<p>近几日马来西亚网友 Gurdip Singh 在 Facebook 发的这个「三点几嚟，饮茶先啦」非常流行。</p>
-
-<p>Facebook: www.facebook.com/100009201465316/videos/2530411593942198</p>
-
-<p>Bilibili 搬运：https://www.bilibili.com/video/av845257746/</p>
-
-<p>不过马来语的饮料名称非常有意思。某个目前居住在新加坡的朋友 @david92 给我解释了一下，如何在店里点茶喝。基本是一个组合式的语法，非常规律。最基础的茶底是红茶（Teh）或者咖啡（Kopi）。默认饮料是带糖和炼乳的，但你可以重新定制。如果你在后面加上 O 表示不要加炼乳，而 C 表示把炼乳换成鲜奶。类似，Kosong 是无糖，Siu Dai 是少糖，而 Gah Dai 是加更多的糖。</p>
-
-<h2 id="ebnf-语法">ebnf 语法</h2>
-
-<p>我查阅了一些资料进一步完善了一下这个概念，发现这个语法完全是「可编译」的，非常简单。很快，我写了一个 bnf 语法来描述这个概念：</p>
-
-<pre><code class="language-ebnf">&lt;water&gt;     ::= "Kopi" | "Teh" | "Milo"
-&lt;sugar&gt;     ::= "Kosong" | "Siu Dai" | "Gah Dai"
-&lt;milk&gt;      ::= "O" | "C"
-&lt;thickness&gt; ::= "Po" | "Gau"
-&lt;extra&gt;     ::= "Peng" | "Bubble" | "Halia"
-&lt;upsize&gt;    ::= "Nga Lat"
-&lt;takeout&gt;   ::= "Bungkus" 
-&lt;plastic&gt;   ::= "Ikat"
-&lt;knot&gt;      ::= "Mati" | "Tepi"
-
-&lt;drink&gt;     ::=
-  (&lt;takeout&gt; (" " &lt;plastic&gt; (" " &lt;knot&gt;)?)? " ")?
-  (&lt;upsize&gt; " ")?
-  &lt;water&gt; (" " &lt;milk&gt;)? (" " &lt;sugar&gt;)?
-  (" " &lt;thickness&gt;)?
-  (" " &lt;extra&gt;)*
-</code></pre>
-
-<p>其中，Po 是清淡，Gau 是浓缩，Peng 是加冰块，Bubble 是加珍珠，Halia 是加姜汁。Nga Lat 是大杯。外带的概念比校复杂，Bungkus 是外带，通常是杯状的。像是 Bernard Tee 视频里那种塑料袋装的，叫 Ikat。Ikat 有两种不同的打结方式，一种是打死结 Mati，还有一种是侧面打结，开口的叫 Tepi。</p>
-
-<p>比如 Bungkus Ikat Mati Nga Lat Kopi O Siu Dai Gau Peng Bubble 就是外带塑料袋装打死结大杯少糖浓缩咖啡加冰块和珍珠。</p>
-
-<p>我们可以在 <a href="https://bnfplayground.pauliankline.com/">ebnf playground</a> 测试这个语法。这个网站甚至能生成随机的符合某个语法（比如这里 Drink）的字符串，来让我们人工检查这个语法对不对。于是截止这里我们还可以实现一个自动生成饮料名的生成器：https://www.bilibili.com/video/BV1SK4y197hc</p>
-
-<h2 id="实现到汉语的编译器">实现到汉语的编译器</h2>
-
-<p>Ruby 中有一个 gem 叫 ebnf 可以读取 ebnf 文件然后生成对应的 parser，然后我们写一个输出中文的 generator 即可将马来西亚语翻译成中文。</p>
-
-<p>由于 ebnf 的语法并没有规范，Ruby ebnf 库和我们刚刚 playground 中的语法有细微不同，这里做了一些变更。</p>
-
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">require</span> <span class="s2">"ebnf"</span>
-
-<span class="no">TEA_GRAMMER</span> <span class="o">=</span> <span class="o">&lt;&lt;-</span><span class="no">EOF</span><span class="sh">
-Water     ::= "Kopi" | "Teh" | "Milo"
-Sugar     ::= "Kosong" | "Siu Dai" | "Gah Dai"
-Milk      ::= "O" | "C"
-Thickness ::= "Po" | "Gau"
-Extra     ::= "Peng" | "Bubble" | "Halia"
-Upsize    ::= "Nga Lat"
-Knot      ::= "Mati" | "Tepi"
-Plastic   ::= "Ikat" Knot?
-Takeout   ::= "Bungkus" Plastic?
-
-Drink     ::= Takeout? Upsize? Water Milk? Sugar? Thickness? Extra*
-</span><span class="no">EOF</span>
-</code></pre></div></div>
-
-<p>由于这个库执行 parse 需要先转换成解析表达文法（Parsing Expression Grammar）从而生成更多的子规则，我们先打印一下自动生成的子规则便于之后开发 generator。</p>
-
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="no">EBNF</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="no">TEA_GRAMMER</span><span class="p">).</span><span class="nf">make_peg</span><span class="p">.</span><span class="nf">ast</span>
-
-<span class="cm">=begin
-(rule Water (alt "Kopi" "Teh" "Milo"))
-(rule Sugar (alt "Kosong" "Siu Dai" "Gah Dai"))
-(rule Milk (alt "O" "C"))
-(rule Thickness (alt "Po" "Gau"))
-(rule Extra (alt "Peng" "Bubble" "Halia"))
-(rule Upsize (seq "Nga Lat"))
-(rule Knot (alt "Mati" "Tepi"))
-(rule Plastic (seq "Ikat" _Plastic_1))
-(rule _Plastic_1 (opt Knot))
-(rule Takeout (seq "Bungkus" _Takeout_1))
-(rule _Takeout_1 (opt Plastic))
-(rule Drink (seq _Drink_1 _Drink_2 Water _Drink_3 _Drink_4 _Drink_5 _Drink_6))
-(rule _Drink_1 (opt Takeout))
-(rule _Drink_2 (opt Upsize))
-(rule _Drink_3 (opt Milk))
-(rule _Drink_4 (opt Sugar))
-(rule _Drink_5 (opt Thickness))
-(rule _Drink_6 (star Extra))
-=end</span>
-</code></pre></div></div>
-
-<p>我们创建一个 generator 类，如下：</p>
-
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">MalayTea</span>
-  <span class="kp">include</span> <span class="no">EBNF</span><span class="o">::</span><span class="no">PEG</span><span class="o">::</span><span class="no">Parser</span>
-  <span class="nb">attr_reader</span> <span class="ss">:rules</span>
-   <span class="k">def</span> <span class="nf">initialize</span>
-    <span class="vi">@rules</span> <span class="o">=</span> <span class="no">EBNF</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="no">TEA_GRAMMER</span><span class="p">).</span><span class="nf">make_peg</span><span class="p">.</span><span class="nf">ast</span>
-  <span class="k">end</span>
-
-  <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="n">input</span><span class="p">)</span>
-    <span class="n">parse</span><span class="p">(</span><span class="n">input</span><span class="p">,</span> <span class="ss">:Drink</span><span class="p">,</span> <span class="vi">@rules</span><span class="p">)</span>
-  <span class="k">end</span>
-<span class="k">end</span>
-
-<span class="nb">p</span> <span class="no">MalayTea</span><span class="p">.</span><span class="nf">new</span><span class="p">.</span><span class="nf">evaluate</span><span class="p">(</span><span class="nb">gets</span><span class="p">.</span><span class="nf">chomp</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p>这时候输入一个句子，其会如实输出 AST 抽象语法树。而我们要做的就是根据 rule 名称来规约这些语法树直到某个特定输出。</p>
-
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">production</span><span class="p">(</span><span class="ss">:_Drink_1</span><span class="p">,</span> <span class="ss">clear_packrat: </span><span class="kp">true</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">value</span><span class="o">|</span>
-    <span class="k">if</span> <span class="n">value</span><span class="p">.</span><span class="nf">nil?</span>
-        <span class="s2">""</span>
-    <span class="k">elsif</span> <span class="n">value</span><span class="p">.</span><span class="nf">length</span> <span class="o">==</span> <span class="mi">1</span>
-        <span class="s2">"外带"</span>
-    <span class="k">else</span>
-        <span class="s2">"外带</span><span class="si">#{</span><span class="n">value</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">].</span><span class="nf">values</span><span class="p">.</span><span class="nf">join</span><span class="si">}</span><span class="s2">"</span>
-    <span class="k">end</span>
-<span class="k">end</span>
-
-<span class="n">production</span><span class="p">(</span><span class="ss">:Plastic</span><span class="p">,</span> <span class="ss">clear_packrat: </span><span class="kp">true</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">value</span><span class="o">|</span>
-    <span class="k">if</span> <span class="n">value</span><span class="p">.</span><span class="nf">nil?</span>
-        <span class="s2">""</span>
-    <span class="k">elsif</span> <span class="n">value</span><span class="p">.</span><span class="nf">length</span> <span class="o">==</span> <span class="mi">1</span>
-        <span class="s2">"塑料袋装"</span>
-    <span class="k">else</span>
-        <span class="s2">"塑料袋装</span><span class="si">#{</span><span class="n">value</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">].</span><span class="nf">values</span><span class="p">.</span><span class="nf">join</span><span class="si">}</span><span class="s2">"</span>
-    <span class="k">end</span>
-<span class="k">end</span>
-
-<span class="n">production</span><span class="p">(</span><span class="ss">:_Plastic_1</span><span class="p">,</span> <span class="ss">clear_packrat: </span><span class="kp">true</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">value</span><span class="o">|</span>
-    <span class="n">value</span><span class="p">.</span><span class="nf">nil?</span> <span class="p">?</span> <span class="s2">""</span> <span class="p">:</span> <span class="p">{</span> <span class="no">Mati</span><span class="p">:</span> <span class="s2">"打死结"</span><span class="p">,</span> <span class="no">Tepi</span><span class="p">:</span> <span class="s2">"侧面打结"</span><span class="p">}[</span><span class="n">value</span><span class="p">.</span><span class="nf">to_sym</span><span class="p">]</span>
-<span class="k">end</span>
-
-<span class="n">production</span><span class="p">(</span><span class="ss">:_Drink_2</span><span class="p">,</span> <span class="ss">clear_packrat: </span><span class="kp">true</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">value</span><span class="o">|</span>
-    <span class="n">value</span><span class="p">.</span><span class="nf">nil?</span> <span class="p">?</span> <span class="s2">""</span> <span class="p">:</span> <span class="s2">"大杯"</span>
-<span class="k">end</span>
-
-<span class="n">production</span><span class="p">(</span><span class="ss">:Water</span><span class="p">,</span> <span class="ss">clear_packrat: </span><span class="kp">true</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">value</span><span class="o">|</span>
-    <span class="p">{</span> <span class="no">Kopi</span><span class="p">:</span> <span class="s2">"咖啡"</span><span class="p">,</span> <span class="no">Teh</span><span class="p">:</span> <span class="s2">"红茶"</span><span class="p">,</span> <span class="no">Milo</span><span class="p">:</span> <span class="s2">"美禄"</span> <span class="p">}[</span><span class="n">value</span><span class="p">.</span><span class="nf">to_sym</span><span class="p">]</span>
-<span class="k">end</span>
-
-<span class="n">production</span><span class="p">(</span><span class="ss">:_Drink_3</span><span class="p">,</span> <span class="ss">clear_packrat: </span><span class="kp">true</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">value</span><span class="o">|</span>
-    <span class="n">value</span><span class="p">.</span><span class="nf">nil?</span> <span class="p">?</span> <span class="s2">"炼乳"</span> <span class="p">:</span> <span class="p">{</span> <span class="no">O</span><span class="p">:</span> <span class="s2">""</span><span class="p">,</span> <span class="no">C</span><span class="p">:</span> <span class="s2">"鲜奶"</span> <span class="p">}[</span><span class="n">value</span><span class="p">.</span><span class="nf">to_sym</span><span class="p">]</span>
-<span class="k">end</span>
-
-<span class="n">production</span><span class="p">(</span><span class="ss">:_Drink_4</span><span class="p">,</span> <span class="ss">clear_packrat: </span><span class="kp">true</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">value</span><span class="o">|</span>
-    <span class="n">value</span><span class="p">.</span><span class="nf">nil?</span> <span class="p">?</span> <span class="s2">""</span> <span class="p">:</span> <span class="p">{</span> <span class="no">Kosong</span><span class="p">:</span> <span class="s2">"无糖"</span><span class="p">,</span> <span class="s2">"Siu Dai"</span><span class="p">:</span> <span class="s2">"少糖"</span><span class="p">,</span> <span class="s2">"Gah Dai"</span><span class="p">:</span> <span class="s2">"加糖"</span><span class="p">}[</span><span class="n">value</span><span class="p">.</span><span class="nf">to_sym</span><span class="p">]</span>
-<span class="k">end</span>
-
-<span class="n">production</span><span class="p">(</span><span class="ss">:_Drink_5</span><span class="p">,</span> <span class="ss">clear_packrat: </span><span class="kp">true</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">value</span><span class="o">|</span>
-    <span class="n">value</span><span class="p">.</span><span class="nf">nil?</span> <span class="p">?</span> <span class="s2">""</span> <span class="p">:</span> <span class="p">{</span> <span class="no">Gau</span><span class="p">:</span> <span class="s2">"浓缩"</span><span class="p">,</span> <span class="no">Po</span><span class="p">:</span> <span class="s2">"清淡"</span><span class="p">}[</span><span class="n">value</span><span class="p">.</span><span class="nf">to_sym</span><span class="p">]</span>
-<span class="k">end</span>
-
-<span class="n">production</span><span class="p">(</span><span class="ss">:_Drink_6</span><span class="p">,</span> <span class="ss">clear_packrat: </span><span class="kp">true</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">value</span><span class="o">|</span>
-    <span class="n">extras</span> <span class="o">=</span> <span class="n">value</span><span class="p">.</span><span class="nf">map</span> <span class="k">do</span> <span class="o">|</span><span class="n">a</span><span class="o">|</span>
-        <span class="p">{</span> <span class="no">Peng</span><span class="p">:</span> <span class="s2">"冰块"</span><span class="p">,</span> <span class="no">Bubble</span><span class="p">:</span> <span class="s2">"珍珠"</span><span class="p">,</span> <span class="no">Halia</span><span class="p">:</span> <span class="s2">"姜汁"</span> <span class="p">}[</span><span class="n">a</span><span class="p">.</span><span class="nf">to_sym</span><span class="p">]</span>
-    <span class="k">end</span>
-    <span class="n">extras</span><span class="p">.</span><span class="nf">empty?</span> <span class="p">?</span> <span class="s2">""</span> <span class="p">:</span> <span class="s2">"加</span><span class="si">#{</span><span class="n">extras</span><span class="p">.</span><span class="nf">join</span><span class="si">}</span><span class="s2">"</span>
-<span class="k">end</span>
-</code></pre></div></div>
-
-<p>我们规约最后一步的时候需要特殊处理鲜奶红茶和鲜奶咖啡这两个词语，因为一般我们直接叫奶茶和咖啡拿铁。</p>
-
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">production</span><span class="p">(</span><span class="ss">:Drink</span><span class="p">,</span> <span class="ss">clear_packrat: </span><span class="kp">true</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">value</span><span class="o">|</span>
-    <span class="n">h</span> <span class="o">=</span> <span class="n">value</span><span class="p">.</span><span class="nf">inject</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:merge</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">h</span><span class="p">[</span><span class="ss">:Water</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"红茶"</span> <span class="ow">and</span> <span class="n">h</span><span class="p">[</span><span class="ss">:_Drink_3</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"鲜奶"</span>
-        <span class="n">h</span><span class="p">[</span><span class="ss">:Water</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"奶茶"</span>
-        <span class="n">h</span><span class="p">[</span><span class="ss">:_Drink_3</span><span class="p">]</span> <span class="o">=</span> <span class="s2">""</span>
-    <span class="k">elsif</span> <span class="n">h</span><span class="p">[</span><span class="ss">:Water</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"咖啡"</span> <span class="ow">and</span> <span class="n">h</span><span class="p">[</span><span class="ss">:_Drink_3</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"鲜奶"</span>
-        <span class="n">h</span><span class="p">[</span><span class="ss">:Water</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"咖啡拿铁"</span>
-        <span class="n">h</span><span class="p">[</span><span class="ss">:_Drink_3</span><span class="p">]</span> <span class="o">=</span> <span class="s2">""</span>
-    <span class="k">end</span>
-    <span class="s2">"</span><span class="si">#{</span><span class="n">h</span><span class="p">[</span><span class="ss">:_Drink_1</span><span class="p">]</span><span class="si">}#{</span><span class="n">h</span><span class="p">[</span><span class="ss">:_Drink_2</span><span class="p">]</span><span class="si">}#{</span><span class="n">h</span><span class="p">[</span><span class="ss">:_Drink_4</span><span class="p">]</span><span class="si">}#{</span><span class="n">h</span><span class="p">[</span><span class="ss">:_Drink_3</span><span class="p">]</span><span class="si">}#{</span><span class="n">h</span><span class="p">[</span><span class="ss">:_Drink_5</span><span class="p">]</span><span class="si">}#{</span><span class="n">h</span><span class="p">[</span><span class="ss">:Water</span><span class="p">]</span><span class="si">}#{</span><span class="n">h</span><span class="p">[</span><span class="ss">:_Drink_6</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span>
-<span class="k">end</span>
-</code></pre></div></div>
-
-<h2 id="成果">成果</h2>
-
-<p>最后我们得到了一个将马来西亚语的饮料名编译到汉语的编译（翻译）器。</p>
-
-<p>完整代码如下：</p>
-
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">require</span> <span class="s2">"ebnf"</span>
-
-<span class="no">TEA_GRAMMER</span> <span class="o">=</span> <span class="o">&lt;&lt;-</span><span class="no">EOF</span><span class="sh">
-Water     ::= "Kopi" | "Teh" | "Milo"
-Sugar     ::= "Kosong" | "Siu Dai" | "Gah Dai"
-Milk      ::= "O" | "C"
-Thickness ::= "Po" | "Gau"
-Extra     ::= "Peng" | "Bubble" | "Halia"
-Upsize    ::= "Nga Lat"
-Knot      ::= "Mati" | "Tepi"
-Plastic   ::= "Ikat" Knot?
-Takeout   ::= "Bungkus" Plastic?
-
-Drink     ::= Takeout? Upsize? Water Milk? Sugar? Thickness? Extra*
-</span><span class="no">EOF</span>
-
-<span class="k">class</span> <span class="nc">MalayTea</span>
-  <span class="kp">include</span> <span class="no">EBNF</span><span class="o">::</span><span class="no">PEG</span><span class="o">::</span><span class="no">Parser</span>
-  <span class="nb">attr_reader</span> <span class="ss">:rules</span>
-
-  <span class="n">production</span><span class="p">(</span><span class="ss">:_Drink_1</span><span class="p">,</span> <span class="ss">clear_packrat: </span><span class="kp">true</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">value</span><span class="o">|</span>
-    <span class="k">if</span> <span class="n">value</span><span class="p">.</span><span class="nf">nil?</span>
-      <span class="s2">""</span>
-    <span class="k">elsif</span> <span class="n">value</span><span class="p">.</span><span class="nf">length</span> <span class="o">==</span> <span class="mi">1</span>
-      <span class="s2">"外带"</span>
-    <span class="k">else</span>
-      <span class="s2">"外带</span><span class="si">#{</span><span class="n">value</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">].</span><span class="nf">values</span><span class="p">.</span><span class="nf">join</span><span class="si">}</span><span class="s2">"</span>
-    <span class="k">end</span>
-  <span class="k">end</span>
-
-  <span class="n">production</span><span class="p">(</span><span class="ss">:Plastic</span><span class="p">,</span> <span class="ss">clear_packrat: </span><span class="kp">true</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">value</span><span class="o">|</span>
-    <span class="k">if</span> <span class="n">value</span><span class="p">.</span><span class="nf">nil?</span>
-      <span class="s2">""</span>
-    <span class="k">elsif</span> <span class="n">value</span><span class="p">.</span><span class="nf">length</span> <span class="o">==</span> <span class="mi">1</span>
-      <span class="s2">"塑料袋装"</span>
-    <span class="k">else</span>
-      <span class="s2">"塑料袋装</span><span class="si">#{</span><span class="n">value</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">].</span><span class="nf">values</span><span class="p">.</span><span class="nf">join</span><span class="si">}</span><span class="s2">"</span>
-    <span class="k">end</span>
-  <span class="k">end</span>
-
-  <span class="n">production</span><span class="p">(</span><span class="ss">:_Plastic_1</span><span class="p">,</span> <span class="ss">clear_packrat: </span><span class="kp">true</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">value</span><span class="o">|</span>
-    <span class="n">value</span><span class="p">.</span><span class="nf">nil?</span> <span class="p">?</span> <span class="s2">""</span> <span class="p">:</span> <span class="p">{</span> <span class="no">Mati</span><span class="p">:</span> <span class="s2">"打死结"</span><span class="p">,</span> <span class="no">Tepi</span><span class="p">:</span> <span class="s2">"侧面打结"</span><span class="p">}[</span><span class="n">value</span><span class="p">.</span><span class="nf">to_sym</span><span class="p">]</span>
-  <span class="k">end</span>
-
-  <span class="n">production</span><span class="p">(</span><span class="ss">:_Drink_2</span><span class="p">,</span> <span class="ss">clear_packrat: </span><span class="kp">true</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">value</span><span class="o">|</span>
-    <span class="n">value</span><span class="p">.</span><span class="nf">nil?</span> <span class="p">?</span> <span class="s2">""</span> <span class="p">:</span> <span class="s2">"大杯"</span>
-  <span class="k">end</span>
-
-  <span class="n">production</span><span class="p">(</span><span class="ss">:Water</span><span class="p">,</span> <span class="ss">clear_packrat: </span><span class="kp">true</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">value</span><span class="o">|</span>
-    <span class="p">{</span> <span class="no">Kopi</span><span class="p">:</span> <span class="s2">"咖啡"</span><span class="p">,</span> <span class="no">Teh</span><span class="p">:</span> <span class="s2">"红茶"</span><span class="p">,</span> <span class="no">Milo</span><span class="p">:</span> <span class="s2">"美禄"</span> <span class="p">}[</span><span class="n">value</span><span class="p">.</span><span class="nf">to_sym</span><span class="p">]</span>
-  <span class="k">end</span>
-
-  <span class="n">production</span><span class="p">(</span><span class="ss">:_Drink_3</span><span class="p">,</span> <span class="ss">clear_packrat: </span><span class="kp">true</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">value</span><span class="o">|</span>
-    <span class="n">value</span><span class="p">.</span><span class="nf">nil?</span> <span class="p">?</span> <span class="s2">"炼乳"</span> <span class="p">:</span> <span class="p">{</span> <span class="no">O</span><span class="p">:</span> <span class="s2">""</span><span class="p">,</span> <span class="no">C</span><span class="p">:</span> <span class="s2">"鲜奶"</span> <span class="p">}[</span><span class="n">value</span><span class="p">.</span><span class="nf">to_sym</span><span class="p">]</span>
-  <span class="k">end</span>
-
-  <span class="n">production</span><span class="p">(</span><span class="ss">:_Drink_4</span><span class="p">,</span> <span class="ss">clear_packrat: </span><span class="kp">true</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">value</span><span class="o">|</span>
-    <span class="n">value</span><span class="p">.</span><span class="nf">nil?</span> <span class="p">?</span> <span class="s2">""</span> <span class="p">:</span> <span class="p">{</span> <span class="no">Kosong</span><span class="p">:</span> <span class="s2">"无糖"</span><span class="p">,</span> <span class="s2">"Siu Dai"</span><span class="p">:</span> <span class="s2">"少糖"</span><span class="p">,</span> <span class="s2">"Gah Dai"</span><span class="p">:</span> <span class="s2">"加糖"</span><span class="p">}[</span><span class="n">value</span><span class="p">.</span><span class="nf">to_sym</span><span class="p">]</span>
-  <span class="k">end</span>
-
-  <span class="n">production</span><span class="p">(</span><span class="ss">:_Drink_5</span><span class="p">,</span> <span class="ss">clear_packrat: </span><span class="kp">true</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">value</span><span class="o">|</span>
-    <span class="n">value</span><span class="p">.</span><span class="nf">nil?</span> <span class="p">?</span> <span class="s2">""</span> <span class="p">:</span> <span class="p">{</span> <span class="no">Gau</span><span class="p">:</span> <span class="s2">"浓缩"</span><span class="p">,</span> <span class="no">Po</span><span class="p">:</span> <span class="s2">"清淡"</span><span class="p">}[</span><span class="n">value</span><span class="p">.</span><span class="nf">to_sym</span><span class="p">]</span>
-  <span class="k">end</span>
-
-  <span class="n">production</span><span class="p">(</span><span class="ss">:_Drink_6</span><span class="p">,</span> <span class="ss">clear_packrat: </span><span class="kp">true</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">value</span><span class="o">|</span>
-    <span class="n">extras</span> <span class="o">=</span> <span class="n">value</span><span class="p">.</span><span class="nf">map</span> <span class="k">do</span> <span class="o">|</span><span class="n">a</span><span class="o">|</span>
-      <span class="p">{</span> <span class="no">Peng</span><span class="p">:</span> <span class="s2">"冰块"</span><span class="p">,</span> <span class="no">Bubble</span><span class="p">:</span> <span class="s2">"珍珠"</span><span class="p">,</span> <span class="no">Halia</span><span class="p">:</span> <span class="s2">"姜汁"</span> <span class="p">}[</span><span class="n">a</span><span class="p">.</span><span class="nf">to_sym</span><span class="p">]</span>
-    <span class="k">end</span>
-    <span class="n">extras</span><span class="p">.</span><span class="nf">empty?</span> <span class="p">?</span> <span class="s2">""</span> <span class="p">:</span> <span class="s2">"加</span><span class="si">#{</span><span class="n">extras</span><span class="p">.</span><span class="nf">join</span><span class="si">}</span><span class="s2">"</span>
-  <span class="k">end</span>
-
-  <span class="n">production</span><span class="p">(</span><span class="ss">:Drink</span><span class="p">,</span> <span class="ss">clear_packrat: </span><span class="kp">true</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">value</span><span class="o">|</span>
-    <span class="n">h</span> <span class="o">=</span> <span class="n">value</span><span class="p">.</span><span class="nf">inject</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:merge</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">h</span><span class="p">[</span><span class="ss">:Water</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"红茶"</span> <span class="ow">and</span> <span class="n">h</span><span class="p">[</span><span class="ss">:_Drink_3</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"鲜奶"</span>
-      <span class="n">h</span><span class="p">[</span><span class="ss">:Water</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"奶茶"</span>
-      <span class="n">h</span><span class="p">[</span><span class="ss">:_Drink_3</span><span class="p">]</span> <span class="o">=</span> <span class="s2">""</span>
-    <span class="k">elsif</span> <span class="n">h</span><span class="p">[</span><span class="ss">:Water</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"咖啡"</span> <span class="ow">and</span> <span class="n">h</span><span class="p">[</span><span class="ss">:_Drink_3</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"鲜奶"</span>
-      <span class="n">h</span><span class="p">[</span><span class="ss">:Water</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"咖啡拿铁"</span>
-      <span class="n">h</span><span class="p">[</span><span class="ss">:_Drink_3</span><span class="p">]</span> <span class="o">=</span> <span class="s2">""</span>
-    <span class="k">end</span>
-    <span class="s2">"</span><span class="si">#{</span><span class="n">h</span><span class="p">[</span><span class="ss">:_Drink_1</span><span class="p">]</span><span class="si">}#{</span><span class="n">h</span><span class="p">[</span><span class="ss">:_Drink_2</span><span class="p">]</span><span class="si">}#{</span><span class="n">h</span><span class="p">[</span><span class="ss">:_Drink_4</span><span class="p">]</span><span class="si">}#{</span><span class="n">h</span><span class="p">[</span><span class="ss">:_Drink_3</span><span class="p">]</span><span class="si">}#{</span><span class="n">h</span><span class="p">[</span><span class="ss">:_Drink_5</span><span class="p">]</span><span class="si">}#{</span><span class="n">h</span><span class="p">[</span><span class="ss">:Water</span><span class="p">]</span><span class="si">}#{</span><span class="n">h</span><span class="p">[</span><span class="ss">:_Drink_6</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span>
-  <span class="k">end</span>
-
-  <span class="k">def</span> <span class="nf">initialize</span>
-    <span class="vi">@rules</span> <span class="o">=</span> <span class="no">EBNF</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="no">TEA_GRAMMER</span><span class="p">).</span><span class="nf">make_peg</span><span class="p">.</span><span class="nf">ast</span>
-  <span class="k">end</span>
-
-  <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="n">input</span><span class="p">)</span>
-    <span class="n">parse</span><span class="p">(</span><span class="n">input</span><span class="p">,</span> <span class="ss">:Drink</span><span class="p">,</span> <span class="vi">@rules</span><span class="p">)</span>
-  <span class="k">end</span>
-<span class="k">end</span>
-
-<span class="kp">loop</span> <span class="k">do</span>
-  <span class="nb">puts</span> <span class="s2">"输入饮料名："</span>
-  <span class="nb">print</span> <span class="s2">"&gt; "</span>
-  <span class="nb">puts</span>  <span class="s2">"&lt; </span><span class="si">#{</span><span class="no">MalayTea</span><span class="p">.</span><span class="nf">new</span><span class="p">.</span><span class="nf">evaluate</span><span class="p">(</span><span class="nb">gets</span><span class="p">.</span><span class="nf">chomp</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
-<span class="k">end</span>
-</code></pre></div></div>
-
-<p>我们来运行一下看看：</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>❯ ruby main.rb
-输入饮料名：
-&gt; Bungkus Ikat Mati Nga Lat Kopi O Siu Dai Gau Peng Bubble
-&lt; 外带塑料袋装打死结大杯少糖浓缩咖啡加冰块珍珠
-</code></pre></div></div>
-
-<p>欢迎大家带着这个程序去马来西亚／新加坡饮茶。</p>]]></content><author><name>CodeRemixer</name></author><category term="编译" /><category term="Ruby" /><category term="语言学" /><summary type="html"><![CDATA[近几日马来西亚网友 Gurdip Singh 在 Facebook 发的这个「三点几嚟，饮茶先啦」非常流行。]]></summary></entry></feed>
+<p>整体感觉今天学到很多，不管是好的方面还是不好的方面。希望明年的游戏可以更好。</p>]]></content><author><name>CodeRemixer</name></author><category term="游戏" /><category term="设计" /><category term="混合现实" /><category term="地下謎" /><summary type="html"><![CDATA[2019 年我写过一篇《平成最后的烂尾游戏——东京地下铁 2018 解谜游戏设计分析》。2020 年因为 COVID-19 的原因，没怎么敢出门错过了 Tokyo Metro 地下谜 2019。 有人说我其实玩过 2019，并且还解得很快… 然后我想起来了，确实玩过，并且谜题极其简单，很快速就过了，以至于我甚至没有回家写 review。而 2021 年的地下谜又被取消了，乘着 2023 年地下谜延长了举办时间，当然是务必来日本玩了这个游戏。]]></summary></entry></feed>
