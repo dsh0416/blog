@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://coderemixer.com/atom.xml" rel="self" type="application/atom+xml" /><link href="https://coderemixer.com/" rel="alternate" type="text/html" /><updated>2025-06-25T15:01:36+08:00</updated><id>https://coderemixer.com/atom.xml</id><title type="html">Coderemixer 代码混音师</title><subtitle>一个用来发牢骚的网站，以至于无法对所说的话负责。</subtitle><author><name>CodeRemixer</name></author><entry><title type="html">1/x + 1/y = 8/79 的整数解</title><link href="https://coderemixer.com/2025/06/25/diophantine-equation" rel="alternate" type="text/html" title="1/x + 1/y = 8/79 的整数解" /><published>2025-06-25T14:30:00+08:00</published><updated>2025-06-25T14:30:00+08:00</updated><id>https://coderemixer.com/2025/06/25/diophantine-equation</id><content type="html" xml:base="https://coderemixer.com/2025/06/25/diophantine-equation"><![CDATA[<p>刷到个视频，讲的是不定方程 $\frac{1}{x} + \frac{1}{y} = \frac{8}{79}$ 的解。当然我觉得题目漏了个条件，是整数解，因为如果不加整数条件的话，该问题的解是无穷多的。</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://coderemixer.com/atom.xml" rel="self" type="application/atom+xml" /><link href="https://coderemixer.com/" rel="alternate" type="text/html" /><updated>2025-06-25T15:07:42+08:00</updated><id>https://coderemixer.com/atom.xml</id><title type="html">Coderemixer 代码混音师</title><subtitle>一个用来发牢骚的网站，以至于无法对所说的话负责。</subtitle><author><name>CodeRemixer</name></author><entry><title type="html">1/x + 1/y = 8/79 的整数解</title><link href="https://coderemixer.com/2025/06/25/diophantine-equation" rel="alternate" type="text/html" title="1/x + 1/y = 8/79 的整数解" /><published>2025-06-25T14:30:00+08:00</published><updated>2025-06-25T14:30:00+08:00</updated><id>https://coderemixer.com/2025/06/25/diophantine-equation</id><content type="html" xml:base="https://coderemixer.com/2025/06/25/diophantine-equation"><![CDATA[<p>刷到个视频，讲的是不定方程 $\frac{1}{x} + \frac{1}{y} = \frac{8}{79}$ 的解。当然我觉得题目漏了个条件，是整数解，因为如果不加整数条件的话，该问题的解是无穷多的。</p>
 
 <h2 id="原题解">原题解</h2>
 
@@ -14,7 +14,7 @@
 
 \[\frac{1}{x} + \frac{1}{y} = \frac{p}{q}\]
 
-<p>其中 $p,q$ 是整数。我们可以将方程变形为：</p>
+<p>其中 $p,q$ 是互素的整数。我们可以将方程变形为：</p>
 
 \[\begin{aligned}
 \frac{1}{x} + \frac{1}{y} &amp;= \frac{p}{q} \\
