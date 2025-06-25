@@ -38,7 +38,7 @@ $$
 $$
 \begin{aligned}
 px - q &= d \\
-py - q &= q^2 / d \\
+py - q &= \frac{q^2}{d} \\
 x &= \frac{d + q}{p} \\
 y &= \frac{\frac{q^2}{d} + q}{p}
 \end{aligned}
