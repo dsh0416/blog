@@ -331,30 +331,34 @@ y &amp;= \frac{\frac{q^2}{d} + q}{p}
 
 <p>我们来验证一下这个方法。对于原题 $\frac{1}{x} + \frac{1}{y} = \frac{8}{79}$，我们有 $p=8, q=79$。由于 $79^2 = 6241$，考虑到 $79$ 是素数，它的因数有 $1, 79, 6241$。我们来尝试这些因数。</p>
 
-<p>当 $d=1$ 时：
-\(\begin{aligned}
+<p>当 $d=1$ 时：</p>
+
+\[\begin{aligned}
 px - q &amp;= 1 \\
 py - q &amp;= 6241 \\
 x &amp;= \frac{1 + 79}{8} = 10 \\
 y &amp;= \frac{6241 + 79}{8} = 790
-\end{aligned}\)</p>
+\end{aligned}\]
 
-<p>当 $d=6241$ 时：
-\(\begin{aligned}
+<p>当 $d=6241$ 时：</p>
+
+\[\begin{aligned}
 px - q &amp;= 6241 \\
 py - q &amp;= 1 \\
 x &amp;= \frac{6241 + 79}{8} = 790 \\
 y &amp;= \frac{1 + 79}{8} = 10
-\end{aligned}\)</p>
+\end{aligned}\]
 
-<p>当 $d=97$ 时：
-\(\begin{aligned}
+<p>当 $d=97$ 时：</p>
+
+\[\begin{aligned}
 px - q &amp;= 79 \\
 py - q &amp;= 79 \\
 x &amp;= \frac{79 + 79}{8} = 19.75 \\
 y &amp;= \frac{79 + 79}{8} = 19.75
-\end{aligned}\)
-这时 $x,y$ 都不是整数，所以我们不考虑这个因数。</p>
+\end{aligned}\]
+
+<p>这时 $x,y$ 都不是整数，所以我们不考虑这个因数。</p>
 
 <p>因此，我们得到了整数解 $(10, 790)$ 和 $(790, 10)$。</p>
 

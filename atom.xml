@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://coderemixer.com/atom.xml" rel="self" type="application/atom+xml" /><link href="https://coderemixer.com/" rel="alternate" type="text/html" /><updated>2025-06-25T14:53:55+08:00</updated><id>https://coderemixer.com/atom.xml</id><title type="html">Coderemixer 代码混音师</title><subtitle>一个用来发牢骚的网站，以至于无法对所说的话负责。</subtitle><author><name>CodeRemixer</name></author><entry><title type="html">1/x + 1/y = 8/79 的整数解</title><link href="https://coderemixer.com/2025/06/25/diophantine-equation" rel="alternate" type="text/html" title="1/x + 1/y = 8/79 的整数解" /><published>2025-06-25T14:30:00+08:00</published><updated>2025-06-25T14:30:00+08:00</updated><id>https://coderemixer.com/2025/06/25/diophantine-equation</id><content type="html" xml:base="https://coderemixer.com/2025/06/25/diophantine-equation"><![CDATA[<p>刷到个视频，讲的是不定方程 $\frac{1}{x} + \frac{1}{y} = \frac{8}{79}$ 的解。当然我觉得题目漏了个条件，是整数解，因为如果不加整数条件的话，该问题的解是无穷多的。</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://coderemixer.com/atom.xml" rel="self" type="application/atom+xml" /><link href="https://coderemixer.com/" rel="alternate" type="text/html" /><updated>2025-06-25T14:54:41+08:00</updated><id>https://coderemixer.com/atom.xml</id><title type="html">Coderemixer 代码混音师</title><subtitle>一个用来发牢骚的网站，以至于无法对所说的话负责。</subtitle><author><name>CodeRemixer</name></author><entry><title type="html">1/x + 1/y = 8/79 的整数解</title><link href="https://coderemixer.com/2025/06/25/diophantine-equation" rel="alternate" type="text/html" title="1/x + 1/y = 8/79 的整数解" /><published>2025-06-25T14:30:00+08:00</published><updated>2025-06-25T14:30:00+08:00</updated><id>https://coderemixer.com/2025/06/25/diophantine-equation</id><content type="html" xml:base="https://coderemixer.com/2025/06/25/diophantine-equation"><![CDATA[<p>刷到个视频，讲的是不定方程 $\frac{1}{x} + \frac{1}{y} = \frac{8}{79}$ 的解。当然我觉得题目漏了个条件，是整数解，因为如果不加整数条件的话，该问题的解是无穷多的。</p>
 
 <h2 id="原题解">原题解</h2>
 
@@ -38,30 +38,34 @@ y &amp;= \frac{\frac{q^2}{d} + q}{p}
 
 <p>我们来验证一下这个方法。对于原题 $\frac{1}{x} + \frac{1}{y} = \frac{8}{79}$，我们有 $p=8, q=79$。由于 $79^2 = 6241$，考虑到 $79$ 是素数，它的因数有 $1, 79, 6241$。我们来尝试这些因数。</p>
 
-<p>当 $d=1$ 时：
-\(\begin{aligned}
+<p>当 $d=1$ 时：</p>
+
+\[\begin{aligned}
 px - q &amp;= 1 \\
 py - q &amp;= 6241 \\
 x &amp;= \frac{1 + 79}{8} = 10 \\
 y &amp;= \frac{6241 + 79}{8} = 790
-\end{aligned}\)</p>
+\end{aligned}\]
 
-<p>当 $d=6241$ 时：
-\(\begin{aligned}
+<p>当 $d=6241$ 时：</p>
+
+\[\begin{aligned}
 px - q &amp;= 6241 \\
 py - q &amp;= 1 \\
 x &amp;= \frac{6241 + 79}{8} = 790 \\
 y &amp;= \frac{1 + 79}{8} = 10
-\end{aligned}\)</p>
+\end{aligned}\]
 
-<p>当 $d=97$ 时：
-\(\begin{aligned}
+<p>当 $d=97$ 时：</p>
+
+\[\begin{aligned}
 px - q &amp;= 79 \\
 py - q &amp;= 79 \\
 x &amp;= \frac{79 + 79}{8} = 19.75 \\
 y &amp;= \frac{79 + 79}{8} = 19.75
-\end{aligned}\)
-这时 $x,y$ 都不是整数，所以我们不考虑这个因数。</p>
+\end{aligned}\]
+
+<p>这时 $x,y$ 都不是整数，所以我们不考虑这个因数。</p>
 
 <p>因此，我们得到了整数解 $(10, 790)$ 和 $(790, 10)$。</p>
 
