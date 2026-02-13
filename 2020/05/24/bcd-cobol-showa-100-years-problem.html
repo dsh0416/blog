@@ -1,7 +1,7 @@
 <!doctype html>
 <!--
-  Minimal Mistakes Jekyll Theme 4.25.1 by Michael Rose
-  Copyright 2013-2024 Michael Rose - mademistakes.com | @mmistakes
+  Minimal Mistakes Jekyll Theme 4.27.3 by Michael Rose
+  Copyright 2013-2025 Michael Rose - mademistakes.com | @mmistakes
   Free for personal and commercial use under the MIT license
   https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
 -->
@@ -47,16 +47,7 @@
 
 
 
-<script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    
-      "@type": "Person",
-      "name": null,
-      "url": "https://coderemixer.com/"
-    
-  }
-</script>
+
 
 
 
@@ -73,6 +64,7 @@
 
 <script>
   document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+  
 </script>
 
 <!-- For all browsers -->
@@ -96,7 +88,7 @@
 
   </head>
 
-  <body class="layout--single">
+  <body class="layout--single" dir="ltr">
     <nav class="skip-links">
   <ul>
     <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
@@ -117,13 +109,29 @@
           
         </a>
         <ul class="visible-links"><li class="masthead__menu-item">
-              <a href="/">首页</a>
+              <a
+                href="/"
+                
+                
+              >首页</a>
             </li><li class="masthead__menu-item">
-              <a href="/about">关于</a>
+              <a
+                href="/about"
+                
+                
+              >关于</a>
             </li><li class="masthead__menu-item">
-              <a href="https://github.com/dsh0416">GitHub</a>
+              <a
+                href="https://github.com/dsh0416"
+                
+                
+              >GitHub</a>
             </li><li class="masthead__menu-item">
-              <a href="/atom.xml">RSS</a>
+              <a
+                href="/atom.xml"
+                
+                
+              >RSS</a>
             </li></ul>
         
         <button class="search__toggle" type="button">
@@ -270,7 +278,7 @@
 
 
 
-  <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
     <meta itemprop="headline" content="BCD、COBOL、千年虫和昭和 100 年问题">
     <meta itemprop="description" content="上篇文章 里我们讲到了定点数和浮点数的区别，我们认识到这两个数字在精度对待上的差异。但是这两个类型的数字都是二进制数，而有些数字本身就是很难用二进制表达的。">
     <meta itemprop="datePublished" content="2020-05-24T12:23:23+08:00">
@@ -279,8 +287,8 @@
     <div class="page__inner-wrap">
       
         <header>
-          <h1 id="page-title" class="page__title p-name" itemprop="headline">
-            <a href="https://coderemixer.com/2020/05/24/bcd-cobol-showa-100-years-problem" class="u-url" itemprop="url">BCD、COBOL、千年虫和昭和 100 年问题
+          <h1 id="page-title" class="page__title" itemprop="headline">
+            <a href="https://coderemixer.com/2020/05/24/bcd-cobol-showa-100-years-problem" itemprop="url">BCD、COBOL、千年虫和昭和 100 年问题
 </a>
           </h1>
           
@@ -304,7 +312,7 @@
         </header>
       
 
-      <section class="page__content e-content" itemprop="text">
+      <section class="page__content" itemprop="text">
         
         <p><a href="https://coderemixer.com/2020/05/22/how-floating-number-caused-strange-earthquake">上篇文章</a> 里我们讲到了定点数和浮点数的区别，我们认识到这两个数字在精度对待上的差异。但是这两个类型的数字都是二进制数，而有些数字本身就是很难用二进制表达的。</p>
 
@@ -454,22 +462,22 @@
 
 <p>我们来看下面的 COBOL 程序</p>
 
-<pre><code class="language-cobol">      IDENTIFICATION DIVISION.
-      PROGRAM-ID. bcd-check.
-      DATA DIVISION.
-      WORKING-STORAGE SECTION.
-      01 A1 PIC 9(1)V9(17) VALUE 0.1.
-      01 A2 PIC 9(1)V9(17) VALUE 0.2.
-      01 WR PIC 9(1)V9(30).
-      PROCEDURE DIVISION.
-      COMPUTE WR = A1 + A2.
-      IF 0.3 = WR THEN
-      DISPLAY "TRUE"
-      ELSE
-      DISPLAY "FALSE"
-      END-IF.
-      STOP RUN.
-</code></pre>
+<div class="language-cobol highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w">      </span><span class="kd">IDENTIFICATION</span><span class="w"> </span><span class="kd">DIVISION</span><span class="p">.</span><span class="w">
+      </span><span class="k">PROGRAM-ID</span><span class="p">.</span><span class="w"> </span><span class="n">bcd-check</span><span class="p">.</span><span class="w">
+      </span><span class="kd">DATA</span><span class="w"> </span><span class="kd">DIVISION</span><span class="p">.</span><span class="w">
+      </span><span class="kn">WORKING-STORAGE</span><span class="w"> </span><span class="kn">SECTION</span><span class="p">.</span><span class="w">
+      </span><span class="m">01</span><span class="w"> </span><span class="n">A1</span><span class="w"> </span><span class="k">PIC</span><span class="w"> </span><span class="m">9</span><span class="p">(</span><span class="m">1</span><span class="p">)</span><span class="n">V9</span><span class="p">(</span><span class="m">17</span><span class="p">)</span><span class="w"> </span><span class="k">VALUE</span><span class="w"> </span><span class="m">0.1</span><span class="p">.</span><span class="w">
+      </span><span class="m">01</span><span class="w"> </span><span class="n">A2</span><span class="w"> </span><span class="k">PIC</span><span class="w"> </span><span class="m">9</span><span class="p">(</span><span class="m">1</span><span class="p">)</span><span class="n">V9</span><span class="p">(</span><span class="m">17</span><span class="p">)</span><span class="w"> </span><span class="k">VALUE</span><span class="w"> </span><span class="m">0.2</span><span class="p">.</span><span class="w">
+      </span><span class="m">01</span><span class="w"> </span><span class="n">WR</span><span class="w"> </span><span class="k">PIC</span><span class="w"> </span><span class="m">9</span><span class="p">(</span><span class="m">1</span><span class="p">)</span><span class="n">V9</span><span class="p">(</span><span class="m">30</span><span class="p">).</span><span class="w">
+      </span><span class="kd">PROCEDURE</span><span class="w"> </span><span class="kd">DIVISION</span><span class="p">.</span><span class="w">
+      </span><span class="k">COMPUTE</span><span class="w"> </span><span class="n">WR</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">A1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">A2</span><span class="p">.</span><span class="w">
+      </span><span class="k">IF</span><span class="w"> </span><span class="m">0.3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">WR</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+      </span><span class="k">DISPLAY</span><span class="w"> </span><span class="s2">"</span><span class="s">TRUE</span><span class="s2">"</span><span class="w">
+      </span><span class="k">ELSE</span><span class="w">
+      </span><span class="k">DISPLAY</span><span class="w"> </span><span class="s2">"</span><span class="s">FALSE</span><span class="s2">"</span><span class="w">
+      </span><span class="k">END-IF</span><span class="p">.</span><span class="w">
+      </span><span class="k">STOP</span><span class="w"> </span><span class="k">RUN</span><span class="p">.</span><span class="w">
+</span></code></pre></div></div>
 
 <p>这个程序会打印 <code class="language-plaintext highlighter-rouge">TRUE</code>，也就是 0.1 + 0.2 精确地等于 0.3，采用 BCD 定点数不会像浮点数一样多出一些二进制误差。高级语言有这样的特性支持，底层的 CPU 有对应的 BCD 指令集直接进行计算，这对于开发来说不能说是不完美。</p>
 
@@ -533,32 +541,42 @@
       </footer>
 
       <section class="page__share">
-  
+  <h4 class="page__share-title">Share on</h4>
 
-  <a href="https://twitter.com/intent/tweet?text=BCD%E3%80%81COBOL%E3%80%81%E5%8D%83%E5%B9%B4%E8%99%AB%E5%92%8C%E6%98%AD%E5%92%8C+100+%E5%B9%B4%E9%97%AE%E9%A2%98%20https%3A%2F%2Fcoderemixer.com%2F2020%2F05%2F24%2Fbcd-cobol-showa-100-years-problem" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+  <a href="https://x.com/intent/tweet?text=BCD%E3%80%81COBOL%E3%80%81%E5%8D%83%E5%B9%B4%E8%99%AB%E5%92%8C%E6%98%AD%E5%92%8C+100+%E5%B9%B4%E9%97%AE%E9%A2%98%20https%3A%2F%2Fcoderemixer.com%2F2020%2F05%2F24%2Fbcd-cobol-showa-100-years-problem" class="btn btn--x" aria-label="Share on X" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on X">
+    <i class="fab fa-fw fa-x-twitter" aria-hidden="true"></i><span> X</span>
+  </a>
 
-  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fcoderemixer.com%2F2020%2F05%2F24%2Fbcd-cobol-showa-100-years-problem" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fcoderemixer.com%2F2020%2F05%2F24%2Fbcd-cobol-showa-100-years-problem" class="btn btn--facebook" aria-label="Share on Facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook">
+    <i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span>
+  </a>
 
-  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://coderemixer.com/2020/05/24/bcd-cobol-showa-100-years-problem" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://coderemixer.com/2020/05/24/bcd-cobol-showa-100-years-problem" class="btn btn--linkedin" aria-label="Share on LinkedIn" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn">
+    <i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span>
+  </a>
+
+  <a href="https://bsky.app/intent/compose?text=BCD%E3%80%81COBOL%E3%80%81%E5%8D%83%E5%B9%B4%E8%99%AB%E5%92%8C%E6%98%AD%E5%92%8C+100+%E5%B9%B4%E9%97%AE%E9%A2%98%20https%3A%2F%2Fcoderemixer.com%2F2020%2F05%2F24%2Fbcd-cobol-showa-100-years-problem" class="btn btn--bluesky" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Bluesky">
+    <i class="fab fa-fw fa-bluesky" aria-hidden="true"></i><span> Bluesky</span>
+  </a>
 </section>
 
 
       
   <nav class="pagination">
     
-      <a href="/2020/05/22/how-floating-number-caused-strange-earthquake" class="pagination--pager" title="浮点数如何导致了 4.92000008 级地震？
-">Previous</a>
+      <a href="/2020/05/22/how-floating-number-caused-strange-earthquake" class="pagination--pager" title="浮点数如何导致了 4.92000008 级地震？">Previous</a>
     
     
-      <a href="/2020/06/23/proof-tan1-irrational" class="pagination--pager" title="证明 tan1° 是无理数
-">Next</a>
+      <a href="/2020/06/23/proof-tan1-irrational" class="pagination--pager" title="证明 tan1° 是无理数">Next</a>
     
   </nav>
+
 
     </div>
 
     
-      <div class="page__comments">
+      
+        <div class="page__comments">
   
   
       <h4 class="page__comments-title">Comments</h4>
@@ -566,21 +584,18 @@
     
 </div>
 
+      
     
   </article>
 
   
   
-    <div class="page__related">
+    
+<div class="page__related">
   
   <h2 class="page__related-title">You May Also Enjoy</h2>
   <div class="grid__wrapper">
     
-    
-    
-      
-      
-      
       
       
 
@@ -621,9 +636,6 @@
     
       
       
-      
-      
-      
 
 
 
@@ -659,9 +671,6 @@
 </div>
 
     
-      
-      
-      
       
       
 
@@ -702,9 +711,6 @@
     
       
       
-      
-      
-      
 
 
 
@@ -742,9 +748,6 @@
 </div>
 
     
-      
-      
-      
   </div>
 </div>
 
@@ -773,7 +776,9 @@
         <!-- start custom footer snippets -->
 
 <!-- end custom footer snippets -->
-        <div class="page__footer-follow">
+        
+
+<div class="page__footer-follow">
   <ul class="social-icons">
     
 
@@ -785,7 +790,8 @@
   </ul>
 </div>
 
-<div class="page__footer-copyright">&copy; 2025 <a href="https://coderemixer.com">Coderemixer 代码混音师</a>. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+<div class="page__footer-copyright">&copy; 2026 <a href="https://coderemixer.com">Coderemixer 代码混音师</a>. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/jekyll-themes/minimal-mistakes/" rel="nofollow">Minimal Mistakes</a>.</div>
 
       </footer>
     </div>

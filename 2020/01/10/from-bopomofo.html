@@ -1,7 +1,7 @@
 <!doctype html>
 <!--
-  Minimal Mistakes Jekyll Theme 4.25.1 by Michael Rose
-  Copyright 2013-2024 Michael Rose - mademistakes.com | @mmistakes
+  Minimal Mistakes Jekyll Theme 4.27.3 by Michael Rose
+  Copyright 2013-2025 Michael Rose - mademistakes.com | @mmistakes
   Free for personal and commercial use under the MIT license
   https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
 -->
@@ -47,16 +47,7 @@
 
 
 
-<script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    
-      "@type": "Person",
-      "name": null,
-      "url": "https://coderemixer.com/"
-    
-  }
-</script>
+
 
 
 
@@ -73,6 +64,7 @@
 
 <script>
   document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+  
 </script>
 
 <!-- For all browsers -->
@@ -96,7 +88,7 @@
 
   </head>
 
-  <body class="layout--single">
+  <body class="layout--single" dir="ltr">
     <nav class="skip-links">
   <ul>
     <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
@@ -117,13 +109,29 @@
           
         </a>
         <ul class="visible-links"><li class="masthead__menu-item">
-              <a href="/">首页</a>
+              <a
+                href="/"
+                
+                
+              >首页</a>
             </li><li class="masthead__menu-item">
-              <a href="/about">关于</a>
+              <a
+                href="/about"
+                
+                
+              >关于</a>
             </li><li class="masthead__menu-item">
-              <a href="https://github.com/dsh0416">GitHub</a>
+              <a
+                href="https://github.com/dsh0416"
+                
+                
+              >GitHub</a>
             </li><li class="masthead__menu-item">
-              <a href="/atom.xml">RSS</a>
+              <a
+                href="/atom.xml"
+                
+                
+              >RSS</a>
             </li></ul>
         
         <button class="search__toggle" type="button">
@@ -270,7 +278,7 @@
 
 
 
-  <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
     <meta itemprop="headline" content="从 bopomofo 说起 —— 学习注音符号后对拼音系统的一些新体悟">
     <meta itemprop="description" content="众所周知，我从小接受的用于标记现代标准汉语的系统是「汉语拼音」。两年前，我决定学习一下「注音符号」。注音符号是以章太炎编创的「纽文」、「韵文」为蓝本，设计的一套汉语拼音方案。其实最早决定去学的原因还是好奇好玩，用一套完全不熟悉的拼读系统来学习自己已经掌握的汉语发音，可以很好从另一个方面来认识汉语的发音系统。最后也证明这样的形式确实帮助我从某种角度重新认识了汉语发音，特别是当这套系统和汉语拼音符号本身产生差异的时候，通过深究差异产生的原因，极大提高了我对汉语发音的理解，可以说是受益良多。下面就来分享一些，我学习过程中遇到的一些有意思的事情。">
     <meta itemprop="datePublished" content="2020-01-10T21:06:49+08:00">
@@ -279,8 +287,8 @@
     <div class="page__inner-wrap">
       
         <header>
-          <h1 id="page-title" class="page__title p-name" itemprop="headline">
-            <a href="https://coderemixer.com/2020/01/10/from-bopomofo" class="u-url" itemprop="url">从 bopomofo 说起 —— 学习注音符号后对拼音系统的一些新体悟
+          <h1 id="page-title" class="page__title" itemprop="headline">
+            <a href="https://coderemixer.com/2020/01/10/from-bopomofo" itemprop="url">从 bopomofo 说起 —— 学习注音符号后对拼音系统的一些新体悟
 </a>
           </h1>
           
@@ -304,7 +312,7 @@
         </header>
       
 
-      <section class="page__content e-content" itemprop="text">
+      <section class="page__content" itemprop="text">
         
         <p>众所周知，我从小接受的用于标记现代标准汉语的系统是「汉语拼音」。两年前，我决定学习一下「注音符号」。注音符号是以章太炎编创的「纽文」、「韵文」为蓝本，设计的一套汉语拼音方案。其实最早决定去学的原因还是好奇好玩，用一套完全不熟悉的拼读系统来学习自己已经掌握的汉语发音，可以很好从另一个方面来认识汉语的发音系统。最后也证明这样的形式确实帮助我从某种角度重新认识了汉语发音，特别是当这套系统和汉语拼音符号本身产生差异的时候，通过深究差异产生的原因，极大提高了我对汉语发音的理解，可以说是受益良多。下面就来分享一些，我学习过程中遇到的一些有意思的事情。</p>
 
@@ -384,32 +392,42 @@
       </footer>
 
       <section class="page__share">
-  
+  <h4 class="page__share-title">Share on</h4>
 
-  <a href="https://twitter.com/intent/tweet?text=%E4%BB%8E+bopomofo+%E8%AF%B4%E8%B5%B7+%E2%80%94%E2%80%94+%E5%AD%A6%E4%B9%A0%E6%B3%A8%E9%9F%B3%E7%AC%A6%E5%8F%B7%E5%90%8E%E5%AF%B9%E6%8B%BC%E9%9F%B3%E7%B3%BB%E7%BB%9F%E7%9A%84%E4%B8%80%E4%BA%9B%E6%96%B0%E4%BD%93%E6%82%9F%20https%3A%2F%2Fcoderemixer.com%2F2020%2F01%2F10%2Ffrom-bopomofo" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+  <a href="https://x.com/intent/tweet?text=%E4%BB%8E+bopomofo+%E8%AF%B4%E8%B5%B7+%E2%80%94%E2%80%94+%E5%AD%A6%E4%B9%A0%E6%B3%A8%E9%9F%B3%E7%AC%A6%E5%8F%B7%E5%90%8E%E5%AF%B9%E6%8B%BC%E9%9F%B3%E7%B3%BB%E7%BB%9F%E7%9A%84%E4%B8%80%E4%BA%9B%E6%96%B0%E4%BD%93%E6%82%9F%20https%3A%2F%2Fcoderemixer.com%2F2020%2F01%2F10%2Ffrom-bopomofo" class="btn btn--x" aria-label="Share on X" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on X">
+    <i class="fab fa-fw fa-x-twitter" aria-hidden="true"></i><span> X</span>
+  </a>
 
-  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fcoderemixer.com%2F2020%2F01%2F10%2Ffrom-bopomofo" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fcoderemixer.com%2F2020%2F01%2F10%2Ffrom-bopomofo" class="btn btn--facebook" aria-label="Share on Facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook">
+    <i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span>
+  </a>
 
-  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://coderemixer.com/2020/01/10/from-bopomofo" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://coderemixer.com/2020/01/10/from-bopomofo" class="btn btn--linkedin" aria-label="Share on LinkedIn" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn">
+    <i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span>
+  </a>
+
+  <a href="https://bsky.app/intent/compose?text=%E4%BB%8E+bopomofo+%E8%AF%B4%E8%B5%B7+%E2%80%94%E2%80%94+%E5%AD%A6%E4%B9%A0%E6%B3%A8%E9%9F%B3%E7%AC%A6%E5%8F%B7%E5%90%8E%E5%AF%B9%E6%8B%BC%E9%9F%B3%E7%B3%BB%E7%BB%9F%E7%9A%84%E4%B8%80%E4%BA%9B%E6%96%B0%E4%BD%93%E6%82%9F%20https%3A%2F%2Fcoderemixer.com%2F2020%2F01%2F10%2Ffrom-bopomofo" class="btn btn--bluesky" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Bluesky">
+    <i class="fab fa-fw fa-bluesky" aria-hidden="true"></i><span> Bluesky</span>
+  </a>
 </section>
 
 
       
   <nav class="pagination">
     
-      <a href="/2020/01/07/archetypes-listener" class="pagination--pager" title="大猩猩的乐谱有多少错误？—— 13 Archetypes: Listener 解谜翻船记
-">Previous</a>
+      <a href="/2020/01/07/archetypes-listener" class="pagination--pager" title="大猩猩的乐谱有多少错误？—— 13 Archetypes: Listener 解谜翻船记">Previous</a>
     
     
-      <a href="/2020/01/14/archetypes-humanity" class="pagination--pager" title="元胞自动机 101 —— 13 Archetypes: Humanist
-">Next</a>
+      <a href="/2020/01/14/archetypes-humanity" class="pagination--pager" title="元胞自动机 101 —— 13 Archetypes: Humanist">Next</a>
     
   </nav>
+
 
     </div>
 
     
-      <div class="page__comments">
+      
+        <div class="page__comments">
   
   
       <h4 class="page__comments-title">Comments</h4>
@@ -417,21 +435,18 @@
     
 </div>
 
+      
     
   </article>
 
   
   
-    <div class="page__related">
+    
+<div class="page__related">
   
   <h2 class="page__related-title">You May Also Enjoy</h2>
   <div class="grid__wrapper">
     
-    
-    
-      
-      
-      
       
       
 
@@ -472,9 +487,6 @@
     
       
       
-      
-      
-      
 
 
 
@@ -510,9 +522,6 @@
 </div>
 
     
-      
-      
-      
       
       
 
@@ -553,9 +562,6 @@
     
       
       
-      
-      
-      
 
 
 
@@ -593,9 +599,6 @@
 </div>
 
     
-      
-      
-      
   </div>
 </div>
 
@@ -624,7 +627,9 @@
         <!-- start custom footer snippets -->
 
 <!-- end custom footer snippets -->
-        <div class="page__footer-follow">
+        
+
+<div class="page__footer-follow">
   <ul class="social-icons">
     
 
@@ -636,7 +641,8 @@
   </ul>
 </div>
 
-<div class="page__footer-copyright">&copy; 2025 <a href="https://coderemixer.com">Coderemixer 代码混音师</a>. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+<div class="page__footer-copyright">&copy; 2026 <a href="https://coderemixer.com">Coderemixer 代码混音师</a>. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/jekyll-themes/minimal-mistakes/" rel="nofollow">Minimal Mistakes</a>.</div>
 
       </footer>
     </div>

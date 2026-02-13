@@ -1,7 +1,7 @@
 <!doctype html>
 <!--
-  Minimal Mistakes Jekyll Theme 4.25.1 by Michael Rose
-  Copyright 2013-2024 Michael Rose - mademistakes.com | @mmistakes
+  Minimal Mistakes Jekyll Theme 4.27.3 by Michael Rose
+  Copyright 2013-2025 Michael Rose - mademistakes.com | @mmistakes
   Free for personal and commercial use under the MIT license
   https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
 -->
@@ -47,16 +47,7 @@
 
 
 
-<script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    
-      "@type": "Person",
-      "name": null,
-      "url": "https://coderemixer.com/"
-    
-  }
-</script>
+
 
 
 
@@ -73,6 +64,7 @@
 
 <script>
   document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+  
 </script>
 
 <!-- For all browsers -->
@@ -96,7 +88,7 @@
 
   </head>
 
-  <body class="layout--single">
+  <body class="layout--single" dir="ltr">
     <nav class="skip-links">
   <ul>
     <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
@@ -117,13 +109,29 @@
           
         </a>
         <ul class="visible-links"><li class="masthead__menu-item">
-              <a href="/">首页</a>
+              <a
+                href="/"
+                
+                
+              >首页</a>
             </li><li class="masthead__menu-item">
-              <a href="/about">关于</a>
+              <a
+                href="/about"
+                
+                
+              >关于</a>
             </li><li class="masthead__menu-item">
-              <a href="https://github.com/dsh0416">GitHub</a>
+              <a
+                href="https://github.com/dsh0416"
+                
+                
+              >GitHub</a>
             </li><li class="masthead__menu-item">
-              <a href="/atom.xml">RSS</a>
+              <a
+                href="/atom.xml"
+                
+                
+              >RSS</a>
             </li></ul>
         
         <button class="search__toggle" type="button">
@@ -270,7 +278,7 @@
 
 
 
-  <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
     <meta itemprop="headline" content="「Keyboard Moe」从零开始自制键盘（三）：分区">
     
     <meta itemprop="datePublished" content="2020-03-11T00:48:08+08:00">
@@ -279,8 +287,8 @@
     <div class="page__inner-wrap">
       
         <header>
-          <h1 id="page-title" class="page__title p-name" itemprop="headline">
-            <a href="https://coderemixer.com/_posts/2020-03-11-moe-keyboard-log-3" class="u-url" itemprop="url">「Keyboard Moe」从零开始自制键盘（三）：分区
+          <h1 id="page-title" class="page__title" itemprop="headline">
+            <a href="https://coderemixer.com/_posts/2020-03-11-moe-keyboard-log-3" itemprop="url">「Keyboard Moe」从零开始自制键盘（三）：分区
 </a>
           </h1>
           
@@ -289,7 +297,7 @@
         </header>
       
 
-      <section class="page__content e-content" itemprop="text">
+      <section class="page__content" itemprop="text">
         
         <p>ESP32 的片上 Flash 应该有 4MB，但是我之前刷入 ROM 的时候，提示可用的空间只有 1280KB，这让我非常困扰。引入一个 BLE 库就已经吃掉了 75% 的 Flash 空间，我一度怀疑我是不是能在有限的空间里完成程序。ESP32 的一个很有意思的特性就是非常容易实现基于 WiFi 的 OTA 固件升级系统。于是我今天研究了一下，结果一研究明白了之前问题的原因，简单来说就是分区表。</p>
 
@@ -347,6 +355,7 @@ spiffs,   data, spiffs,  0x310000,0x90000,
       
 
       
+
     </div>
 
     
@@ -377,7 +386,9 @@ spiffs,   data, spiffs,  0x310000,0x90000,
         <!-- start custom footer snippets -->
 
 <!-- end custom footer snippets -->
-        <div class="page__footer-follow">
+        
+
+<div class="page__footer-follow">
   <ul class="social-icons">
     
 
@@ -389,7 +400,8 @@ spiffs,   data, spiffs,  0x310000,0x90000,
   </ul>
 </div>
 
-<div class="page__footer-copyright">&copy; 2025 <a href="https://coderemixer.com">Coderemixer 代码混音师</a>. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+<div class="page__footer-copyright">&copy; 2026 <a href="https://coderemixer.com">Coderemixer 代码混音师</a>. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/jekyll-themes/minimal-mistakes/" rel="nofollow">Minimal Mistakes</a>.</div>
 
       </footer>
     </div>

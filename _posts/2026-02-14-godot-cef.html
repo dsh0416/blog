@@ -10,7 +10,7 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>为什么没有三面体？ - Coderemixer 代码混音师</title>
+<!-- begin _includes/seo.html --><title>如何在 Godot 里跑浏览器？ - Coderemixer 代码混音师</title>
 <meta name="description" content="一个用来发牢骚的网站，以至于无法对所说的话负责。">
 
 
@@ -23,8 +23,8 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="Coderemixer 代码混音师">
-<meta property="og:title" content="为什么没有三面体？">
-<meta property="og:url" content="https://coderemixer.com/_posts/2024-06-26-trihedron">
+<meta property="og:title" content="如何在 Godot 里跑浏览器？">
+<meta property="og:url" content="https://coderemixer.com/_posts/2026-02-14-godot-cef">
 
 
   <meta property="og:description" content="一个用来发牢骚的网站，以至于无法对所说的话负责。">
@@ -35,14 +35,14 @@
 
 
 
-  <meta property="article:published_time" content="2024-06-26T09:22:00+08:00">
+  <meta property="article:published_time" content="2026-02-14T12:00:00+08:00">
 
 
 
 
 
 
-<link rel="canonical" href="https://coderemixer.com/_posts/2024-06-26-trihedron">
+<link rel="canonical" href="https://coderemixer.com/_posts/2026-02-14-godot-cef">
 
 
 
@@ -279,16 +279,16 @@
 
 
   <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="为什么没有三面体？">
+    <meta itemprop="headline" content="如何在 Godot 里跑浏览器？">
     
-    <meta itemprop="datePublished" content="2024-06-26T09:22:00+08:00">
+    <meta itemprop="datePublished" content="2026-02-14T12:00:00+08:00">
     
 
     <div class="page__inner-wrap">
       
         <header>
           <h1 id="page-title" class="page__title" itemprop="headline">
-            <a href="https://coderemixer.com/_posts/2024-06-26-trihedron" itemprop="url">为什么没有三面体？
+            <a href="https://coderemixer.com/_posts/2026-02-14-godot-cef" itemprop="url">如何在 Godot 里跑浏览器？
 </a>
           </h1>
           
@@ -299,81 +299,73 @@
 
       <section class="page__content" itemprop="text">
         
-        <p>前几天我在桌子上放了一个骰塔，塔里放了一组 DnD 骰子。有个同事走过来看到一个正四面体的骰子问：「你这是三面骰吗？」我一愣，第一反应是，这世界上不应该存在三面体啊。不过一细想，为什么没有三面体确实是一个值得思考的好问题。</p>
+        <iframe src="//player.bilibili.com/player.html?isOutside=true&amp;aid=115971079606447&amp;bvid=BV1BK67BCELg&amp;cid=35659517305&amp;p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
 
-<h2 id="欧拉示性数">欧拉示性数</h2>
+<p>最近我们在做 CRPG 游戏项目 <strong>Engram</strong> 的时候遇到了一个很典型的痛点：游戏 UI 开发实在是太折磨人了。</p>
 
-<p>考虑到我们这需要讨论面的数量，第一个会想要用的公式显然是欧拉示性数公式，即：</p>
+<p>用游戏引擎自带的节点系统去堆一个复杂、响应迅速、有动画、有状态管理的界面，效率低得让人想撞墙。作为对比，网页开发那边有几十年的工具链积累——HTML、CSS、JavaScript，还有 React/Vue 这些现代框架，配合 Chrome DevTools 这种神级调试工具，开发体验简直是降维打击。</p>
 
-\[V-E+F=2\]
+<p>当时我就在想：<strong>如果能在 Godot 里直接用网页技术写 UI 会怎样？</strong></p>
 
-<p>欧拉示性数是一个拓扑不变量，即对于所有和一个球面同胚的多面体（三维空间中的凸多面体），都适用于这个公式。其中 \(V,E,F\) 分别是顶点、棱、面的个数。带入 \(F\) 的数字我们得到：</p>
+<p>市面上现有的方案我们都试了一圈，结果都不太理想：</p>
+<ul>
+  <li><a href="https://github.com/doceazedo/godot_wry">godot_wry</a>：基于系统原生 WebView，轻量是轻量，但只能覆盖在顶层，没法融入 3D 场景，而且不同系统的浏览器内核行为不一致，调试起来能要人命。</li>
+  <li><a href="https://github.com/Lecrapouille/gdcef">gdcef</a>：基于 CEF 的 C++ 集成，也是个老牌项目了，但它是纯软件渲染，帧率很难看，4K 下能稳定 15 帧都不容易。</li>
+</ul>
 
-\[V-E=-1\]
+<p>我们在 Engram 的 Demo 版本中使用了 <code class="language-plaintext highlighter-rouge">godot_wry</code>。我们甚至给上游交了不少补丁。上线后大概有 50% 的启动崩溃都是因为它在旧版 Windows 上找不到 Edge WebView2，然后 Linux 支持也有问题，继续研发下去能完全改好的希望很渺茫。</p>
 
-<p>不过光有这一个公式似乎不足以解释我们的问题。</p>
+<p>既然没有好用的，那就自己造一个吧。于是就有了 <strong>Godot CEF</strong>。</p>
 
-<h2 id="凸正多面体">凸正多面体</h2>
+<h2 id="什么是-godot-cef">什么是 Godot CEF？</h2>
 
-<p>如果我们简化一下这个问题，由于是骰子，我们可以先考虑三维空间中的凸正多面体。这个问题古希腊人就有所研究。由于每条棱有两个顶点，且在两个面上。我们定义每个面有 \(p\) 条棱，经过每个顶点会有 \(q\) 条棱，围绕棱可以得到下面的式子：</p>
+<p>简单来说，这是一个针对 Godot 4.5+ 的高性能 Chromium 集成。为了内存安全和现代化的开发体验，我选择用 Rust（基于 <code class="language-plaintext highlighter-rouge">godot-rust</code>）来写。</p>
 
-\[pF=2E=qV\]
+<p>核心思路其实很简单：弄一个叫 <code class="language-plaintext highlighter-rouge">CefTexture</code> 的节点，它负责把 Chromium 渲染出来的画面弄成一个 Godot 的纹理。</p>
 
-<p>带入数字 3，得到：</p>
+<p>这就意味着你可以像对待普通贴图一样对待它：贴在 2D 画布上当 UI，贴在 3D Mesh 上当屏幕，甚至用 Shader 给它做弯曲、故障效果，完全没问题。</p>
 
-\[3p=2E=qV\]
+<p>而且因为是基于 Chromium，它和你在 Chrome 里看到的网页是一模一样的。你可以启动一个 Vite 开发服务器，一边改 Vue/React 代码，一边在 Godot 里实时看到热重载的效果。GDScript 和 JavaScript 之间还能通过 IPC 互相发消息，延迟控制在一帧以内，这就很舒服了。</p>
 
-<p>我们有三个方程，但是有四个未知数，显然这个问题还是不太好解。好消息是我们知道 \(p,q,E,V\) 都需要是正整数这个条件。我们将 \(V\) 用 \(q\) 代换，能得到：</p>
+<p>听起来很简单，大不了就是多写点 GPU 编程代码，一开始我是这么想的。</p>
 
-\[\frac{2E}{q}=-1+E\]
+<h2 id="多-gpu-的噩梦">多 GPU 的噩梦</h2>
 
-<p>将等式两边同处以 \(2E\)，得到：</p>
+<p>原理听起来简单，但实现起来全是坑。其中最让我很痛苦的是<strong>多 GPU 系统</strong>的问题。</p>
 
-\[\frac{1}{q}=-\frac{1}{2E}+\frac{1}{2}\]
+<p>现在的笔记本电脑通常都是「核显 + 独显」的配置。Godot 为了性能，通常会跑在独显上；而 CEF 的子进程如果不加干预，默认会跑在省电的核显上。</p>
 
-<p>不妨将 \(2E\) 用 \(3p\) 替代，我们会得到：</p>
+<p>问题来了：<strong>跨 GPU 的贴图共享是不存在的</strong>。贴图句柄只在创建它的那块显卡上有效。如果 Godot 和 CEF 跑在不同的显卡上，你拿到的就是一个无效的句柄，结果就是黑屏，或者随机崩溃。</p>
 
-\[\frac{1}{q}+\frac{1}{3p}=\frac{1}{2}\]
+<p>为了解决这个问题，我不得不搞了一套 <strong>GPU 设备锁定（Device Pinning）</strong> 的机制。拿到显卡的厂商 ID 和设备 ID 后，再通过命令行参数传给 CEF 子进程，强行按着它的头让它用同一块显卡。这中间还有无数细节，比如 ID 格式转换（Chromium 要十进制，系统给的是十六进制），稍微错一点就是黑屏。</p>
 
-<p>由于，\(p\) 和 \(q\) 都是正整数，显然地，\(p\) 越大，\(q\) 越小。我们取 \(p\) 最小值 1，有 \(q = 6\) ，此时 \(V = 1/2\) 不满足。同理，我们依次枚举调大 \(p\) 的值，直到 \(q &lt; 1\) 时，都找不到满足条件的整数解。因此不存在正三面体。</p>
+<p>但是还有更坑的，在一些情况下，CEF 甚至枚举不到合适的设备，这和 NVIDIA Optimus 的行为有关，需要在 helper 进程中暴露一个 NvOptimusEnablement 符号才能选到独显。</p>
 
-<h2 id="凸多面体">凸多面体</h2>
+<h2 id="vulkan-扩展注入">Vulkan 扩展注入</h2>
 
-<p>然而我们一开始想讨论的问题是是否存在三面体，而不是加上限定条件的凸正多面体，好像是答非所问了。而且并非所有的骰子都需要是凸正多面体，比如 d10 骰子就不是凸正多面体：</p>
+<p>解决了显卡选择，下一个问题是 <strong>Vulkan 的扩展支持</strong>。</p>
 
-<p><img src="/assets/images/dice-d10.png" alt="D10 骰子怎么看也不是正多面体" /></p>
+<p>要在进程间共享 Vulkan 纹理，需要一些特定的扩展，比如 Windows 上的 <code class="language-plaintext highlighter-rouge">VK_KHR_external_memory_win32</code> 或者 Linux 上的 <code class="language-plaintext highlighter-rouge">VK_KHR_external_memory_fd</code>。</p>
 
-<p>D10 骰子怎么看也不是正多面体</p>
+<p>然而，Godot 在创建 Vulkan 设备的时候，<strong>只会请求它自己需要的扩展</strong>。GDExtension 目前也没有 API 能让我们请求额外的扩展。</p>
 
-<p>我们应该有一个更一般的处理三面体问题的结论。</p>
+<p>引擎不给 API 怎么办？我用了一套运行时函数钩取（Function Hooking）的方案，直接 Hook 了 <code class="language-plaintext highlighter-rouge">vkCreateDevice</code> 这个底层函数。在 Godot 调用它创建设备之前，把我们需要的扩展列表强行塞进去。</p>
 
-<p>和二维图形至少需要 3 个顶点类似，面为平面的多面体，至少需要 4 个顶点才能够形成有体积的三维图形。 而 4 个顶点构成的凸多边形就是凸四面体。只考虑这个问题实际上比上面的正凸多面体反而更简单了。</p>
+<p>但这终究不是长久之计。为了以后能优雅地删掉这些 Hack 代码，我给 Godot 官方提了个 PR (<a href="https://github.com/godotengine/godot/pull/114940">#114940</a>)，专门加了一个 API，允许 GDExtension 在设备创建阶段请求额外的 Vulkan 扩展。等这个 PR 合并了，我们就能堂堂正正地用官方 API 了。</p>
 
-<h2 id="多面体">多面体</h2>
+<p>顺便提一嘴 macOS。本来我也想在 macOS 上用 Hook 的方法，结果发现 Godot 在 macOS 上是把 MoltenVK（Vulkan 转 Metal 的层）<strong>静态链接</strong>进去的。这意味着 <code class="language-plaintext highlighter-rouge">vkCreateDevice</code> 的调用是直接跳转，根本没有符号表可以 Hook。</p>
 
-<p>等等，好像我们也没有说我们的三面体得是凸的吧？我们知道所有和一个球面同胚的多面体（三维空间中的凸多面体）的欧拉示性数都是 2，但我们并没有说我们需要和球面同胚吧？比如马克杯和甜甜圈的欧拉示性数就是 0。</p>
+<p>还好 macOS 至少能跑 metal API。</p>
 
-<p><img src="/assets/images/mug-donuts.jpg" alt="拓扑学家常常分不清马克杯和甜甜圈" /></p>
+<h2 id="结语">结语</h2>
 
-<p>拓扑学家常常分不清马克杯和甜甜圈</p>
+<p>Godot CEF 这个项目，最初只是为了解决我做 Engram 时的刚需，但现在我觉得它已经足够成熟，可以拿出来给社区用了。</p>
 
-<p>我们能找到更一般地结论证明三面体不存在吧？不能，因为三面体可以存在，下面给出一个反例：</p>
-
-<p><strong>一个截面为三角形的甜甜圈，它是不是一个三面体？</strong></p>
-
-<p>很可惜的是「需要 4 个顶点才能够形成有体积的三维图形」的结论并没有发生改变，通过马克杯构造出来的三面体需要环面的参与才能够完成。但如果我们可以接受环面，我们能不能进一步接受曲面？也许问题可以变得更简单一些，比如圆柱体是否可以看成一个三面体？</p>
-
-<h2 id="结论">结论</h2>
-
-<p>好吧，其实我一开始的想法想当然了，我们可以有三面体，只是… 可能不那么容易做成骰子。</p>
-
-<p>另外如果我们只从做骰子的角度来考虑的话，我们也并不需要三面体，比如我们将两个正四面体贴合在一起，将对称的两侧都标记为相同的数字的话，也是可以实现三面效果的骰子的。但脱离骰子本身而去重新考虑多面体的意义是一个非常不错的拓扑学训练。</p>
-
-<h2 id="扩展阅读">扩展阅读</h2>
+<p>如果你也受够了在游戏引擎里手搓 UI，或者想在游戏里整点网页的狠活，欢迎来试试。项目是 MIT 开源的，二进制文件也预编译好了，拖进 <code class="language-plaintext highlighter-rouge">addons</code> 就能用。</p>
 
 <ul>
-  <li><a href="https://youtu.be/YtkIWDE36qU?si=3dZG91P4wCDEgMsE">This pattern breaks, but for a good reason - 3Blue1Brown</a></li>
-  <li><a href="https://youtu.be/VvCytJvd4H0?si=7QxzQuQHg2EvHFGj">Why this puzzle is impossible - 3Blue1Brown</a></li>
+  <li><strong>GitHub</strong>: <a href="https://github.com/dsh0416/godot-cef">dsh0416/godot-cef</a></li>
+  <li><strong>Godot Assets Store</strong>: <a href="https://godotengine.org/asset-library/asset/4694">Godot CEF</a></li>
 </ul>
 
         
@@ -391,11 +383,19 @@
     <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
     <span itemprop="keywords">
     
-      <a href="/tags/%E6%8B%93%E6%89%91%E5%AD%A6" class="page__taxonomy-item p-category" rel="tag">拓扑学</a><span class="sep">, </span>
+      <a href="/tags/cef" class="page__taxonomy-item p-category" rel="tag">CEF</a><span class="sep">, </span>
     
-      <a href="/tags/%E6%AC%A7%E6%8B%89" class="page__taxonomy-item p-category" rel="tag">欧拉</a><span class="sep">, </span>
+      <a href="/tags/chromium" class="page__taxonomy-item p-category" rel="tag">Chromium</a><span class="sep">, </span>
     
-      <a href="/tags/%E6%AC%A7%E6%8B%89%E7%A4%BA%E6%80%A7%E6%95%B0" class="page__taxonomy-item p-category" rel="tag">欧拉示性数</a>
+      <a href="/tags/godot" class="page__taxonomy-item p-category" rel="tag">Godot</a><span class="sep">, </span>
+    
+      <a href="/tags/rust" class="page__taxonomy-item p-category" rel="tag">Rust</a><span class="sep">, </span>
+    
+      <a href="/tags/ui" class="page__taxonomy-item p-category" rel="tag">UI</a><span class="sep">, </span>
+    
+      <a href="/tags/%E5%9B%BE%E5%BD%A2" class="page__taxonomy-item p-category" rel="tag">图形</a><span class="sep">, </span>
+    
+      <a href="/tags/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91" class="page__taxonomy-item p-category" rel="tag">游戏开发</a>
     
     </span>
   </p>
@@ -405,7 +405,7 @@
 
         
 
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2024-06-26T09:22:00+08:00">June 26, 2024</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2026-02-14T12:00:00+08:00">February 14, 2026</time></p>
 
       </footer>
 
