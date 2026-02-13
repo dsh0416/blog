@@ -406,4 +406,10 @@ var store = [{
         "tags": ["数学","数论","不定方程"],
         "url": "/2025/06/25/diophantine-equation",
         "teaser": null
+      },{
+        "title": "如何在 Godot 里跑浏览器？",
+        "excerpt":"最近我们在做 CRPG 游戏项目 Engram 的时候遇到了一个很典型的痛点：游戏 UI 开发实在是太折磨人了。 用游戏引擎自带的节点系统去堆一个复杂、响应迅速、有动画、有状态管理的界面，效率低得让人想撞墙。作为对比，网页开发那边有几十年的工具链积累——HTML、CSS、JavaScript，还有 React/Vue 这些现代框架，配合 Chrome DevTools 这种神级调试工具，开发体验简直是降维打击。 当时我就在想：如果能在 Godot 里直接用网页技术写 UI 会怎样？ 市面上现有的方案我们都试了一圈，结果都不太理想： godot_wry：基于系统原生 WebView，轻量是轻量，但只能覆盖在顶层，没法融入 3D 场景，而且不同系统的浏览器内核行为不一致，调试起来能要人命。 gdcef：基于 CEF 的 C++ 集成，也是个老牌项目了，但它是纯软件渲染，帧率很难看，4K 下能稳定 15 帧都不容易。 我们在 Engram 的 Demo 版本中使用了 godot_wry。我们甚至给上游交了不少补丁。上线后大概有 50% 的启动崩溃都是因为它在旧版 Windows 上找不到 Edge WebView2，然后 Linux 支持也有问题，继续研发下去能完全改好的希望很渺茫。 既然没有好用的，那就自己造一个吧。于是就有了 Godot CEF。 什么是 Godot...","categories": [],
+        "tags": ["Godot","Rust","Chromium","CEF","图形","游戏开发","UI"],
+        "url": "/2026/02/14/godot-cef",
+        "teaser": null
       }]
