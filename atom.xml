@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://coderemixer.com/atom.xml" rel="self" type="application/atom+xml" /><link href="https://coderemixer.com/" rel="alternate" type="text/html" /><updated>2026-02-14T00:26:41+08:00</updated><id>https://coderemixer.com/atom.xml</id><title type="html">Coderemixer 代码混音师</title><subtitle>一个用来发牢骚的网站，以至于无法对所说的话负责。</subtitle><author><name>CodeRemixer</name></author><entry><title type="html">如何在 Godot 里跑浏览器？</title><link href="https://coderemixer.com/2026/02/14/godot-cef" rel="alternate" type="text/html" title="如何在 Godot 里跑浏览器？" /><published>2026-02-14T00:00:00+08:00</published><updated>2026-02-14T00:00:00+08:00</updated><id>https://coderemixer.com/2026/02/14/godot-cef</id><content type="html" xml:base="https://coderemixer.com/2026/02/14/godot-cef"><![CDATA[<iframe src="//player.bilibili.com/player.html?isOutside=true&amp;aid=115971079606447&amp;bvid=BV1BK67BCELg&amp;cid=35659517305&amp;p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
-
-<p>最近我们在做 CRPG 游戏项目 <strong>Engram</strong> 的时候遇到了一个很典型的痛点：游戏 UI 开发实在是太折磨人了。</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://coderemixer.com/atom.xml" rel="self" type="application/atom+xml" /><link href="https://coderemixer.com/" rel="alternate" type="text/html" /><updated>2026-02-14T00:30:33+08:00</updated><id>https://coderemixer.com/atom.xml</id><title type="html">Coderemixer 代码混音师</title><subtitle>一个用来发牢骚的网站，以至于无法对所说的话负责。</subtitle><author><name>CodeRemixer</name></author><entry><title type="html">如何在 Godot 里跑浏览器？</title><link href="https://coderemixer.com/2026/02/14/godot-cef" rel="alternate" type="text/html" title="如何在 Godot 里跑浏览器？" /><published>2026-02-14T00:00:00+08:00</published><updated>2026-02-14T00:00:00+08:00</updated><id>https://coderemixer.com/2026/02/14/godot-cef</id><content type="html" xml:base="https://coderemixer.com/2026/02/14/godot-cef"><![CDATA[<p>最近我们在做 CRPG 游戏项目 <strong>Engram</strong> 的时候遇到了一个很典型的痛点：游戏 UI 开发实在是太折磨人了。</p>
 
 <p>用游戏引擎自带的节点系统去堆一个复杂、响应迅速、有动画、有状态管理的界面，效率低得让人想撞墙。作为对比，网页开发那边有几十年的工具链积累——HTML、CSS、JavaScript，还有 React/Vue 这些现代框架，配合 Chrome DevTools 这种神级调试工具，开发体验简直是降维打击。</p>
 
@@ -15,6 +13,8 @@
 <p>我们在 Engram 的 Demo 版本中使用了 <code class="language-plaintext highlighter-rouge">godot_wry</code>。我们甚至给上游交了不少补丁。上线后大概有 50% 的启动崩溃都是因为它在旧版 Windows 上找不到 Edge WebView2，然后 Linux 支持也有问题，继续研发下去能完全改好的希望很渺茫。</p>
 
 <p>既然没有好用的，那就自己造一个吧。于是就有了 <strong>Godot CEF</strong>。</p>
+
+<iframe src="//player.bilibili.com/player.html?isOutside=true&amp;aid=115971079606447&amp;bvid=BV1BK67BCELg&amp;cid=35659517305&amp;p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" width="100%" height="400px"></iframe>
 
 <h2 id="什么是-godot-cef">什么是 Godot CEF？</h2>
 
@@ -65,7 +65,7 @@
 <ul>
   <li><strong>GitHub</strong>: <a href="https://github.com/dsh0416/godot-cef">dsh0416/godot-cef</a></li>
   <li><strong>Godot Assets Store</strong>: <a href="https://godotengine.org/asset-library/asset/4694">Godot CEF</a></li>
-</ul>]]></content><author><name>CodeRemixer</name></author><category term="Godot" /><category term="Rust" /><category term="Chromium" /><category term="CEF" /><category term="图形" /><category term="游戏开发" /><category term="UI" /><summary type="html"><![CDATA[]]></summary></entry><entry><title type="html">1/x + 1/y = 8/79 的整数解</title><link href="https://coderemixer.com/2025/06/25/diophantine-equation" rel="alternate" type="text/html" title="1/x + 1/y = 8/79 的整数解" /><published>2025-06-25T14:30:00+08:00</published><updated>2025-06-25T14:30:00+08:00</updated><id>https://coderemixer.com/2025/06/25/diophantine-equation</id><content type="html" xml:base="https://coderemixer.com/2025/06/25/diophantine-equation"><![CDATA[<p>刷到个视频，讲的是 $\frac{1}{x} + \frac{1}{y} = \frac{8}{79}$ 的解。当然我觉得题目漏了个条件，是整数解，因为如果不加整数条件的话，该问题的解是无穷多的。</p>
+</ul>]]></content><author><name>CodeRemixer</name></author><category term="Godot" /><category term="Rust" /><category term="Chromium" /><category term="CEF" /><category term="图形" /><category term="游戏开发" /><category term="UI" /><summary type="html"><![CDATA[最近我们在做 CRPG 游戏项目 Engram 的时候遇到了一个很典型的痛点：游戏 UI 开发实在是太折磨人了。]]></summary></entry><entry><title type="html">1/x + 1/y = 8/79 的整数解</title><link href="https://coderemixer.com/2025/06/25/diophantine-equation" rel="alternate" type="text/html" title="1/x + 1/y = 8/79 的整数解" /><published>2025-06-25T14:30:00+08:00</published><updated>2025-06-25T14:30:00+08:00</updated><id>https://coderemixer.com/2025/06/25/diophantine-equation</id><content type="html" xml:base="https://coderemixer.com/2025/06/25/diophantine-equation"><![CDATA[<p>刷到个视频，讲的是 $\frac{1}{x} + \frac{1}{y} = \frac{8}{79}$ 的解。当然我觉得题目漏了个条件，是整数解，因为如果不加整数条件的话，该问题的解是无穷多的。</p>
 
 <h2 id="原题解">原题解</h2>
 
